@@ -6,7 +6,7 @@ var accessToken = config.surveymonkey.accessToken;
 
 
 module.exports = (req, res, next) => {
-    console.log('Basic Client Onboarding completed.');
+    console.log('Basic Client Introduction completed.');
     var body = req.body;
     var sfbody = {
         FirstName: body.FirstName, 

@@ -1,5 +1,5 @@
 const passport = require('passport');
-var onboarding = require('./API/onboarding');
+var introduction = require('./API/introduction');
 var hiring = require('./API/hiring');
 
 var auth = passport.authenticate('local', {
@@ -10,7 +10,8 @@ var auth = passport.authenticate('local', {
 
 module.exports = {
 
-    onboarding: onboarding,
+    //onboarding: onboarding,
+    introduction: introduction,
     hiring: hiring,
 
     login: ((req, res) => res.render('login', { messages: req.flash('error') || req.flash('info') || 'default'})),

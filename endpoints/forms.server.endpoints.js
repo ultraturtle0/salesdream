@@ -9,7 +9,7 @@ const config = require('../config/config');
 
 const validate_token = require('../config/strategies/jwt.js');
 
-const routes = ['onboarding', 'hiring'];
+const routes = ['hiring', 'introduction']; //, 'onboarding'];
 
 var login = (req, res, next) => 
     passport.authenticate('local', 
@@ -31,12 +31,12 @@ var login = (req, res, next) =>
                     iss: config.passport.issuer,
                     tempkey: tempkey
                 };
-                const token = jwt.sign(payload, config.passport.secret, { expiresIn: '30m' });
+                const token = jwt.sign(payload, config.passport.secret, { expiresIn: '60m' });
                 User.findOneAndUpdate({_id: user._id}, {$set: { tempkey }})
                     .exec()
                     .then((doc) => {
                         console.log(token);
-                        res.cookie('apikey', token, { expires: new Date(Date.now() + 36000), httpOnly: true });
+                        res.cookie('apikey', token, { expires: new Date(Date.now() + 3600000), httpOnly: true });
                         res.redirect('/');
                     })
                     .catch((err) => {
