@@ -1,4 +1,3 @@
-
 $('#submit').on('click', (e) => {
     e.preventDefault();
     var body = {};

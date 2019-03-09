@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
         .then(() => res.status(200).json({data: 'ok'}))
         .catch((err) => {
             console.log(err);
-            res.status(400);
+            res.status(400).send(err);
         });
 
 };
