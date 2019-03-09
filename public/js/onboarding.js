@@ -9,3 +9,14 @@ $('#submit').on('click', (e) => {
 
     $.post(window.location.href, body, (res, status) => console.log(res, status));
 });
+
+$(document).ready(() => {
+    $('#update').click(function () {
+        var lead = window.leads[$(this).data('index')];
+        lead.keys.forEach((key) => $('#' + key).value(lead[key]));
+        var leadName = $(this).data('name');
+        $('#uModalLabel').text(`Great, let's get ${leadName} updated.`);
+
+        //$('#Id').value(leadId);
+    });
+});

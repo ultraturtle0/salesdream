@@ -13,38 +13,69 @@
                     <th scope="col">Company Name</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Email</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             <thead>
             <tbody id="leads">
+              <% for (var i=0; i < leads.length; i++) { %>
+                <tr>
+                    <th scope="row"><%= leads[i].CreatedDate %></th> 
+                    <td scope="row"><%= leads[i].Name %></td>
+                    <td scope="row"><%= leads[i].CompanyName %></td>
+                    <td scope="row"><%= leads[i].Phone %></td>
+                    <td scope="row"><%= leads[i].Email %></td>
+                    <td scope="row"><button type="button" id="update" class="btn btn-primary" data-toggle="modal" data-target="#uModal" data-index="<%= i %>" data-name="<%= leads[i].Name %>">Update</button></td>
+                    <td scope="row"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#dModal">Delete</button></td>
+                </tr>
+              <% } %>
             </tbody>
         </table>
-        <br>
-        <form name="form" action="/api/onboarding" method="post">
-            <div class="form-group">
-                <label for="FirstName">First Name</label>
-                <input type="text" id="FirstName" name="FirstName">
-                <label for="LastName">Last Name</label>
-                <input type="text" id="LastName" name="LastName">
-            </div>
-            <div class="form-group"> 
-                <label for="Company">Company Name</label>
-                <input type="text" id="Company" name="Company">
-            </div>
-            <div class="form-group">
-                <label for="Email">Email Address</label>
-                <input type="email" id="Email" name="Email">
-            </div>
-            <div class="form-group">
-                <label for="Phone">Phone Number</label>
-                <input type="text" id="Phone" name="Phone">
-            </div>
-            <div class="form-group">
-                <label for="Description">Notes</label>
-                <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
+
+        <!-- modals -->
+
+        <div class="modal fade" id="uModal" tabindex="-1" role="dialog" aria-labelledby="uModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uModalLabel"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form name="form" action="/api/onboarding" method="post">
+                            <input type="hidden" id="Id">
+                            <div class="form-group">
+                                <label for="FirstName">First Name</label>
+                                <input type="text" id="FirstName" name="FirstName">
+                                <label for="LastName">Last Name</label>
+                                <input type="text" id="LastName" name="LastName">
+                            </div>
+                            <div class="form-group"> 
+                                <label for="Company">Company Name</label>
+                                <input type="text" id="Company" name="Company">
+                            </div>
+                            <div class="form-group">
+                                <label for="Email">Email Address</label>
+                                <input type="email" id="Email" name="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="Phone">Phone Number</label>
+                                <input type="text" id="Phone" name="Phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="Description">Notes</label>
+                                <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
+                            </div>
+
+                            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+                        </form>
+
+                    </div>
+                </div>
             </div>
 
-            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
-        </form>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

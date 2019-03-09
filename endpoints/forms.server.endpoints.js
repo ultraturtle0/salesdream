@@ -9,8 +9,7 @@ const config = require('../config/config');
 
 const validate_token = require('../config/strategies/jwt.js');
 
-const routes = ['hiring', 'introduction']; //, 'onboarding'];
-
+const routes = ['hiring', 'introduction'];
 var login = (req, res, next) => 
     passport.authenticate('local', 
         {
@@ -72,5 +71,13 @@ module.exports = (app) => {
                 else next();
         }, forms['login'])
         .post(login);
+
+    app.route('/onboarding')
+        .get(validate_token, forms['onboarding'].get)
+        .post(validate_token, (req, res) => {
+            console.log(req.body);
+            res.redirect('/');
+        });//forms['onboarding'].post);
+
 }
 
