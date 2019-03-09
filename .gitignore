@@ -1,0 +1,6 @@
+*.swp
+node_modules/
+config/env/
+config/env/emails/
+token.json
+gmail_token.json

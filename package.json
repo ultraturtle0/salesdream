@@ -1,0 +1,43 @@
+{
+  "name": "salesforce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "SMtest": "NODE_ENV=development node SMtest",
+    "surveymonkey": "NODE_ENV=development node surveymonkey",
+    "salesforce": "NODE_ENV=development node salesforce",
+    "server": "NODE_ENV=development node server",
+    "surveys": "NODE_ENV=development node SMsurveys",
+    "webhooks": "NODE_ENV=development node webhooks",
+    "webhooks_init": "NODE_ENV=development node webhooks_init",
+    "deploy": "NODE_ENV=deployment node server",
+    "init": "node initialize",
+    "root_init": "NODE_ENV=development node root_init"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "googleapis": "^27.0.0",
+    "jsforce": "^1.9.1",
+    "jsonwebtoken": "^8.5.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.4.15",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "signrequest-client": "^1.0.1",
+    "surveymonkey": "^1.1.0",
+    "uuid": "^3.3.2"
+  }
+}
