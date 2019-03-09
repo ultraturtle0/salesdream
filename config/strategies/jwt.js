@@ -4,13 +4,18 @@ const User = require('mongoose').model('User');
 
 module.exports = (req, res, next) => {
     var payload = req.cookies.apikey;
-    if (!payload) return res.status(401).send({ auth: false, message: 'No token provided.' });
+    var failure = (err) => {
+        req.flash('error', err);
+        res.redirect('/login');
+    };
+
+    if (!payload) return failure('Please log in.');
 
     jwt.verify(payload, config.passport.secret, function(err, decoded) {
         
-        var failure = (err) => res.status(500).send({ auth: false, message: err });
+
         // check for verification error
-        if (err) return failure('verification');
+        if (err) return failure('Invalid token format.');
         // check for incorrect token permissions
         if (!decoded.perms.includes(req.method)) return failure('Failed to authenticate token.');
         // check for incorrect issuer
