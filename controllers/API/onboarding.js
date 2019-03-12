@@ -19,7 +19,7 @@ var get = (req, res, next) => {
                 var message = err ?
                     'Error connecting to Salesforce database, please try again.'
                     : (leads.length ? '' : 'No new leads, go get some!');
-                res.render('onboarding', { message, leads });
+                res.send({ message, leads });
             })
         );
         /*(err) => {

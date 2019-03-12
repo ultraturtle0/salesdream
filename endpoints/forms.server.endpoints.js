@@ -65,6 +65,10 @@ module.exports = (app) => {
             .post(validate_token, forms[route])
     );
 
+    app.route('/api/onboarding')
+        .get(validate_token, forms['onboarding'].get)
+        .post(validate_token, forms['onboarding']post);
+
     app.route('/login')
         .get((req, res, next) => {
             if (req.cookies.apikey) return res.redirect('/')
@@ -73,11 +77,7 @@ module.exports = (app) => {
         .post(login);
 
     app.route('/onboarding')
-        .get(validate_token, forms['onboarding'].get)
-        .post(validate_token, (req, res) => {
-            console.log(req.body);
-            res.redirect('/');
-        });//forms['onboarding'].post);
+        .get(validate_token, (req, res) => res.render('onboarding'));
 
 }
 

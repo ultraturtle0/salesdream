@@ -10,7 +10,8 @@ $('#submit').on('click', (e) => {
     $.post(window.location.href, body, (res, status) => console.log(res, status));
 });
 
-$(document).ready(() => {
+/*$(document).ready(() => {
+    $.get(`http://${location.hostname}
     $('#update').click(function () {
         var lead = window.leads[$(this).data('index')];
         lead.keys.forEach((key) => $('#' + key).value(lead[key]));
@@ -19,4 +20,4 @@ $(document).ready(() => {
 
         //$('#Id').value(leadId);
     });
-});
+});*/
