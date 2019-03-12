@@ -118,7 +118,7 @@ module.exports = (req, res, next) => {
 
                             // FINALLY RESPOND TO SERVER REQUEST
 
-                            res.status(200).send({ redirect: data.signers[1].embed_url });
+                            res.status(301).redirect(data.signers[1].embed_url);
 
                         }
                     });
