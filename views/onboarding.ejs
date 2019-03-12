@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <title>Quick Onboarding Form</title>
     </head>
     <body>
@@ -18,19 +18,14 @@
                 </tr>
             <thead>
             <tbody id="leads">
-              <% for (var i=0; i < leads.length; i++) { %>
-                <tr>
-                    <th scope="row"><%= leads[i].CreatedDate %></th> 
-                    <td scope="row"><%= leads[i].Name %></td>
-                    <td scope="row"><%= leads[i].CompanyName %></td>
-                    <td scope="row"><%= leads[i].Phone %></td>
-                    <td scope="row"><%= leads[i].Email %></td>
-                    <td scope="row"><button type="button" id="update" class="btn btn-primary" data-toggle="modal" data-target="#uModal" data-index="<%= i %>" data-name="<%= leads[i].Name %>">Update</button></td>
-                    <td scope="row"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#dModal">Delete</button></td>
-                </tr>
-              <% } %>
             </tbody>
         </table>
+        <div class="text-center" id="loading">
+            <span class="spinner-border" role="status">
+            </span>
+            <span>Loading from Salesforce...</span>
+        </div>
+
 
         <!-- modals -->
 
@@ -75,10 +70,13 @@
                     </div>
                 </div>
             </div>
-
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+        <script
+          src="http://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="js/onboarding.js"></script>
     </body>
 </html>

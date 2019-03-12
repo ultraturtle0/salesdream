@@ -67,7 +67,7 @@ module.exports = (app) => {
 
     app.route('/api/onboarding')
         .get(validate_token, forms['onboarding'].get)
-        .post(validate_token, forms['onboarding']post);
+        .post(validate_token, forms['onboarding'].post);
 
     app.route('/login')
         .get((req, res, next) => {
