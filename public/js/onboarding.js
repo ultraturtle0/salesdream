@@ -12,6 +12,7 @@ $('#submit').on('click', (e) => {
 
 $(document).ready(() => {
     var leads;
+    var picklist;
     var port;
     if (location.port) {
         port = ':' + location.port;
@@ -23,6 +24,16 @@ $(document).ready(() => {
         .done((data) => {
             console.log(data.leads);
             leads = data.leads;
+            picklist = {
+                Referral: [
+                    'one',
+                    'two'
+                ],
+                Preparer: [
+                    'daniel',
+                    'chike'
+                ]
+            }; //data.picklist;
 
             $('#loading').hide();
 
@@ -37,19 +48,29 @@ $(document).ready(() => {
                 </tr>`)
             );
 
+            // add event handlers to each update button
             $('.update').each(function () {
                 $(this).click(function () {
-                    console.log($(this).data('index'));
                     var lead = leads[$(this).data('index')];
                     var names = lead.Name.split(' ');
                     lead.FirstName = names[0];
                     lead.LastName = names[1]; 
 
-                    ['FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) =>
+                    ['Id', 'FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) =>
                         $('#' + field).val(lead[field]));
                     $('#uModalLabel').text(`Great, let's get ${names[0]} updated.`);
+
                 });
             });
+
+            // populate all dropdown menus with Salesforce picklists
+            ['Referral', 'Preparer'].forEach((select) => 
+                $('#' + select).html(
+                    [...picklist[select], 'Other']
+                        .map(item => `<option value=${item}>${item}</option>`)
+                        .join('\n')
+                )
+            );
         })
         .fail((err) => console.log(err));
 
