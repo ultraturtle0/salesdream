@@ -19,7 +19,22 @@ var get = (req, res, next) => {
                 var message = err ?
                     'Error connecting to Salesforce database, please try again.'
                     : (leads.length ? '' : 'No new leads, go get some!');
-                res.send({ message, leads });
+                sf.conn.describe("Account", (err, account) => {
+                    var message = err ?
+                        'Error retrieving picklist values.'
+                        : '';
+                    var picklists = {};
+                    ['Industry', 'Software', 'Referral', 'Classification', 'Preparer'].forEach((list) => 
+                        picklists[list] = account.fields
+                            .filter(field => (field.label === list))
+                            .map(picklist => 
+                                picklist.picklistValues
+                                    .map(value => value.label)
+                            )[0]
+                    );
+                    
+                    res.send({ message, leads, picklists: picklists });
+                });
             })
         );
         /*(err) => {

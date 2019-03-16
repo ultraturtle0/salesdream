@@ -1,15 +1,3 @@
-$('#submit').on('click', (e) => {
-    e.preventDefault();
-    var body = {};
-    ['FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description']
-        .forEach((id) => {
-            body[id] = $('#'+id).val()
-        });
-    console.log(body);
-
-    $.post(window.location.href, body, (res, status) => console.log(res, status));
-});
-
 $(document).ready(() => {
     var leads;
     var picklist;
@@ -22,9 +10,9 @@ $(document).ready(() => {
 
     $.get(`http://${location.hostname}${port}/api/onboarding/`)
         .done((data) => {
-            console.log(data.leads);
+            console.log(data);
             leads = data.leads;
-            picklist = {
+            /*picklist = {
                 Referral: [
                     'one',
                     'two'
@@ -32,8 +20,23 @@ $(document).ready(() => {
                 Preparer: [
                     'daniel',
                     'chike'
+                ],
+                Software: [
+                    'QBO',
+                    'QBD'
+                ],
+                Type: [
+                    'Sole Prop LLC',
+                    'LLP',
+                    'S-Corp',
+                    'C-Corp'
+                ],
+                Industry: [
+                    'real estate',
+                    'finance'
                 ]
-            }; //data.picklist;
+            };*/
+            picklist = data.picklists;
 
             $('#loading').hide();
 
@@ -64,15 +67,85 @@ $(document).ready(() => {
             });
 
             // populate all dropdown menus with Salesforce picklists
-            ['Referral', 'Preparer'].forEach((select) => 
+            ['Referral', 'Preparer', 'Classification'].forEach((select) => {
+                var lists = picklist[select] || [];
                 $('#' + select).html(
-                    [...picklist[select], 'Other']
-                        .map(item => `<option value=${item}>${item}</option>`)
+                    lists
+                        .map(item => `
+                            <option
+                                value=${item}
+                                ${(['Software', 'Industry'].includes(item)) ? ' multiple' : ''}
+                            >${item}</option>
+                        `)
+                        .join('\n')
+                ).after(function () {
+                    $(this).change(function () {
+                        console.log($(this).val());
+                        ($(this).val()==='Other') ?
+                            $(`#${select}Other`).show() :
+                            $(`#${select}Other`).hide();
+                    });
+                    return `
+                        <div id="${select + 'Other'}" style="display:none;">
+                            <label for="${select + 'OtherInput'}">Other</label>
+                            <input type="text" id="${select + 'OtherInput'}" name="${select + 'OtherInput'}">
+                        </div>
+                    `
+                })
+            });
+            ['Software', 'Industry'].forEach((select) => {
+                var lists = picklist[select] || [];
+                $('#' + select + '-div').append(
+                    lists
+                        .map(item => `
+                            <input type="checkbox"
+                                id="${select}-${item.replace(/\s/g, '_').replace(/&/g, '_')}"
+                                name="${select}-${item.replace(/\s/g, '_').replace(/&/g, '_')}"
+                                value="${item}">
+                            <label class="form-check-label"
+                                for="${item.replace(/\s/g, '_')}">${item}</label>
+                        `)
                         .join('\n')
                 )
-            );
+                .after(`
+                    <div id="${select}Other"
+                        style="display:none;">
+                        <input type="text" id="${select + 'OtherInput'}" name="${select + 'OtherInput'}">
+                    </div>
+                `);
+                $(`#${select}-Other`).change(function () {
+                    (this.checked) ?
+                        $(`#${select}Other`).show() :
+                        $(`#${select}Other`).hide();
+                });
+            });
+
+            // add datepicker
+            $('.datepicker').datepicker({
+                format: 'mm/dd/yyyy'
+            });
+
         })
         .fail((err) => console.log(err));
 
         //$('#Id').value(leadId);
+    //
+
+    $('#submit').click(function (e) {
+        e.preventDefault();
+        var fields = ['FirstName', 'LastName', 'pastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'Referral', 'Current', 'Preparer', 'Email', 'Company', 'Title', 'BillingAddress', 'ShippingAddress', 'Classification', 'Description'];
+        var body = {};
+        fields.forEach((field) => {
+            var val = $('#' + field).val();
+            val ? body[field] = val : false;
+        });
+        ['Industry', 'Software'].forEach((cat) =>
+            body[cat] = picklist[cat].reduce((acc, field) => {
+                $(`#${cat}-${field.replace(/\s/g, '_').replace(/&/g, '_')}`).prop('checked') ? acc.push(field) : false;
+                return acc;
+            }, [])
+        );
+        console.log(body);
+    });
+
     });

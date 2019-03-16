@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
         <title>Quick Onboarding Form</title>
     </head>
     <body>
@@ -61,20 +62,12 @@
                             </div>
                             <div class="form-group"> 
                                 <label for="Hours">How many hours a month are currently spent on your books?</label>
-                                <input type="number" id="Company" name="Company">
+                                <input type="number" id="Hours" name="Hours">
                             </div>
-
-                            
-
-                            
                             <div class="form-group"> 
-                                <label for="Company">Company Name</label>
-                                <input type="text" id="Company" name="Company">
-                            </div>
-                            <div class="form-group">
-                                <label for="Email">Email Address</label>
-                                <input type="email" id="Email" name="Email">
-                            </div>
+                                <label for="Rating">On a scale of 1-10, how would you rate the current state of your books?</label>
+                                <input type="number" id="Rating" name="Rating">
+                            </div>                            
                             <div class="form-group">
                                 <label for="Phone">Phone Number</label>
                                 <input type="text" id="Phone" name="Phone">
@@ -84,15 +77,56 @@
                                 <select id="Referral" name="Referral">
                                 </select>
                             </div>
+                            <div class="input-group date" data-provide="datepicker">
+                                <label for="Current">How far back will we need to go\nto get your books caught up?</label>
+                                <input type="text" class="form-control datepicker">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="Software-div">
+                                    <label for="Software">Which software(s) do you use?</label>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="Preparer">Who is your current tax preparer?</label>
                                 <select id="Preparer" name="Preparer">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="Preparer">Who is your current tax preparer?</label>
-                                <select id="Preparer" name="Preparer">
-                                </select>
+                                <label for="Email">Email Address</label>
+                                <input type="email" id="Email" name="Email">
+                            </div>
+                            <div id="businesses">
+                                <div id="business-1">
+                                    <div class="form-group"> 
+                                        <label for="Company">Company Name</label>
+                                        <input type="text" id="Company" name="Company">
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="Title">Title/Role</label>
+                                        <input type="text" id="Title" name="Title">
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="BillingAddress">Company Business Address</label>
+                                        <textarea rows="2" id="BillingAddress" name="BillingAddress"></textarea>
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="ShippingAddress">Company Mailing Address</label>
+                                        <textarea rows="2" id="ShippingAddress" name="ShippingAddress"></textarea>
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="Classification">Is your company a...</label>
+                                        <select id="Classification" name="Classification">
+                                        </select>
+                                    </div>
+                                    <div class="form-group"> 
+                                        <div id="Industry-div">
+                                            <label for="Industry">What is the primary business your company does?</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -113,6 +147,7 @@
           crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="packages/bootstrap-datepicker/bootstrap-datepicker.js"></script>
         <script src="js/onboarding.js"></script>
     </body>
 </html>
