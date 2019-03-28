@@ -35,6 +35,8 @@ module.exports = (req, res, next) => {
     w9.name = `${body.FirstName} ${body.LastName} W9`;
     w9.template = config.signrequest.templates.w9.url;
 
+
+
     // GENERATE BACKGROUND CHECK
     var bg = new SignrequestClient.SignRequestQuickCreate();
 
@@ -52,6 +54,13 @@ module.exports = (req, res, next) => {
     ];
     bg.name = `${body.FirstName} ${body.LastName} Background Check`;
     bg.template = config.signrequest.templates.bg_check.url;
+
+    // (last document in flow)
+    var redirect = (config.domain === 'localhost') ?
+        "http://gswfinancialpartners.com" :
+        `http://${config.domain}:${config.port}/thankyou`;
+    bg.redirect_url = redirect; // replace with thank-you/instruction page
+
 
     // GENERATE CONTRACTOR CONTRACT
     var contract = new SignrequestClient.SignRequestQuickCreate();
@@ -77,22 +86,17 @@ module.exports = (req, res, next) => {
     ];
     contract.name = `${body.FirstName} ${body.LastName} Contractor Contract`;
     contract.template = config.signrequest.templates.contractor_contract.url;
-    // (last document in flow)
-    var redirect = (config.domain === 'localhost') ?
-        "http://gswfinancialpartners.com" :
-        `http://${config.domain}:${config.port}/thankyou`;
-    contract.redirect_url = redirect; // replace with thank-you/instruction page
 
     // BUILD FLOW IN REVERSE ORDER
     // what can you do about callback hell here?
 
-    // start with contractor contract ...
-    srApi.signrequestQuickCreateCreate(contract, (err, data, response) => {
+    // start with background check...
+    srApi.signrequestQuickCreateCreate(bg, (err, data, response) => {
         if (err) {
             console.error(err);
             return res.status(500).send({ message: err });
         } else {
-            console.log('Successful contract creation.');
+            console.log('Successful background check creation.');
  
             // ADD REDIRECT URL
             w9.redirect_url = data.signers[1].embed_url;
@@ -106,20 +110,19 @@ module.exports = (req, res, next) => {
                     console.log('Successful W-9 creation.');
                     
                     // ADD REDIRECT URL
-                    bg.redirect_url = data.signers[1].embed_url;
+                    contract.redirect_url = data.signers[1].embed_url;
                     
-                    // ...then background check
-                    srApi.signrequestQuickCreateCreate(bg, (err, data, response) => {
+                    // ...then contract
+                    srApi.signrequestQuickCreateCreate(contract, (err, data, response) => {
                         if (err) {
                             console.error(err);
                             return res.status(500).send({ message: err });
                         } else {
-                            console.log('Successful background check creation.');
+                            console.log('Successful contract creation.');
 
                             // FINALLY RESPOND TO SERVER REQUEST
 
                             res.status(301).redirect(data.signers[1].embed_url);
-
                         }
                     });
                 }

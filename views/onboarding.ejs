@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
         <title>Quick Onboarding Form</title>
     </head>
     <body>
@@ -13,41 +14,140 @@
                     <th scope="col">Company Name</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Email</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             <thead>
             <tbody id="leads">
             </tbody>
         </table>
-        <br>
-        <form name="form" action="/api/onboarding" method="post">
-            <div class="form-group">
-                <label for="FirstName">First Name</label>
-                <input type="text" id="FirstName" name="FirstName">
-                <label for="LastName">Last Name</label>
-                <input type="text" id="LastName" name="LastName">
-            </div>
-            <div class="form-group"> 
-                <label for="Company">Company Name</label>
-                <input type="text" id="Company" name="Company">
-            </div>
-            <div class="form-group">
-                <label for="Email">Email Address</label>
-                <input type="email" id="Email" name="Email">
-            </div>
-            <div class="form-group">
-                <label for="Phone">Phone Number</label>
-                <input type="text" id="Phone" name="Phone">
-            </div>
-            <div class="form-group">
-                <label for="Description">Notes</label>
-                <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
-            </div>
+        <div class="text-center" id="loading">
+            <span class="spinner-border" role="status">
+            </span>
+            <span>Loading from Salesforce...</span>
+        </div>
 
-            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!-- modals -->
+
+        <div class="modal fade" id="uModal" tabindex="-1" role="dialog" aria-labelledby="uModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uModalLabel"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form name="form" action="/introduction" method="post">
+                            <input type="hidden" id="Id">
+                            <div class="form-group">
+                                <label for="FirstName">First Name</label>
+                                <input type="text" id="FirstName" name="FirstName">
+                                <label for="LastName">Last Name</label>
+                                <input type="text" id="LastName" name="LastName">
+                            </div>
+                            <div class="form-group"> 
+                                <label for="pastBookkeeper">Who has been doing your bookkeeping?</label>
+                                <input type="text" id="pastBookkeeper" name="pastBookkeeper">
+                            </div>
+                            <div class="form-group">
+                                <label for="Frequency">Is your bookkeeping being done...</label>
+                                <select id="Frequency" name="Frequency">
+                                    <option value="Weekly">weekly?</option> 
+                                    <option value="Monthly">monthly?</option>
+                                    <option value="Yearly">yearly?</option>
+                                </select>
+                            </div>
+                            <div class="form-group"> 
+                                <label for="Hours">How many hours a month are currently spent on your books?</label>
+                                <input type="number" id="Hours" name="Hours">
+                            </div>
+                            <div class="form-group"> 
+                                <label for="Rating">On a scale of 1-10, how would you rate the current state of your books?</label>
+                                <input type="number" id="Rating" name="Rating">
+                            </div>                            
+                            <div class="form-group">
+                                <label for="Phone">Phone Number</label>
+                                <input type="text" id="Phone" name="Phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="Referral">Who can we thank for referring us?</label>
+                                <select id="Referral" name="Referral">
+                                </select>
+                            </div>
+                            <div class="input-group date" data-provide="datepicker">
+                                <label for="Current">How far back will we need to go\nto get your books caught up?</label>
+                                <input type="text" class="form-control datepicker">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="Software-div">
+                                    <label for="Software">Which software(s) do you use?</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Preparer">Who is your current tax preparer?</label>
+                                <select id="Preparer" name="Preparer">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Email">Email Address</label>
+                                <input type="email" id="Email" name="Email">
+                            </div>
+                            <div id="businesses">
+                                <div id="business-1">
+                                    <div class="form-group"> 
+                                        <label for="Company">Company Name</label>
+                                        <input type="text" id="Company" name="Company">
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="Title">Title/Role</label>
+                                        <input type="text" id="Title" name="Title">
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="BillingAddress">Company Business Address</label>
+                                        <textarea rows="2" id="BillingAddress" name="BillingAddress"></textarea>
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="ShippingAddress">Company Mailing Address</label>
+                                        <textarea rows="2" id="ShippingAddress" name="ShippingAddress"></textarea>
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="Classification">Is your company a...</label>
+                                        <select id="Classification" name="Classification">
+                                        </select>
+                                    </div>
+                                    <div class="form-group"> 
+                                        <div id="Industry-div">
+                                            <label for="Industry">What is the primary business your company does?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Description">Notes</label>
+                                <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
+                            </div>
+
+                            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+        <script
+          src="http://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="packages/bootstrap-datepicker/bootstrap-datepicker.js"></script>
         <script src="js/onboarding.js"></script>
     </body>
 </html>

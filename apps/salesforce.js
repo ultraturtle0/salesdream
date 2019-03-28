@@ -17,6 +17,17 @@ var createObj = (conn, type, obj) =>
         console.log("Created record id: " + res.id);
     });
 
+// returns a promise, needs to be explicitly executed (execute(callback))!
+// takes options { query, fields, sort, limit, page }
+var findObjs = (conn, type, obj, options) =>
+    conn.sobject(type).find(options.query || {})
+        .sort(options.sort || { CreatedDate: -1, CompanyName: 1 })
+        .limit(options.limit || 100)
+        .skip((options.limit || 100) * (options.page || 0))
+    ;
+
+        
+
 
 var connCallback = (err, userInfo) => {
     if (err) return console.error(err);

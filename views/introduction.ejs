@@ -25,6 +25,21 @@
                 <input type="text" id="Phone" name="Phone">
             </div>
             <div class="form-group">
+                <label for="Referral">Whom can we thank for referring you?</label>
+                <select id="Referral" name="Referral">
+                    <% referral.forEach((name) => { %>
+                        <option value="<%=name %>"><%=name %></option>
+                    <% }); %>
+                </select>
+                <div id="ReferralOther" style="display:none;">
+                    <input type="text" name="ReferralOther">
+                </div>
+            </div>            
+            <div class="form-group">
+                <label for="ReferralLength">How long have you been working with them?</label>
+                <input type="text" id="ReferralLength" name="ReferralLength">
+            </div>
+            <div class="form-group">
                 <label for="Description">Notes</label>
                 <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
             </div>
@@ -34,7 +49,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <!--<script src="js/onboarding.js"></script>-->
+        <script src="js/introduction.js"></script>
     </body>
 </html>
 
