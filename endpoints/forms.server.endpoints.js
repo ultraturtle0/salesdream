@@ -7,9 +7,10 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
+const sf = require('../apps/salesforce');
+
 const validate_token = require('../config/strategies/jwt.js');
 
-const routes = ['hiring', 'introduction'];
 var login = (req, res, next) => 
     passport.authenticate('local', 
         {
@@ -54,16 +55,36 @@ module.exports = (app) => {
             if (!req.cookies.apikey) return res.redirect('/login');
             res.render('home');
         });
+ 
+    app.route('/hiring')
+        .get(validate_token, (req, res) => res.render('hiring'));
+    app.route('/api/hiring')
+        .post(validate_token, forms['hiring']);
 
-    routes.forEach(route =>
-        app.route('/' + route)
-            .get(validate_token, (req, res) => res.render(route))
-    );
-
-    routes.forEach(route =>
-        app.route('/api/' + route)
-            .post(validate_token, forms[route])
-    );
+    app.route('/introduction')
+        .get(validate_token, (req, res) => {
+            sf.login()
+                .then(() => 
+                    sf.conn.describe("Account", (err, acc) => {
+                        var body = {}
+                        body.message = err ?
+                            'Error retrieving picklist values, please try again.' :
+                            'Picklists retrieved.';
+                        body.referral = acc.fields
+                            .filter(field => ((field.label === 'Referral') || (field.label === 'Preparer')))
+                            .map(picklist => 
+                                picklist.picklistValues
+                                    .map(value => value.label)
+                                    .filter(value => value !== 'Other')
+                            )
+                            .reduce((acc, val) => acc.concat(val), []);
+                        body.referral.push('Other');
+                        
+                        res.render('introduction', body);
+                    })
+                );
+        })
+        .post(validate_token, forms['introduction']);
 
     app.route('/api/onboarding')
         .get(validate_token, forms['onboarding'].get)
