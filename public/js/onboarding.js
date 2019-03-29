@@ -12,30 +12,6 @@ $(document).ready(() => {
         .done((data) => {
             console.log(data);
             leads = data.leads;
-            /*picklist = {
-                Referral: [
-                    'one',
-                    'two'
-                ],
-                Preparer: [
-                    'daniel',
-                    'chike'
-                ],
-                Software: [
-                    'QBO',
-                    'QBD'
-                ],
-                Type: [
-                    'Sole Prop LLC',
-                    'LLP',
-                    'S-Corp',
-                    'C-Corp'
-                ],
-                Industry: [
-                    'real estate',
-                    'finance'
-                ]
-            };*/
             picklist = data.picklists;
 
             $('#loading').hide();
@@ -50,21 +26,6 @@ $(document).ready(() => {
                     <td scope="row"><button type="button" class="btn btn-primary update" data-toggle="modal" data-target="#uModal" data-index="${index}" data-name="${lead.Name}">Update</button></td>
                 </tr>`)
             );
-
-            // add event handlers to each update button
-            $('.update').each(function () {
-                $(this).click(function () {
-                    var lead = leads[$(this).data('index')];
-                    var names = lead.Name.split(' ');
-                    lead.FirstName = names[0];
-                    lead.LastName = names[1]; 
-
-                    ['Id', 'FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) =>
-                        $('#' + field).val(lead[field]));
-                    $('#uModalLabel').text(`Great, let's get ${names[0]} updated.`);
-
-                });
-            });
 
             // populate all dropdown menus with Salesforce picklists
             ['Referral', 'Preparer', 'Classification'].forEach((select) => {
@@ -124,6 +85,36 @@ $(document).ready(() => {
             $('.datepicker').datepicker({
                 format: 'mm/dd/yyyy'
             });
+
+            // add event handlers to each update button
+            $('.update').each(function () {
+                $(this).click(function () {
+                    var lead = leads[$(this).data('index')];
+                    var names = lead.Name.split(' ');
+                    lead.FirstName = names[0];
+                    lead.LastName = names[1]; 
+
+
+                    // populate known fields
+                    ['Id', 'FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) =>
+                        $('#' + field).val(lead[field]));
+
+                    // select known dropdown menus
+                    ['Referral', 'Preparer'].forEach((field) => {
+                        var value = lead[field + '__c'];
+                        var valueOther = lead[field + 'Other__c'];
+                        if (value) {
+                            $(`#${field} option[value='${value}']`).prop('selected', true);
+                            if (value === 'Other') $(`#${field}Other`).show();
+                        }
+                        $(`#${field}OtherInput`).val(valueOther || '');
+                    });
+
+                    $('#uModalLabel').text(`Great, let's get ${names[0]} updated.`);
+
+                });
+            });
+
 
         })
         .fail((err) => console.log(err));

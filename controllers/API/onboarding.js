@@ -54,14 +54,16 @@ var post = (req, res, next) => {
         Company: body.Company,
         Description: body.Description
     };
-    sf.login()
+    console.log(body);
+    /*sf.login()
         .then(() => sf.createObj(sf.conn, 'Lead', sfbody))
         .then(() => res.status(200).json({data: 'ok'}))
         .catch((err) => {
             console.log(err);
             res.status(400).send(err);
         });
-
+    */
+    res.status(200).json({data: 'ok'})
 };
 
 module.exports = { get, post };
