@@ -34,7 +34,7 @@ $(document).ready(() => {
                     lists
                         .map(item => `
                             <option
-                                value=${item}
+                                value="${item}"
                                 ${(['Software', 'Industry'].includes(item)) ? ' multiple' : ''}
                             >${item}</option>
                         `)
@@ -43,13 +43,13 @@ $(document).ready(() => {
                     $(this).change(function () {
                         console.log($(this).val());
                         ($(this).val()==='Other') ?
-                            $(`#${select}Other`).show() :
-                            $(`#${select}Other`).hide();
+                            $(`#${select}OtherDiv`).show() :
+                            $(`#${select}OtherDiv`).hide();
                     });
                     return `
-                        <div id="${select + 'Other'}" style="display:none;">
-                            <label for="${select + 'OtherInput'}">Other</label>
-                            <input type="text" id="${select + 'OtherInput'}" name="${select + 'OtherInput'}">
+                        <div id="${select + 'OtherDiv'}" style="display:none;">
+                            <label for="${select + 'Other'}">Other</label>
+                            <input type="text" id="${select + 'Other'}" name="${select + 'Other'}">
                         </div>
                     `
                 })
@@ -69,15 +69,15 @@ $(document).ready(() => {
                         .join('\n')
                 )
                 .after(`
-                    <div id="${select}Other"
+                    <div id="${select}OtherDiv"
                         style="display:none;">
-                        <input type="text" id="${select + 'OtherInput'}" name="${select + 'OtherInput'}">
+                        <input type="text" id="${select + 'Other'}" name="${select + 'Other'}">
                     </div>
                 `);
                 $(`#${select}-Other`).change(function () {
                     (this.checked) ?
-                        $(`#${select}Other`).show() :
-                        $(`#${select}Other`).hide();
+                        $(`#${select}OtherDiv`).show() :
+                        $(`#${select}OtherDiv`).hide();
                 });
             });
 
@@ -105,9 +105,9 @@ $(document).ready(() => {
                         var valueOther = lead[field + 'Other__c'];
                         if (value) {
                             $(`#${field} option[value='${value}']`).prop('selected', true);
-                            if (value === 'Other') $(`#${field}Other`).show();
+                            if (value === 'Other') $(`#${field}OtherDiv`).show();
                         }
-                        $(`#${field}OtherInput`).val(valueOther || '');
+                        $(`#${field}Other`).val(valueOther || '');
                     });
 
                     $('#uModalLabel').text(`Great, let's get ${names[0]} updated.`);
@@ -124,19 +124,22 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
-        var fields = ['FirstName', 'LastName', 'pastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'Referral', 'Current', 'Preparer', 'Email', 'Company', 'Title', 'BillingAddress', 'ShippingAddress', 'Classification', 'Description'];
+        var fields = ['Id', 'FirstName', 'LastName', 'pastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'Referral', 'ReferralOther', 'Current', 'Preparer', 'PreparerOther', 'Email', 'Company', 'Title', 'BillingAddress', 'ShippingAddress', 'Classification', 'Description'];
         var body = {};
         fields.forEach((field) => {
             var val = $('#' + field).val();
             val ? body[field] = val : false;
         });
         ['Industry', 'Software'].forEach((cat) =>
-            body[cat] = picklist[cat].reduce((acc, field) => {
-                $(`#${cat}-${field.replace(/\s/g, '_').replace(/&/g, '_')}`).prop('checked') ? acc.push(field) : false;
-                return acc;
-            }, [])
+            body[cat] = picklist[cat]
+                .reduce((acc, field) => {
+                    $(`#${cat}-${field.replace(/\s/g, '_').replace(/&/g, '_')}`).prop('checked') ? acc.push(field) : false;
+                    return acc;
+                }, [])
         );
         console.log(body);
+        
+        //$.post(`http://${location.hostname}${port}/api/onboarding/`,
     });
 
-    });
+});
