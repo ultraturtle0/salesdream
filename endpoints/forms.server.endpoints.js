@@ -70,21 +70,23 @@ module.exports = (app) => {
                         body.message = err ?
                             'Error retrieving picklist values, please try again.' :
                             'Picklists retrieved.';
-                        body.referral = acc.fields
-                            .filter(field => ((field.label === 'Referral') || (field.label === 'Preparer')))
+                        var picklists = ['Referral', 'Preparer'];
+                        picklists.forEach(list => body[list] = acc.fields
+                            .filter(field => (field.label === list))
                             .map(picklist => 
                                 picklist.picklistValues
                                     .map(value => value.label)
-                                    .filter(value => value !== 'Other')
                             )
-                            .reduce((acc, val) => acc.concat(val), []);
-                        body.referral.push('Other');
+                            .reduce((acc, val) => acc.concat(val), [])
+                        );
                         
                         res.render('introduction', body);
                     })
                 );
-        })
-        .post(validate_token, forms['introduction']);
+        });
+
+    app.route('/api/introduction')
+        .post(validate_token, forms['introduction'].post);
 
     app.route('/api/onboarding')
         .get(validate_token, forms['onboarding'].get)

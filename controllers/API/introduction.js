@@ -5,7 +5,7 @@ const config = require('../../config/config');
 var accessToken = config.surveymonkey.accessToken;
 
 
-module.exports = (req, res, next) => {
+var post = (req, res, next) => {
     console.log('Basic Client Introduction completed.');
     var body = req.body;
     // PREPARER
@@ -17,6 +17,8 @@ module.exports = (req, res, next) => {
         Phone: body.Phone,
         Referral__c: body.Referral,
         ReferralOther__c: body.ReferralOther,
+        Preparer__c: body.Preparer,
+        PreparerOther__c: body.PreparerOther,
         ReferralLength__c: body.ReferralLength,
         Description: body.Description
     };
@@ -29,4 +31,8 @@ module.exports = (req, res, next) => {
             res.status(400).send(err);
         });
 
+};
+
+module.exports = {
+    post: post
 };
