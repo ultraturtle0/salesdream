@@ -108,14 +108,49 @@
                                         <label for="Title">Title/Role</label>
                                         <input type="text" id="Title" name="Title">
                                     </div>
-                                    <div class="form-group"> 
-                                        <label for="BillingAddress">Company Business Address</label>
-                                        <textarea rows="2" id="BillingAddress" name="BillingAddress"></textarea>
+                                    <div class="form-row"> 
+                                        <div class="form-group col-xs-12">
+                                            <label for="BillingStreet">Company Billing Address</label>
+                                            <input id="BillingStreet" name="BillingStreet">
+                                        </div>
                                     </div>
-                                    <div class="form-group"> 
-                                        <label for="ShippingAddress">Company Mailing Address</label>
-                                        <textarea rows="2" id="ShippingAddress" name="ShippingAddress"></textarea>
+                                    <div class="form-row">
+                                        <div class="form-group col-xs-6">
+                                            <label for="BillingCity">City</label>
+                                            <input type="text" id="BillingCity" name="BillingCity">
+                                        </div>
+                                        <div class="form-group col-xs-2">
+                                            <label for="BillingState">State</label>
+                                            <select id="BillingState" name="BillingState"> 
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-xs-2">
+                                            <label for="BillingPostalCode">Zip</label>
+                                            <input type="text" id="BillingPostalCode" name="BillingPostalCode">
+                                        </div>
+                                        <div class="form-row"> 
+                                            <div class="form-group col-xs-12">
+                                                <label for="ShippingStreet">Company Shipping Address</label>
+                                                <input id="ShippingStreet" name="ShippingStreet">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-xs-6">
+                                                <label for="ShippingCity">City</label>
+                                                <input type="text" id="ShippingCity" name="ShippingCity">
+                                            </div>
+                                            <div class="form-group col-xs-2">
+                                                <label for="ShippingState">State</label>
+                                                <select id="ShippingState" name="ShippingState"> 
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-xs-2">
+                                                <label for="ShippingPostalCode">Zip</label>
+                                                <input type="text" id="ShippingPostalCode" name="ShippingPostalCode">
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div class="form-group"> 
                                         <label for="Classification">Is your company a...</label>
                                         <select id="Classification" name="Classification">

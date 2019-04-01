@@ -13,6 +13,14 @@ $(document).ready(() => {
             console.log(data);
             leads = data.leads;
             picklist = data.picklists;
+            picklist.BillingState = [
+                'CA',
+                'WI'
+            ];
+            picklist.ShippingState = [
+                'CA',
+                'WI'
+            ];
 
             $('#loading').hide();
 
@@ -28,7 +36,7 @@ $(document).ready(() => {
             );
 
             // populate all dropdown menus with Salesforce picklists
-            ['Referral', 'Preparer', 'Classification'].forEach((select) => {
+            ['Referral', 'Preparer', 'Classification', 'BillingState'].forEach((select) => {
                 var lists = picklist[select] || [];
                 $('#' + select).html(
                     lists
@@ -124,7 +132,7 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
-        var fields = ['Id', 'FirstName', 'LastName', 'pastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'Referral', 'ReferralOther', 'Current', 'Preparer', 'PreparerOther', 'Email', 'Company', 'Title', 'BillingAddress', 'ShippingAddress', 'Classification', 'Description'];
+        var fields = ['Id', 'FirstName', 'LastName', 'pastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'Referral', 'ReferralOther', 'Current', 'Preparer', 'PreparerOther', 'Email', 'Company', 'Title', 'BillingStreet','BillingCity','BillingState','BillingPostalCode', 'ShippingStreet','ShippingCity','ShippingState','ShippingPostalCode', 'Classification', 'Description'];
         var body = {};
         fields.forEach((field) => {
             var val = $('#' + field).val();
