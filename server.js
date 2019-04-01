@@ -11,6 +11,7 @@ const passport = configPassport();
 require('./endpoints/surveys.server.endpoints.js')(app);
 //require('../endpoints/signrequest.server.endpoints.js')(app);
 require('./endpoints/forms.server.endpoints.js')(app);
+require('./endpoints/general.server.endpoints.js')(app);
 
 
 
