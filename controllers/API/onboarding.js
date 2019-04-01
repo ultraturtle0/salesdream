@@ -10,21 +10,20 @@ var get = (req, res, next) => {
         sort: { CreatedDate: -1 }
     };
     sf.login()
-        .then(() => /*sf.findObjs(sf.conn, 'Lead', sfQuery, sfOptions)
-            .execute((err, leads) => {*/
-
+        .then(() => 
             sf.conn.sobject("Lead").find({}).execute((err, leads) => {
-                console.log('does this execute?');
-
                 var message = err ?
                     'Error connecting to Salesforce database, please try again.'
                     : (leads.length ? '' : 'No new leads, go get some!');
                 sf.conn.describe("Account", (err, account) => {
-                    var message = err ?
-                        'Error retrieving picklist values.'
-                        : '';
+
                     var picklists = {};
-                    ['Industry', 'Software', 'Referral', 'Classification', 'Preparer'].forEach((list) => 
+                    var message = '';
+                    if (err) {
+                        message = 'Error retrieving picklist values.';
+                        return res.status(400).send({message, picklists});
+                    }; 
+                    ['Industry', 'Software', 'Classification', 'Preparer'].forEach((list) => 
                         picklists[list] = account.fields
                             .filter(field => (field.label === list))
                             .map(picklist => 
@@ -33,7 +32,21 @@ var get = (req, res, next) => {
                             )[0]
                     );
                     
-                    res.send({ message, leads, picklists: picklists });
+                    sf.conn.describe("Contact", (err, contact) => {
+                        if (err) {
+                            message = 'Error retrieving picklist values.';
+                            return res.status(400).send({message, picklists});
+                        };
+                        ['Referral'].forEach((list) =>
+                            picklists[list] = contact.fields
+                                .filter(field => (field.label === list))
+                                .map(picklist => 
+                                    picklist.picklistValues
+                                        .map(value => value.label)
+                                )[0]
+                        ); 
+                        return res.send({ message, leads, picklists: picklists });
+                    });
                 });
             })
         );
@@ -43,27 +56,58 @@ var get = (req, res, next) => {
         });*/
 };
 
-var post = (req, res, next) => {
+var post = (req, response, next) => {
     console.log('Basic Client Onboarding completed.');
     var body = req.body;
-    var sfbody = {
+    var AccountBody = {
+        //FirstName: body.FirstName, 
+        //LastName: body.LastName,
+        //Phone: body.Phone,
+        //Email: body.Email,
+        //BillingAddress: body.BillingAddress,
+        //ShippingAddress: body.ShippingAddress,
+        //Classification__c: body.Classification,
+        //Current__c: body.Current,
+        //Industry: body.Industry,
+        //Software__c: body.Software,
+        //Software_Other__c: body.SoftwareOther,
+        //Bookkeeping_Frequency: body.Frequency,
+        //Past_Bookkeeper: body.pastBookkeeper,
+        //Hours_Per_Month: body.Hours,
+        Preparer__c: body.Preparer,
+        Preparer_Other__c: body.PreparerOther,
+        //Books_Rating: body.Rating,
+        //Description: body.Description
+    };
+    var ContactBody = {
         FirstName: body.FirstName, 
         LastName: body.LastName,
+        Title: body.Title,
         Phone: body.Phone,
         Email: body.Email,
-        Company: body.Company,
-        Description: body.Description
+        Referral__c: body.Referral,
+        Referral_Other__c: body.ReferralOther
     };
+       
     console.log(body);
-    /*sf.login()
-        .then(() => sf.createObj(sf.conn, 'Lead', sfbody))
-        .then(() => res.status(200).json({data: 'ok'}))
+    sf.login()
+        .then(() => sf.conn.soap.convertLead([{
+            convertedStatus: 'Closed - Converted',
+            leadId: req.body.Id
+        }], (err, res) => {
+            if (err) return response.status(400).send(err);
+            console.log(res);
+            //if (!res.success) return response.status(400).send({message: "Internal Salesforce error"});
+            AccountBody.Id = res[0].accountId;
+            // update Account
+            sf.conn.sobject("Account").update(AccountBody)
+                .then((res) => response.status(200).json({data: 'ok'}))
+                .catch((err) => response.status(400).send(err));
+        }))
         .catch((err) => {
             console.log(err);
-            res.status(400).send(err);
+            response.status(400).send(err);
         });
-    */
-    res.status(200).json({data: 'ok'})
 };
 
 module.exports = { get, post };

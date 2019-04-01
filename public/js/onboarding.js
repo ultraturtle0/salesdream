@@ -130,16 +130,19 @@ $(document).ready(() => {
             var val = $('#' + field).val();
             val ? body[field] = val : false;
         });
+
+        // for Salesforce, these need to be converted to a semicolon-separated string
         ['Industry', 'Software'].forEach((cat) =>
             body[cat] = picklist[cat]
                 .reduce((acc, field) => {
-                    $(`#${cat}-${field.replace(/\s/g, '_').replace(/&/g, '_')}`).prop('checked') ? acc.push(field) : false;
+                    $(`#${cat}-${field.replace(/\s/g, '_').replace(/&/g, '_')}`).prop('checked') ? acc.concat(acc ? `; ${field}` : field) : false;
                     return acc;
-                }, [])
+                }, '')
         );
-        console.log(body);
         
-        //$.post(`http://${location.hostname}${port}/api/onboarding/`,
+        $.post(`http://${location.hostname}${port}/api/onboarding/`, body)
+            .done((res) => console.log(res))
+            .fail((err) => console.log(err));
     });
 
 });
