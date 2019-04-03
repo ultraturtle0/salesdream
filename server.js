@@ -13,6 +13,7 @@ require('./endpoints/surveys.server.endpoints.js')(app);
 require('./endpoints/forms.server.endpoints.js')(app);
 require('./endpoints/general.server.endpoints.js')(app);
 
+require('./endpoints/zapier.server.endpoints.js')(app);
 
 
 app.listen(config.port);
