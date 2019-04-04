@@ -14,7 +14,8 @@
     "webhooks_init": "NODE_ENV=development node webhooks_init",
     "deploy": "NODE_ENV=deployment node server",
     "init": "node initialize",
-    "root_init": "NODE_ENV=development node root_init"
+    "root_init": "NODE_ENV=development node root_init",
+    "zapier_init": "NODE_ENV=development node zapier_init"
   },
   "author": "",
   "license": "ISC",
