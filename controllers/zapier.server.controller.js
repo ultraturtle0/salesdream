@@ -1,4 +1,4 @@
-var post = require('./API/zapier.js');
+var post = require('./API/zapier.js').post;
 
 module.exports = {
     //get:
