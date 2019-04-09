@@ -31,9 +31,9 @@ var axios = require('axios')
 
 var post = (req, res, next) => {
 
-    console.log(req);
+    console.log(req.body);
 
-    var inputData = req.inputData;
+    var inputData = req.body;
 
 	var prefill_tags = {} // this will collect our prefill info
 
