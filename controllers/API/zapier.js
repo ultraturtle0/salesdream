@@ -31,7 +31,7 @@ var axios = require('axios')
 
 var post = (req, res, next) => {
 
-    console.log(req.body);
+    console.log(req);
 
     var inputData = req.inputData;
 
