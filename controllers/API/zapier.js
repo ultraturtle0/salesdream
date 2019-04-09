@@ -31,7 +31,7 @@ var axios = require('axios')
 
 var post = (req, res, next) => {
 
-    console.log('curl works!');
+    console.log(req.body);
 
     var inputData = req.inputData;
 
