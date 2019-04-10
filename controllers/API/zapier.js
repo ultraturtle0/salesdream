@@ -23,11 +23,12 @@ var post = (req, res, next) => {
     console.log(req.body);
 
     var inputData = req.body;
+    var body;
+    var prefill_tags = {}
+    var formatted_tags = [];
 
-//HEADHUNTER CONTRACT SENDER
-if (req.body.contract == 'headhunter') {
-	
-	var prefill_tags = {} // this will collect our prefill info
+	//HEADHUNTER CONTRACT SENDER
+	if (req.body.contract === 'headhunter') {
 	
 	    // transfer the first set of tags from SurveyMonkey
 	    var tags1 = [
@@ -66,48 +67,13 @@ if (req.body.contract == 'headhunter') {
 	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';
 	
 	    // format the tags and collect them in a new variable
-	    var formatted_tags = [];
-
-	    for (var key in prefill_tags) {
-	        formatted_tags.push({external_id: key, text: prefill_tags[key]})
-	    };
-    
-	    // prepare the rest of the POST request body
-	    var body = {
-
-	        // edit this email information as desired
-	        from_email: 'gswfp@gswfinancialpartners.com',
-	        from_email_name: 'GSW Financial Partners',
-	        redirect_url: 'http://gswfinancialpartners.com',
-	        subject: 'GSW Financial Partners is awaiting your signature.',
-	        message: 'Please review our Headhunter Contract as previously discussed, fill in your company information, and sign where necessary.\n\nWe look forward to working with you!',
-
-	         // 'm', 'o', or 'mo', depending on whether Me and/or Others need to sign
-	        who: 'o',
-
-	        // here's what SignRequest uses to fill in the blanks
-	        prefill_tags: formatted_tags
-	    };
-
-	    axios.post('https://signrequest.com/api/v1/signrequest-quick-create/', body)
-	        .then((response) => {
-	            console.log('SUCCESS OMG WOW');
-	            console.log(response);
-	        })
-	        .catch((err) => {
-	            console.log('oopsie daisy');
-	            console.log(err);
-	        })
-
-            res.status(200).send({ message: 'SUCCESS' });
+	  
+            return res.status(200).send({ message: 'SUCCESS' });
 
 	};
-}
 
-//CLIENT CONTRACT SENDER
-else if (req.body.contract == 'client') {
-	
-	var prefill_tags = {} // this will collect our prefill info
+	//CLIENT CONTRACT SENDER
+	if (req.body.contract === 'client') {
 	
 	    // transfer the first set of tags from SurveyMonkey
 	    var tags1 = [
@@ -147,44 +113,41 @@ else if (req.body.contract == 'client') {
 	    // add some standard information we need for SignRequest
 	    prefill_tags['gsw_name_1'] = 'Gabriella Sande Waterman';
 	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';
-	
-	    // format the tags and collect them in a new variable
-	    var formatted_tags = [];
 
-	    for (var key in prefill_tags) {
-	        formatted_tags.push({external_id: key, text: prefill_tags[key]})
-	    };
-    
-	    // prepare the rest of the POST request body
-	    var body = {
-
-	        // edit this email information as desired
-	        from_email: 'gswfp@gswfinancialpartners.com',
-	        from_email_name: 'GSW Financial Partners',
-	        redirect_url: 'http://gswfinancialpartners.com',
-	        subject: 'GSW Financial Partners is awaiting your signature.',
-	        message: 'Please review our Client Contract as previously discussed, fill in your company information, and sign where necessary.\n\nWe look forward to working with you!',
-
-	         // 'm', 'o', or 'mo', depending on whether Me and/or Others need to sign
-	        who: 'o',
-
-	        // here's what SignRequest uses to fill in the blanks
-	        prefill_tags: formatted_tags
-	    };
-
-	    axios.post('https://signrequest.com/api/v1/signrequest-quick-create/', body)
-	        .then((response) => {
-	            console.log('SUCCESS OMG WOW');
-	            console.log(response);
-	        })
-	        .catch((err) => {
-	            console.log('oopsie daisy');
-	            console.log(err);
-	        })
-
-            res.status(200).send({ message: SUCCESS!' });
+            return res.status(200).send({ message: SUCCESS!' });
 
 	};
+
+	for (var key in prefill_tags) {
+	    formatted_tags.push({external_id: key, text: prefill_tags[key]})
+	};
+
+	// prepare the rest of the POST request body
+	body = {
+
+	    // edit this email information as desired
+	    from_email: 'gswfp@gswfinancialpartners.com',
+	    from_email_name: 'GSW Financial Partners',
+	    subject: 'GSW Financial Partners is awaiting your signature.',
+	    message: 'Please review our Client Contract as previously discussed, fill in your company information, and sign where necessary.\n\nWe look forward to working with you!',
+
+	    // 'm', 'o', or 'mo', depending on whether Me and/or Others need to sign
+	    who: 'o',
+
+	    // here's what SignRequest uses to fill in the blanks
+	    prefill_tags: formatted_tags
+	};
+
+	axios.post('https://signrequest.com/api/v1/signrequest-quick-create/', body)
+	   .then((response) => {
+	       console.log('SUCCESS OMG WOW');
+	       console.log(response);
+	   })
+	   .catch((err) => {
+	       console.log('oopsie daisy');
+	       console.log(err);
+	   });
+
 }
 
 
