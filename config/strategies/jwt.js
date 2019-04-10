@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('mongoose').model('User');
 
 module.exports = (req, res, next) => {
-    var payload = req.cookies.apikey;
+    var payload = req.cookies.apikey || req.get('Authorization').split(' ')[1];
     var failure = (err) => {
         req.flash('error', err);
         res.redirect('/login');
