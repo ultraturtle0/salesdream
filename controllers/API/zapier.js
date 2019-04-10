@@ -1,7 +1,11 @@
 const config = require('../../config/config');
 
 var sr_net = 'main_net'; // change this to a mainnet when converting to production
-var sr_token = 'sup'; // our access token
+var sr_token = config.signrequest.token; // our access token
+
+var templates = {
+    'headhunter': config.signrequest.templates.headhunter_contract.url
+};
 
 
 // our headers tell SignRequest we're sending json format and we have token authorization
@@ -25,7 +29,8 @@ var post = (req, res, next) => {
     var inputData = req.body;
     var body;
     var prefill_tags = {}
-    var formatted_tags = [];
+
+    var template = templates[req.body.contract];
 
 	//HEADHUNTER CONTRACT SENDER
 	if (req.body.contract === 'headhunter') {
@@ -64,16 +69,12 @@ var post = (req, res, next) => {
 
 	    // add some standard information we need for SignRequest
 	    prefill_tags['gsw_name_1'] = 'Gabriella Sande Waterman';
-	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';
-	
-	    // format the tags and collect them in a new variable
+	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';	
 	  
-            return res.status(200).send({ message: 'SUCCESS' });
-
 	};
 
 	//CLIENT CONTRACT SENDER
-	if (req.body.contract === 'client') {
+    else if (req.body.contract === 'client') {
 	
 	    // transfer the first set of tags from SurveyMonkey
 	    var tags1 = [
@@ -114,9 +115,9 @@ var post = (req, res, next) => {
 	    prefill_tags['gsw_name_1'] = 'Gabriella Sande Waterman';
 	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';
 
-            return res.status(200).send({ message: SUCCESS!' });
-
 	};
+
+    var formatted_tags = [];
 
 	for (var key in prefill_tags) {
 	    formatted_tags.push({external_id: key, text: prefill_tags[key]})
@@ -134,11 +135,16 @@ var post = (req, res, next) => {
 	    // 'm', 'o', or 'mo', depending on whether Me and/or Others need to sign
 	    who: 'o',
 
+        template: template,
+
 	    // here's what SignRequest uses to fill in the blanks
 	    prefill_tags: formatted_tags
 	};
 
-	axios.post('https://signrequest.com/api/v1/signrequest-quick-create/', body)
+	axios.post('https://signrequest.com/api/v1/signrequest-quick-create/', {
+        headers: headers,
+        data: body
+    })
 	   .then((response) => {
 	       console.log('SUCCESS OMG WOW');
 	       console.log(response);
@@ -147,6 +153,7 @@ var post = (req, res, next) => {
 	       console.log('oopsie daisy');
 	       console.log(err);
 	   });
+
 
 }
 
