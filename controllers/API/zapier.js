@@ -59,16 +59,11 @@ var post = (req, res, next) => {
 	    ]
 	    tags2.forEach(tag => prefill_tags[tag] = inputData['client_name_1']);
 	
-	    // assign 'client_address_1_1' to some redundant SignRequest tags
+	    // reassign redundant SignRequest tags
 	    prefill_tags['client_address_2'] = inputData['client_address_1_1'];
-
-	    // assign 'client_email_1' to some redundant SignRequest tags
 	    prefill_tags['client_email_2'] = inputData['client_email_1'];
-
-	    // assign 'company_name_1' to some redundant SignRequest tags
 	    prefill_tags['company_name_2'] = inputData['company_name_1'];
 
-	    // add some standard information we need for SignRequest
 	    prefill_tags['gsw_name_1'] = 'Gabriella Sande Waterman';
 	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';	
 	  
@@ -82,7 +77,7 @@ var post = (req, res, next) => {
 	};
 
 	//CLIENT CONTRACT SENDER
-    else if (req.body.contract === 'client') {
+	else if (req.body.contract === 'client') {
 	
 	    // transfer the first set of tags from SurveyMonkey
 	    var tags1 = [
@@ -110,16 +105,11 @@ var post = (req, res, next) => {
 	    ]
 	    tags2.forEach(tag => prefill_tags[tag] = inputData['client_name_1']);
 	
-	    // assign 'client_address_1_1' to some redundant SignRequest tags
+	    // reassign redundant SignRequest tags
 	    prefill_tags['client_address_2'] = inputData['client_address_1_1'];
-
-	    // assign 'client_email_1' to some redundant SignRequest tags
 	    prefill_tags['client_email_2'] = inputData['client_email_1'];
-
-	    // assign 'company_name_1' to some redundant SignRequest tags
 	    prefill_tags['company_name_2'] = inputData['company_name_1'];
 
-	    // add some standard information we need for SignRequest
 	    prefill_tags['gsw_name_1'] = 'Gabriella Sande Waterman';
 	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';
 
@@ -138,15 +128,8 @@ var post = (req, res, next) => {
 	    formatted_tags.push({external_id: key, text: prefill_tags[key]})
 	};
 
-	var headers = {
-	    'Content-Type': 'application/json',
-	    'Authorization': `Token ${sr_token}`
-	};	
-
-	// prepare the rest of the POST request body
 	body = {
 
-	    // edit this email information as desired
 	    from_email: 'gswfp@gswfinancialpartners.com',
 	    from_email_name: 'GSW Financial Partners',
 	    subject: 'GSW Financial Partners is awaiting your signature.',
@@ -157,7 +140,6 @@ var post = (req, res, next) => {
 
 	    template: template,
 
-	    // here's what SignRequest uses to fill in the blanks
 	    prefill_tags: formatted_tags
 	};
 
@@ -193,9 +175,7 @@ var post = (req, res, next) => {
 
 	return res.status(200).send("Success!!");
 
-
 }
-
 
 module.exports = {
     post: post
