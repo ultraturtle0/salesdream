@@ -2,7 +2,7 @@ var config = require('../config/config');
 
 var jsforce = require('jsforce');
 var conn = new jsforce.Connection({
-    loginUrl: 'https://login.salesforce.com'
+    loginUrl: config.salesforce.loginUrl
 });
 
 var username = config.salesforce.username;

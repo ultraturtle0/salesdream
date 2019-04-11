@@ -5,7 +5,7 @@
         <title>Quick Onboarding Form</title>
     </head>
     <body>
-        <form name="form" action="/api/introduction" method="post">
+        <form name="form" method="post">
             <div class="form-group">
                 <label for="FirstName">First Name</label>
                 <input type="text" id="FirstName" name="FirstName">
@@ -27,9 +27,6 @@
             <div class="form-group">
                 <label for="Referral">Whom can we thank for referring you?</label>
                 <select id="Referral" name="Referral">
-                    <% Referral.forEach((name) => { %>
-                        <option value="<%=name %>"><%=name %></option>
-                    <% }); %>
                 </select>
                 <div id="ReferralOther" style="display:none;">
                     <input type="text" name="ReferralOther">
@@ -42,9 +39,6 @@
             <div class="form-group">
                 <label for="Preparer">Who is your current tax preparer? (Optional)</label>
                 <select id="Preparer" name="Preparer">
-                    <% Preparer.forEach((name) => { %>
-                        <option value="<%=name %>"><%=name %></option>
-                    <% }); %>
                 </select>
                 <div id="PreparerOther" style="display:none;">
                     <input type="text" name="PreparerOther">

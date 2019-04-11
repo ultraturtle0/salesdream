@@ -62,30 +62,10 @@ module.exports = (app) => {
         .post(validate_token, forms['hiring']);
 
     app.route('/introduction')
-        .get(validate_token, (req, res) => {
-            sf.login()
-                .then(() => 
-                    sf.conn.describe("Account", (err, acc) => {
-                        var body = {}
-                        body.message = err ?
-                            'Error retrieving picklist values, please try again.' :
-                            'Picklists retrieved.';
-                        var picklists = ['Referral', 'Preparer'];
-                        picklists.forEach(list => body[list] = acc.fields
-                            .filter(field => (field.label === list))
-                            .map(picklist => 
-                                picklist.picklistValues
-                                    .map(value => value.label)
-                            )
-                            .reduce((acc, val) => acc.concat(val), [])
-                        );
-                        
-                        res.render('introduction', body);
-                    })
-                );
-        });
+        .get(validate_token, (req, res) => res.render('introduction'));
 
     app.route('/api/introduction')
+        .get(validate_token, forms['introduction'].get)
         .post(validate_token, forms['introduction'].post);
 
     app.route('/api/onboarding')

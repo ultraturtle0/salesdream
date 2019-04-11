@@ -4,6 +4,32 @@ const config = require('../../config/config');
 
 var accessToken = config.surveymonkey.accessToken;
 
+var get = (req, res, next) => {
+    sf.login()
+        .then(() => 
+            sf.conn.describe("Lead", (err, lead) => {
+
+                var picklists = {};
+                var message = '';
+                if (err) {
+                    message = 'Error retrieving picklist values.';
+                    return res.status(400).send({message, picklists});
+                }; 
+                ['Lead Source', 'Tax Preparer'].forEach((list) => 
+                    picklists[list] = lead.fields
+                        .filter(field => (field.label === list))
+                        .map(picklist => 
+                            picklist.picklistValues
+                                .map(value => value.label)
+                                .filter(value => (value !== 'N/A'))
+                        )[0]
+                );
+                console.log(picklists);
+                
+                return res.send({ message, picklists });
+            })
+        );
+};
 
 var post = (req, res, next) => {
     console.log('Basic Client Introduction completed.');
@@ -15,11 +41,11 @@ var post = (req, res, next) => {
         Company: body.Company,
         Email: body.Email,
         Phone: body.Phone,
-        Referral__c: body.Referral,
-        ReferralOther__c: body.ReferralOther,
-        Preparer__c: body.Preparer,
-        PreparerOther__c: body.PreparerOther,
-        ReferralLength__c: body.ReferralLength,
+        LeadSource: body.Referral,
+        Lead_Source_Other__c: body.ReferralOther,
+        Tax_Preparer__c: body.Preparer,
+        Tax_Preparer_Other__c: body.PreparerOther,
+        //ReferralLength__c: body.ReferralLength,
         Description: body.Description
     };
 
@@ -34,5 +60,6 @@ var post = (req, res, next) => {
 };
 
 module.exports = {
-    post: post
+    get,
+    post
 };

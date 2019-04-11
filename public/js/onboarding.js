@@ -35,15 +35,17 @@ $(document).ready(() => {
                 </tr>`)
             );
 
+            // CHANGE THIS - ONLY Preparer NEEDS A TEMPORARY OTHER BOX
             // populate all dropdown menus with Salesforce picklists
-            ['Referral', 'Preparer', 'Classification', 'BillingState'].forEach((select) => {
+            ['Account Source', 'Tax Preparer', 'Business Classification', 'BillingState', 'ShippingState'].forEach((select) => {
                 var lists = picklist[select] || [];
-                $('#' + select).html(
+                var id = select.replace(/\s+/g, '');
+                $('#' + id).html(
                     lists
                         .map(item => `
                             <option
                                 value="${item}"
-                                ${(['Software', 'Industry'].includes(item)) ? ' multiple' : ''}
+                                ${(['Software', 'Industries'].includes(item)) ? ' multiple' : ''}
                             >${item}</option>
                         `)
                         .join('\n')
@@ -51,29 +53,33 @@ $(document).ready(() => {
                     $(this).change(function () {
                         console.log($(this).val());
                         ($(this).val()==='Other') ?
-                            $(`#${select}OtherDiv`).show() :
-                            $(`#${select}OtherDiv`).hide();
+                            $(`#${id}OtherDiv`).show() :
+                            $(`#${id}OtherDiv`).hide();
                     });
                     return `
-                        <div id="${select + 'OtherDiv'}" style="display:none;">
-                            <label for="${select + 'Other'}">Other</label>
-                            <input type="text" id="${select + 'Other'}" name="${select + 'Other'}">
+                        <div id="${id + 'OtherDiv'}" style="display:none;">
+                            <label for="${id + 'Other'}">Other</label>
+                            <input type="text" id="${id + 'Other'}" name="${id + 'Other'}">
                         </div>
                     `
                 })
             });
-            ['Software', 'Industry'].forEach((select) => {
+
+            ['Software', 'Industries'].forEach((select) => {
                 var lists = picklist[select] || [];
                 $('#' + select + '-div').append(
                     lists
-                        .map(item => `
+                        .map(item => {
+                        var str = `${select}-${item.replace(/[\s&:,]/g, '_')}`;
+                        return `
+                            </br>
                             <input type="checkbox"
-                                id="${select}-${item.replace(/\s/g, '_').replace(/&/g, '_')}"
-                                name="${select}-${item.replace(/\s/g, '_').replace(/&/g, '_')}"
+                                id="${str}"
+                                name="${str}"
                                 value="${item}">
                             <label class="form-check-label"
-                                for="${item.replace(/\s/g, '_')}">${item}</label>
-                        `)
+                                for="${str}">${item}</label>
+                        `})
                         .join('\n')
                 )
                 .after(`
@@ -93,6 +99,11 @@ $(document).ready(() => {
             $('.datepicker').datepicker({
                 format: 'mm/dd/yyyy'
             });
+            /*$('.datepicker').on('change dp.change', function(e){
+                console.log($(this).data('date'));
+                $('#datepicker').val($(this).data('date'));
+            });
+            */
 
             // add event handlers to each update button
             $('.update').each(function () {
@@ -108,7 +119,7 @@ $(document).ready(() => {
                         $('#' + field).val(lead[field]));
 
                     // select known dropdown menus
-                    ['Referral', 'Preparer'].forEach((field) => {
+                    ['AccountSource', 'Preparer'].forEach((field) => {
                         var value = lead[field + '__c'];
                         var valueOther = lead[field + 'Other__c'];
                         if (value) {
@@ -132,21 +143,29 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
-        var fields = ['Id', 'FirstName', 'LastName', 'pastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'Referral', 'ReferralOther', 'Current', 'Preparer', 'PreparerOther', 'Email', 'Company', 'Title', 'BillingStreet','BillingCity','BillingState','BillingPostalCode', 'ShippingStreet','ShippingCity','ShippingState','ShippingPostalCode', 'Classification', 'Description'];
+        var fields = ['Id', 'FirstName', 'LastName', 'Company', 'Title', 'PastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'AccountSource', 'AccountSourceOther', 'TaxPreparer', 'TaxPreparerOther', 'Email', 'Company', 'Title', 'BillingStreet','BillingCity','BillingState','BillingPostalCode', 'ShippingStreet','ShippingCity','ShippingState','ShippingPostalCode', 'BusinessClassification', 'Description'];
         var body = {};
         fields.forEach((field) => {
             var val = $('#' + field).val();
             val ? body[field] = val : false;
         });
+        body['Current'] = $('.datepicker').val();
 
         // for Salesforce, these need to be converted to a semicolon-separated string
-        ['Industry', 'Software'].forEach((cat) =>
+        ['Industries', 'Software'].forEach((cat) =>
             body[cat] = picklist[cat]
                 .reduce((acc, field) => {
-                    $(`#${cat}-${field.replace(/\s/g, '_').replace(/&/g, '_')}`).prop('checked') ? acc.concat(acc ? `; ${field}` : field) : false;
+                    var str = `#${cat}-${field.replace(/[\s&,:]/g, '_')}`;
+                    var checked = $(str).prop('checked');
+                    if (checked) 
+                        acc.push(field);
+                    console.log(acc);
                     return acc;
-                }, '')
+                }, [])
+                .join('; ')
         );
+
+        console.log(body);
         
         $.post(`http://${location.hostname}${port}/api/onboarding/`, body)
             .done((res) => console.log(res))
