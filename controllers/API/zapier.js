@@ -28,7 +28,7 @@ var post = (req, res, next) => {
 
     var inputData = req.body;
     var body;
-    var prefill_tags = {}
+    var prefill_tags = {};
     var signer1;
 
     var template = templates[req.body.contract];
@@ -68,13 +68,13 @@ var post = (req, res, next) => {
 	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';	
 	  
 	    signer1 = {
-		email: prefill_tags['client_email_1'],
-		first_name: prefill_tags['client_name_1'].split(" ")[0],
-		last_name: prefill_tags['client_name_1'].split(" ")[1],
-		needs_to_sign: true,
-		order: 1,
-	    }
-	};
+            email: prefill_tags['client_email_1'],
+            first_name: prefill_tags['client_name_1'].split(" ")[0],
+            last_name: prefill_tags['client_name_1'].split(" ")[1],
+            needs_to_sign: true,
+            order: 1
+	    };
+	}
 
 	//CLIENT CONTRACT SENDER
 	else if (req.body.contract === 'client') {
@@ -101,7 +101,7 @@ var post = (req, res, next) => {
 	      'client_name_3',
 	      'cl_name_4',
 	      'client_name_5',
-	      'client_name_6',
+	      'client_name_6'
 	    ]
 	    tags2.forEach(tag => prefill_tags[tag] = inputData['client_name_1']);
 	
@@ -114,11 +114,11 @@ var post = (req, res, next) => {
 	    prefill_tags['gsw_title_1'] = 'Owner of GSW Financial Partners';
 
 	    signer1 = {
-		email: prefill_tags['client_email_1'],
-		first_name: prefill_tags['client_name_1'].split(" ")[0],
-		last_name: prefill_tags['client_name_1'].split(" ")[1],
-		needs_to_sign: true,
-		order: 1,
+            email: prefill_tags['client_email_1'],
+            first_name: prefill_tags['client_name_1'].split(" ")[0],
+            last_name: prefill_tags['client_name_1'].split(" ")[1],
+            needs_to_sign: true,
+            order: 1
 	    }
 	};
 
@@ -138,40 +138,43 @@ var post = (req, res, next) => {
 	    // 'm', 'o', or 'mo', depending on whether Me and/or Others need to sign
 	    who: 'o',
 
+        signers: [
+            {
+                email: 'gswfp@gswfinancialpartners.com',
+                first_name: 'Gabriella',
+                last_name: 'Sande Waterman',
+                needs_to_sign: false,
+                order: 0,
+                redirect_url: 'http://gswfinancialpartners.com'
+            },
+            signer1,
+            {
+                email: "gabriella@gswfinancialpartners.com",
+                first_name: 'Gabriella',
+                last_name: 'Sande Waterman',
+                needs_to_sign: true,
+                order: 2,
+            }
+        ],
+
 	    template: template,
 
 	    prefill_tags: formatted_tags
 	};
 
-	axios.post('https://signrequest.com/api/v1/signrequest-quick-create/', {
-        headers: headers,
-        data: 
-	  signer1, 
-	  body,
-	  {
-	    email: 'gswfp@gswfinancialpartners.com',
-	    first_name: 'Gabriella',
-	    last_name: 'Sande Waterman',
-	    needs_to_sign: false,
-	    order: 0,
-	    redirect_url: 'http://gswfinancialpartners.com'
-	  }
-	  {
-	    email: "gabriella@gswfinancialpartners.com",
-	    first_name: 'Gabriella',
-	    last_name: 'Sande Waterman',
-	    needs_to_sign: true,
-	    order: 2,
-	  }
-    })
-	   .then((response) => {
+	axios.post('https://signrequest.com/api/v1/signrequest-quick-create/', 
+        {
+            headers: headers,
+            data: body,
+        })
+	    .then((response) => {
 	       console.log('SUCCESS OMG WOW');
 	       console.log(response);
-	   })
-	   .catch((err) => {
+	    })
+	    .catch((err) => {
 	       console.log('oopsie daisy');
 	       console.log(err);
-	   });
+	    });
 
 	return res.status(200).send("Success!!");
 
