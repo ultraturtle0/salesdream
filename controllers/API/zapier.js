@@ -3,6 +3,7 @@ const config = require('../../config/config');
 var sr_net = 'main_net'; // change this to a mainnet when converting to production
 var sr_token = config.signrequest.token; // our access token
 
+
 var templates = {
     'headhunter': config.signrequest.templates.headhunter_contract.url
 };
