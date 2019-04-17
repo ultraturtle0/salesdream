@@ -168,8 +168,14 @@ $(document).ready(() => {
         console.log(body);
         
         $.post(`http://${location.hostname}${port}/api/onboarding/`, body)
-            .done((res) => console.log(res))
-            .fail((err) => console.log(err));
+            .done((res) => {
+                res.error.forEach((err) => console.error(err));
+                res.message.forEach((msg) => console.log(msg));
+            })
+            .fail((err) => {
+                //PUT ERROR MODAL HERE
+                console.log(err);
+            });
     });
 
 });

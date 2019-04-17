@@ -99,12 +99,12 @@ var post = (req, response, next) => {
         Phone: body.Phone,
         Email: body.Email,
         // WHY DOESN'T THIS WANNA WORK? NO COLUMN LeadSource??
-        //LeadSource: body.AccountSource,
+        LeadSource: body.AccountSource
     };
 
     // optionals
     if (body.AccountSourceOther)
-        ContactBody['LeadSource_Other__c'] = body.AccountSourceOther;
+        ContactBody['Lead_Source_Other__c'] = body.AccountSourceOther;
          
     console.log(AccountBody);
     console.log(ContactBody);
@@ -124,22 +124,31 @@ var post = (req, response, next) => {
                 .update(AccountBody, function(err, rets) {
                     if (err) { 
                         console.error(err); 
-                        response.status(400).send(err);
+                        return response.status(400).send({ errors: [err] });
                     };
-                    console.log(rets[0].errors);
-                    console.log(rets[0]);
+                    if (rets[0].errors.length > 0) {
+                        console.log(`Error updating Account "${AccountBody.Name}":`);
+                        var sf_err = rets[0].errors;
+                        console.log(sf_err);
+                        return response.status(400).send({ errors: sf_err });
+                    }
                     
                     // update Contact
                     sf.conn.sobject("Contact")
                         .find({ Id: res[0].contactId })
                         .update(ContactBody, function(err, rets) {
-                            if (err) {
+                            if (err) { 
                                 console.error(err); 
-                                response.status(400).send(err);
+                                return response.status(400).send({ errors: [err] , message: ''});
                             };
-                            console.log(rets[0].errors);
-                            console.log(rets);
-                            response.status(200).send(rets);
+                            if (rets[0].errors.length > 0) {
+                                console.log(`Error updating Account "${AccountBody.Name}":`);
+                                var sf_err = rets[0].errors;
+                                console.log(sf_err);
+                                return response.status(400).send({ errors: sf_err, message: '' });
+                            }
+
+                            response.status(200).send({ errors: [], message: 'success' });
                         })
                 })
         }))
