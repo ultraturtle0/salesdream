@@ -31,19 +31,22 @@ $(document).ready(() => {
                     <td scope="row">${lead.Company}</td>
                     <td scope="row">${lead.Phone}</td>
                     <td scope="row">${lead.Email}</td>
+                    <td scope="row"><button type="button" class="btn btn-danger dismiss" data-toggle="modal" data-target="#dModal" data-index="${index}" data-name="${lead.Name}">Dismiss</button></td>
                     <td scope="row"><button type="button" class="btn btn-primary update" data-toggle="modal" data-target="#uModal" data-index="${index}" data-name="${lead.Name}">Update</button></td>
                 </tr>`)
             );
 
+            // CHANGE THIS - ONLY Preparer NEEDS A TEMPORARY OTHER BOX
             // populate all dropdown menus with Salesforce picklists
-            ['Referral', 'Preparer', 'Classification', 'BillingState'].forEach((select) => {
+            ['Account Source', 'Tax Preparer', 'Business Classification', 'BillingState', 'ShippingState'].forEach((select) => {
                 var lists = picklist[select] || [];
-                $('#' + select).html(
+                var id = select.replace(/\s+/g, '');
+                $('#' + id).html(
                     lists
                         .map(item => `
                             <option
                                 value="${item}"
-                                ${(['Software', 'Industry'].includes(item)) ? ' multiple' : ''}
+                                ${(['Software', 'Industries'].includes(item)) ? ' multiple' : ''}
                             >${item}</option>
                         `)
                         .join('\n')
@@ -51,29 +54,59 @@ $(document).ready(() => {
                     $(this).change(function () {
                         console.log($(this).val());
                         ($(this).val()==='Other') ?
-                            $(`#${select}OtherDiv`).show() :
-                            $(`#${select}OtherDiv`).hide();
+                            $(`#${id}OtherDiv`).show() :
+                            $(`#${id}OtherDiv`).hide();
                     });
                     return `
-                        <div id="${select + 'OtherDiv'}" style="display:none;">
-                            <label for="${select + 'Other'}">Other</label>
-                            <input type="text" id="${select + 'Other'}" name="${select + 'Other'}">
+                        <div id="${id + 'OtherDiv'}" style="display:none;">
+                            <label for="${id + 'Other'}">Other</label>
+                            <input type="text" id="${id + 'Other'}" name="${id + 'Other'}">
                         </div>
                     `
                 })
             });
-            ['Software', 'Industry'].forEach((select) => {
+
+            ['Account Source'].forEach((select) => {
+                var lists = picklist[select] || [];
+                var id = select.replace(/\s+/g, '');
+                $('#d' + id).html(
+                    lists
+                        .map(item => `
+                            <option value="${item}">${item}</option>
+                        `)
+                        .join('\n')
+                ).after(function () {
+                    $(this).change(function () {
+                        console.log($(this).val());
+                        ($(this).val()==='Other') ?
+                            $(`#d${id}OtherDiv`).show() :
+                            $(`#d${id}OtherDiv`).hide();
+                    });
+                    return `
+                        <div id="d${id + 'OtherDiv'}" style="display:none;">
+                            <label for="d${id + 'Other'}">Other</label>
+                            <input type="text" id="d${id + 'Other'}" name="d${id + 'Other'}">
+                        </div>
+                    `
+                });
+            });
+
+
+            ['Software', 'Industries'].forEach((select) => {
                 var lists = picklist[select] || [];
                 $('#' + select + '-div').append(
                     lists
-                        .map(item => `
+                        .map(item => {
+                        var str = `${select}-${item.replace(/[\s&:,]/g, '_')}`;
+                        return `
+                            </br>
                             <input type="checkbox"
-                                id="${select}-${item.replace(/\s/g, '_').replace(/&/g, '_')}"
-                                name="${select}-${item.replace(/\s/g, '_').replace(/&/g, '_')}"
+                                id="${str}"
+                                name="${str}"
                                 value="${item}">
                             <label class="form-check-label"
-                                for="${item.replace(/\s/g, '_')}">${item}</label>
-                        `)
+                                for="${str}">${item}</label>
+                        `})
                         .join('\n')
                 )
                 .after(`
@@ -89,10 +122,75 @@ $(document).ready(() => {
                 });
             });
 
+            $('#dReasons-div').append(
+                picklist['Reasons for Rejection']
+                    .map(item => {
+                        var str = `${'Reasons'}-${item.replace(/[\s&:,]/g, '_')}`;
+                        return `
+                            </br>
+                            <input type="checkbox"
+                                id="d${str}"
+                                name="d${str}"
+                                value="${item}">
+                            <label class="form-check-label"
+                                for="d${str}">${item}</label>
+                        `
+                    })
+                    .join('\n')
+                )
+                .after(`
+                    <div id="dReasonsOtherDiv"
+                        style="display:none;">
+                        <input type="text" id="dReasonsOther" name="dReasonsOther">
+                    </div>
+                `);
+                $(`#dReasons-Other`).change(function () {
+                    (this.checked) ?
+                        $(`#dReasonsOtherDiv`).show() :
+                        $(`#dReasonsOtherDiv`).hide();
+                });
+
+
+
             // add datepicker
             $('.datepicker').datepicker({
                 format: 'mm/dd/yyyy'
             });
+            /*$('.datepicker').on('change dp.change', function(e){
+                console.log($(this).data('date'));
+                $('#datepicker').val($(this).data('date'));
+            });
+            */
+
+
+            // add event handlers to each dismiss button
+            $('.dismiss').each(function () {
+                $(this).click(function () {
+                    var lead = leads[$(this).data('index')];
+                    var names = lead.Name.split(' ');
+                    lead.FirstName = names[0];
+                    lead.LastName = names[1]; 
+
+                    // populate known fields
+                    ['Id', 'FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) => $('#d' + field).val(lead[field]));
+
+                    ['AccountSource'].forEach((field) => {
+                        var value = lead[field + '__c'];
+                        var valueOther = lead[field + 'Other__c'];
+                        if (value) {
+                            $(`#d${field} option[value='${value}']`).prop('selected', true);
+                            if (value === 'Other') $(`#d${field}OtherDiv`).show();
+                        }
+                        $(`#d${field}Other`).val(valueOther || '');
+                    });
+
+
+                    $('#dModalLabel').text(`Sorry ${names[0]} didn't work out.`);
+                });
+
+            });
+
+
 
             // add event handlers to each update button
             $('.update').each(function () {
@@ -104,11 +202,11 @@ $(document).ready(() => {
 
 
                     // populate known fields
-                    ['Id', 'FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) =>
-                        $('#' + field).val(lead[field]));
+                    ['Id', 'FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) => $('#' + field).val(lead[field]));
+
 
                     // select known dropdown menus
-                    ['Referral', 'Preparer'].forEach((field) => {
+                    ['AccountSource', 'Preparer'].forEach((field) => {
                         var value = lead[field + '__c'];
                         var valueOther = lead[field + 'Other__c'];
                         if (value) {
@@ -119,7 +217,6 @@ $(document).ready(() => {
                     });
 
                     $('#uModalLabel').text(`Great, let's get ${names[0]} updated.`);
-
                 });
             });
 
@@ -132,25 +229,78 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
-        var fields = ['Id', 'FirstName', 'LastName', 'pastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'Referral', 'ReferralOther', 'Current', 'Preparer', 'PreparerOther', 'Email', 'Company', 'Title', 'BillingStreet','BillingCity','BillingState','BillingPostalCode', 'ShippingStreet','ShippingCity','ShippingState','ShippingPostalCode', 'Classification', 'Description'];
+        var fields = ['Id', 'FirstName', 'LastName', 'Company', 'Title', 'PastBookkeeper', 'Frequency', 'Hours', 'Rating', 'Phone', 'AccountSource', 'AccountSourceOther', 'TaxPreparer', 'TaxPreparerOther', 'Email', 'Company', 'Title', 'BillingStreet','BillingCity','BillingState','BillingPostalCode', 'ShippingStreet','ShippingCity','ShippingState','ShippingPostalCode', 'BusinessClassification', 'Description'];
         var body = {};
+        body['Converted'] = true;
         fields.forEach((field) => {
             var val = $('#' + field).val();
             val ? body[field] = val : false;
         });
+        body['Current'] = $('.datepicker').val();
 
         // for Salesforce, these need to be converted to a semicolon-separated string
-        ['Industry', 'Software'].forEach((cat) =>
+        ['Industries', 'Software'].forEach((cat) =>
             body[cat] = picklist[cat]
                 .reduce((acc, field) => {
-                    $(`#${cat}-${field.replace(/\s/g, '_').replace(/&/g, '_')}`).prop('checked') ? acc.concat(acc ? `; ${field}` : field) : false;
+                    var str = `#${cat}-${field.replace(/[\s&,:]/g, '_')}`;
+                    var checked = $(str).prop('checked');
+                    if (checked) 
+                        acc.push(field);
+                    console.log(acc);
                     return acc;
-                }, '')
+                }, [])
+                .join('; ')
         );
+
+        console.log(body);
         
         $.post(`http://${location.hostname}${port}/api/onboarding/`, body)
-            .done((res) => console.log(res))
-            .fail((err) => console.log(err));
+            .done((res) => {
+                res.error.forEach((err) => console.error(err));
+                res.message.forEach((msg) => console.log(msg));
+            })
+            .fail((err) => {
+                //PUT ERROR MODAL HERE
+                console.log(err);
+            });
     });
+
+    $('#dismiss').click(function (e) {
+        e.preventDefault();
+        var fields = ['Id', 'FirstName', 'LastName', 'Company', 'Phone', 'AccountSource', 'AccountSourceOther', 'Email', 'Company', 'Description', 'Reasons', 'ReasonsOther'];
+        var dbody = {};
+        dbody['Converted'] = false;
+
+
+        var cat = 'Reasons';
+        dbody[cat] = picklist['Reasons for Rejection']
+            .reduce((acc, field) => {
+                var str = `#d${cat}-${field.replace(/[\s&,:]/g, '_')}`;
+                var checked = $(str).prop('checked');
+                if (checked) 
+                    acc.push(field);
+                console.log(acc);
+                return acc;
+            }, [])
+            .join('; ');
+
+        fields.forEach((field) => {
+            var val = $('#d' + field).val();
+            val ? dbody[field] = val : false;
+        });
+        console.log(dbody);
+
+        $.post(`http://${location.hostname}${port}/api/onboarding/`, dbody)
+            .done((res) => {
+                res.error.forEach((err) => console.error(err));
+                res.message.forEach((msg) => console.log(msg));
+            })
+            .fail((err) => {
+                //PUT ERROR MODAL HERE
+                console.log(err);
+            });
+
+    });
+
 
 });

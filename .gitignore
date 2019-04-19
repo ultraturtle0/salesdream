@@ -4,3 +4,4 @@ config/env/
 config/env/emails/
 token.json
 gmail_token.json
+*.swo
