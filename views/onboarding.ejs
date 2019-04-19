@@ -175,6 +175,66 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Lead lost modal -->
+        <div class="modal fade" id="dModal" tabindex="-1" role="dialog" aria-labelledby="dModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dModalLabel"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form name="form">
+                            <input type="hidden" id="dId">
+                            <div class="form-group">
+                                <label for="dFirstName">First Name</label>
+                                <input type="text" id="dFirstName" name="dFirstName">
+                                <label for="dLastName">Last Name</label>
+                                <input type="text" id="dLastName" name="dLastName">
+                            </div>
+                            <div class="form-group">
+                                <label for="dCompany">Company</label>
+                                <input type="text" id="dCompany" name="dCompany">
+                            </div>
+                            <div class="form-group">
+                                <label for="dEmail">Email</label>
+                                <input type="text" id="dEmail" name="dEmail">
+                            </div>
+                            <div class="form-group">
+                                <label for="dPhone">Phone</label>
+                                <input type="text" id="dPhone" name="dPhone">
+                            </div>
+                            <div class="form-group">
+                                <label for="dDescription">Description</label>
+                                <textarea rows="5" id="dDescription" name="dDescription"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="dAccountSource">Who can we thank for referring us?</label>
+                                <select id="dAccountSource" name="dAccountSource">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div id="dReasons-div">
+                                    <label for="dReasons">Reason for dismissal:</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dReasons-Detail">Reason details:</label>
+                                <textarea rows="5" id="dReasons-Detail" name="dReasons-Detail"></textarea>
+                            </div>
+
+
+                            <button type="dismiss" id="dismiss" class="btn btn-danger">Dismiss</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
         <script
           src="http://code.jquery.com/jquery-3.3.1.min.js"
