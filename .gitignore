@@ -2,6 +2,6 @@
 node_modules/
 config/env/
 config/env/emails/
-token.json
+config/tokens/*.json
 gmail_token.json
 *.swo
