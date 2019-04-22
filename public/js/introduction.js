@@ -10,7 +10,6 @@ $(document).ready(() => {
 
     $.get(`http://${location.hostname}${port}/api/introduction/`)
         .done((data) => {
-            console.log(data);
             picklist = data.picklists;
             [
                 {id: 'Referral', field: 'Lead Source'},
@@ -18,13 +17,17 @@ $(document).ready(() => {
             ]
             .forEach((drop) =>
                 $(`#${drop.id}`).html(
-                    picklist[drop.field]
-                        .map(item => `
-                            <option
-                                value="${item}"
-                            >${item}</option>
-                        `)
-                        .join('\n')
+                    `<option
+                        disabled selected value></option>
+                    \n${
+                        picklist[drop.field]
+                            .map(item => `
+                                <option
+                                    value="${item}"
+                                >${item}</option>
+                            `) 
+                            .join('\n')
+                    }`
                 ).after(function () {
                     $(this).change(function () {
                         ($(this).val()==='Other') ?
@@ -38,7 +41,10 @@ $(document).ready(() => {
                         </div>
                     `
                 })
-            )
+            );
+            $('#loading').hide();
+            $('#form').show();
+
         });
 
     $('#submit').click(function (e) {
