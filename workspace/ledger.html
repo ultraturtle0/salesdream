@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<title>Card Ledger</title>
+	</head>
+	<body>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Card</th>
+					<th scope="col">Card Name</th>
+					<th scope="col">Type</th>
+					<th scope="col">Bank</th>
+					<th scope="col">Last 4 Digits</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">1</th>
+					<td><input type="text" id"CardName1" name="CardName1"></td>
+					<td><select name="CardType1">
+						<option value="debit">Debit</option>
+						<option value="credit">Crredit</option>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	        <form name="form" action="/api/ledger" method="post">
+			<div class="form-group">
+				<br>
+				&emsp;	<lavel>Card 1</Label>
+				<br>
+        		        &emsp;	<label for="CardName1">Card Name:</label>
+        		        &ensp;	<input type="text" id="CardName1" name="CardName1">
+        		        &emsp;	<label for="CardType1">Type:</label>
+				&ensp;	<select name="CardType1">
+						<option value="debit">Debit</option>
+						<option value="credit">Credit</option>
+					</select>
+				&emsp;	<label for="Bank1">Bank:<label>
+				&ensp;	<input type="text" id="Bank1" name="Bank1">
+				&emsp;	<label for="CardDigits1">Last 4 Digits:<label>
+				&ensp;	<input type="text" id="CardDigits1" name="CardDigits1">
+				&emsp;	<button type="button" id="add" class="btn btn-basic btn-sm">Add</button>
+				&ensp;	<button type="button" id="delete1" class="btn btn-default btn-sm">Delete</button>
+			</div>
+			<button type="submit" id="submit" class="btn btn-basic btn-block">Submit</button>
+        	</form>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="js/hiring.js"></script>
+	</body>
+</html>
+
+
