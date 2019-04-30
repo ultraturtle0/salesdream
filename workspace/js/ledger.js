@@ -21,9 +21,9 @@ $(document).ready(() => {
         newOtherRow(o);
     });
     $("#submit").click(function (h) {
- 		submit("#CardTable", "#BankTable", "#OtherTable", c, b, o, cards);
+    	var input = ["#CardTable", "#BankTable", "#OtherTable", c, b, o, cards];
+ 		submit(input);
     });
-    
 
 });
 
@@ -78,14 +78,14 @@ function newOtherRow(o) {
         <tr id="row${o}"> 
 			<th scope="row${o}">${o}</th>
 			<td><input type="text" id="OtherName${o}" name="OtherName${o}"></td>
-			<td><select name="BankType${o}">
+			<td><select name="OtherType${o}">
 				<option value="debit">Debit</option>
 				<option value="credit">Credit</option>
 			</td>
-			<td><input type="text" id="Bank${o}" name="Bank${o}"></td>
-			<td><input type="text" id="CardDigits${o}" name="CardDigits${o}"></td>
-			<td><input type="text" id="CardStatemtCycle${o}" name="CardStatementCycle${o}"></td>
-			<td><input type="text" id="CardLastReconciled${o}" name="CardLastReconciled${o}"></td>
+			<td><input type="text" id="OtherBank{o}" name="OtherBank${o}"></td>
+			<td><input type="text" id="OtherDigits${o}" name="OtherDigits${o}"></td>
+			<td><input type="text" id="OtherStatemtCycle${o}" name="OtherStatementCycle${o}"></td>
+			<td><input type="text" id="OtherLastReconciled${o}" name="OtherLastReconciled${o}"></td>
 			<td>&ensp;	<button type="button" id="delete${o}" class="btn btn-default btn-sm">Delete</button></td>
 		</tr> 
     `);
@@ -98,7 +98,7 @@ function submit(data) {
 	axios({
  		method: 'post',
 		url: '/api/needs',
-		data: body
+		data: cards
 	});
 	consol.log(cards);
 };
@@ -107,6 +107,7 @@ function fillarrays(data) {
 	for (i; i > 0; i--){
 		cards.push([["#CardName"i], ["#CardType"i], ["#CardBank"i], ["#CardStatementCycle"i], ["CardLastReconciled"i]]);
 	};
+	return cards;
 };
 
 
