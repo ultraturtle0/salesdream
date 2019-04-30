@@ -21,7 +21,13 @@ $(document).ready(() => {
         newOtherRow(o);
     });
     $("#submit").click(function (h) {
-    	var input = ["#CardTable", "#BankTable", "#OtherTable", c, b, o, cards];
+    	var input = {
+            fields: ["#CardTable", "#BankTable", "#OtherTable"],
+            cardIndex: c, 
+            bankIndex: b, 
+            otherIndex: o,
+            cards: cards
+        };
  		submit(input);
     });
 
@@ -94,20 +100,20 @@ function newOtherRow(o) {
     });
 };
 function submit(data) {
-	fillarrays(data)
+	var cardList = fillarrays(data);
 	axios({
  		method: 'post',
 		url: '/api/needs',
-		data: cards
+		data: cardList
 	});
-	consol.log(cards);
+	console.log(cardList);
 };
 function fillarrays(data) {
-	var i = c;
+	var i = data.cardIndex;
 	for (i; i > 0; i--){
-		cards.push([['#CardName${i}'], ['#CardType${i}'], ['#CardBank${i}'], ['#CardStatementCycle${i}'], ['#CardLastReconciled${i}']]);
+		data.cards.push([['#CardName${i}'], ['#CardType${i}'], ['#CardBank${i}'], ['#CardStatementCycle${i}'], ['#CardLastReconciled${i}']]);
 	};
-	return cards;
+	return data.cards;
 };
 
 
