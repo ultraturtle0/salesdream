@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <title>Quick Onboarding Form</title>
     </head>
     <body>
-        <form name="form" method="post">
+        <div class="text-center" id="loading">
+            <span class="spinner-border" role="status">
+            </span>
+            <span>Loading from Salesforce...</span>
+        </div>
+        <form name="form" id="introForm" style="display: none;" method="post">
             <div class="form-group">
                 <label for="FirstName">First Name</label>
                 <input type="text" id="FirstName" name="FirstName">
@@ -49,7 +54,10 @@
                 <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
             </div>
 
-            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="submit" class="btn btn-primary">
+                <span id="submitStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                <span id="buttonStatus">Submit</span>
+            </button>
         </form>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

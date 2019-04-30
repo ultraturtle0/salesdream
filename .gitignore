@@ -1,5 +1,6 @@
 *.swp
 node_modules/
+config/tokens/
 config/env/
 config/env/emails/
 token.json

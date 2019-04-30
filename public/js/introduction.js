@@ -11,6 +11,8 @@ $(document).ready(() => {
     $.get(`http://${location.hostname}${port}/api/introduction/`)
         .done((data) => {
             console.log(data);
+            $('#loading').hide();
+            $('#introForm').show();
             picklist = data.picklists;
             [
                 {id: 'Referral', field: 'Lead Source'},
@@ -43,17 +45,56 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
-        var fields = ['FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Referral', 'ReferralOther', 'Preparer', 'PreparerOther', 'Description'];
+        var fields = ['FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Referral', 'ReferralLength', 'Preparer', 'Description'];
+        var others = ['Referral', 'Preparer'];
 
         var body = {};
+        var invalid = [];
         fields.forEach((field) => {
             var val = $('#' + field).val();
-            val ? body[field] = val : false;
+            val ? body[field] = val : invalid.push('#' + field);
+        });
+        others.forEach((other) => {
+            var val = $('#' + other + 'Other').val();
+
+            if ($('#' + other).val() === 'Other')
+                (val) ?
+                body[other + 'Other'] = val :
+                invalid.push('#' + other + 'Other');
         });
 
+        console.log(invalid);
+        // add invalid handling here
+        if (invalid.length) return 0; 
+
+        $('#buttonStatus').text('Submitting...');
+        $('#submitStatus').show();
+
         $.post(`http://${location.hostname}${port}/api/introduction/`, body)
-            .done((res) => console.log(res))
-            .fail((err) => console.log(err));
+            .done((res) => {
+                $('#buttonStatus').text('Success!');
+                $('#submitStatus').hide();
+                $('#submit').toggleClass('btn-primary');
+                $('#submit').toggleClass('btn-success');
+                $('#submit').attr('disabled', true);
+            })
+            .fail((err) => {
+                $('#buttonStatus').text('Internal Error.');
+                $('#submitStatus').hide();
+                $('#submit')
+                    .toggleClass('btn-primary')
+                    .toggleClass('btn-danger')
+                    .attr('disabled', true)
+                    .after(err.responseJSON.errors.map((error) => `<span>${error}</span>`).join('\n'));
+                setTimeout(() => {
+                    $('#submit')
+                        .toggleClass('btn-danger')
+                        .toggleClass('btn-primary')
+                        .attr('disabled', false);
+                    $('#buttonStatus')
+                        .text('Submit');
+                }, 2000);
+            });
 
     });
 
