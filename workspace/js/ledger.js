@@ -105,7 +105,7 @@ function submit(data) {
 function fillarrays(data) {
 	var i = c;
 	for (i; i > 0; i--){
-		cards.push([["#CardName"i], ["#CardType"i], ["#CardBank"i], ["#CardStatementCycle"i], ["CardLastReconciled"i]]);
+		cards.push([['#CardName${i}'], ['#CardType${i}'], ['#CardBank${i}'], ['#CardStatementCycle${i}'], ['#CardLastReconciled${i}']]);
 	};
 	return cards;
 };
