@@ -24,6 +24,22 @@ $(document).ready(() => {
     	var input = ["#CardTable", "#BankTable", "#OtherTable", c, b, o, cards];
  		submit(input);
     });
+	function submit(data) {
+		fillarrays(data)
+		axios({
+ 			method: 'post',
+			url: '/api/needs',
+			data: cards
+		});
+	consol.log(cards);
+	};
+	function fillarrays(data) {
+		var i = input[3];
+		for (i; i > 0; i--){
+			cards.push([['#CardName${i}'], ['#CardType${i}'], ['#CardBank${i}'], ['#CardStatementCycle${i}'], ['#CardLastReconciled${i}']]);
+		};
+		return cards;
+	};
 
 });
 
@@ -38,6 +54,7 @@ function newCardRow(c) {
 			</td>
 			<td><input type="text" id="CardBank${c}" name="CardBank${c}"></td>
 			<td><input type="text" id="CardDigits${c}" name="CardDigits${c}"></td>
+			<td><input type="text" id="CardStatemtCycle${c}" name="CardStatementCycle${c}"></td>
 			<td><div class="input-group date" data-provide="datepicker">
 					<input type="text" class="form-control datepicker" id="CardStatementCycle${c}">
 					<div class="input-group-addon">
@@ -93,21 +110,4 @@ function newOtherRow(o) {
  		$('#row' + o).remove();
     });
 };
-function submit(data) {
-	fillarrays(data)
-	axios({
- 		method: 'post',
-		url: '/api/needs',
-		data: cards
-	});
-	consol.log(cards);
-};
-function fillarrays(data) {
-	var i = c;
-	for (i; i > 0; i--){
-		cards.push([['#CardName${i}'], ['#CardType${i}'], ['#CardBank${i}'], ['#CardStatementCycle${i}'], ['#CardLastReconciled${i}']]);
-	};
-	return cards;
-};
-
 
