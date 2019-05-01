@@ -68,6 +68,9 @@ module.exports = (app) => {
         .get(validate_token, forms['introduction'].get)
         .post(validate_token, forms['introduction'].post);
 
+    app.route('/api/ledger')
+        .post(forms['ledger'].post);
+
     app.route('/api/onboarding')
         .get(validate_token, forms['onboarding'].get)
         .post(validate_token, forms['onboarding'].post);

@@ -2,6 +2,7 @@ const passport = require('passport');
 var introduction = require('./API/introduction');
 var hiring = require('./API/hiring');
 var onboarding = require('./API/onboarding');
+var ledger = require('./API/ledger');
 
 var auth = passport.authenticate('local', {
     success_redirect: '/hiring',
@@ -14,6 +15,7 @@ module.exports = {
     onboarding: onboarding,
     introduction: introduction,
     hiring: hiring,
+    ledger: ledger,
 
     login: ((req, res) => res.render('login', { messages: req.flash('error') || req.flash('info') || 'default'})),
     auth: auth,
