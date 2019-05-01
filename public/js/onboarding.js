@@ -1,3 +1,11 @@
+const states = [
+     'CA','AL','AK','AS','AZ','AR','CO','CT','DE','DC','FM','FL','GA',
+     'GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA',
+     'MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND',
+     'MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT',
+     'VT','VI','VA','WA','WV','WI','WY'
+];
+
 $(document).ready(() => {
     var leads;
     var picklist;
@@ -13,21 +21,14 @@ $(document).ready(() => {
             console.log(data);
             leads = data.leads;
             picklist = data.picklists;
-            picklist.BillingState = [
-                'CA',
-                'WI'
-            ];
-            picklist.ShippingState = [
-                'CA',
-                'WI'
-            ];
-
+            picklist.BillingState = states;
+            picklist.ShippingState = states;
             $('#loading').hide();
 
             leads.forEach((lead, index) => 
                 $('#leads').append(`<tr>
                     <td scope="row">${moment(lead.CreatedDate).format('MMM Do, YYYY')}</td>
-                    <td scope="row">${lead.Name}</td>
+                    <td scope="row">${lead.FirstName} ${lead.LastName}</td>
                     <td scope="row">${lead.Company}</td>
                     <td scope="row">${lead.Phone}</td>
                     <td scope="row">${lead.Email}</td>
@@ -167,16 +168,15 @@ $(document).ready(() => {
             $('.dismiss').each(function () {
                 $(this).click(function () {
                     var lead = leads[$(this).data('index')];
-                    var names = lead.Name.split(' ');
-                    lead.FirstName = names[0];
-                    lead.LastName = names[1]; 
 
                     // populate known fields
                     ['Id', 'FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) => $('#d' + field).val(lead[field]));
 
-                    ['AccountSource'].forEach((field) => {
+                    ['LeadSource'].forEach((field) => {
                         var value = lead[field + '__c'];
                         var valueOther = lead[field + 'Other__c'];
+                        console.log(value);
+                        console.log(valueOther);
                         if (value) {
                             $(`#d${field} option[value='${value}']`).prop('selected', true);
                             if (value === 'Other') $(`#d${field}OtherDiv`).show();
@@ -185,7 +185,7 @@ $(document).ready(() => {
                     });
 
 
-                    $('#dModalLabel').text(`Sorry ${names[0]} didn't work out.`);
+                    $('#dModalLabel').text(`Sorry ${lead.FirstName} didn't work out.`);
                 });
 
             });
@@ -196,17 +196,13 @@ $(document).ready(() => {
             $('.update').each(function () {
                 $(this).click(function () {
                     var lead = leads[$(this).data('index')];
-                    var names = lead.Name.split(' ');
-                    lead.FirstName = names[0];
-                    lead.LastName = names[1]; 
-
 
                     // populate known fields
                     ['Id', 'FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description'].forEach((field) => $('#' + field).val(lead[field]));
 
 
                     // select known dropdown menus
-                    ['AccountSource', 'Preparer'].forEach((field) => {
+                    ['LeadSource', 'Preparer'].forEach((field) => {
                         var value = lead[field + '__c'];
                         var valueOther = lead[field + 'Other__c'];
                         if (value) {
@@ -216,7 +212,7 @@ $(document).ready(() => {
                         $(`#${field}Other`).val(valueOther || '');
                     });
 
-                    $('#uModalLabel').text(`Great, let's get ${names[0]} updated.`);
+                    $('#uModalLabel').text(`Great, let's get ${lead.FirstName} updated.`);
                 });
             });
 
@@ -256,8 +252,8 @@ $(document).ready(() => {
         
         $.post(`http://${location.hostname}${port}/api/onboarding/`, body)
             .done((res) => {
-                res.error.forEach((err) => console.error(err));
-                res.message.forEach((msg) => console.log(msg));
+                res.errors.forEach((err) => console.error(err));
+                res.messages.forEach((msg) => console.log(msg));
             })
             .fail((err) => {
                 //PUT ERROR MODAL HERE
@@ -292,8 +288,10 @@ $(document).ready(() => {
 
         $.post(`http://${location.hostname}${port}/api/onboarding/`, dbody)
             .done((res) => {
-                res.error.forEach((err) => console.error(err));
-                res.message.forEach((msg) => console.log(msg));
+                if ('error' in res)
+                    res.error.forEach((err) => console.error(err));
+                if ('message' in res)
+                    res.message.forEach((msg) => console.log(msg));
             })
             .fail((err) => {
                 //PUT ERROR MODAL HERE

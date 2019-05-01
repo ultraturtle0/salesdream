@@ -6,26 +6,47 @@ const config = require('../../config/config');
 var accessToken = config.surveymonkey.accessToken;
 
 var get = (req, res, next) => {
-    var sfQuery = {};
-    var sfOptions = {
-        sort: { CreatedDate: -1 }
+    var body = {
+        leads: [],
+        picklists: {},
+        messages: [],
+        errors: []
     };
     sf.login()
         .then(() => 
-            sf.conn.sobject("Lead").find({}).execute((err, leads) => {
-                var message = err ?
-                    'Error connecting to Salesforce database, please try again.'
-                    : (leads.length ? '' : 'No new leads, go get some!');
-                sf.conn.describe("Account", (err, account) => {
+            sf.conn.sobject("Lead")
+                .find({}, {
+                    Id: 1,
+                    Company: 1,
+                    CreatedDate: 1,
+                    Description: 1,
+                    Email: 1,
+                    FirstName: 1,
+                    LastName: 1,
+                    LeadSource: 1,
+                    Lead_Source_Other__c: 1,
+                    Phone: 1,
+                    Status: 1,
+                    Tax_Preparer_Other__c: 1,
+                    Tax_Preparer__c: 1
+                })
+                .sort({ CreatedDate: -1 }) 
+            
+                // find Leads
+                .execute()
+                .then((Leads) => {
+                    body.messages.push((Leads.length ? '' : 'No new leads, go get some!'));
+                    body.leads = Leads;
+                    console.log('GOT LEADS');
+                    console.log(Leads);
+                    return sf.conn.describe("Account");
+                })
 
-                    var picklists = {};
-                    var message = '';
-                    if (err) {
-                        message = 'Error retrieving picklist values.';
-                        return res.status(400).send({message, picklists});
-                    }; 
+                // load Account picklists
+                .then((account) => {
+                    console.log('GOT PICKLISTS');
                     ['Industries', 'Software', 'Business Classification', 'Account Source', 'Tax Preparer'].forEach((list) => 
-                        picklists[list] = account.fields
+                        body.picklists[list] = account.fields
                             .filter(field => (field.label === list))
                             .map(picklist => 
                                 picklist.picklistValues
@@ -33,51 +54,55 @@ var get = (req, res, next) => {
                                     .filter(value => (value !== 'N/A'))
                             )[0]
                     );
-                    
-                    sf.conn.describe("Contact", (err, contact) => {
-                        if (err) {
-                            message = 'Error retrieving picklist values.';
-                            return res.status(400).send({message, picklists});
-                        };
-                        ['Contact Source'].forEach((list) =>
-                            picklists[list] = contact.fields
-                                .filter(field => (field.label === list))
-                                .map(picklist => 
-                                    picklist.picklistValues
-                                        .map(value => value.label)
-                                )[0]
-                        ); 
+                    console.log(body.picklists);
+                    return sf.conn.describe("Contact");
+                })
 
-                        sf.conn.describe("Lead", (err, lead) => {
-                            if (err) {
-                                message = 'Error retrieving picklist values.';
-                                return res.status(400).send({message, picklists});
-                            };
-                            var list = 'Reasons for Rejection';
-                            picklists[list] = lead.fields
-                                .filter(field => (field.label === list))
-                                .map(picklist => 
-                                    picklist.picklistValues
-                                        .map(value => value.label)
-                                )[0];
+                // load Contact picklists
+                .then((contact) => {
+                    console.log('GOT CONTACT PICKLISTS');
+                    ['Contact Source'].forEach((list) =>
+                        body.picklists[list] = contact.fields
+                            .filter(field => (field.label === list))
+                            .map(picklist => 
+                                picklist.picklistValues
+                                    .map(value => value.label)
+                            )[0]
+                    ); 
+                    console.log(body.picklists);
 
-                            return res.send({ message, leads, picklists: picklists });
-                        });
+                    return sf.conn.describe("Lead");
+                })
 
-                    });
-                });
-            })
+                // load Lead picklists
+                .then((Lead) => {
+                    console.log('GOT LEADS');
+                    var list = 'Reasons for Rejection';
+                    body.picklists[list] = Lead.fields
+                        .filter(field => (field.label === list))
+                        .map(picklist => 
+                            picklist.picklistValues
+                                .map(value => value.label)
+                        )[0];
+                    console.log(body.picklists);
+
+                    return res.send(body);
+                })
+
+                .then(null, (err) => {
+                    console.log('ERROR CAUGHT');
+                    console.log(err);
+                    body.errors.push('Error connecting to Salesforce database.');
+                    response.status(400).send(body);
+                })
         );
-        /*(err) => {
-            console.log(err)
-                        });
-        });*/
 };
 
 var post = (req, response, next) => {
     console.log('Basic Client Onboarding completed.');
+
     var body = req.body;
-    if (body.Converted === true) {
+    if (body.Converted === 'true') {
         var AccountBody = {
             Name: body.Company,
             Phone: body.Phone,
@@ -123,55 +148,71 @@ var post = (req, response, next) => {
         if (body.AccountSourceOther)
             ContactBody['Lead_Source_Other__c'] = body.AccountSourceOther;
              
-        console.log(AccountBody);
-        console.log(ContactBody);
+        // console.log(AccountBody);
+        // console.log(ContactBody);
+
         sf.login()
             // stop all email reminders (Workflow)
-            .then(() => sf.conn.sobject("Lead").update({ Id: req.body.Id, Stop_Internal_Reminders__c: true })) 
-            .then(() => sf.conn.soap.convertLead([{
-                convertedStatus: 'Closed - Converted',
-                leadId: req.body.Id
-            }], (err, res) => {
-                if (err) return response.status(400).send(err);
-                console.log(res[0]);
-                //if (!res.success) return response.status(400).send({message: "Internal Salesforce error"});
-                // update Account
-                sf.conn.sobject("Account")
-                    .find({ Id: res[0].accountId })
-                    .update(AccountBody, function(err, rets) {
-                        if (err) { 
-                            console.error(err); 
-                            return response.status(400).send({ errors: [err] });
-                        };
-                        if (rets[0].errors.length > 0) {
-                            console.log(`Error updating Account "${AccountBody.Name}":`);
-                            var sf_err = rets[0].errors;
-                            console.log(sf_err);
-                            return response.status(400).send({ errors: sf_err });
-                        }
-                        
-                        // update Contact
-                        sf.conn.sobject("Contact")
-                            .find({ Id: res[0].contactId })
-                            .update(ContactBody, function(err, rets) {
-                                if (err) { 
-                                    console.error(err); 
-                                    return response.status(400).send({ errors: [err] , message: ''});
-                                };
-                                if (rets[0].errors.length > 0) {
-                                    console.log(`Error updating Account "${AccountBody.Name}":`);
-                                    var sf_err = rets[0].errors;
-                                    console.log(sf_err);
-                                    return response.status(400).send({ errors: sf_err, message: '' });
-                                }
+            .then(() => {
+                console.log('LEAD REMINDERS');
+                return sf.conn.sobject("Lead").update({ Id: req.body.Id, Stop_Internal_Reminders__c: true });
+                //(err) => response.status(400).send({ errors: ['Error authenticating Salesforce', err] })
+            }) 
 
-                                response.status(200).send({ errors: [], message: 'success' });
-                            })
-                    })
-            }));
+            // convert Lead
+            .then((res) => {
+                console.log('LEAD CONVERSION');
+                console.log(res);
+                if (res.errors.length)
+                    return response.status(400).send({ errors: ['Error stopping Lead reminders.', ...res[0].errors] });
+                return sf.conn.soap.convertLead([{
+                    convertedStatus: 'Closed - Converted',
+                    leadId: req.body.Id
+                }]);
+            })//, (err) => response.status(400).send({ errors: ['Internal error stopping Lead reminders.', err] }))
+
+            // update Account/Contact objects
+            .then((res) => {
+                console.log('ACCOUNT UPDATE');
+                console.log(res);
+                if ('errors' in res[0] && res[0].errors.length)
+                    return response.status(400).send({ errors: ['Error converting Lead.', ...res[0].errors] });
+                return sf.conn.sobject("Account")
+                    .find({ Id: res[0].accountId })
+                    .update(AccountBody);
+            })//, (err) => response.status(400).send({ errors: ['Internal error converting Lead.', err] }))
+
+            // update Contact
+            .then(res => {
+                console.log('CONTACT UPDATE');
+                console.log(res);
+                if ('errors' in res[0] && res[0].errors.length)
+                    return response.status(400).send({ errors: [`Error updating Account "${AccountBody.Name}`, ...res[0].errors] });
+                return sf.conn.sobject("Contact")
+                    .find({ Id: res[0].contactId })
+                    .update(ContactBody);
+            })//, (err) => response.status(400).send({ errors: [`Internal error updating Account "${AccountBody.Name}"`, err] }))
+
+            // return final success response
+            .then(res => {
+                console.log('RESPONSE RETURN');
+                console.log(res);
+                if ('errors' in res[0] && res[0].errors.length)
+                    return response.status(400).send({ errors: [`Error updating Contact "${ContactBody.Name}`, ...res[0].errors] });
+
+                return response.status(200).send({ errors: [], messages: ['success'] });
+
+            })
+            .then(null, (err) => {
+                console.log('Final ERROR: ');
+                console.log(err);
+                return response.status(400).send({ errors: ["Internal error.", err] });
+            });
     }
 
-    if (!body.Converted === false) {
+    // IF DISMISSAL
+    
+    else if (body.Converted === 'false') {
         var LeadBody = {
             //Stop_Internal_Reminders__c: true
             LeadSource: body.AccountSource,
@@ -187,32 +228,30 @@ var post = (req, response, next) => {
             Reason_Detail__c: body.ReasonsOther
         };
 
-        console.log(LeadBody);
-
         sf.login()
-            .then(() => sf.conn.sobject("Lead")
-                .find({ Id: body.Id })
-                .update(LeadBody, function(err, rets) {
-                    if (err) { 
-                        console.error(err); 
-                        return response.status(400).send({ errors: [err] , message: ''});
-                    };
-                    if (rets[0].errors.length > 0) {
-                        console.log(`Error updating Account "${LeadBody.FirstName}":`);
-                        var sf_err = rets[0].errors;
-                        console.log(sf_err);
-                        return response.status(400).send({ errors: sf_err || [], message: '' });
-                    }
+            .then(() => {
+                /*if (res[0].errors.length)
+                    return response.status(400).send({ errors: ['Error authenticating Salesforce', ...res[0].errors] });
+                 */
+                return sf.conn.sobject("Lead")
+                    .find({ Id: body.Id })
+                    .update(LeadBody);
+            })
+            .then((res) => {
+                if (res[0].errors.length)
+                    return response.status(400).send({ errors: ['Error converting Lead.', ...res[0].errors] });
+                return response.status(200).send({ errors: [], messages: ['success'] });
+            })
+            .then(null, (err) => {
+                console.log('Final ERROR: ');
+                console.log(err);
+                return response.status(400).send({ errors: ["Internal error.", err] });
+            });
+    }
 
-                    response.status(200).send({ errors: [], message: 'success' });
-                })
-
-            );
-
-        
-        //response.status(200).send({ errors: [], message: 'success' });
-    };
+    else return response.status(400).send({ errors: ['Error converting Lead - no conversion status received.']});
 
 };
+
 
 module.exports = { get, post };

@@ -34,6 +34,9 @@ var get = (req, res, next) => {
 var post = (req, res, next) => {
     console.log('Basic Client Introduction completed.');
     var body = req.body;
+
+    if ('ReferralLength' in body)
+        body.Description = body.Description.concat('\n', `${body.FirstName} has been with their current tax preparer for ${body.ReferralLength}.`);
     // PREPARER
     var sfbody = {
         FirstName: body.FirstName,
@@ -45,18 +48,13 @@ var post = (req, res, next) => {
         Lead_Source_Other__c: body.ReferralOther,
         Tax_Preparer__c: body.Preparer,
         Tax_Preparer_Other__c: body.PreparerOther,
-        //ReferralLength__c: body.ReferralLength,
-        Description: body.Description
+        Description__c: body.Description
     };
 
     sf.login()
         .then(() => sf.createObj(sf.conn, 'Lead', sfbody))
         .then(() => res.status(200).json({data: 'ok'}))
-        .catch((err) => {
-            console.log(err);
-            res.status(400).send(err);
-        });
-
+        .catch((err) => res.status(400).send({ errors: [err.errorCode] }));
 };
 
 module.exports = {
