@@ -48,7 +48,7 @@ var post = (req, res, next) => {
         Lead_Source_Other__c: body.ReferralOther,
         Tax_Preparer__c: body.Preparer,
         Tax_Preparer_Other__c: body.PreparerOther,
-        Description__c: body.Description
+        Description: body.Description
     };
 
     sf.login()
