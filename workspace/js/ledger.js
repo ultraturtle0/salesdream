@@ -12,34 +12,25 @@ $(document).ready(() => {
         c += 1;
         newCardRow(c);
     });
-	$("#addBank").click(function (f) {
+	$("#addBank").click(function (e) {
         b += 1;
         newBankRow(b);
     });
-    $("#addOther").click(function (g) {
+    $("#addOther").click(function (e) {
         o += 1;
         newOtherRow(o);
     });
-    $("#submit").click(function (h) {
-    	var input = ["#CardTable", "#BankTable", "#OtherTable", c, b, o, cards];
+    $("#submit").click(function (e) {
+    	e.preventDefault();
+    	var input = {
+            fields: ["#CardTable", "#BankTable", "#OtherTable"],
+            cardIndex: c, 
+            bankIndex: b, 
+            otherIndex: o,
+            cards: cards
+        };
  		submit(input);
     });
-	function submit(data) {
-		fillarrays(data)
-		axios({
- 			method: 'post',
-			url: '/api/needs',
-			data: cards
-		});
-	consol.log(cards);
-	};
-	function fillarrays(data) {
-		var i = input[3];
-		for (i; i > 0; i--){
-			cards.push([['#CardName${i}'], ['#CardType${i}'], ['#CardBank${i}'], ['#CardStatementCycle${i}'], ['#CardLastReconciled${i}']]);
-		};
-		return cards;
-	};
 
 });
 
@@ -48,13 +39,12 @@ function newCardRow(c) {
         <tr id="row${c}"> 
 			<th scope="row${c}">${c}</th>
 			<td><input type="text" id="CardName${c}" name="CardName${c}"></td>
-			<td><select name="CardType${c}">
+			<td><select name="CardType${c}" id="CardType${c}">
 				<option value="debit">Debit</option>
 				<option value="credit">Credit</option>
 			</td>
 			<td><input type="text" id="CardBank${c}" name="CardBank${c}"></td>
 			<td><input type="text" id="CardDigits${c}" name="CardDigits${c}"></td>
-			<td><input type="text" id="CardStatemtCycle${c}" name="CardStatementCycle${c}"></td>
 			<td><div class="input-group date" data-provide="datepicker">
 					<input type="text" class="form-control datepicker" id="CardStatementCycle${c}">
 					<div class="input-group-addon">
@@ -62,7 +52,13 @@ function newCardRow(c) {
 					</div>
 				</div>
 			</td>
-			<td><input type="text" id="CardLastReconciled${c}" name="CardLastReconciled${c}"></td>
+			<td><div class="input-group date" data-provide="datepicker">
+					<input type="text" class="form-control datepicker" id="CardLastReconciled${c}">
+					<div class="input-group-addon">
+						<span class="glyphicon glyphicon-th"></span>
+					</div>
+				</div>
+			</td>
 			<td>&ensp;	<button type="button" id="delete${c}" class="btn btn-default btn-sm">Delete</button></td>
 		</tr> 
     `);
@@ -75,14 +71,26 @@ function newBankRow(b) {
         <tr id="row${b}"> 
 			<th scope="row${b}">${b}</th>
 			<td><input type="text" id="BankName${b}" name="BankName${b}"></td>
-			<td><select name="BankType${b}">
+			<td><select name="BankType${b}" id=BankType${b}>
 				<option value="debit">Debit</option>
 				<option value="credit">Credit</option>
 			</td>
 			<td><input type="text" id="Bank${b}" name="Bank${b}"></td>
 			<td><input type="text" id="CardDigits${b}" name="CardDigits${b}"></td>
-			<td><input type="text" id="CardStatemtCycle${b}" name="CardStatementCycle${b}"></td>
-			<td><input type="text" id="CardLastReconciled${b}" name="CardLastReconciled${b}"></td>
+			<td><div class="input-group date" data-provide="datepicker">
+					<input type="text" class="form-control datepicker" id="BankStatementCycle${b}">
+					<div class="input-group-addon">
+						<span class="glyphicon glyphicon-th"></span>
+					</div>
+				</div>
+			</td>
+			<td><div class="input-group date" data-provide="datepicker">
+					<input type="text" class="form-control datepicker" id="BankLastReconciled${b}">
+					<div class="input-group-addon">
+						<span class="glyphicon glyphicon-th"></span>
+					</div>
+				</div>
+			</td>
 			<td>&ensp;	<button type="button" id="delete${b}" class="btn btn-default-sm">Delete</button></td>
 		</tr> 
     `);
@@ -95,14 +103,26 @@ function newOtherRow(o) {
         <tr id="row${o}"> 
 			<th scope="row${o}">${o}</th>
 			<td><input type="text" id="OtherName${o}" name="OtherName${o}"></td>
-			<td><select name="OtherType${o}">
+			<td><select name="OtherType${o}" id="OtherType${o}">
 				<option value="debit">Debit</option>
 				<option value="credit">Credit</option>
 			</td>
 			<td><input type="text" id="OtherBank{o}" name="OtherBank${o}"></td>
 			<td><input type="text" id="OtherDigits${o}" name="OtherDigits${o}"></td>
-			<td><input type="text" id="OtherStatemtCycle${o}" name="OtherStatementCycle${o}"></td>
-			<td><input type="text" id="OtherLastReconciled${o}" name="OtherLastReconciled${o}"></td>
+			<td><div class="input-group date" data-provide="datepicker">
+					<input type="text" class="form-control datepicker" id="OtherStatementCycle${o}">
+					<div class="input-group-addon">
+						<span class="glyphicon glyphicon-th"></span>
+					</div>
+				</div>
+			</td>
+			<td><div class="input-group date" data-provide="datepicker">
+					<input type="text" class="form-control datepicker" id="OtherLastReconciled${o}">
+					<div class="input-group-addon">
+						<span class="glyphicon glyphicon-th"></span>
+					</div>
+				</div>
+			</td>
 			<td>&ensp;	<button type="button" id="delete${o}" class="btn btn-default btn-sm">Delete</button></td>
 		</tr> 
     `);
@@ -110,4 +130,50 @@ function newOtherRow(o) {
  		$('#row' + o).remove();
     });
 };
+function submit(data) {
+	var inputData = fillarrays(data);
+	$.post("/api/needs",inputData);
+};
+function fillarrays(data) {
+	var i = data.cardIndex;
+	var j = data.bankIndex;
+	var k = data.otherIndex;
+	var cardInfo = [];
+	var bankInfo = [];
+	var otherInfo = [];
+	for (i; i > 0; i--) {
+		var cardFields = {};
+		['CardName', 'CardType', 'CardBank', 'CardStatementCycle', 'CardLastReconciled'].forEach((field) => {
+			cardFields[field] = ($(`#${field}${i}`).val());
+		});
+		cardInfo.push(cardFields);
+	};
+	for (j; j > 0; j--) {
+		var bankFields = {};
+		['BankName', 'BankType', 'Bank', 'BankStatementCycle', 'BankLastReconciled'].forEach((field) => {
+			bankFields[field] = ($(`#${field}${j}`).val());
+		});
+		bankInfo.push(bankFields);
+	};
+		for (k; k > 0; k--) {
+		var otherFields = {};
+		['OtherName', 'OtherType', 'OtherBank', 'OtherStatementCycle', 'OtherLastReconciled'].forEach((field) => {
+			otherFields[field] = ($(`#${field}${k}`).val());
+		});
+		otherInfo.push(otherFields);
+	};
+	console.log(cardInfo);
+	//console.log(bankInfo);
+	//console.log(otherInfo);
+	var inputData = {
+		cardInfo,
+		bankInfo,
+		otherInfo
+	}
+	return inputData;
+};
+
+//fix errors
+//make blank rows not work
+//fix spacing 
 
