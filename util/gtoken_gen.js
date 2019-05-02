@@ -28,26 +28,30 @@ async function hi() {
             },
             fields: 'spreadsheetId'
         }, (err, res) => {
-            var spreadsheet = res.data;
             if (err) {
                 // Handle error.
                 console.log(err);
             } else {
+                var spreadsheet = res.data;
+                console.log(res.data);
                 drive.files.get({
                     fileId:spreadsheet.spreadsheetId,
                     fields: 'parents'
-                })
-                .then((file) =>
+                }, (err, file) => {
+                    var parents = file.data.parents
+                        .map((parent) => parent.id)
+                        .join(',');
+                
 
                 drive.files.update({
                     fileId: spreadsheet.spreadsheetId,
                     addParents: '1dy7j2LkWtrY-IMF7GBgFbEgMCwEU5pLu',
-                    removeParents: file.data.parents.join(','),
+                    removeParents: parents,
                     fields: 'id, parents'
                 }, (err, file) => {
                     if (err) console.log(err)
-                    else console.log(file)
-                }));
+                    else console.log(file);
+                })});
 
 
 
