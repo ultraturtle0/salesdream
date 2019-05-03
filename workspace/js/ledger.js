@@ -22,6 +22,7 @@ $(document).ready(() => {
     });
     $("#submit").click(function (e) {
     	e.preventDefault();
+    	$(this).attr("disabled", true);
     	var input = {
             fields: ["#CardTable", "#BankTable", "#OtherTable"],
             cardIndex: c, 
@@ -36,7 +37,7 @@ $(document).ready(() => {
 
 function newCardRow(c) {
 	$('#CardTable tbody').append(`
-        <tr id="row${c}"> 
+        <tr id="cardrow${c}"> 
 			<th scope="row${c}">${c}</th>
 			<td><input type="text" id="CardName${c}" name="CardName${c}"></td>
 			<td><select name="CardType${c}" id="CardType${c}">
@@ -59,16 +60,16 @@ function newCardRow(c) {
 					</div>
 				</div>
 			</td>
-			<td>&ensp;	<button type="button" id="delete${c}" class="btn btn-default btn-sm">Delete</button></td>
+			<td>&ensp;	<button type="button" id="carddelete${c}" class="btn btn-default btn-sm">Delete</button></td>
 		</tr> 
     `);
-    $('#delete' + c).click(function (e) {
- 		$('#row' + c).remove();
+    $('#carddelete' + c).click(function (e) {
+ 		$('#cardrow' + c).remove();
     });
 };
 function newBankRow(b) {
 	$('#BankTable tbody').append(`
-        <tr id="row${b}"> 
+        <tr id="bankrow${b}"> 
 			<th scope="row${b}">${b}</th>
 			<td><input type="text" id="BankName${b}" name="BankName${b}"></td>
 			<td><select name="BankType${b}" id=BankType${b}>
@@ -91,16 +92,16 @@ function newBankRow(b) {
 					</div>
 				</div>
 			</td>
-			<td>&ensp;	<button type="button" id="delete${b}" class="btn btn-default-sm">Delete</button></td>
+			<td>&ensp;	<button type="button" id="bankdelete${b}" class="btn btn-default btn-sm">Delete</button></td>
 		</tr> 
     `);
-    $('#delete' + b).click(function (f) {
- 		$('#row' + b).remove();
+    $('#bankdelete' + b).click(function (f) {
+ 		$('#bankrow' + b).remove();
     });
 };
 function newOtherRow(o) {
 	$('#OtherTable tbody').append(`
-        <tr id="row${o}"> 
+        <tr id="otherrow${o}"> 
 			<th scope="row${o}">${o}</th>
 			<td><input type="text" id="OtherName${o}" name="OtherName${o}"></td>
 			<td><select name="OtherType${o}" id="OtherType${o}">
@@ -123,16 +124,23 @@ function newOtherRow(o) {
 					</div>
 				</div>
 			</td>
-			<td>&ensp;	<button type="button" id="delete${o}" class="btn btn-default btn-sm">Delete</button></td>
+			<td>&ensp;	<button type="button" id="otherdelete${o}" class="btn btn-default btn-sm">Delete</button></td>
 		</tr> 
     `);
-    $('#delete' + o).click(function (g) {
- 		$('#row' + o).remove();
+    $('#otherdelete' + o).click(function (g) {
+ 		$('#otherrow' + o).remove();
     });
 };
 function submit(data) {
 	var inputData = fillarrays(data);
-	$.post("/api/needs",inputData);
+	$.post("/api/needs",inputData)
+		.done((res) => {
+			console.log(res.data.messages);
+		})
+		.fail((err) => {
+			console.error(err);
+		});
+
 };
 function fillarrays(data) {
 	var i = data.cardIndex;
@@ -142,29 +150,50 @@ function fillarrays(data) {
 	var bankInfo = [];
 	var otherInfo = [];
 	for (i; i > 0; i--) {
-		var cardFields = {};
-		['CardName', 'CardType', 'CardBank', 'CardStatementCycle', 'CardLastReconciled'].forEach((field) => {
-			cardFields[field] = ($(`#${field}${i}`).val());
-		});
-		cardInfo.push(cardFields);
+		if ($(`#CardName${i}`).val() ||
+			$(`#CardBank${i}`).val() ||
+			$(`#CardStatementCycle${i}`).val() || 
+			$(`#CardLastReconciled${i}`).val()) {
+				var cardFields = {};
+				['CardName', 'CardType', 'CardBank', 'CardStatementCycle', 'CardLastReconciled'].forEach((field) => {
+					cardFields[field] = ($(`#${field}${i}`).val());
+				});			
+				cardInfo.push(cardFields);
+		} else {
+
+		};
 	};
 	for (j; j > 0; j--) {
-		var bankFields = {};
-		['BankName', 'BankType', 'Bank', 'BankStatementCycle', 'BankLastReconciled'].forEach((field) => {
-			bankFields[field] = ($(`#${field}${j}`).val());
-		});
-		bankInfo.push(bankFields);
+		if ($(`#BankName${j}`).val() || 
+			$(`#Bank${j}`).val() || 
+			$(`#BankStatementCycle${j}`).val() || 
+			$(`#BankLastReconciled${j}`).val()) {
+				var bankFields = {};
+				['BankName', 'BankType', 'Bank', 'BankStatementCycle', 'BankLastReconciled'].forEach((field) => {
+					bankFields[field] = ($(`#${field}${j}`).val());
+				});
+				bankInfo.push(bankFields);
+		} else {
+
+		};
 	};
 		for (k; k > 0; k--) {
-		var otherFields = {};
-		['OtherName', 'OtherType', 'OtherBank', 'OtherStatementCycle', 'OtherLastReconciled'].forEach((field) => {
-			otherFields[field] = ($(`#${field}${k}`).val());
-		});
-		otherInfo.push(otherFields);
+			if ($(`#OtherName${k}`).val() || 
+			$(`#OtherBank${k}`).val() || 
+			$(`#OtherStatementCycle${k}`).val() || 
+			$(`#OtherLastReconciled${k}`).val()) {
+				var otherFields = {};
+				['OtherName', 'OtherType', 'OtherBank', 'OtherStatementCycle', 'OtherLastReconciled'].forEach((field) => {
+					otherFields[field] = ($(`#${field}${k}`).val());
+				});
+				otherInfo.push(otherFields);
+			} else {
+
+			};
 	};
 	console.log(cardInfo);
-	//console.log(bankInfo);
-	//console.log(otherInfo);
+	console.log(bankInfo);
+	console.log(otherInfo);
 	var inputData = {
 		cardInfo,
 		bankInfo,
