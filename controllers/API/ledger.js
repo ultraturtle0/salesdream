@@ -6,6 +6,7 @@ const { google } = require('googleapis');
 // load token by Promise
 const gauth = require('../../util/google_token');
 
+var gen_ledger = (ledger) => [[...Array(5).keys()], [...Array(5).keys()]];
 
 var post = (req, res, next) => {
     console.log("Ledger generation requested.");
@@ -28,6 +29,23 @@ var post = (req, res, next) => {
                     console.log(err);
                 } else {
                     var spreadsheet = response.data;
+                    var values = gen_ledger(req.body);
+                    console.log(values);
+                    sheets.spreadsheets.values.update({
+                        spreadsheetId: response.data.spreadsheetId,
+                        range: 'Sheet1!1:5',
+                        valueInputOption: 'USER_ENTERED',
+                        resource: {
+                            values
+                        }
+                    }, (err, result) => {
+                          if (err) {
+                                   console.log(err);
+                                     } else {
+                                         console.log(result);
+                                         console.log('%d cells updated.', result.updatedCells);
+                                           }
+                                           });
                     console.log(response.data);
                 };
                 return res.send({ message: 'received' });
