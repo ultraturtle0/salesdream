@@ -1,4 +1,4 @@
-{ ledger } = require('./API/toolkit');
+var { ledger } = require('./API/toolkit');
 
 module.exports = {
     post: ledger.post
