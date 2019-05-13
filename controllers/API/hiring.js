@@ -66,6 +66,8 @@ module.exports = (req, res, next) => {
     var contract = new SignrequestClient.SignRequestQuickCreate();
 
     contract.from_email = config.signrequest.email;
+    // emails disabled until we can figure out how to prevent an email to the contractor if "declined"
+    contract.disable_emails = true;
     contract.who = 'o';
     contract.signers = [
         {
