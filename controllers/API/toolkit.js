@@ -10,22 +10,21 @@ const gauth = require('../../util/google_token');
 
 var ledger_post = (req, res, next) => {
     console.log("Ledger generation requested.");
-    var ledger = req.body;
+    var { cardInfo, bankInfo, otherInfo } = req.body;
 
-    var ledger_sheet = ['Bank', 'Card', 'Other'].map((type) => 
-        [
-            ['', 'LastReconciled','Name', 'StatementCycle', 'Type'].map(
-                (field) => ledger[type.toLowerCase() + 'Info'].map(
-                    (cat) => [cat[type + field]]
-                )
-                //(field) => ledger[type.toLowerCase() + 'Info'][type + field]
-            ),
-            ['','','','','']
-        ]);
-    
-    console.log(ledger_sheet);
+    var ledger_sheet = [];
+    cardInfo.forEach((cat) => 
+        ledger_sheet.push(['CardName', 'CardType', 'CardBank', 'CardStatementCycle', 'CardLastReconciled'].map((field) => cat[field])));
+    ledger_sheet.push(['','','','','']);
 
-/*
+    bankInfo.forEach((cat) => 
+        ledger_sheet.push(['BankName', 'BankType', 'Bank', 'BankStatementCycle', 'BankLastReconciled'].map((field) => cat[field])));
+        ledger_sheet.push(['','','','','']);
+
+    otherInfo.forEach((cat) => 
+        ledger_sheet.push(['OtherName', 'OtherType', '', 'OtherStatementCycle', 'OtherLastReconciled'].map((field) => cat[field] || '')));
+        ledger_sheet.push(['','','','','']);
+
     // access Google APIs on behalf of gswfp
     gauth('gswfp@gswfinancialpartners.com')
         .then((auth) => {
@@ -33,7 +32,7 @@ var ledger_post = (req, res, next) => {
             sheets.spreadsheets.create({
                 resource: {
                     properties: {
-                        title: 'A WHOLE NEW sheet!' 
+                        title: 'test sheet!' 
                     }
                 },
                 fields: 'spreadsheetId'
@@ -42,35 +41,29 @@ var ledger_post = (req, res, next) => {
                     // Handle error.
                     console.log(err);
                 } else {
-                    var spreadsheet = response.data;
-                    var values = gen_ledger(req.body);
-                    console.log(values);
                     sheets.spreadsheets.values.update({
                         spreadsheetId: response.data.spreadsheetId,
-                        range: 'Sheet1!1:5',
+                        range: `Sheet1!1:${ledger_sheet.length}`,
                         valueInputOption: 'USER_ENTERED',
                         resource: {
-                            values
+                            values: ledger_sheet
                         }
                     }, (err, result) => {
-                          if (err) {
-                                   console.log(err);
-                                     } else {
-                                         console.log(result);
-                                         console.log('%d cells updated.', result.updatedCells);
-                                           }
-                                           });
+                          if (err) console.log(err)
+                              else {
+                                  console.log(result);
+                                  console.log('%d cells updated.', result.updatedCells);
+                              }
+                    });
                     console.log(response.data);
                 };
-                return res.send({ message: 'received' });
+                return res.send({ messages: 'received' });
             });
         })
         .catch((err) => {
             console.log(err);
-            return res.send({ message: 'received' });
+            return res.send({ messages: 'received' });
         });
-        */
-    return res.send('ok');
 }
 
 /*
