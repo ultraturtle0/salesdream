@@ -6,11 +6,29 @@ const { google } = require('googleapis');
 // load token by Promise
 const gauth = require('../../util/google_token');
 
-//var gen_ledger = (ledger) => [[...Array(5).keys()], [...Array(5).keys()]];
+var ledger_get = (req, res, next) => {
+    var body = {};
+    sf.login()
+        .then(() =>
+            sf.conn.sobject("Account")
+                .find({}, {
+                    Id: 1,
+                    Name: 1
+                })
+                .sort({ CreatedDate: -1 })
+                .execute()
+                .then((Accounts) => {
+                    body.accounts = Accounts;
+                    return res.send(body);
+                }, (err) => 
+                    res.status(400).send({ messages: ['error retrieving accounts from Salesforce', err] })
+                )
+        );
+}
 
 var ledger_post = (req, res, next) => {
     console.log("Ledger generation requested.");
-    var { cardInfo, bankInfo, otherInfo } = req.body;
+    var { cardInfo, bankInfo, otherInfo, name } = req.body;
 
     var ledger_sheet = [];
     cardInfo.forEach((cat) => 
@@ -32,7 +50,7 @@ var ledger_post = (req, res, next) => {
             sheets.spreadsheets.create({
                 resource: {
                     properties: {
-                        title: 'test sheet!' 
+                        title: name + ' Account Ledger' 
                     }
                 },
                 fields: 'spreadsheetId'
@@ -111,6 +129,7 @@ var ledger_post = (req, res, next) => {
 
 module.exports = {
     ledger: {
+        get: ledger_get,
         post: ledger_post
     }
 };
