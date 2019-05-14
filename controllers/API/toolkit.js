@@ -46,38 +46,48 @@ var ledger_post = (req, res, next) => {
     // access Google APIs on behalf of gswfp
     gauth('gswfp@gswfinancialpartners.com')
         .then((auth) => {
-            sheets = google.sheets({version: 'v4', auth });
-            sheets.spreadsheets.create({
+            const sheets = google.sheets({version: 'v4', auth });
+            const drive = google.drive({version: 'v3', auth });
+            // create new spreadsheet
+            return sheets.spreadsheets.create({
                 resource: {
                     properties: {
                         title: name + ' Account Ledger' 
                     }
                 },
                 fields: 'spreadsheetId'
-            }, (err, response) => {
-                if (err) {
-                    // Handle error.
-                    console.log(err);
-                } else {
-                    sheets.spreadsheets.values.update({
-                        spreadsheetId: response.data.spreadsheetId,
-                        range: `Sheet1!1:${ledger_sheet.length}`,
-                        valueInputOption: 'USER_ENTERED',
-                        resource: {
-                            values: ledger_sheet
-                        }
-                    }, (err, result) => {
-                          if (err) console.log(err)
-                              else {
+            })
+            .then((response) => 
+                // update cells in sheet
+                sheets.spreadsheets.values.update({
+                    spreadsheetId: response.data.spreadsheetId,
+                    range: `Sheet1!1:${ledger_sheet.length}`,
+                    valueInputOption: 'USER_ENTERED',
+                    resource: {
+                        values: ledger_sheet
+                    }
+                })
+                // find sheet using drive API
+                .then((sheet) => drive.files.get({
+                    fileId: response.data.spreadsheetId,
+                    fields: 'id, parents'
+                }))
+                .then((sheet) => {
+                    console.log(sheet);
+                    return drive.files.update({
+                        fileId: sheet.data.id,
+                        addParents: config.g_drive.folders.client_files,
+                        removeParents: sheet.data.parents.join(','),
+                              /*else {
                                   console.log(result);
                                   console.log('%d cells updated.', result.updatedCells);
-                              }
+                              }*/
+                        fields: 'id'
                     });
-                    console.log(response.data);
-                };
-                return res.send({ messages: 'received' });
-            });
+                })
+            );
         })
+        .then((file) => res.send({ messages: 'received' }))
         .catch((err) => {
             console.log(err);
             return res.send({ messages: 'received' });
