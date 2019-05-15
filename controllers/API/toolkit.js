@@ -73,17 +73,41 @@ var ledger_post = (req, res, next) => {
                     fields: 'id, parents'
                 }))
                 .then((sheet) => {
-                    console.log(sheet);
-                    return drive.files.update({
-                        fileId: sheet.data.id,
-                        addParents: config.g_drive.folders.client_files,
-                        removeParents: sheet.data.parents.join(','),
-                              /*else {
-                                  console.log(result);
-                                  console.log('%d cells updated.', result.updatedCells);
-                              }*/
-                        fields: 'id'
-                    });
+                    // check for specific client folder
+                    console.log('do we get here?');
+                    return drive.files.list({
+                        q: `name='${name} Files' and '${config.g_drive.folders.client_files}' in parents`,
+                        fields: 'files(id)'
+                    })
+                    .then((folder) => {
+                        console.log('how about here?');
+                        const files = folder.data.files;
+                        console.log(files);
+                        var cb = (client) => {
+                            console.log('or this one.');
+                            console.log(client);
+                            return drive.files.update({
+                                fileId: sheet.data.id,
+                                addParents: client.data.id,
+                                removeParents: sheet.data.parents.join(','),
+                                fields: 'id'
+                            })};
+                        if (!folder.data.files.length) {
+                            console.log('ok, maybe here?');
+                            // STILL NOT PUTTING IN CLIENT FILES FOLDER. HM
+                            return drive.files.create({
+                                resource: {
+                                    'name': name + ' Files',
+                                    'mimeType': 'application/vnd.google-apps.folder',
+                                    'parents': [config.g_drive.folders.client_files]
+                                },
+                                fields: 'id'
+                            })
+                            .then(cb);
+                        } else {
+                            return cb({data: files[0]});
+                        }
+                    })
                 })
             );
         })
