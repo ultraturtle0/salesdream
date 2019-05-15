@@ -9,7 +9,14 @@ const { google } = require('googleapis');
 const fs = require('fs');
 
 // MOVE THIS TO CONFIG FILE
-const scopes = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"];
+const scopes = [
+    // Google Docs - spreadsheets
+    "https://www.googleapis.com/auth/spreadsheets",
+    // Google Drive - full access
+    "https://www.googleapis.com/auth/drive",
+    // Google Calendar - read only
+    //'https://www.googleapis.com/auth/calendar.readonly'
+];
 
 var loadToken = (subject) => 
     //const token = JSON.parse(fs.readFileSync(FULL_PATH, 'utf8'));
