@@ -76,7 +76,7 @@ var ledger_post = (req, res, next) => {
                     // check for specific client folder
                     console.log('do we get here?');
                     return drive.files.list({
-                        q: `name='${name} Files' and '${config.g_drive.folders.client_files}' in parents`,
+                        q: `(name='${name} Files') and ('${config.g_drive.folders.client_files}' in parents)`,
                         fields: 'files(id)'
                     })
                     .then((folder) => {
