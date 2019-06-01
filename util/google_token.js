@@ -15,12 +15,13 @@ const fs = require('fs');
 // MOVE THIS TO CONFIG FILE
 const scopes = [
     // Google Docs - spreadsheets
-    "https://www.googleapis.com/auth/spreadsheets",
+    //"https://www.googleapis.com/auth/spreadsheets",
     // Google Drive - full access
-    "https://www.googleapis.com/auth/drive",
+    //"https://www.googleapis.com/auth/drive",
     // Google Calendar - read only
     //'https://www.googleapis.com/auth/calendar.readonly'
-];
+    "https://www.googleapis.com/auth/gmail.send"
+].join(' ');;
 
 var loadToken = (app, subject) => 
     //const token = JSON.parse(fs.readFileSync(FULL_PATH, 'utf8'));
@@ -50,7 +51,7 @@ var genToken = (app, subject) => {
             fs.writeFileSync(TOKEN_ROOT + app + '.json', JSON.stringify(tokens));
             console.log('token generated');
             console.log(tokens);
-            return loadToken(subject);
+            return loadToken(app, subject);
         })   
         .catch((err) => {
             console.log("Error authorizing Google API token:");

@@ -1,8 +1,14 @@
 var sf = require('../../apps/salesforce');
 var axios = require('axios');
 const config = require('../../config/config');
+const LinkSchema = require('mongoose').model('Link');
+const surveyEmail = require('../../config/emails/questionnaire');
+const uuid = require('uuid/v4');
 
 var accessToken = config.surveymonkey.accessToken;
+
+const { google } = require('googleapis');
+const gauth = require('../../util/google_token');
 
 var get = (req, res, next) => {
     sf.login()
@@ -24,7 +30,6 @@ var get = (req, res, next) => {
                                 .filter(value => (value !== 'N/A'))
                         )[0]
                 );
-                console.log(picklists);
                 
                 return res.send({ message, picklists });
             })
@@ -34,6 +39,7 @@ var get = (req, res, next) => {
 var post = (req, res, next) => {
     console.log('Basic Client Introduction completed.');
     var body = req.body;
+    console.log(body);
 
     if ('ReferralLength' in body)
         body.Description = body.Description.concat('\n', `${body.FirstName} has been with their current tax preparer for ${body.ReferralLength}.`);
@@ -51,11 +57,51 @@ var post = (req, res, next) => {
         Description: body.Description
     };
 
-    sf.login()
+
+    /*sf.login()
         .then(() => sf.createObj(sf.conn, 'Lead', sfbody))
-        .then(() => res.status(200).json({data: 'ok'}))
-        .catch((err) => res.status(400).send({ errors: [err.errorCode] }));
+        ///////////////////////////////////////////////////////
+        // generate questionnaire link and send
+        .then((lead) => {
+        */
+        var Link;
+            if (body.questionnaire === 'true') {
+                console.log("we're in");
+                Link = new LinkSchema({
+                    salesforce: uuid(), //lead.id,
+                    email: body.Email
+                });
+            } else {
+                res.status(200).send({data: 'ok'});
+            }
+    
+        Link.save()
+        .then((link) => 
+            gauth('emailer', 'gswfp@gswfinancialpartners.com')
+                .then((auth) => 
+                    google.gmail({
+                        version: 'v1',
+                        auth
+                    })
+                    .users.messages.send({
+                        userId: 'me',
+                        requestBody: {
+                            raw: surveyEmail({
+                                FirstName: body.FirstName,
+                                LastName: body.LastName,
+                                Email: body.Email,
+                                // MAKE SURE THIS IS HTTPS LATER
+                                link: `http://${req.get('host')}/survey/${link._id}/`
+                            })
+                        }
+                    })
+                )
+                .then((email) => res.status(200).send({data: 'ok'}))
+                .catch((err) => console.log('error here', err))
+        )
+        .catch((err) => res.status(400).send({ errors: [err] }));
 };
+
 
 module.exports = {
     get,

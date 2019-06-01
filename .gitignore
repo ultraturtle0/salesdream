@@ -7,3 +7,4 @@ config/tokens/*.json
 gmail_token.json
 *.swo
 .g*
+.DS_Store
