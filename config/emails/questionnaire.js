@@ -10,6 +10,7 @@ module.exports = (template) => {
         `Subject: ${utf8Subject}`,
         '',
         `Hi ${template.FirstName},<br>` +
+        '<br>' +
         `It was a pleasure chatting with you today about your bookkeeping needs! Here's a link to a brief questionnaire so we can get a better idea of your accounting situation: ` +
         template.link
     ];

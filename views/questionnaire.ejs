@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title></title>
+    </head>
+    <body>
+        
+        <!--<div class="text-center" id="loading">
+            <span class="spinner-border" role="status">
+            </span>
+            <span>Loading from Salesforce...</span>
+        </div>-->
+        <h3>Hello <%= console.log(link); %>!</h3>
+        <form name="form" id="questionnaire" method="post">
+            <div class="form-group">
+                <label for="FirstName">First Name</label>
+                <input type="text" id="FirstName" name="FirstName">
+                <label for="LastName">Last Name</label>
+                <input type="text" id="LastName" name="LastName">
+            </div>
+            <div class="form-group"> 
+                <label for="Company">Company Name</label>
+                <input type="text" id="Company" name="Company">
+            </div>
+            <div class="form-group">
+                <label for="Email">Email Address</label>
+                <input type="email" id="Email" name="Email">
+            </div>
+            <div class="form-group">
+                <label for="Phone">Phone Number</label>
+                <input type="text" id="Phone" name="Phone">
+            </div>
+            <div class="form-group">
+                <label for="Referral">Whom can we thank for referring you?</label>
+                <select id="Referral" name="Referral">
+                </select>
+                <div id="ReferralOther" style="display:none;">
+                    <input type="text" name="ReferralOther">
+                </div>
+            </div>            
+            <div class="form-group">
+                <label for="ReferralLength">How long have you been working with them?</label>
+                <input type="text" id="ReferralLength" name="ReferralLength">
+            </div>
+            <div class="form-group">
+                <label for="Preparer">Who is your current tax preparer? (Optional)</label>
+                <select id="Preparer" name="Preparer">
+                </select>
+                <div id="PreparerOther" style="display:none;">
+                    <input type="text" name="PreparerOther">
+                </div>
+            </div>            
+            <div class="form-group">
+                <label for="questionnaire">Send this client a bookkeeping questionnaire?</label>
+                <input type="checkbox" id="questionnaire" name="questionnaire" value="true">
+            </div>
+            <div class="form-group">
+                <label for="Description">Notes</label>
+                <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
+            </div>
+
+            <button type="submit" id="submit" class="btn btn-primary">
+                <span id="submitStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                <span id="buttonStatus">Submit</span>
+            </button>
+        </form>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="/js/questionnaire.js"></script>
+    </body>
+</html>
+
+

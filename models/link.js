@@ -11,6 +11,7 @@ const LinkSchema = new Schema({
     salesforce: {
         type: String
     },
+    questionnaire: Object,
     email: {
         type: String,
         match: [/.+\@.+\..+/, "Please fill in a valid email address"]
