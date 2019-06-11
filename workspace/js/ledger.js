@@ -10,6 +10,7 @@ $(document).ready(() => {
 
     $("#addCard").click(function (e) {
         c += 1;
+ 	console.log(c);
         newCardRow(c);
     });
 	$("#addBank").click(function (e) {
