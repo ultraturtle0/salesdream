@@ -1,4 +1,4 @@
-$(document).ready(() => {
+$(document).ready(() => { 
 	var c = 1;
 	var b = 1;
 	var o = 1;
@@ -10,10 +10,12 @@ $(document).ready(() => {
 
     $("#addCard").click(function (e) {
         c += 1;
+ 	console.log(c);
         newCardRow(c);
     });
 	$("#addBank").click(function (e) {
         b += 1;
+        console.log(b);
         newBankRow(b);
     });
     $("#addOther").click(function (e) {
