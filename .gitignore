@@ -5,3 +5,4 @@ config/env/emails/
 config/tokens/*.json
 gmail_token.json
 *.swo
+.DS_Store
