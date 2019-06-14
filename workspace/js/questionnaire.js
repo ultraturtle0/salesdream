@@ -35,6 +35,14 @@ $(document).ready(() => {
 	});
 
 		//Accounting Service
+	var currentYear = new Date().getFullYear() + 1;
+	var difference = currentYear - 2010; 
+	for (difference; difference > 0; difference--) {
+		$('#booksLastYearFinished').append(`
+			<option value="booksLastYearFinished${currentYear - difference}">${currentYear - difference}</option>
+		`);
+	};
+
 	$("input[type='radio'][name='externalBookkeeperYN']").change(function(e) {
 		console.log(this.value);
 		if (this.value === 'Yes') {

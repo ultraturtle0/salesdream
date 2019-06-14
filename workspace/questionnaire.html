@@ -1,193 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #572e5e">
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
-		<title>Card Ledger</title>
+		<title>Client Questionnaire</title>
 	</head>
-	<body>
+	<body style="margin-left: 100px; margin-right: 100px; padding: 25px 25px 25px 25px; background-color: #e3e2e7;">
 		<form>
-		<!--ACCOUNTING-->
-		<div class="form-group">
-			<label for="Volume">What is the volume of transactions per month? Feel free to estimate.</label>
-			<input type="text" name="Volume" id="Volume"> 
+		<div style="text-align:center; font-size:25px; color:#572e5e">
+			Client Questionnaire
+			<br></br>
+		</div>
+		<div> <!--ACCOUNTING-->
+			<div class="form-group">
+				<label for="Volume">What is the volume of transactions per month? Feel free to estimate.</label>
+				<input type="text" name="Volume" id="Volume"> 
+			</div>
+
+			<div class="form-group">
+				<label for="AccountingYear">Do you do your accounting on a calender year or fiscal year?</label>
+				<input value="No" type="radio" name="AccountingYear" id="AccountingYear1"> No 
+				<input value="Yes" type="radio" name="AccountingYear" id="AccountingYear2"> Yes 
+			</div>
+
+			<div style="margin-left: 75px"  id="FYcontainer" class="form-group">
+				<label for="FiscalYear">What is the beginning and ending date of your company's fiscal year?</label>
+				<input type="text" name="FiscalYear" id="FiscalYear"> 
+			</div>
 		</div>
 
-		<div class="form-group">
-			<label for="AccountingYear">Do you do your accounting on a calender year or fiscal year?</label>
-			<input value="No" type="radio" name="AccountingYear" id="AccountingYear1"> No 
-			<input value="Yes" type="radio" name="AccountingYear" id="AccountingYear2"> Yes 
-		</div>
+		<div> <!--ACCOUNTING SERVICE-->
+			<div class="form-group">
+				<label for="currentBookkeepingMethod">How do you currently maintain your books?</label>
+				<input type="text" name="currentBookkeepingMethod" id="currentBookkeepingMethod">
+			</div>
 
-		<div id="FYcontainer" class="form-group">
-			<label for="FiscalYear">What is the beginning and ending date of your company's fiscal year?</label>
-			<input type="text" name="FiscalYear" id="FiscalYear"> 
-		</div>
-
-
-		<!--ACCOUNTING SERVICE-->
-		<div class="form-group">
-			<label for="currentBookkeepingMethod">How do you currently maintain your books?</label>
-			<input type="text" name="currentBookkeepingMethod" id="currentBookkeepingMethod">
-		</div>
-
-		<div class="form-group">
-			<label for="externalBookkeeperYN">Do you work with an external bookkeeper/accountant?</label>
-			<input value="Yes" type="radio" name="externalBookkeeperYN" id="externalBookkeeperYES"> Yes
-			<input value="No" type="radio" name="externalBookkeeperYN" id="externalBookkeeperNO"> No
-		</div>
-
-			<!--IF YES (to externalBookkeeperYN)-->
-			<div id="externalBookkeeper" class="form-group">
-				<div>
-					<label for="externalBookkeeperCompany">Bookkeeper/Accountant Company</label>
-					<input type="text" name="externalBookkeeperCompany" id="externalBookkeeperCompany"> 
+			<div class="form-group">
+				<label for="externalBookkeeperYN">Do you work with an external bookkeeper/accountant?</label>
+				<input value="Yes" type="radio" name="externalBookkeeperYN" id="externalBookkeeperYES"> Yes
+				<input value="No" type="radio" name="externalBookkeeperYN" id="externalBookkeeperNO"> No
+			</div>
+				<!--IF YES (to externalBookkeeperYN)-->
+				<div style="margin-left: 75px" id="externalBookkeeper" class="form-group">
+					<div>
+						<label for="externalBookkeeperCompany">Bookkeeper/Accountant Company</label>
+						<input type="text" name="externalBookkeeperCompany" id="externalBookkeeperCompany"> 
+					</div>
+					<div>
+						<label for="externalBookkeeperName">Bookkeeper/Accountant Name</label>
+						<input type="text" name="externalBookkeeperName" id="externalBookkeeperName"> 
+					</div>
+					<div>
+						<label for="externalBookkeeperLocation">Bookkeeper/Accountant Location</label>
+						<input type="text" name="externalBookkeeperLocation" id="externalBookkeeperLocation"> 
+					</div>
+					<div>
+						<label for="externalBookkeeperFutureRole">What role will they continue to play in this process?</label>
+						<input type="text" name="externalBookkeeperFutureRole" id="externalBookkeeperFutureRole"> 
+					</div>
+					<div>
+						<label for="externalBookkeeperInformedYN">Have you informed them that you are meeting with us?</label>
+						<input value="Yes" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedYES"> Yes
+						<input value="No" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedNO"> No
+					</div>
+					<div>
+						<label for="externalBookkeeperLikeDislike">What do you like and don't like about your current bookkeeper/accountant?</label>
+						<textarea class="form-control" rows="3" id="externalBookkeeperLikeDislike"></textarea>
+					</div>
+					<div>
+						<label for="externalBookkeeperReachOut">Are we able to reach out to them to ask questions if necessary?</label>
+						<input type="text" name="externalBookkeeperReachOut" id="externalBookkeeperReachOut"> 
+					</div>
+					<div>
+						<label for="directOwnershipOfBooksYN">Do you have direct ownership of your books and/or accounting files?</label>
+						<input value="Yes" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksYES"> Yes
+						<input value="No" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksNO"> No
+					</div>
 				</div>
-				<div>
-					<label for="externalBookkeeperName">Bookkeeper/Accountant Name</label>
-					<input type="text" name="externalBookkeeperName" id="externalBookkeeperName"> 
+
+				<div class="form-group">
+					<label for="newBookkeeperReason">Why do you feel that you are ready for a (new) bookkeeper now?</label>
+					<textarea class="form-control" rows="3" id="newBookkeeperReason"></textarea>
 				</div>
-				<div>
-					<label for="externalBookkeeperLocation">Bookkeeper/Accountant Location</label>
-					<input type="text" name="externalBookkeeperLocation" id="externalBookkeeperLocation"> 
+
+				<div class="form-group">
+					<label for="currentbookkeepingTimeSpent">How much time weekly/monthly is being spent on your bookkeeping?</label>
+					<input style="width: 40px" type="text" name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpentHours">
+					hours per
+					<select name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpentUnit">
+						<option value="currentbookkeepingTimeSpentWeek">Week</option>
+						<option value="currentbookkeepingTimeSpentMonth">Month</option>
+					</select>
 				</div>
-				<div>
-					<label for="externalBookkeeperFutureRole">What role will they continue to play in this process?</label>
-					<input type="text" name="externalBookkeeperFutureRole" id="externalBookkeeperFutureRole"> 
+
+				<div class="form-group">
+					<label for="currentbookkeepingSoftware">What accounting software are you currently using, if any?</label>
+					<input type="text" name="currentbookkeepingSoftware" id="currentbookkeepingSoftware">
 				</div>
-				<div>
-					<label for="externalBookkeeperInformedYN">Have you informed them that you are meeting with us?</label>
-					<input value="Yes" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedYES"> Yes
-					<input value="No" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedNO"> No
+
+				<div class="form-group">
+					<label for="currentBookkeepingToolsChoice">Are there any external softwares/tools you are using to aid in your accounting?</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsInventory">Inventory</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPOS">POS</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsTime">Time Tracking</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPayroll">Payroll</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsOther">Other</label>	
 				</div>
-				<div>
-					<label for="externalBookkeeperLikeDislike">What do you like and don't like about your current bookkeeper/accountant?</label>
-					<input type="text" name="externalBookkeeperLikeDislike" id="externalBookkeeperLikeDislike"> 
+
+				<div id ="booksAccess" class="form-group">
+					<label for="booksAccess">Who has/will have access to your books, and what are their roles/titles?</label>
+					<table class="booksAccess" id="booksAccess">
+					<tbody></tbody>
+					</table>
+					<button type="button" id="addBooksAccess" class="btn btn-sm">Add Person</button>
 				</div>
-				<div>
-					<label for="externalBookkeeperReachOut">Are we able to reach out to them to ask questions if necessary?</label>
-					<input type="text" name="externalBookkeeperReachOut" id="externalBookkeeperReachOut"> 
+
+				<div class="form-group">
+					<label for="currentBookkeepingInvolvementScale">How involved are you in your current bookkeeping process?</label>
+					<input value="1" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale1"> 1
+					<input value="2" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale2"> 2
+					<input value="3" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale3"> 3
+					<input value="4" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale4"> 4
+					<input value="5" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale5"> 5
 				</div>
-				<div>
-					<label for="directOwnershipOfBooksYN">Do you have direct ownership of your books and/or accounting files?</label>
-					<input value="Yes" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksYES"> Yes
-					<input value="No" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksNO"> No
+
+				<div class="form-group">
+					<label for="desiredBookkeepingInvolvementScale">How involved would you prefer to be?</label>
+					<input value="1" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale1"> 1
+					<input value="2" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale2"> 2
+					<input value="3" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale3"> 3
+					<input value="4" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale4"> 4
+					<input value="5" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale5"> 5
+				</div>
+
+				<div class="form-group">
+					<label for="currentBookkeepingMonthlyExpenditure">What is your current monthly bookkeeping expenditure?</label>
+					<input type="text" name="currentBookkeepingMonthlyExpenditure" id="currentBookkeepingMonthlyExpenditure">
+				</div>
+
+				<div class="form-group">
+					<label for="currentBookkeepingRatingScale">How would you rate the current state of your books?</label>
+					<input value="1" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale1"> 1
+					<input value="2" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale2"> 2
+					<input value="3" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale3"> 3
+					<input value="4" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale4"> 4
+					<input value="5" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale5"> 5
+				</div>
+
+				<div class="form-group">
+					<label for="booksRequiringCleanupYN">Do you feel your books require cleanup?</label>
+					<input value="Yes" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupYES"> Yes
+					<input value="No" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupNO"> No
+				</div>
+
+				<div style="margin-left: 75px" id="cleanupBooks" class="form-group">
+					<label for="ongoingMaintenanceYN">Will you require ongoing maintenance after this initial clean-up project?</label>
+					<input value="Yes" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceYES"> Yes
+					<input value="No" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceNO"> No
+				</div>
+
+				<div class="form-group">
+					<label for="issuesToBeReviewed">Is there a particular issue you would like us to review more closely?</label>
+					<textarea class="form-control" rows="3" id="issuesToBeReviewed"></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="currentBookkeepingConcerns">What are your biggest bookkeeping concerns at this time?</label>
+					<textarea class="form-control" rows="3" id="currentBookkeepingConcerns"></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="booksLastYearFinished">To the best of your knowledge, what is the last year that is completed in your books? OR What year do we need to begin working on in your books?</label>
+						<select name="booksLastYearFinished" id="booksLastYearFinished"></select>
+				</div>
+
+				<div class="form-group">
+					<label for="communicationExpectations">What are your communication expectations for your accounting team?</label>
+					<textarea class="form-control" rows="3" id="communicationExpectations"></textarea>
+				</div>	
+
+				<div class="form-group">
+					<label for="responseTimeExpectations">What is your expectation for response time?</label>
+					<select name="responseTimeExpectations" id="responseTimeExpectations">
+						<option value="responseTimeExpectationsImmdiately">Immediately</option>
+						<option value="responseTimeExpectationsHour">Within the Hour</option>
+						<option value="responseTimeExpectationsFewHours">Within a Few Hours</option>
+						<option value="responseTimeExpectationsLessThanDay">Less Than a Day</option>
+						<option value="responseTimeExpectationsOneDay">Within One Day</option>
+						<option value="responseTimeExpectationsFewDays">Within a Few Days</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="preferredCommunicationMethodChoice">What is your preferred method of communication with your bookkeeper?</label>
+					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodEmail">Email</label>
+					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodTexting">Texting</label>
+					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodCall">Phone Calls</label>
+					<label><input type="checkbox" name="preferredCommunicationMethod" id="preferredCommunicationPerson">In-Person</label>
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label for="newBookkeeperReason">Why do you feel that you are ready for a (new) bookkeeper now?</label>
-				<input type="text" name="newBookkeeperReason" id="newBookkeeperReason">
-			</div>
-
-			<div class="form-group">
-				<label for="currentbookkeepingTimeSpent">How much time weekly/monthly is being spent on your bookkeeping?</label>
-				<input type="text" name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpent">
-			</div>
-
-			<div class="form-group">
-				<label for="currentbookkeepingSoftware">What accounting software are you currently using, if any?</label>
-				<input type="text" name="currentbookkeepingSoftware" id="currentbookkeepingSoftware">
-			</div>
-
-			<div class="form-group">
-				<label for="currentBookkeepingToolsChoice">Are there any external softwares/tools you are using to aid in your accounting?</label>
-				<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsInventory">Inventory</label>
-				<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPOS">POS</label>
-				<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsTime">Time Tracking</label>
-				<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPayroll">Payroll</label>
-				<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsOther">Other</label>	
-			</div>
-
-			<div id ="booksAccess" class="form-group">
-				<label for="booksAccess">Who has/will have access to your books, and what are their roles/titles?</label>
-				<table class="booksAccess" id="booksAccess">
-				<tbody></tbody>
-				</table>
-				<button type="button" id="addBooksAccess" class="btn btn-sm">Add Person</button>
-			</div>
-
-			<div class="form-group">
-				<label for="currentBookkeepingInvolvementScale">How involved are you in your current bookkeeping process?</label>
-				<input value="1" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale1"> 1
-				<input value="2" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale2"> 2
-				<input value="3" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale3"> 3
-				<input value="4" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale4"> 4
-				<input value="5" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale5"> 5
-			</div>
-
-			<div class="form-group">
-				<label for="desiredBookkeepingInvolvementScale">How involved would you prefer to be?</label>
-				<input value="1" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale1"> 1
-				<input value="2" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale2"> 2
-				<input value="3" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale3"> 3
-				<input value="4" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale4"> 4
-				<input value="5" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale5"> 5
-			</div>
-
-			<div class="form-group">
-				<label for="currentBookkeepingMonthlyExpenditure">What is your current monthly bookkeeping expenditure?</label>
-				<input type="text" name="currentBookkeepingMonthlyExpenditure" id="currentBookkeepingMonthlyExpenditure">
-			</div>
-
-			<div class="form-group">
-				<label for="currentBookkeepingRatingScale">How would you rate the current state of your books?</label>
-				<input value="1" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale1"> 1
-				<input value="2" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale2"> 2
-				<input value="3" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale3"> 3
-				<input value="4" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale4"> 4
-				<input value="5" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale5"> 5
-			</div>
-
-			<div class="form-group">
-				<label for="booksRequiringCleanupYN">Do you feel your books require cleanup?</label>
-				<input value="Yes" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupYES"> Yes
-				<input value="No" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupNO"> No
-			</div>
-
-			<div id="cleanupBooks" class="form-group">
-				<label for="ongoingMaintenanceYN">Will you require ongoing maintenance after this initial clean-up project?</label>
-				<input value="Yes" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceYES"> Yes
-				<input value="No" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceNO"> No
-			</div>
-
-			<div class="form-group">
-				<label for="issuesToBeReviewed">Is there a particular issue you would like us to review more closely?</label>
-				<input type="text" name="issuesToBeReviewed" id="issuesToBeReviewed">
-			</div>
-
-			<div class="form-group">
-				<label for="booksLastYearFinished">To the best of your knowledge, what is the last year that is completed in your books? OR What year do we need to begin working on in your books?</label>
-				<input type="text" name="booksLastYearFinished" id="booksLastYearFinished">
-				<input type="text" class="form-control datepicker" id="booksLastYearFinished">
-			</div>
-
-			<div class="form-group">
-				<label for="currentBookkeepingConcerns">What are your biggest bookkeeping concerns at this time?</label>
-			</div>
-
-			<div class="form-group">
-				<label for="communicationExpectations">What are your communication expectations for your accounting team?</label>
-				<input type="text" name="communicationExpectations" id="communicationExpectations">
-			</div>
-
-			<div class="form-group">
-				<label for="responseTimeExpectations">What is your expectation for response time?</label>
-				<input type="text" name="responseTimeExpectations" id="responseTimeExpectations">
-			</div>
-
-			<div class="form-group">
-				<label for="preferredCommunicationMethodChoice">What is your preferred method of communication with your bookkeeper?</label>
-				<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodEmail">Email</label>
-				<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodTexting">Texting</label>
-				<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodCall">Phone Calls</label>
-				<label><input type="checkbox" name="preferredCommunicationMethod" id="preferredCommunicationPerson">In-Person</label>
-			</div>
 
 
 
-
-		<button type="submit" id="submit" class="btn btn-primary">Submit</button>
+		<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
 
 
         </form>
