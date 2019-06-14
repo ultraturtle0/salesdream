@@ -66,7 +66,6 @@ var post = (req, res, next) => {
         */
         var Link;
             if (body.questionnaire === 'true') {
-                console.log("we're in");
                 Link = new LinkSchema({
                     salesforce: uuid(), //lead.id,
                     email: body.Email

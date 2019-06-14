@@ -1,7 +1,9 @@
 var uuid = require('uuid/v4');
 var LinkSchema = require('mongoose').model('Link');
 
-var post = (req, res, next) => {
+var questionnaire = require('./API/linkgen');
+
+var gen = (req, res, next) => {
     var Link = new LinkSchema({
         salesforce: res.data.id,
         email: res.data.email
@@ -21,6 +23,7 @@ var post = (req, res, next) => {
 
 
 module.exports = {
-    //get:
-    post: post
+    gen,
+    get: questionnaire.get,
+    post: questionnaire.post
 };
