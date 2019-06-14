@@ -19,13 +19,15 @@
 
 			<div class="form-group">
 				<label for="AccountingYear">Do you do your accounting on a calender year or fiscal year?</label>
-				<input value="No" type="radio" name="AccountingYear" id="AccountingYear1"> No 
-				<input value="Yes" type="radio" name="AccountingYear" id="AccountingYear2"> Yes 
+				<input value="Yes" type="radio" name="AccountingYear" id="AccountingYear1"> Yes 
+				<input value="No" type="radio" name="AccountingYear" id="AccountingYear2"> No
 			</div>
 
-			<div style="margin-left: 75px"  id="FYcontainer" class="form-group">
-				<label for="FiscalYear">What is the beginning and ending date of your company's fiscal year?</label>
-				<input type="text" name="FiscalYear" id="FiscalYear"> 
+			<div style="margin-left: 70px; border-left: 1px solid #572e5e;" id="FYcontainer" class="form-group">
+				<div style="margin-left: 10px">
+					<label for="FiscalYear">What is the beginning and ending date of your company's fiscal year?</label>
+					<input type="text" name="FiscalYear" id="FiscalYear"> 
+				</div>
 			</div>
 		</div>
 
@@ -41,37 +43,37 @@
 				<input value="No" type="radio" name="externalBookkeeperYN" id="externalBookkeeperNO"> No
 			</div>
 				<!--IF YES (to externalBookkeeperYN)-->
-				<div style="margin-left: 75px" id="externalBookkeeper" class="form-group">
-					<div>
+				<div style="margin-left: 70px; border-left: 1px solid #572e5e;" id="externalBookkeeper" class="form-group">
+					<div style="margin-left: 10px">
 						<label for="externalBookkeeperCompany">Bookkeeper/Accountant Company</label>
 						<input type="text" name="externalBookkeeperCompany" id="externalBookkeeperCompany"> 
 					</div>
-					<div>
+					<div style="margin-left: 10px">
 						<label for="externalBookkeeperName">Bookkeeper/Accountant Name</label>
 						<input type="text" name="externalBookkeeperName" id="externalBookkeeperName"> 
 					</div>
-					<div>
+					<div style="margin-left: 10px">
 						<label for="externalBookkeeperLocation">Bookkeeper/Accountant Location</label>
 						<input type="text" name="externalBookkeeperLocation" id="externalBookkeeperLocation"> 
 					</div>
-					<div>
+					<div style="margin-left: 10px">
 						<label for="externalBookkeeperFutureRole">What role will they continue to play in this process?</label>
 						<input type="text" name="externalBookkeeperFutureRole" id="externalBookkeeperFutureRole"> 
 					</div>
-					<div>
+					<div style="margin-left: 10px">
 						<label for="externalBookkeeperInformedYN">Have you informed them that you are meeting with us?</label>
 						<input value="Yes" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedYES"> Yes
 						<input value="No" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedNO"> No
 					</div>
-					<div>
+					<div style="margin-left: 10px">
 						<label for="externalBookkeeperLikeDislike">What do you like and don't like about your current bookkeeper/accountant?</label>
 						<textarea class="form-control" rows="3" id="externalBookkeeperLikeDislike"></textarea>
 					</div>
-					<div>
+					<div style="margin-left: 10px">
 						<label for="externalBookkeeperReachOut">Are we able to reach out to them to ask questions if necessary?</label>
 						<input type="text" name="externalBookkeeperReachOut" id="externalBookkeeperReachOut"> 
 					</div>
-					<div>
+					<div style="margin-left: 10px">
 						<label for="directOwnershipOfBooksYN">Do you have direct ownership of your books and/or accounting files?</label>
 						<input value="Yes" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksYES"> Yes
 						<input value="No" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksNO"> No
@@ -153,10 +155,12 @@
 					<input value="No" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupNO"> No
 				</div>
 
-				<div style="margin-left: 75px" id="cleanupBooks" class="form-group">
-					<label for="ongoingMaintenanceYN">Will you require ongoing maintenance after this initial clean-up project?</label>
-					<input value="Yes" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceYES"> Yes
-					<input value="No" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceNO"> No
+				<div style="margin-left: 70px; border-left: 1px solid #572e5e;" id="cleanupBooks" class="form-group">
+					<div style="margin-left: 10px">	
+						<label for="ongoingMaintenanceYN">Will you require ongoing maintenance after this initial clean-up project?</label>
+						<input value="Yes" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceYES"> Yes
+						<input value="No" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceNO"> No
+					</div>
 				</div>
 
 				<div class="form-group">
@@ -199,7 +203,6 @@
 					<label><input type="checkbox" name="preferredCommunicationMethod" id="preferredCommunicationPerson">In-Person</label>
 				</div>
 			</div>
-
 
 
 
