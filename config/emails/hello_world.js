@@ -3,7 +3,7 @@ module.exports = (template) => {
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
     const messageParts = [
         'From: Jordan Kusel <jordan@gswfinancialpartners.com>',
-        'To: Gabriella Sande Waterman <gabriella@gswfinancialpartners.com>',
+        'To: Gabriella Sande Waterman <jordan@gswfinancialpartners.com>',
         'Content-Type: text/html; charset=utf-8',
         'MIME-Version: 1.0',
         `Subject: ${utf8Subject}`,

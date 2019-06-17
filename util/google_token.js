@@ -19,9 +19,9 @@ const scopes = [
     // Google Drive - full access
     //"https://www.googleapis.com/auth/drive",
     // Google Calendar - read only
-    //'https://www.googleapis.com/auth/calendar.readonly'
-    "https://www.googleapis.com/auth/gmail.send"
-].join(' ');;
+    // 'https://www.googleapis.com/auth/calendar'
+    //"https://www.googleapis.com/auth/gmail.send"
+].join(' ');
 
 var loadToken = (app, subject) => 
     //const token = JSON.parse(fs.readFileSync(FULL_PATH, 'utf8'));
