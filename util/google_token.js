@@ -19,7 +19,7 @@ const scopes = [
     // Google Drive - full access
     //"https://www.googleapis.com/auth/drive",
     // Google Calendar - read only
-    // 'https://www.googleapis.com/auth/calendar'
+    'https://www.googleapis.com/auth/calendar'
     //"https://www.googleapis.com/auth/gmail.send"
 ].join(' ');
 

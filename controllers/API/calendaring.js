@@ -7,28 +7,7 @@ const testemail = require('../../config/emails/hello_world.js');
 const gauth = require('../../util/google_token');
 
 var get = (req, res, next) => {
-
-    gauth('emailer', 'jordan@gswfinancialpartners.com')
-        .then((auth) =>
-            google.gmail({
-                version: 'v1',
-                auth
-            })
-            .users.messages.send({
-                userId: 'me',
-                requestBody: {
-                    raw: testemail()
-                }
-            })
-        )
-        .then((res) => {
-            console.log(res);
-            res.send({});
-        });
-
-
-            
-    /*gauth('calendaring', 'gswfp@gswfinancialpartners.com')
+    gauth('calendaring', 'gswfp@gswfinancialpartners.com')
         .then((auth) => {
             const calendar = google.calendar({ version: 'v3', auth });
             calendar.events.list({
@@ -45,15 +24,14 @@ var get = (req, res, next) => {
                   console.log('Upcoming 10 events:');
                   events.map((event, i) => {
                     const start = event.start.dateTime || event.start.date;
-                    return res.send({data: `${start} - ${event.summary}`});
+                    return {data: `${start} - ${event.summary}`};
                   });
+                  return res.send({events: events});
                 } else {
                     return res.send({message: 'no upcoming events found'});
                 }
               });
         });
-        */
-    
 };
 
 var post = (req, res, next) => {
