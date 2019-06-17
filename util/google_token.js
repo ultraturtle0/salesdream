@@ -19,7 +19,7 @@ const scopes = [
     // Google Drive - full access
     "https://www.googleapis.com/auth/drive",
     // Google Calendar - read only
-    //'https://www.googleapis.com/auth/calendar.readonly'
+    'https://www.googleapis.com/auth/calendar'
 ];
 
 var loadToken = (app, subject) => 
@@ -50,7 +50,7 @@ var genToken = (app, subject) => {
             fs.writeFileSync(TOKEN_ROOT + app + '.json', JSON.stringify(tokens));
             console.log('token generated');
             console.log(tokens);
-            return loadToken(subject);
+            return loadToken(app, subject);
         })   
         .catch((err) => {
             console.log("Error authorizing Google API token:");
