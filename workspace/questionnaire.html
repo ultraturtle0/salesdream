@@ -75,15 +75,45 @@
 				<label for="state">What state is your company registered in?</label>
 				<input type="text" name="state" id="state"> 
 			</div>
-			<div class="form-group"> <!--THIS IS UNFINISHED DON'T TOUCH-->
-					<label for="businessClassification">What is your business classification?</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsInventory">Inventory</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPOS">POS</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsTime">Time Tracking</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPayroll">Payroll</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoiceOther" id="currentBookkeepingToolsOther">Other</label>
-					<input type="text" name="currentBookkeepingToolsOtherBox" id="currentBookkeepingToolsOtherBox">
+			<div class="form-group">
+				<label for="businessClassificationChoice">What is your business classification?</label>
+				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationSoleProp">Sole Prop</label>
+				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationLLC">LLC</label>
+				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationSCorp">SCorp</label>
+				<label><input type="radio" name="businessClassificationChoice" id="businessClassification">CCorp</label>
+			</div>
+			<div class="form-group">
+				<label for="ownershipYear">What year did you form or take ownership of your primary business?</label>
+				<input type="text" name="ownershipYear" id="ownershipYear"> 
+			</div>
+			<div class="form-group">
+				<label for="partnersYN">Do you have any partners, or shareholders?</label>
+				<label><input value="Yes" type="radio" name="partnersYN" id="partnersYES">Yes</label>
+				<label><input value="No" type="radio" name="partnersYN" id="partnersNO">No</label>
+			</div>
+				<div class="form-group" id="addPartnerNames">
+					<table class="partnersNames" id="partnersNames">
+					<tbody></tbody>
+					</table>
+					<button type="button" id="addPartner" class="btn btn-sm">Add Partner</button>
 				</div>
+			<div class="form-group">
+				<label for="moreCompaniesYN">Do you have more than one company?</label>
+				<label><input value="Yes" type="radio" name="moreCompaniesYN" id="moreCompaniesYES">Yes</label>
+				<label><input value="No" type="radio" name="moreCompaniesYN" id="moreCompaniesNO">No</label>
+			</div>
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" class="form-group" id="otherCompanies">
+				<div style="margin-left: 10px" class="form-group">
+					<label for="companiesSeparateBooksYN">Does each company have its own set of books?</label>
+					<label><input value="Yes" type="radio" name="companiesSeparateBooksYN" id="companiesSeparateBooksYES">Yes</label>
+					<label><input value="No" type="radio" name="companiesSeparateBooksYN" id="companiesSeparateBookssNO">No</label>
+				</div>
+				<div style="margin-left: 10px" class="form-group">
+					<label for="companiesSeparateAccountsYN">Does each company have its own set of bank accounts and credit cards?</label>
+					<label><input value="Yes" type="radio" name="companiesSeparateAccountsYN" id="companiesSeparateAccountsYES">Yes</label>
+					<label><input value="No" type="radio" name="companiesSeparateAccountsYN" id="companiesSeparateAccountsNO">No</label>
+				</div>
+			</div>
 		</div>
 
 

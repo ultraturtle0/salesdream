@@ -1,10 +1,15 @@
 $(document).ready(() => {
 	var person = 0;
+	var name = 0;
 
 
 	//HIDDEN FUNCTIONS
 		//General
 	$("#mailingAddress").hide();
+
+		//Business
+	$("#addPartnerNames").hide();
+	$("#otherCompanies").hide();
 
 		//Accounting
 	$("#FYcontainer").hide();
@@ -21,8 +26,45 @@ $(document).ready(() => {
 		e.preventDefault();
 		var body = {};
 
-		body.Volume = $("#Volume").val();
-		console.log($("#Volume").val());
+		body.firstName = $("#firstName").val();
+		body.lastName = $("#lastName").val();
+		body.companyName = $("#companyName").val();
+		body.email = $("#email").val();
+		body.phone = $("#phone").val();
+		body.title = $("#title").val();
+		body.businessAddressStreet = $("#businessAddressStreet").val();
+		body.businessAddressCity = $("#businessAddressCity").val();
+		body.businessAddressState = $("#businessAddressState").val();
+		body.businessAddressZip = $("#businessAddressZip").val();
+		body.differentFromBusinessAddress = $("#differentFromBusinessAddress").val();
+		body.mailingAddressStreet = $("#mailingAddressStreet").val();
+		body.mailingAddressCity = $("#mailingAddressCity").val();
+		body.mailingAddressState = $("#mailingAddressState").val();
+		body.mailingAddressZip = $("#mailingAddressZip").val();
+		body.website = $("#website").val();
+		body.industry = $("#industry").val();
+		body.state = $("#state").val();
+		body.businessClassificationChoice = $("#businessClassificationChoice").val();
+		body.ownershipYear = $("#ownershipYear").val();
+		body.partnersYN = $("#partnersYN").val();
+		//ADD IN LIST OF PARTNERS ADDED
+		body.moreCompaniesYN = $("#moreCompaniesYN").val();
+		body.volume = $("#Volume").val();
+		body.currentBookeepingMethod = $("#currentBookeepingMethod").val();
+		body.externalBookkeeperYN = $("#externalBookkeeperYN").val();
+		body.externalBookkeeperCompany = $("#externalBookkeeperCompany").val();
+		body.externalBookkeeperName = $("#externalBookkeeperName").val();
+		body.externalBookkeeperLocation = $("#externalBookkeeperLocation").val();
+		body.externalBookkeeperFutureRole = $("#externalBookkeeperFutureRole").val();
+		body.externalBookkeeperInformedYN = $("#externalBookkeeperInformedYN").val();
+		body.externalBookkeeperLikeDislike = $("#externalBookkeeperLikeDislike").val();
+		body.externalBookkeeperReachOut = $("#externalBookkeeperReachOut").val();
+		body.directOwnershipOfBooksYN = $("#directOwnershipOfBooksYN").val();
+		body.newBookkeeperReason = $("#newBookkeeperReason").val();
+		body.currentbookkeepingTimeSpent = $("#currentbookkeepingTimeSpent").val();
+		body.currentbookkeepingSoftware = $("#currentbookkeepingSoftware").val();
+		body.currentBookkeepingToolsChoice = $("#currentBookkeepingToolsChoice").val();
+		console.log(body);
 	});
 
 		
@@ -37,6 +79,51 @@ $(document).ready(() => {
 		}
 	});
 
+
+		//Business
+	$("input[type='radio'][name='partnersYN']").change(function(e) {
+		console.log(this.value);
+		if (this.value === 'Yes') {
+			$("#addPartnerNames").show();
+
+		} else {
+			$("#addPartnerNames").hide();
+
+		}
+	});
+
+	$("#addPartner").click(function (e) {
+        name += 1;
+ 	console.log(name);
+        addPartnerName(name);
+    });
+
+	function addPartnerName(name) {
+	$('#partnersNames tbody').append(`
+		<tr id="partnerNameRow${name}"> 
+			<td id ="${name}"></td>
+			<td>Name</td>
+			<td><input type="text" id="partnerName${name}" name="partnerName${name}"></td>
+			<td>Role</td>
+			<td><input type="text" id="partnerRole${name}" name="partnerRole${name}"></td>
+			<td><button type="button" id="partnerNameDelete${name}" class="btn btn-default btn-sm">Delete</button></td>
+		</tr> 
+	`);
+    	$('#partnerNameDelete' + name).click(function (e) {
+ 			$('#partnerNameRow' + name).remove();
+   		});
+    }
+
+    $("input[type='radio'][name='moreCompaniesYN']").change(function(e) {
+		console.log(this.value);
+		if (this.value === 'Yes') {
+			$("#otherCompanies").show();
+
+		} else {
+			$("#otherCompanies").hide();
+
+		}
+	});
 
 		//Accounting
 	$("input[type='radio'][name='AccountingYear']").change(function(e) {
