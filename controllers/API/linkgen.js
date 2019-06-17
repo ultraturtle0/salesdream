@@ -20,10 +20,13 @@ var get = (req, res, next) =>
         });
 
 var post = (req, res, next) => {
-    Link.findByIdAndUpdate(req.body._id, 
+    var { _id, ...body } = req.body;
+    Link.findByIdAndUpdate(_id, 
         {
             $set: {
-            
+                questionnaire: body,
+                completed: Date.now()
+                // email:
             }
         }
     )

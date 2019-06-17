@@ -13,21 +13,24 @@ const { google } = require('googleapis');
 const fs = require('fs');
 
 // MOVE THIS TO CONFIG FILE
-const scopes = [
-    // Google Docs - spreadsheets
-    //"https://www.googleapis.com/auth/spreadsheets",
-    // Google Drive - full access
-    //"https://www.googleapis.com/auth/drive",
-    // Google Calendar - read only
-    // 'https://www.googleapis.com/auth/calendar'
-    //"https://www.googleapis.com/auth/gmail.send"
-].join(' ');
+const scopes = {
+    'calendaring': [
+        'https://www.googleapis.com/auth/calendar',
+    ].join(' '),
+    'ledger-generator': [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive",
+    ].join(' '),
+    'emailer': [
+        "https://www.googleapis.com/auth/gmail.send",
+    ]
+}
 
 var loadToken = (app, subject) => 
     //const token = JSON.parse(fs.readFileSync(FULL_PATH, 'utf8'));
     google.auth.getClient({
         keyFile: TOKEN_ROOT + app + '_gen.json',
-        scopes 
+        scopes: scopes[app] 
     })
     .then((auth) => {
         auth.subject = subject;
@@ -44,7 +47,7 @@ var genToken = (app, subject) => {
             access_type: 'offline',
         },
         TOKEN_CONFIG.private_key,
-        scopes
+        scopes: scopes[app]
     )
     .authorize()
         .then((tokens) => {

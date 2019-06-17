@@ -16,6 +16,9 @@ const LinkSchema = new Schema({
         type: String,
         match: [/.+\@.+\..+/, "Please fill in a valid email address"]
     },
+    completed: {
+        type: Date
+    },
     created: {
         type: Date,
         default: Date.now
