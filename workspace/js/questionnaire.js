@@ -3,6 +3,8 @@ $(document).ready(() => {
 
 
 	//HIDDEN FUNCTIONS
+		//General
+	$("#mailingAddress").hide();
 
 		//Accounting
 	$("#FYcontainer").hide();
@@ -10,6 +12,7 @@ $(document).ready(() => {
 		//Accounting Service
 	$("#externalBookkeeper").hide();
 	$("#cleanupBooks").hide();
+	$("#currentBookkeepingToolsOtherBox").hide();
 
 
 
@@ -21,6 +24,19 @@ $(document).ready(() => {
 		body.Volume = $("#Volume").val();
 		console.log($("#Volume").val());
 	});
+
+		
+		//General
+	$("input[type='checkbox'][name='differentFromBusinessAddress']").click(function(e) {
+		console.log(this.checked);
+		if (this.checked === true) {
+			$("#mailingAddress").show();
+
+		} else {
+			$("#mailingAddress").hide();
+		}
+	});
+
 
 		//Accounting
 	$("input[type='radio'][name='AccountingYear']").change(function(e) {
@@ -42,6 +58,16 @@ $(document).ready(() => {
 			<option value="booksLastYearFinished${currentYear - difference}">${currentYear - difference}</option>
 		`);
 	};
+
+	$("input[type='checkbox'][name='currentBookkeepingToolsChoiceOther']").click(function(e) {
+		console.log(this.checked);
+		if (this.checked === true) {
+			$("#currentBookkeepingToolsOtherBox").show();
+
+		} else {
+			$("#currentBookkeepingToolsOtherBox").hide();
+		}
+	});
 
 	$("input[type='radio'][name='externalBookkeeperYN']").change(function(e) {
 		console.log(this.value);

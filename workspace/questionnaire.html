@@ -5,12 +5,88 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
 		<title>Client Questionnaire</title>
 	</head>
-	<body style="margin-left: 100px; margin-right: 100px; padding: 25px 25px 25px 25px; background-color: #e3e2e7;">
-		<form>
+	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
+		<form autocomplete="off" action="/action_page.php">
 		<div style="text-align:center; font-size:25px; color:#572e5e">
 			Client Questionnaire
 			<br></br>
 		</div>
+
+
+		<div> <!--General-->
+			<div class="form-group">
+				<label for="firstName">First Name</label>
+				<input type="text" name="firstName" id="firstName"> 
+				<label for="lastName">Last Name</label>
+				<input type="text" name="lastName" id="lastName"> 
+				<label for="companyName">Company Name</label>
+				<input type="text" name="companyName" id="companyName"> 
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="text" name="email" id="email" style="width: 500px"> 
+				<label for="phone">Phone</label>
+				<input type="text" name="phone" id="phone"> 
+			</div>
+			<div class="form-group">
+				<label for="title">Title</label>
+				<input type="text" name="title" id="title"> 
+			</div>
+			<div class="form-group">Business Address
+				<br>
+				<label for="businessAddressStreet">Street</label>
+				<input type="text" name="businessAddressStreet" id="businessAddressStreet" style="width: 500px">
+				<br>
+				<label for="businessAddressCity">City</label>
+				<input type="text" name="businessAddressCity" id="businessAddressCity">
+				<label for="businessAddressState">State</label>
+				<input type="text" name="businessAddressState" id="businessAddressState">
+				<label for="businessAddressZip">Zip Code</label>
+				<input type="text" name="businessAddressZip" id="businessAddressZip">
+			</div>
+			<div class="form-group">Mailing Address
+				<br>
+				<label><input type="checkbox" name="differentFromBusinessAddress" id="differentFromBusinessAddress">Different from business address?</label>
+				<div id="mailingAddress" class="form-group">
+					<label for="mailingAddressStreet">Street</label>
+					<input type="text" name="mailingAddressStreet" id="businessAddressStreet" style="width: 500px">
+					<br>
+					<label for="mailingAddressCity">City</label>
+					<input type="text" name="mailingAddressCity" id="mailingAddressCity">
+					<label for="mailingAddressState">State</label>
+					<input type="text" name="mailingAddressState" id="mailingAddressState">
+					<label for="mailingAddressZip">Zip Code</label>
+					<input type="text" name="mailingAddressZip" id="mailingAddressZip">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="website">Website URL</label>
+				<input type="text" name="website" id="website" style="width: 500px"> 
+			</div>
+			<div class="form-group">
+				<label for="industry">Industry</label>
+				<input type="text" name="industry" id="industry"> 
+			</div>
+		</div>
+
+
+		<div> <!--Business-->
+			<div class="form-group">
+				<label for="state">What state is your company registered in?</label>
+				<input type="text" name="state" id="state"> 
+			</div>
+			<div class="form-group"> <!--THIS IS UNFINISHED DON'T TOUCH-->
+					<label for="businessClassification">What is your business classification?</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsInventory">Inventory</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPOS">POS</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsTime">Time Tracking</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPayroll">Payroll</label>
+					<label><input type="checkbox" name="currentBookkeepingToolsChoiceOther" id="currentBookkeepingToolsOther">Other</label>
+					<input type="text" name="currentBookkeepingToolsOtherBox" id="currentBookkeepingToolsOtherBox">
+				</div>
+		</div>
+
+
 		<div> <!--ACCOUNTING-->
 			<div class="form-group">
 				<label for="Volume">What is the volume of transactions per month? Feel free to estimate.</label>
@@ -23,7 +99,7 @@
 				<input value="No" type="radio" name="AccountingYear" id="AccountingYear2"> No
 			</div>
 
-			<div style="margin-left: 70px; border-left: 1px solid #572e5e;" id="FYcontainer" class="form-group">
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer" class="form-group">
 				<div style="margin-left: 10px">
 					<label for="FiscalYear">What is the beginning and ending date of your company's fiscal year?</label>
 					<input type="text" name="FiscalYear" id="FiscalYear"> 
@@ -43,9 +119,9 @@
 				<input value="No" type="radio" name="externalBookkeeperYN" id="externalBookkeeperNO"> No
 			</div>
 				<!--IF YES (to externalBookkeeperYN)-->
-				<div style="margin-left: 70px; border-left: 1px solid #572e5e;" id="externalBookkeeper" class="form-group">
+				<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="externalBookkeeper" class="form-group">
 					<div style="margin-left: 10px">
-						<label for="externalBookkeeperCompany">Bookkeeper/Accountant Company</label>
+						<label for="externalBookkeeperCompany">Bookkeeping/Accounting Company</label>
 						<input type="text" name="externalBookkeeperCompany" id="externalBookkeeperCompany"> 
 					</div>
 					<div style="margin-left: 10px">
@@ -67,7 +143,7 @@
 					</div>
 					<div style="margin-left: 10px">
 						<label for="externalBookkeeperLikeDislike">What do you like and don't like about your current bookkeeper/accountant?</label>
-						<textarea class="form-control" rows="3" id="externalBookkeeperLikeDislike"></textarea>
+						<textarea class="form-control" rows="2" id="externalBookkeeperLikeDislike"></textarea>
 					</div>
 					<div style="margin-left: 10px">
 						<label for="externalBookkeeperReachOut">Are we able to reach out to them to ask questions if necessary?</label>
@@ -82,17 +158,13 @@
 
 				<div class="form-group">
 					<label for="newBookkeeperReason">Why do you feel that you are ready for a (new) bookkeeper now?</label>
-					<textarea class="form-control" rows="3" id="newBookkeeperReason"></textarea>
+					<textarea class="form-control" rows="2" id="newBookkeeperReason"></textarea>
 				</div>
 
 				<div class="form-group">
-					<label for="currentbookkeepingTimeSpent">How much time weekly/monthly is being spent on your bookkeeping?</label>
+					<label for="currentbookkeepingTimeSpent">How many hours per month are being spent on your bookkeeping?</label>
 					<input style="width: 40px" type="text" name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpentHours">
-					hours per
-					<select name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpentUnit">
-						<option value="currentbookkeepingTimeSpentWeek">Week</option>
-						<option value="currentbookkeepingTimeSpentMonth">Month</option>
-					</select>
+					hours per month
 				</div>
 
 				<div class="form-group">
@@ -106,7 +178,8 @@
 					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPOS">POS</label>
 					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsTime">Time Tracking</label>
 					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPayroll">Payroll</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsOther">Other</label>	
+					<label><input type="checkbox" name="currentBookkeepingToolsChoiceOther" id="currentBookkeepingToolsOther">Other</label>
+					<input type="text" name="currentBookkeepingToolsOtherBox" id="currentBookkeepingToolsOtherBox">
 				</div>
 
 				<div id ="booksAccess" class="form-group">
@@ -155,7 +228,7 @@
 					<input value="No" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupNO"> No
 				</div>
 
-				<div style="margin-left: 70px; border-left: 1px solid #572e5e;" id="cleanupBooks" class="form-group">
+				<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="cleanupBooks" class="form-group">
 					<div style="margin-left: 10px">	
 						<label for="ongoingMaintenanceYN">Will you require ongoing maintenance after this initial clean-up project?</label>
 						<input value="Yes" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceYES"> Yes
@@ -165,12 +238,12 @@
 
 				<div class="form-group">
 					<label for="issuesToBeReviewed">Is there a particular issue you would like us to review more closely?</label>
-					<textarea class="form-control" rows="3" id="issuesToBeReviewed"></textarea>
+					<textarea class="form-control" rows="2" id="issuesToBeReviewed"></textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="currentBookkeepingConcerns">What are your biggest bookkeeping concerns at this time?</label>
-					<textarea class="form-control" rows="3" id="currentBookkeepingConcerns"></textarea>
+					<textarea class="form-control" rows="2" id="currentBookkeepingConcerns"></textarea>
 				</div>
 
 				<div class="form-group">
@@ -180,7 +253,7 @@
 
 				<div class="form-group">
 					<label for="communicationExpectations">What are your communication expectations for your accounting team?</label>
-					<textarea class="form-control" rows="3" id="communicationExpectations"></textarea>
+					<textarea class="form-control" rows="2" id="communicationExpectations"></textarea>
 				</div>	
 
 				<div class="form-group">
@@ -216,6 +289,9 @@
 		<script src="js/questionnaire.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
+
 	</body>
 </html>
 
