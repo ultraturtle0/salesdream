@@ -34,29 +34,29 @@
 			</div>
 			<div class="form-group">Business Address
 				<br>
-				<label for="businessAddressStreet">Street</label>
-				<input type="text" name="businessAddressStreet" id="businessAddressStreet" style="width: 500px">
+				<label for="bizAddrStreet">Street</label>
+				<input type="text" name="bizAddrStreet" id="bizAddrStreet" style="width: 500px">
 				<br>
-				<label for="businessAddressCity">City</label>
-				<input type="text" name="businessAddressCity" id="businessAddressCity">
-				<label for="businessAddressState">State</label>
-				<input type="text" name="businessAddressState" id="businessAddressState">
-				<label for="businessAddressZip">Zip Code</label>
-				<input type="text" name="businessAddressZip" id="businessAddressZip">
+				<label for="bizAddrCity">City</label>
+				<input type="text" name="bizAddrCity" id="bizAddrCity">
+				<label for="bizAddrState">State</label>
+				<input type="text" name="bizAddrState" id="bizAddrState">
+				<label for="bizAddrZip">Zip Code</label>
+				<input type="text" name="bizAddrZip" id="bizAddrZip">
 			</div>
 			<div class="form-group">Mailing Address
 				<br>
-				<label><input type="checkbox" name="differentFromBusinessAddress" id="differentFromBusinessAddress">Different from business address?</label>
-				<div id="mailingAddress" class="form-group">
-					<label for="mailingAddressStreet">Street</label>
-					<input type="text" name="mailingAddressStreet" id="businessAddressStreet" style="width: 500px">
+				<label><input type="checkbox" name="differentFromBizAddr" id="differentFromBizAddr">Different from business address?</label>
+				<div id="mailAddr" class="form-group">
+					<label for="mailAddrStreet">Street</label>
+					<input type="text" name="mailAddrStreet" id="mailAddrStreet" style="width: 500px">
 					<br>
-					<label for="mailingAddressCity">City</label>
-					<input type="text" name="mailingAddressCity" id="mailingAddressCity">
-					<label for="mailingAddressState">State</label>
-					<input type="text" name="mailingAddressState" id="mailingAddressState">
-					<label for="mailingAddressZip">Zip Code</label>
-					<input type="text" name="mailingAddressZip" id="mailingAddressZip">
+					<label for="mailAddrCity">City</label>
+					<input type="text" name="mailAddrCity" id="mailAddrCity">
+					<label for="vState">State</label>
+					<input type="text" name="mailAddrState" id="mailAddrState">
+					<label for="mailAddrZip">Zip Code</label>
+					<input type="text" name="mailAddrZip" id="mailAddrZip">
 				</div>
 			</div>
 			<div class="form-group">
@@ -76,15 +76,17 @@
 				<input type="text" name="state" id="state"> 
 			</div>
 			<div class="form-group">
-				<label for="businessClassificationChoice">What is your business classification?</label>
-				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationSoleProp">Sole Prop</label>
-				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationLLC">LLC</label>
-				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationSCorp">SCorp</label>
-				<label><input type="radio" name="businessClassificationChoice" id="businessClassification">CCorp</label>
+				<label for="bizClass">What is your business classification?</label>
+				<select name="bizClass" id="bizClass">
+						<option value="SoleProp">Sole Prop</option>
+						<option value="LLC">LLC</option>
+						<option value="SCorp">SCorp</option>
+						<option value="CCorp">CCorp</option>
+					</select>
 			</div>
 			<div class="form-group">
 				<label for="ownershipYear">What year did you form or take ownership of your primary business?</label>
-				<input type="text" name="ownershipYear" id="ownershipYear"> 
+					<select name="ownershipYear" id="ownershipYear"></select>
 			</div>
 			<div class="form-group">
 				<label for="partnersYN">Do you have any partners, or shareholders?</label>
