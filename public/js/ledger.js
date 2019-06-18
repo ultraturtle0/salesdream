@@ -1,4 +1,29 @@
 $(document).ready(() => {
+    var port;
+    var accounts;
+    if (location.port) {
+        port = ':' + location.port;
+    } else {
+        port = '';
+    };
+    $.get(`http://${location.hostname}${port}/api/ledger/`)
+        .done((data) => {
+            accounts = data.accounts;
+            console.log(data);
+            $('#id').html(
+                data.accounts.map((acc, index) =>
+                    `<option
+                        value="${acc.Id}">${acc.Name}</option>`
+                ).join('')
+            );
+        })
+        .fail(err => console.log(err));
+
+                
+
+
+
+
 	var c = 1;
 	var b = 1;
 	var o = 1;
@@ -23,12 +48,15 @@ $(document).ready(() => {
     $("#submit").click(function (e) {
     	e.preventDefault();
     	$(this).attr("disabled", true);
+        acc = $('#id').find('option:selected');
     	var input = {
             fields: ["#CardTable", "#BankTable", "#OtherTable"],
             cardIndex: c, 
             bankIndex: b, 
             otherIndex: o,
-            cards: cards
+            cards: cards,
+            id: acc.val(),
+            name: acc.text() 
         };
  		submit(input);
     });
@@ -200,7 +228,9 @@ function fillarrays(data) {
 	var inputData = {
 		cardInfo,
 		bankInfo,
-		otherInfo
+		otherInfo,
+        id: data.id,
+        name: data.name
 	}
 	return inputData;
 };

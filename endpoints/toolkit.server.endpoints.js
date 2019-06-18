@@ -6,6 +6,7 @@ module.exports = (app) => {
         .get(validate_token, (req, res) => res.render('ledger'));
 
     app.route('/api/ledger')
+        .get(validate_token, ledger.get)
         .post(validate_token, ledger.post);
 
 }

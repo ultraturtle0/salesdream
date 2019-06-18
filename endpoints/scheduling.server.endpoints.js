@@ -5,6 +5,6 @@ var scheduling = require('../controllers/scheduling.server.controller.js');
 module.exports = (app) => {
     app.route('/api/scheduling')
         //.post(validate_token, scheduling.post);
-
+        .get(scheduling.get)
         .post(scheduling.post);
 }
