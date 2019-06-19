@@ -36,9 +36,11 @@ var get = (req, res, next) => {
                         console.log(((moment.duration((moment(events[j-1].end.dateTime)).diff((moment(events[j].start.dateTime))))).asMinutes()));
                         if(((moment.duration((moment(events[j-1].end.dateTime)).diff((moment(events[j].start.dateTime))))).asMinutes()) > -30 ) {
                           console.log("WARNING!!! event " + (j+1) + " (index: " + j + ") is less than 30 MINUTES before event " + j + " (index: " + (j-1) + ")!");
+                          console.log(((moment.duration((moment(events[j-1].end.dateTime)).diff((moment(events[j].start.dateTime))))).asMinutes()));
                         };
                       }else{
                         console.log("ALERT!!! event " + (j+1) + " (index: " + j + ") DOES OVERLAP with event " + j + " (index: " + (j-1) + ")!");
+                        console.log(((moment.duration((moment(events[j-1].end.dateTime)).diff((moment(events[j].start.dateTime))))).asMinutes()));
                       };
                     };
                   };

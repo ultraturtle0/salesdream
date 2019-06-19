@@ -50,8 +50,9 @@ $(document).ready(() => {
             $('#form').show();
 
         });
-    var dates = {};
-    var times = [
+    var dates = [
+    ];
+    var times /*= [
         (moment("09:30", "HH:mm")).format("HH:mm A"),
         (moment("10:00", "HH:mm")).format("HH:mm A"),
         (moment("10:30", "HH:mm")).format("HH:mm A"),
@@ -67,8 +68,8 @@ $(document).ready(() => {
         (moment("15:30", "HH:mm")).format("HH:mm A"),
         (moment("16:00", "HH:mm")).format("HH:mm A"),
         (moment("16:30", "HH:mm")).format("HH:mm A"),
-        (moment("16:30", "HH:mm")).format("HH:mm A"),
-        ];
+        (moment("17:00", "HH:mm")).format("HH:mm A"),
+        ];*/
     console.log(times);
     
     var currentDate;
@@ -94,12 +95,14 @@ $(document).ready(() => {
                 $(`#col${i}Date`).append(`
                     ${(moment(currentDate).add(i, 'days')).format('MMMM D')}
                 `);
-                dates[i] = new Array (moment(currentDate).add(i, 'days'), times);
+                //dates[i] = new Array (moment(currentDate).add(i, 'days'));
             };
             console.log(dates);
 
+            for(j=0; j < events.length; j++){
+
             
-            var timeRemovefirst;
+          /*  var timeRemovefirst;
             var timeRemovelast;
             for(j=0; j < events.length; j++){
                 for(k=0; k<14; k++){
@@ -108,6 +111,9 @@ $(document).ready(() => {
                         //console.log(moment("09:25", "HH:mm").isBefore(moment(events[j].end.DateTime)));
                         if(moment("09:25", "HH:mm").isBefore(moment(events[j].end.DateTime)) && moment("17:30", "HH:mm").isAfter(moment(events[j].start.DateTime))){
                             console.log("TESTING2");
+                            console.log(moment(dates[k][1][1]));
+                            console.log(moment(events[j].start.DateTime));
+                            console.log(moment(moment(events[j].start.DateTime).toDate()).isAfter(moment(dates[k][1][0])));
                             for(l=0; l<16; l++){
                                 if (moment(events[j].start.DateTime).isAfter(moment(dates[k][1][l]))) {
                                     console.log("TESTING3");
@@ -133,7 +139,7 @@ $(document).ready(() => {
                     };
                 };
             };
-            console.log(dates);
+            console.log(dates);*/
 
             $('#loading').hide();
             $('#form').show();
