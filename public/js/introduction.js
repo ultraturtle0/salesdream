@@ -70,11 +70,13 @@ $(document).ready(() => {
         (moment("16:30", "HH:mm")).format("HH:mm A"),
         (moment("17:00", "HH:mm")).format("HH:mm A"),
         ];*/
-    console.log(times);
+    //console.log(times);
     
     var currentDate;
     var twoWeeksDate;
     var events;
+    var timeSections = [];
+
     $.get(`http://${location.hostname}${port}/api/scheduling/`)
         .done((data) => {
             console.log(data);
@@ -86,7 +88,6 @@ $(document).ready(() => {
             console.log(currentDate);
             console.log(twoWeeksDate);
             console.log(events);
-            console.log((moment(events[1].start.dateTime).startOf('day')).toDate());
             
             for (i=0; i<14; i++) {
                 $(`#col${i}Week`).append(`
@@ -95,51 +96,20 @@ $(document).ready(() => {
                 $(`#col${i}Date`).append(`
                     ${(moment(currentDate).add(i, 'days')).format('MMMM D')}
                 `);
-                //dates[i] = new Array (moment(currentDate).add(i, 'days'));
             };
-            console.log(dates);
 
-            for(j=0; j < events.length; j++){
-
-            
-          /*  var timeRemovefirst;
-            var timeRemovelast;
-            for(j=0; j < events.length; j++){
-                for(k=0; k<14; k++){
-                    if (moment((moment(events[j].start.dateTime).startOf('day')).toDate()).isSame(moment((moment(dates[k][0]).startOf('day')).toDate()))) { //problems with this line and maybe some others later
-                        console.log("TESTING1");
-                        //console.log(moment("09:25", "HH:mm").isBefore(moment(events[j].end.DateTime)));
-                        if(moment("09:25", "HH:mm").isBefore(moment(events[j].end.DateTime)) && moment("17:30", "HH:mm").isAfter(moment(events[j].start.DateTime))){
-                            console.log("TESTING2");
-                            console.log(moment(dates[k][1][1]));
-                            console.log(moment(events[j].start.DateTime));
-                            console.log(moment(moment(events[j].start.DateTime).toDate()).isAfter(moment(dates[k][1][0])));
-                            for(l=0; l<16; l++){
-                                if (moment(events[j].start.DateTime).isAfter(moment(dates[k][1][l]))) {
-                                    console.log("TESTING3");
-                                   if (moment((moment(events[j].start.DateTime)).format("HH:mm")).isBefore(moment((moment(dates[k][1][l+1])).format("HH:mm")))) {
-                                        timeRemovefirst = l;
-                                        if(moment((moment(events[j].end.DateTime)).format("HH:mm")).isBefore(moment((moment(dates[k][1][l+1])).format("HH:mm")))) {
-                                            delete dates[k][1][l];
-                                        }else{
-                                            for(m=2; m<(15-l) ;m++){
-                                                if(moment((moment(events[j].end.DateTime)).format("HH:mm")).isBefore(moment((moment(dates[k][1][l+m])).format("HH:mm")))) {
-                                                    timeRemovelast = l+m;
-                                                    dates.splice([k][1][timeRemovefirst], timeRemovelast-timeRemovefirst);
-                                                    for(n=timeRemovefirst; n<timeRemoveLast+1; n++){
-                                                        delete dates[k][1][n];
-                                                    }
-                                                };
-                                            };
-                                        };
-                                    };
-                                };
-                            };
-                        };
-                    };
+            for (j=0; j<14; j++) {
+                var date = ((moment(currentDate).add(j, 'days')).startOf('day')).toDate();
+                console.log("TESTING1" + date);
+                for (k=0; k<14; k++){
+                    var event = moment(events[k].start.dateTime).startOf('day').toDate();
+                    console.log("DATE:" + date);
+                    console.log("EVENT:" + event);
+                    /*if (moment(date).isSame(moment(event), 'day')) {
+                        console.log("IT WORKED");
+                    };*/
                 };
-            };
-            console.log(dates);*/
+            };  
 
             $('#loading').hide();
             $('#form').show();
