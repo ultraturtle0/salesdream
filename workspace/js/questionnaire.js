@@ -5,7 +5,7 @@ $(document).ready(() => {
 
 	//HIDDEN FUNCTIONS
 		//General
-	$("#mailingAddress").hide();
+	$("#mailAddr").hide();
 
 		//Business
 	$("#addPartnerNames").hide();
@@ -32,23 +32,23 @@ $(document).ready(() => {
 		body.email = $("#email").val();
 		body.phone = $("#phone").val();
 		body.title = $("#title").val();
-		body.businessAddressStreet = $("#businessAddressStreet").val();
-		body.businessAddressCity = $("#businessAddressCity").val();
-		body.businessAddressState = $("#businessAddressState").val();
-		body.businessAddressZip = $("#businessAddressZip").val();
-		body.differentFromBusinessAddress = $("#differentFromBusinessAddress").val();
-		body.mailingAddressStreet = $("#mailingAddressStreet").val();
-		body.mailingAddressCity = $("#mailingAddressCity").val();
-		body.mailingAddressState = $("#mailingAddressState").val();
-		body.mailingAddressZip = $("#mailingAddressZip").val();
+		body.bizAddrStreet = $("#bizAddrStreet").val();
+		body.bizAddrCity = $("#bizAddrCity").val();
+		body.bizAddrState = $("#bizAddrState").val();
+		body.bizAddrZip = $("#bizAddrZip").val();
+		body.differentFromBizAddr = $("#differentFromBizAddr").val();
+		body.mailAddrStreet = $("#mailAddrStreet").val();
+		body.mailAddrCity = $("#mailAddrCity").val();
+		body.mailAddrState = $("#mailAddrState").val();
+		body.mailAddrZip = $("#mailAddrZip").val();
 		body.website = $("#website").val();
 		body.industry = $("#industry").val();
 		body.state = $("#state").val();
-		body.businessClassificationChoice = $("#businessClassificationChoice").val();
+		body.bizClass = $("#bizClass").val();
 		body.ownershipYear = $("#ownershipYear").val();
-		body.partnersYN = $("#partnersYN").val();
+		body.partnersYN = $("input[type='radio'][name='partnersYN']").val();
 		//ADD IN LIST OF PARTNERS ADDED
-		body.moreCompaniesYN = $("#moreCompaniesYN").val();
+		/*body.moreCompaniesYN = $("#moreCompaniesYN").val();
 		body.volume = $("#Volume").val();
 		body.currentBookeepingMethod = $("#currentBookeepingMethod").val();
 		body.externalBookkeeperYN = $("#externalBookkeeperYN").val();
@@ -63,19 +63,20 @@ $(document).ready(() => {
 		body.newBookkeeperReason = $("#newBookkeeperReason").val();
 		body.currentbookkeepingTimeSpent = $("#currentbookkeepingTimeSpent").val();
 		body.currentbookkeepingSoftware = $("#currentbookkeepingSoftware").val();
-		body.currentBookkeepingToolsChoice = $("#currentBookkeepingToolsChoice").val();
+		body.currentBookkeepingToolsChoice = $("#currentBookkeepingToolsChoice").val();*/
 		console.log(body);
+		console.log($("input[type='radio'][name='partnersYN']").value);
 	});
 
 		
 		//General
-	$("input[type='checkbox'][name='differentFromBusinessAddress']").click(function(e) {
+	$("input[type='checkbox'][name='differentFromBizAddr']").click(function(e) {
 		console.log(this.checked);
 		if (this.checked === true) {
-			$("#mailingAddress").show();
+			$("#mailAddr").show();
 
 		} else {
-			$("#mailingAddress").hide();
+			$("#mailAddr").hide();
 		}
 	});
 
@@ -114,6 +115,14 @@ $(document).ready(() => {
    		});
     }
 
+    var currentYear = new Date().getFullYear() + 1;
+	var difference1 = currentYear - 1970; 
+	for (difference1; difference1 > 0; difference1--) {
+		$('#ownershipYear').append(`
+			<option value="${currentYear - difference1}">${currentYear - difference1}</option>
+		`);
+	};
+
     $("input[type='radio'][name='moreCompaniesYN']").change(function(e) {
 		console.log(this.value);
 		if (this.value === 'Yes') {
@@ -138,11 +147,10 @@ $(document).ready(() => {
 	});
 
 		//Accounting Service
-	var currentYear = new Date().getFullYear() + 1;
-	var difference = currentYear - 2010; 
-	for (difference; difference > 0; difference--) {
+	var difference2 = currentYear - 2010; 
+	for (difference2; difference2 > 0; difference2--) {
 		$('#booksLastYearFinished').append(`
-			<option value="booksLastYearFinished${currentYear - difference}">${currentYear - difference}</option>
+			<option value="booksLastYearFinished${currentYear - difference2}">${currentYear - difference2}</option>
 		`);
 	};
 
