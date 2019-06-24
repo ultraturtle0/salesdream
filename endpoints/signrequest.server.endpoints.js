@@ -1,3 +1,5 @@
+// CURRENTLY UNUSED - WILL BE SPLIT BETWEEN FORM API SCRIPTS
+
 const signrequest = require('../controllers/signrequest.server.controller');
 
 const routes = ['signrequest', 'events'];

@@ -19,8 +19,6 @@ var gen = (req, res, next) => {
             res.send({ errors: ['Error saving questionnaire answers.', err] });
         });
 };
-        
-
 
 module.exports = {
     gen,
