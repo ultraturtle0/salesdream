@@ -211,3 +211,27 @@ $(document).ready(() => {
 
 });
 
+//Tax Filing 
+
+$("input[type='radio'][name='AppointmentIndividual']").change(function(e) {
+		console.log(this.value);
+		if (this.value === 'Yes') {
+			$("#FYcontainer1").show();
+
+		} else {
+			$("#FYcontainer1").hide();
+
+		}
+	});
+
+$("input[type='radio'][name='Extention']").change(function(e) {
+		console.log(this.value);
+		if (this.value === 'Yes') {
+			$("#FYcontainer2").show();
+
+		} else {
+			$("#FYcontainer2").hide();
+
+		}
+	});
+
