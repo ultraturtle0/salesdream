@@ -50,26 +50,53 @@ $(document).ready(() => {
             $('#form').show();
 
         });
-    var currentDate;
-    var twoWeeksDate;
+    var firstWeekDate;
+    var secondWeekDate;
     var events;
-    var timeSections = [];
-    var emptyDay = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    var buttonSections = [];
+    var weeks = [{}, {}].map((_) => ({Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []}));
+    var buttonTimes = [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday];
+    buttonTimes.forEach((day) => ["9:00": false, "9:30": false, "10:00": false, "10:30": false, "11:00": false,]);
 
     $.get(`http://${location.hostname}${port}/api/scheduling/`)
         .done((data) => {
             console.log(data);
             $('#loading').hide();
             $('#introForm').show();
-            currentDate = data.currentDate;
-            twoWeeksDate = data.twoWeeksDate;
+            firstWeekDate = data.currentDate;
+            secondWeekDate = moment(firstWeekDate)
+                                .add(7, 'days')
+                                .toDate();
             events = data.data;
-            console.log(currentDate);
-            console.log(twoWeeksDate);
+            console.log(firstWeekDate);
+            console.log(secondWeekDate);
             console.log(events);
 
-            for (j=0; j<14; j++) { //loop for days
+            events.forEach((event) => {
+                var start = moment(event.start.dateTime);
+                if (start.isAfter(secondWeekDate)) {
+                    weeks[1][start.format('dddd')].push(event);
+                    console.log(start.format('dddd'));
+                } else {
+                    weeks[0][start.format('dddd')].push(event);
+                    console.log(start.format('dddd'));
+                }
+            });
+            console.log(weeks);
+
+            weeks.forEach((week) => {
+                console.log(week);
+                Object
+                    .keys(week)
+                    .forEach((day) => {
+                        var val = week[day];
+                        if (!val.length) //check if empty
+                            console.log(day + "NULL");
+                            buttonTimes[day]
+
+                    });
+            });
+
+/*            for (j=0; j<14; j++) { //loop for days
                 var date = ((moment(currentDate).add(j, 'days')).startOf('day')).toDate();
                 console.log("TESTING1" + date);
                 for (k=0; k<events.length; k++){ //loops through events
@@ -86,7 +113,7 @@ $(document).ready(() => {
                                                 .duration(moment(events[k].end.dateTime)
                                                 .diff(moment("9:30", "HH:mm"))))
                                                 .asMinutes();
-                        if(differenceStart > 0){//checks to see if event starts before 9:30 am
+                        /*if(differenceStart > 0){//checks to see if event starts before 9:30 am
                             if(emptyDay[j] == 1){ // if this is the first event of a day
                                 console.log("TESTINGTESTING")
                                 timeSections[j][0] = [moment("9:30", "HH:mm").format("HH:mm"), moment(events[k].start.dateTime)
@@ -122,16 +149,30 @@ $(document).ready(() => {
                                 };
                             };
 
-                        }*/;
+                        };
                     };
                 };
                 if(emptyDay[j] == 0) { // if event counter is 0, then no events, so all time slots are free
                     timeSections[j] = [];
-                    timeSections[j][0] = ["9:30", "17:30"];
+                    timeSections[j][0] = ["10:00", "17:30"];
                     console.log("time section added for index" + j);
                 };
-            };  
-            console.log(timeSections);
+            };*/
+
+            /*for (j=0; j<14; j++) { //loop for days
+                var date = ((moment(currentDate).add(j, 'days')).startOf('day')).toDate();
+                console.log("TESTING1" + date);
+                for (k=0; k<events.length; k++){ //loops through events
+                    timeSections[j] = [];
+                    timeSections[j][0] = ["10:00", "16:00"];
+                    console.log("time section added for index" + j);
+                    event = moment(events[k].start.dateTime).startOf('day').toDate();
+                    if (moment(date).isSame(moment(event), 'day')) { //checks if an event matches a day
+                        
+                    };
+                };
+            }; 
+            console.log(timeSections);*/
 
             for (l=0; l<14; l++) { //creates time sections for the buttons to be created
                 for(m=0; m<timeSections[l].length; m++){
@@ -145,19 +186,19 @@ $(document).ready(() => {
                                         .diff(sectionStart)))
                                         .asMinutes();
                     console.log(difference);
-                    difference = difference - (difference % 30);
+                    difference = difference - (difference % 60);
                     console.log(difference);
-                    sectionNumber = difference / 30;
+                    sectionNumber = difference / 60;
                     console.log(sectionNumber);
                     buttonSections[l] = [];
                     for (n=0; n<sectionNumber; n++){
                         buttonSections[l][n] = [];
                         buttonSections[l][n][0]= (moment(sectionStart)
-                                                    .add((30*n), 'minutes'))
+                                                    .add((60*n), 'minutes'))
                                                     .format("h:mm A");
                         console.log(buttonSections[l][n][0]);
                         buttonSections[l][n][1]= (moment(sectionStart)
-                                                    .add((30*n), 'minutes'))
+                                                    .add((60*n), 'minutes'))
                                                     .format("HH:mm");
                         console.log(buttonSections[l][n][1]);
 
@@ -166,20 +207,20 @@ $(document).ready(() => {
             };
 
             for (i=0; i<14; i++) { //adds buttons to the HTML file
-                $(`#col${i}Week`).append(`
-                    ${(moment(currentDate).add(i, 'days')).format('ddd')}
-                `);
-                $(`#col${i}Date`).append(`
-                    ${(moment(currentDate).add(i, 'days')).format('MMMM D')}
-                `);
-                for(h=0; h<buttonSections[i].length; h++){
-                    if(h%2 == 0){
+                if(moment(moment(firstWeekDate).add(i, 'days')).weekday() == 6) {
+                    i++;
+                }if(moment(moment(firstWeekDate).add(i, 'days')).weekday() == 0) {
+                    i++;
+                }else{
+                    $(`#col${i}Week`).append(`
+                        ${(moment(firstWeekDate).add(i, 'days')).format('dddd')}
+                    `);
+                    $(`#col${i}Date`).append(`
+                        ${(moment(firstWeekDate).add(i, 'days')).format('MMMM D')}
+                    `);
+                    for(h=0; h<buttonSections[i].length; h++){
                         $(`#col${i}Date`).append(`
                         <br><button type="button" id="${buttonSections[i][h][1]}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;width:80px">${buttonSections[i][h][0]}</button>
-                        `);
-                    }else{
-                        $(`#col${i}Date`).append(`
-                        <button type="button" id="${buttonSections[i][h][1]}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;width:80px">${buttonSections[i][h][0]}</button>
                         `);
                     };
                 };

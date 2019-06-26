@@ -4,7 +4,10 @@ const readline = require('readline');
 const fs = require('fs');
 const testemail = require('../../config/emails/hello_world.js');
 var moment = require('moment');
-var currentDate = ((moment().add(3, 'days')).startOf('day')).toDate();
+var currentDate = moment()
+                    .add(3, 'days')
+                    .startOf('day')
+                    .toDate();
 console.log(currentDate);
 var twoWeeksDate = (moment(currentDate).add(14, 'days')).toDate();
 console.log(twoWeeksDate);
@@ -51,7 +54,7 @@ var get = (req, res, next) => {
                     const end = event.end.dateTime || event.end.date;
                     return {data: `${start} - ${event.summary}`};
                   });
-                  return res.send({data: events, currentDate, twoWeeksDate});
+                  return res.send({data: events, currentDate});
                 } else {
                     return res.send({message: 'no upcoming events found'});
                 }
