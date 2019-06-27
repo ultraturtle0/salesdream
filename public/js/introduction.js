@@ -1,5 +1,5 @@
-
 $(document).ready(() => {
+    window['moment-range'].extendMoment(moment);
 
     var port;
     var picklist;
@@ -53,9 +53,21 @@ $(document).ready(() => {
     var firstWeekDate;
     var secondWeekDate;
     var events;
-    var weeks = [{}, {}].map((_) => ({Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []}));
-    var buttonTimes = [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday];
-    buttonTimes.forEach((day) => ["9:00": false, "9:30": false, "10:00": false, "10:30": false, "11:00": false,]);
+    var dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    var timeSlots = ["9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00"];
+
+    var weeks = [{}, {}].map((week) => {
+        dayNames.forEach((name) => {
+            var times = {}
+            timeSlots.forEach((slot) => times[slot] = true);
+            week[name] = times;
+        });
+        return week;
+    });
+
+    console.log(weeks);
+
+        
 
     $.get(`http://${location.hostname}${port}/api/scheduling/`)
         .done((data) => {
@@ -67,22 +79,45 @@ $(document).ready(() => {
                                 .add(7, 'days')
                                 .toDate();
             events = data.data;
-            console.log(firstWeekDate);
-            console.log(secondWeekDate);
-            console.log(events);
 
+            // split between two weeks
             events.forEach((event) => {
                 var start = moment(event.start.dateTime);
-                if (start.isAfter(secondWeekDate)) {
-                    weeks[1][start.format('dddd')].push(event);
-                    console.log(start.format('dddd'));
-                } else {
-                    weeks[0][start.format('dddd')].push(event);
-                    console.log(start.format('dddd'));
-                }
+                var end = moment(event.end.dateTime);
+                var which_week = start.isAfter(secondWeekDate) ? 1 : 0;
+                var which_day = start.format('dddd');
+                var event_time = moment.range(start, end);
+                console.log(start.format("HH:mm"));
+                
+                if (!dayNames.includes(which_day)) {
+                    console.log(which_day);
+                    return;
+                };
+                
+                Object
+                    .keys(weeks[which_week][which_day])
+                    .forEach((slot) => {
+                        var mslot = moment(slot, 'HH:mm');
+                        var time = moment.range(mslot, mslot.add(30, 'minutes'))
+                        console.log(time.diff('minutes'));
+                        if (event_time.overlaps(time))
+                            console.log('OVERLAP');//weeks[which_week][which_day][slot] = false;
+                    });
+
+                            
+                /*var which_time = //start.isAfter(moment(Date.now()).//start.format('HH:mm')
+                    
+                    start.format('HH:mm')
+                        .split(':')
+                        .map((str) => parseInt(str))
+                        */
+                //weeks[which_week].push(event);
+                //console.log(start.format('dddd'));
             });
             console.log(weeks);
+        });
 
+        /*
             weeks.forEach((week) => {
                 console.log(week);
                 Object
@@ -172,7 +207,7 @@ $(document).ready(() => {
                     };
                 };
             }; 
-            console.log(timeSections);*/
+            console.log(timeSections);
 
             for (l=0; l<14; l++) { //creates time sections for the buttons to be created
                 for(m=0; m<timeSections[l].length; m++){
@@ -286,6 +321,7 @@ $(document).ready(() => {
             });
 
     });
+    */
 
 
 });
