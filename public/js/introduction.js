@@ -90,31 +90,24 @@ $(document).ready(() => {
                 /*var event_time_start = moment(event.start.dateTime).format("HH:mm");
                 var event_time_end = moment(event.end.dateTime).format("HH:mm");
                 var event_time = moment.range(moment(start, "HH:mm").format("HH:mm"), moment(end, "HH:mm").format("HH:mm"));*/
-                console.log(start.format("HH:mm"));
                 
-                if (!dayNames.includes(which_day)) {
-                    console.log(which_day);
+                if (!dayNames.includes(which_day)) 
                     return;
-                };
                 
                 Object
                     .keys(weeks[which_week][which_day])
                     .forEach((slot) => {
-                        var mslot = moment(slot, 'HH:mm');
-                        //var mslot = moment({'year': start.get('year'), 'month': start.get('month')+1, 'date': start.get('date'),  'hour': start.get('hour'), 'minute': start.get('minute'),});
-                        mslot = moment({'year': start.get('year'), 'month': start.get('month'), 'date': start.get('date')});
-                        console.log(mslot);
+                        var [hr, min] = slot.split(':').map((str) => parseInt(str));
+                        var mslot = start.clone();
+                        mslot
+                            .hour(hr)
+                            .minute(min);
                         var mslot_end = moment(mslot).add(60, 'minutes');
-                        var time = moment.range(moment(mslot), moment(mslot_end, 'HH:mm'));
-                        console.log(time.diff('minutes'));
-                        console.log(mslot);
-                        console.log(mslot_end);
-                        console.log(time);
-                        console.log(event_time);
+                        var time = moment.range(mslot, mslot_end);
                         if (event_time.overlaps(time)){
-                            console.log(event_time);
-                            console.log(time);
-                            console.log("OVERLAP");//weeks[which_week][which_day][slot] = false;
+                            console.log(event_time.valueOf());
+                            console.log(time.valueOf());
+                            console.log("OVERLAP");
                             weeks[which_week][which_day][slot] = false;
                         };
                     });
