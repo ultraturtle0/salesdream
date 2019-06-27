@@ -87,6 +87,9 @@ $(document).ready(() => {
                 var which_week = start.isAfter(secondWeekDate) ? 1 : 0;
                 var which_day = start.format('dddd');
                 var event_time = moment.range(start, end);
+                /*var event_time_start = moment(event.start.dateTime).format("HH:mm");
+                var event_time_end = moment(event.end.dateTime).format("HH:mm");
+                var event_time = moment.range(moment(start, "HH:mm").format("HH:mm"), moment(end, "HH:mm").format("HH:mm"));*/
                 console.log(start.format("HH:mm"));
                 
                 if (!dayNames.includes(which_day)) {
@@ -98,27 +101,38 @@ $(document).ready(() => {
                     .keys(weeks[which_week][which_day])
                     .forEach((slot) => {
                         var mslot = moment(slot, 'HH:mm');
-                        var time = moment.range(mslot, mslot.add(30, 'minutes'))
+                        //var mslot = moment({'year': start.get('year'), 'month': start.get('month')+1, 'date': start.get('date'),  'hour': start.get('hour'), 'minute': start.get('minute'),});
+                        mslot = moment({'year': start.get('year'), 'month': start.get('month'), 'date': start.get('date')});
+                        console.log(mslot);
+                        var mslot_end = moment(mslot).add(60, 'minutes');
+                        var time = moment.range(moment(mslot), moment(mslot_end, 'HH:mm'));
                         console.log(time.diff('minutes'));
-                        if (event_time.overlaps(time))
-                            console.log('OVERLAP');//weeks[which_week][which_day][slot] = false;
+                        console.log(mslot);
+                        console.log(mslot_end);
+                        console.log(time);
+                        console.log(event_time);
+                        if (event_time.overlaps(time)){
+                            console.log(event_time);
+                            console.log(time);
+                            console.log("OVERLAP");//weeks[which_week][which_day][slot] = false;
+                            weeks[which_week][which_day][slot] = false;
+                        };
                     });
 
                             
-                /*var which_time = //start.isAfter(moment(Date.now()).//start.format('HH:mm')
+                var which_time = //start.isAfter(moment(Date.now()).//start.format('HH:mm')
                     
                     start.format('HH:mm')
                         .split(':')
                         .map((str) => parseInt(str))
-                        */
                 //weeks[which_week].push(event);
                 //console.log(start.format('dddd'));
             });
             console.log(weeks);
         });
 
-        /*
-            weeks.forEach((week) => {
+        
+            /*weeks.forEach((week) => {
                 console.log(week);
                 Object
                     .keys(week)
@@ -129,7 +143,7 @@ $(document).ready(() => {
                             buttonTimes[day]
 
                     });
-            });
+            });*/
 
 /*            for (j=0; j<14; j++) { //loop for days
                 var date = ((moment(currentDate).add(j, 'days')).startOf('day')).toDate();
@@ -239,9 +253,9 @@ $(document).ready(() => {
 
                     };
                 };
-            };
+            };*/
 
-            for (i=0; i<14; i++) { //adds buttons to the HTML file
+            /*for (i=0; i<14; i++) { //adds buttons to the HTML file
                 if(moment(moment(firstWeekDate).add(i, 'days')).weekday() == 6) {
                     i++;
                 }if(moment(moment(firstWeekDate).add(i, 'days')).weekday() == 0) {
@@ -320,8 +334,7 @@ $(document).ready(() => {
                 }, 2000);
             });
 
-    });
-    */
+    });*/
 
 
 });
