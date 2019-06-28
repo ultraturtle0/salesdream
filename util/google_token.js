@@ -27,7 +27,6 @@ const scopes = {
 }
 
 var loadToken = (app, subject) => 
-    //const token = JSON.parse(fs.readFileSync(FULL_PATH, 'utf8'));
     google.auth.getClient({
         keyFile: TOKEN_ROOT + app + '_gen.json',
         scopes: scopes[app] 
@@ -41,15 +40,15 @@ var loadToken = (app, subject) =>
 var genToken = (app, subject) => {
     const TOKEN_CONFIG = require(`${TOKEN_ROOT}${app}_gen.json`);
 
-    return new google.auth.JWT(
+    return (new google.auth.JWT(
         TOKEN_CONFIG.client_email,
         {
             access_type: 'offline',
         },
         TOKEN_CONFIG.private_key,
-        scopes: scopes[app]
-    )
-    .authorize()
+        scopes[app]
+    ))
+        .authorize()
         .then((tokens) => {
             fs.writeFileSync(TOKEN_ROOT + app + '.json', JSON.stringify(tokens));
             console.log('token generated');
