@@ -31,4 +31,11 @@ $(document).ready(() => {
 
 
 	});
+	$("#headhunterButton").click((e) => {
+		$("#Client").hide();
+		$("#Headhunter").show();
+
+
+	});
 });
+
