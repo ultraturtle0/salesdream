@@ -50,11 +50,13 @@ $(document).ready(() => {
             $('#form').show();
 
         });
+    
+
     var firstWeekDate;
     var secondWeekDate;
     var events;
     var dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    var timeSlots = ["9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00"];
+    var timeSlots = ["9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
 
     var weeks = [{}, {}].map((week) => {
         dayNames.forEach((name) => {
@@ -87,9 +89,6 @@ $(document).ready(() => {
                 var which_week = start.isAfter(secondWeekDate) ? 1 : 0;
                 var which_day = start.format('dddd');
                 var event_time = moment.range(start, end);
-                /*var event_time_start = moment(event.start.dateTime).format("HH:mm");
-                var event_time_end = moment(event.end.dateTime).format("HH:mm");
-                var event_time = moment.range(moment(start, "HH:mm").format("HH:mm"), moment(end, "HH:mm").format("HH:mm"));*/
                 
                 if (!dayNames.includes(which_day)) 
                     return;
@@ -105,169 +104,77 @@ $(document).ready(() => {
                         var mslot_end = moment(mslot).add(60, 'minutes');
                         var time = moment.range(mslot, mslot_end);
                         if (event_time.overlaps(time)){
-                            console.log(event_time.valueOf());
-                            console.log(time.valueOf());
-                            console.log("OVERLAP");
                             weeks[which_week][which_day][slot] = false;
                         };
                     });
+                });
 
-                            
-                var which_time = //start.isAfter(moment(Date.now()).//start.format('HH:mm')
+
+            var counter = -1;
+
+            for(weekIndex=0; weekIndex <2; weekIndex++) {
+                for(i=0; i<5; i++){
+                    if (weekIndex == 0){
+                        var j = i;
+                    };
+                    if (weekIndex == 1){
+                        var j = i + 5;
+                    };
+                    console.log("JAYYYYYYYYYYsafjhdfhaldfadf" + j);
+                    counter ++;
+                    var dayStart = moment(firstWeekDate).add(counter, 'days').format('dddd');
                     
-                    start.format('HH:mm')
-                        .split(':')
-                        .map((str) => parseInt(str))
-                //weeks[which_week].push(event);
-                //console.log(start.format('dddd'));
-            });
-            console.log(weeks);
-        });
+                    if (dayStart == "Saturday"){
+                        dayStart = moment(dayStart, 'dddd').add(2, 'days').format('dddd');
+                        counter += 2;
+                    };
+                    if (dayStart == "Sunday"){
+                        dayStart = moment(dayStart, 'dddd').add(1, 'days').format('dddd');
+                        counter += 1;
+                    };
+                    
+                    Object
+                        .keys(weeks[weekIndex])
+                        .forEach((day) => {
+                            if (dayStart == day){
+                                console.log("DAY" +day);
+                                console.log("DAYSTART" +dayStart);
+                                $(`#col${j}Week`).append(`
+                                    ${day}
+                                `);
+                                $(`#col${j}Date`).append(`
+                                    ${(moment(firstWeekDate).add(counter, 'days')).format('MMMM D')}
+                                `);
+                                Object
+                                    .keys(weeks[weekIndex][day])
+                                    .forEach((slot, index) => {
+                                        if (index%2 == 0){
+                                            if(weeks[weekIndex][day][slot] == true){
+                                                $(`#col${j}Date`).append(`
+                                                    <br><button type="button" id="week1${day}${slot}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;width:85px">${moment(slot, 'HH:mm').format('hh:mm A')}</button>
+                                                `);
+                                            } else {
+                                                $(`#col${j}Date`).append(`
+                                                    <br><button type="button" id="week1${day}${slot}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;width:85px" disabled>${moment(slot, 'HH:mm').format('hh:mm A')}</button>
+                                                `);
+                                            };
+                                        } else {
+                                            if(weeks[weekIndex][day][slot] == true){
+                                                $(`#col${j}Date`).append(`
+                                                    <button type="button" id="week1${day}${slot}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;width:85px">${moment(slot, 'HH:mm').format('hh:mm A')}</button>
+                                                `);
+                                            } else {
+                                                $(`#col${j}Date`).append(`
+                                                    <button type="button" id="week1${day}${slot}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;width:85px" disabled>${moment(slot, 'HH:mm').format('hh:mm A')}</button>
+                                                `);
+                                            };
+                                        };
 
-        
-            /*weeks.forEach((week) => {
-                console.log(week);
-                Object
-                    .keys(week)
-                    .forEach((day) => {
-                        var val = week[day];
-                        if (!val.length) //check if empty
-                            console.log(day + "NULL");
-                            buttonTimes[day]
-
-                    });
-            });*/
-
-/*            for (j=0; j<14; j++) { //loop for days
-                var date = ((moment(currentDate).add(j, 'days')).startOf('day')).toDate();
-                console.log("TESTING1" + date);
-                for (k=0; k<events.length; k++){ //loops through events
-                    event = moment(events[k].start.dateTime).startOf('day').toDate();
-                    if (moment(date).isSame(moment(event), 'day')) { //checks if an event matches a day
-                        emptyDay[j] ++; //counter for how many events on one day
-                        console.log("IT WORKED");
-                        timeSections[j] = []; //adds a new array for each event on a day
-                        var differenceStart = (moment
-                                                .duration(moment(events[k].start.dateTime)
-                                                .diff(moment("9:30", "HH:mm"))))
-                                                .asMinutes();
-                        var differenceEnd = (moment
-                                                .duration(moment(events[k].end.dateTime)
-                                                .diff(moment("9:30", "HH:mm"))))
-                                                .asMinutes();
-                        /*if(differenceStart > 0){//checks to see if event starts before 9:30 am
-                            if(emptyDay[j] == 1){ // if this is the first event of a day
-                                console.log("TESTINGTESTING")
-                                timeSections[j][0] = [moment("9:30", "HH:mm").format("HH:mm"), moment(events[k].start.dateTime)
-                                                                                                            .format("HH:mm")];
-                                console.log(timeSections);
-                                console.log(timeSections[j]);
-                                console.log(timeSections[2]);
-                                console.log(timeSections[2][0][0]);
+                                    });
                             };
-                            if (emptyDay[j] > 1){ //if this is any event other than the first event of the day
-                                var diff = (moment
-                                                .duration(moment(events[k-1].end.dateTime)
-                                                .diff(moment(events[k].start.dateTime))))
-                                                .asMinutes();
-                                if(diff > 0){
-                                    console.log("TESTINGTESTINGTESTING")
-                                    //timeSections[j][emptyDay[j]-1] = [moment(events[k-1].end.dateTime)).format("HH:mm"), moment(events[k].start.dateTime).format("HH:mm")];
-                                    timeSections[j][emptyDay[j]-1] = [((moment(events[k-1].end.dateTime))
-                                                                            .format("HH:mm")), "17:30"];
-                                    console.log(timeSections[j]);
-                                    console.log(timeSections[j][0][0]);
-                                };
-                            };
-                        }/*if(differenceEnd > 0){
-                            if(emptyDay[j] = 1){
-                                var startTime = moment(events[k].start.dateTime).format("HH:mm");
-                            }else if(emptyDay[j] = 2){
-                                timeSections[j][emptyDay[j]-2] = new Array (startTime, moment(events[k].start.dateTime).format("HH:mm"));
-                            }else{
-                                var diff = (moment.duration((events[k-1].end.dateTime).diff(events[k].start.dateTime))).asMinutes();
-                                if(diff > 0){
-                                    timeSections[j][emptyDay[j]-2] = new Array ((moment(events[k-1].end.dateTime)).format("HH:mm"), moment(events[k].start.dateTime).format("HH:mm"));
-                                };
-                            };
-
-                        };
-                    };
-                };
-                if(emptyDay[j] == 0) { // if event counter is 0, then no events, so all time slots are free
-                    timeSections[j] = [];
-                    timeSections[j][0] = ["10:00", "17:30"];
-                    console.log("time section added for index" + j);
-                };
-            };*/
-
-            /*for (j=0; j<14; j++) { //loop for days
-                var date = ((moment(currentDate).add(j, 'days')).startOf('day')).toDate();
-                console.log("TESTING1" + date);
-                for (k=0; k<events.length; k++){ //loops through events
-                    timeSections[j] = [];
-                    timeSections[j][0] = ["10:00", "16:00"];
-                    console.log("time section added for index" + j);
-                    event = moment(events[k].start.dateTime).startOf('day').toDate();
-                    if (moment(date).isSame(moment(event), 'day')) { //checks if an event matches a day
-                        
-                    };
-                };
-            }; 
-            console.log(timeSections);
-
-            for (l=0; l<14; l++) { //creates time sections for the buttons to be created
-                for(m=0; m<timeSections[l].length; m++){
-                    //console.log(moment(timeSections[2][0][0], "HH:mm"));
-                    var sectionStart = moment(timeSections[l][m][0], "HH:mm");
-                    var sectionEnd = moment(timeSections[l][m][1], "HH:mm");
-                    console.log(sectionStart);
-                    console.log(sectionEnd);
-                    var difference = (moment
-                                        .duration((sectionEnd)
-                                        .diff(sectionStart)))
-                                        .asMinutes();
-                    console.log(difference);
-                    difference = difference - (difference % 60);
-                    console.log(difference);
-                    sectionNumber = difference / 60;
-                    console.log(sectionNumber);
-                    buttonSections[l] = [];
-                    for (n=0; n<sectionNumber; n++){
-                        buttonSections[l][n] = [];
-                        buttonSections[l][n][0]= (moment(sectionStart)
-                                                    .add((60*n), 'minutes'))
-                                                    .format("h:mm A");
-                        console.log(buttonSections[l][n][0]);
-                        buttonSections[l][n][1]= (moment(sectionStart)
-                                                    .add((60*n), 'minutes'))
-                                                    .format("HH:mm");
-                        console.log(buttonSections[l][n][1]);
-
-                    };
-                };
-            };*/
-
-            /*for (i=0; i<14; i++) { //adds buttons to the HTML file
-                if(moment(moment(firstWeekDate).add(i, 'days')).weekday() == 6) {
-                    i++;
-                }if(moment(moment(firstWeekDate).add(i, 'days')).weekday() == 0) {
-                    i++;
-                }else{
-                    $(`#col${i}Week`).append(`
-                        ${(moment(firstWeekDate).add(i, 'days')).format('dddd')}
-                    `);
-                    $(`#col${i}Date`).append(`
-                        ${(moment(firstWeekDate).add(i, 'days')).format('MMMM D')}
-                    `);
-                    for(h=0; h<buttonSections[i].length; h++){
-                        $(`#col${i}Date`).append(`
-                        <br><button type="button" id="${buttonSections[i][h][1]}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;width:80px">${buttonSections[i][h][0]}</button>
-                        `);
-                    };
+                        });
                 };
             };
-
 
             $('#loading').hide();
             $('#form').show();
@@ -327,7 +234,7 @@ $(document).ready(() => {
                 }, 2000);
             });
 
-    });*/
+    });
 
 
 });
