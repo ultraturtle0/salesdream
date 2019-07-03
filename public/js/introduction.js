@@ -231,7 +231,26 @@ $(document).ready(() => {
                                     Object
                                         .keys(weeks[index][day])
                                         .forEach((slot, slotIndex) => {
-                                            if(slotIndex%2 == 0){
+                                            //if(slotIndex%2 == 0){
+                                                $(`#week${index}_col${i}`).append(`
+                                                    ${(slotIndex % 2 == 0) ? '<br>' : ''}
+                                                    <button 
+                                                        onclick="buttonClick(this.id)"
+                                                        type="button"
+                                                        id="week_${index}_${day}_${slot}_${counter}"
+                                                        class="btn timeButton"
+                                                        style="
+                                                            background-color:#572e5e;
+                                                            color:#ffffff;
+                                                            width:70px;
+                                                            font-size:13px;
+                                                            padding:2px 2px
+                                                        "
+                                                        ${(weeks[index][day][slot]) ? '' : 'disabled'} 
+                                                            >${moment(slot, "HH:mm").format("h:mm A")}</button>
+                                                    `);
+
+
                                                 if (weeks[index][day][slot] == true){
                                                     $(`#week${index}_col${i}`).append(`
                                                         <br><button onclick="buttonClick(this.id)" type="button" id="week_${index}_${day}_${slot}_${counter}" class="btn timeButton" style="background-color:#572e5e;color:#ffffff;width:70px;font-size:13px;padding:2px 2px">${moment(slot, "HH:mm").format("h:mm A")}</button>
@@ -393,11 +412,18 @@ $(document).ready(() => {
 
     });
     $('#submitCalendar').click(function (e) {
+        e.preventDefault();
         if ($(`#laterDate`)[0].checked == true) {
             console.log("Later Date");
         } else {
-            e.preventDefault();
-            var googleParameters = {startEvent: startEventDateTime, endEvent: endEventDateTime, firstName: $("#FirstName").val(), lastName: $("#LastName").val(), emailAddress: $("#Email").val(), description: $("#Description").val()};
+            var googleParameters = {
+                startEvent: startEventDateTime, 
+                endEvent: endEventDateTime,
+                firstName: $("#FirstName").val(),
+                lastName: $("#LastName").val(),
+                emailAddress: $("#Email").val(),
+                description: $("#Description").val()
+            };
             var zoomParameters = {startEvent: startEventDateTime, duration: 60};
             console.log(googleParameters);
             console.log(zoomParameters);
