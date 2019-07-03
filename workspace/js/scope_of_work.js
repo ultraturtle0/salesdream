@@ -1,5 +1,21 @@
 $(document).ready(() => {
-	$("#ar-deatial").hide();
+    
+    var category_ids = [
+        "#ar-deatial",
+        "#customer-deatial",
+        "#ap-deatial"
+    ];
+
+    /*for (var i=0; i < category_ids.length; i++) {
+        $(category_ids[i]).hide();
+    }*/
+
+    /*category_ids.forEach((id) => {
+        $(id).hide();
+    })
+    */
+
+	/*$("#ar-deatial").hide();
 	$("#customer-deatial").hide();
 	$("#ap-deatial").hide();
 	$("#vendor-deatial").hide();
@@ -8,6 +24,21 @@ $(document).ready(() => {
 	$("#generalAccounting-deatial").hide();
 	$("#generalAccounting-deatial2").hide();
 	$("#dropdown").hide();
+    */
+
+    // Generate category buttons
+
+    var button_ids = [
+        'AR',
+        'Customer',
+        'AP',
+        'Vendor'
+    ];
+
+    button_ids.forEach((button) => {
+        $('#Buttons').append(`<button type="button" id="button-${button.toLowerCase()}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${button}</button>`);
+    });
+`
 
 
 	$("#button-ar").click((e) => {
