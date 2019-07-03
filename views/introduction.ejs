@@ -3,6 +3,13 @@
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <title>Quick Onboarding Form</title>
+        <style>
+            .carousel-control-prev-icon,
+            .carousel-control-next-icon {
+                outline: black;
+                filter: brightness(0%);
+            }
+        </style>
     </head>
     <body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
         <div class="text-center" id="loading">
@@ -60,64 +67,30 @@
 
             <!-- CALENDARRR -->
             <div>
-                <table class="calendarTable" id="calednarTable" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th id="calendarTableTitle" colspan="7" scope="colgroup" align="left">Select a time for a future zoom meeting!</th>
-                    </tr>
-                    <tr align="center">
-                        <td scope="col0" id="col0Week"></td>
-                        <td scope="col1" id="col1Week"></td>
-                        <td scope="col2" id="col2Week"></td>
-                        <td scope="col3" id="col3Week"></td>
-                        <td scope="col4" id="col4Week"></td>
-                    </tr>
-                    <tr align="center">
-                        <td scope="col0" id="col0Date"></td>
-                        <td scope="col1" id="col1Date"></td>
-                        <td scope="col2" id="col2Date"></td>
-                        <td scope="col3" id="col3Date"></td>
-                        <td scope="col4" id="col4Date"></td>
-                    </tr>
-                    <tr align="center">
-                        <td scope="col0" id="col7Times"></td>
-                        <td scope="col1" id="col8Times"></td>
-                        <td scope="col2" id="col9Times"></td>
-                        <td scope="col3" id="col10Times"></td>
-                        <td scope="col4" id="col11Times"></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    <tr align="center">
-                        <td scope="col5" id="col5Week"></td>
-                        <td scope="col6" id="col6Week"></td>
-                        <td scope="col7" id="col7Week"></td>
-                        <td scope="col8" id="col8Week"></td>
-                        <td scope="col9" id="col9Week"></td>
-                    </tr>
-                    <tr align="center">
-                        <td scope="col5" id="col5Date"></td>
-                        <td scope="col6" id="col6Date"></td>
-                        <td scope="col7" id="col7Date"></td>
-                        <td scope="col8" id="col8Date"></td>
-                        <td scope="col9" id="col9Date"></td>
-                    </tr>
-                    <tr align="center">
-                        <td scope="col5" id="col5Times"></td>
-                        <td scope="col6" id="col6Times"></td>
-                        <td scope="col7" id="col7Times"></td>
-                        <td scope="col8" id="col8Times"></td>
-                        <td scope="col9" id="col9Times"></td>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div><b>Select a date and time for a future zoom meeting!</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="laterDate" id="laterDate"> Choose date at a later time </label></div>
+                <br>
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+                    <div class="carousel-inner" id="carouselBody">
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" id="carouselPrev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" id="carouselNext">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
             </div>
+            <div id="selected"></div>
             <br>
             <button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">
                 <span id="submitStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
                 <span id="buttonStatus">Submit</span>
+            </button>
+            <button type="button" id="submitCalendar" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">
+                <span id="submitStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                <span id="buttonStatus">Submit Calendar</span>
             </button>
         </form>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
