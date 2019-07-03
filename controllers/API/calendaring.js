@@ -80,7 +80,7 @@ var get = (req, res, next) => {
         });
 };
 
-var post = (req, res, next) => {
+var post_cal = (req, res, next) => {
     gauth('gswfp@gswfinancialpartners.com')
         .then((auth) => {
             const calendar = google.calendar({version: 'v3', auth});
@@ -114,75 +114,57 @@ var post = (req, res, next) => {
     var zoomParameters = req.body.zoomParameters;
     console.log(zoomParameters);
     var subject = googleParameters.firstName + " " + googleParameters.lastName + " - Introductory Zoom Call";
-    var event = {
-      'summary': subject,
-      'description': googleParameters.description,
-      'start': {
-        'dateTime': googleParameters.startEvent,
-      },
-      'end': {
-        'dateTime': googleParameters.endEvent,
-      },
-      'attendees': [
-        {'email': 'gabriella@gswfinancialpartners.com'},
-        {'email': googleParameters.emailAddress},
-      ],
-    };
-    var options = {
-      uri: "https://api.zoom.us/v2/users/gabriella@gswfinancialpartners.com", 
-      qs: {
-          status: 'active' 
-      },
-      auth: {
-        'bearer': token
-      },
-      headers: {
-        'User-Agent': 'Zoom-api-Jwt-Request',
-        'content-type': 'application/json'
-      },
-      json: true, //Parse the JSON string in the response
-    };
-    axios.post(('https://api.zoom.us/v2/users/'userID'/meetings'), //I think we need a user id
-      {
-        headers: {
-          token
-        },
-        data: {
-          options,
-          'topic': subject,
-          'type': 2,
-          'start_time': zoomParameters.startEvent,
-          'duration': zoomParameters.duration
-        }
 
-      })
-      .then((response) => {
-        console.log("SUCCESS!");
-        console.log('User has', response);
-        console.log(res.id);
-        return res.id;
-      })
-      .catch((err) => {
-        // API call failed...
-        console.log('API call failed, reason ', err);
-      });
-    gauth('calendaring', 'gswfp@gswfinancialpartners.com')
-      .then((auth) => {
-        const calendar = google.calendar({ version: 'v3', auth })
-        return calendar.events.insert({
-          auth,
-          calendarId: 'primary',
-          resource: event,
+    axios.post((`https://api.zoom.us/v2/users/${userID}/meetings`), //I think we need a user id
+        {
+            headers: {
+                'User-Agent': 'Zoom-api-Jwt-Request',
+                'content-type': 'application/json',
+                'Authorization': 'Bearer: ' + token
+            },
+            data: {
+              'topic': subject,
+              'type': 2,
+              'start_time': zoomParameters.startEvent,
+              'duration': zoomParameters.duration
+            }
+
         })
-      })
-      .then((event) => {
-        console.log('Event created: %s', event.htmlLink);
-        res.send({ messages: ['event successfully created']});
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send({ errors: [err] });
-      });
+        .then((response) => {
+          console.log("SUCCESS!");
+          console.log('User has', response);
+          console.log(response.id); 
+          gauth('calendaring', 'gswfp@gswfinancialpartners.com')
+              .then((auth) => {
+                var event = {
+                  'summary': subject,
+                  'description': response.id, //googleParameters.description,
+                  'start': {
+                    'dateTime': googleParameters.startEvent,
+                  },
+                  'end': {
+                    'dateTime': googleParameters.endEvent,
+                  },
+                  'attendees': [
+                    {'email': 'gabriella@gswfinancialpartners.com'},
+                    {'email': googleParameters.emailAddress},
+                  ],
+                };
+                const calendar = google.calendar({ version: 'v3', auth })
+                return calendar.events.insert({
+                  auth,
+                  calendarId: 'primary',
+                  resource: event,
+                });
+              })
+              .then((event) => {
+                console.log('Event created: %s', event.htmlLink);
+                res.send({ messages: ['event successfully created']});
+              })
+              .catch((err) => {
+                console.log(err);
+                res.status(500).send({ errors: [err] });
+              });
 };
 
     
