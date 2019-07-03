@@ -3,6 +3,7 @@ var axios = require('axios');
 const config = require('../../config/config');
 const { mv, ls, mkdir, mksheet } = require('../../util/filegen');
 const CLIENT_FILES = config.g_drive.folders.client_files;
+const moment = require('moment');
 
 const { google } = require('googleapis');
 // load token by Promise
@@ -78,6 +79,42 @@ var ledger_post = (req, res, next) => {
             })
         );
 }
+
+var mkdir_if_none = ({ auth, name, parent }) =>
+    // check to see if folder exists for specific client
+    ls({ auth, name, parent })
+        .then((folder) => 
+            // create the new folder if not, return folder data
+            new Promise((resolve) =>
+                folder.data.files.length ?
+                    resolve({ data: folder.data.files[0] }) :
+                    mkdir({ auth, name, parents: [parent] }).then(resolve))
+        );
+
+
+/*var filegen_post = (req, res, next) {
+    var name = req.data.name;
+    gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
+        .then((auth) => 
+            mkdir_if_none({ auth, name, parent: CLIENT_FILES })
+                // structure Financial Documents directory 
+                .then((folder) =>
+                    mkdir_if_none({ auth, name: 'Financial Documents', parent: folder.data.id })
+                        // add four years' worth of folders (or however many years requested in SOW)
+                        .then((FD) => {
+                            var year = moment(Date.now()).year();
+                            var years = Array(4).map((_, ind) => (year - ind);
+                                
+                                .reduce((promise_acc, yr) =>
+                                    promise_acc
+                                        .then((prev) => mkdir_if_none({ auth, name: yr.toString(), parent: FD.data.id }))
+                                )
+                                */
+                            
+                             
+
+                       
+  
 
 module.exports = {
     ledger: {

@@ -18,6 +18,20 @@ var mv = ({ auth, id, addParents, removeParents }) =>
             fields: 'id'
         });
 
+var batch_mkdir = ({ auth, names, parents }) =>
+    names.reduce((prev, name) => 
+        prev
+            .then((_) => google.drive({ version: 'v3', auth })
+                .files.create({
+                    resource: {
+                        name,
+                        mimeType:'application/vnd.google-apps.folder',
+                        parents
+                    },
+                    fields: 'id'
+                })
+            ), Promise.resolve()
+    );
 
 var mkdir = ({ auth, name, parents }) => {
     return google.drive({ version: 'v3', auth })
@@ -85,6 +99,7 @@ module.exports = {
     mv,
     ls,
     mkdir,
+    batch_mkdir,
     mksheet
 };
 
