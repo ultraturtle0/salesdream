@@ -114,6 +114,7 @@ var post = (req, res, next) => {
     var zoomParameters = req.body.zoomParameters;
     console.log(zoomParameters);
     var subject = googleParameters.firstName + " " + googleParameters.lastName + " - Introductory Zoom Call";
+    var userID = 'gabriella@gswfinancialpartners';
 
     axios.post((`https://api.zoom.us/v2/users/${userID}/meetings`), //I think we need a user id
         {
@@ -157,7 +158,7 @@ var post = (req, res, next) => {
                   resource: event,
                 });
               })
-              .then((event) => {
+              .then((event) => { //do we want to have this inside the google post request or outside and after?x
                 console.log('Event created: %s', event.htmlLink);
                 res.send({ messages: ['event successfully created']});
               })
@@ -165,6 +166,7 @@ var post = (req, res, next) => {
                 console.log(err);
                 res.status(500).send({ errors: [err] });
               });
+        });
 };
 
     
