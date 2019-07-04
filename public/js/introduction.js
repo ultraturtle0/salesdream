@@ -1,31 +1,25 @@
-var startEventDateTime;
-var endEventDateTime;
+var startEvent;
+var endEvent;
+//time slot button function
 var buttonClick = function(id){
     $("#laterDate")[0].checked = false;
     $(`#selected`).empty();
-    console.log("CLICKED");
-    console.log(id);
     var dateName = id.split("_");
-    console.log(dateName);
-    var weekNumber = dateName[1];
-    var dayName = dateName[2];
-    var timeNumber = dateName[3];
-    var dayNumber = dateName[4];
     var date = moment()
                 .add(3, 'days')
-                .add(dayNumber, 'days');
+                .add(dateName[4], 'days');
 
     $(`#selected`).append(`
-        <br><b>Date-Time Selected:</b> ${dayName}, ${date.format("MMMM D")} at ${moment(timeNumber, "HH:mm").format("h:mm A")}
+        <br><b>Date-Time Selected:</b> ${dateName[2]}, ${date.format("MMMM D")} at ${moment(dateName[3], "HH:mm").format("h:mm A")}
     `);
-    startEventDateTime = date
-                            .set('hour', moment(timeNumber, "HH:mm").format("HH"))
-                            .set('minute', moment(timeNumber, "HH:mm").format("mm"))
-                            .set('second', 0)
-                            .format('YYYY-MM-DDTHH:mm:ssZ');
-    endEventDateTime = moment(startEventDateTime)
-                            .add(1, 'hours')
-                            .format('YYYY-MM-DDTHH:mm:ssZ');
+    startEvent = date
+                    .set('hour', moment(dateName[3], "HH:mm").format("HH"))
+                    .set('minute', moment(dateName[3], "HH:mm").format("mm"))
+                    .set('second', 0)
+                    .format('YYYY-MM-DDTHH:mm:ssZ');
+    endEvent = moment(startEvent)
+                    .add(1, 'hours')
+                    .format('YYYY-MM-DDTHH:mm:ssZ');
 };
 
 $(document).ready(() => {
@@ -91,6 +85,7 @@ $(document).ready(() => {
     var weeksStartDate = [];
     var weeksCounter = 0;
     
+    //get event information from google calendar
     var weekDateGetFunction = function(counter) {
         return moment()
                         .add(3, 'days')
@@ -172,36 +167,19 @@ $(document).ready(() => {
 
                 var counter = -1;
                 weeks.forEach((week, index) => {
-                    console.log(index);
-                    if (index == 0){
-                        $(`#carouselBody`).append(`
-                            <div class="carousel-item" id="carousel_week${index}">
-                                <div class="row" align="center">
-                                    <div class="col-1"></div>
-                                    <div class="col" id="week${index}_col0"></div>
-                                    <div class="col" id="week${index}_col1"></div>
-                                    <div class="col" id="week${index}_col2"></div>
-                                    <div class="col" id="week${index}_col3"></div>
-                                    <div class="col" id="week${index}_col4"></div>
-                                    <div class="col-1"></div>
-                                </div>
+                    $(`#carouselBody`).append(`
+                        <div class="carousel-item" id="carousel_week${index}">
+                            <div class="row" align="center">
+                                <div class="col-1"></div>
+                                <div class="col" id="week${index}_col0"></div>
+                                <div class="col" id="week${index}_col1"></div>
+                                <div class="col" id="week${index}_col2"></div>
+                                <div class="col" id="week${index}_col3"></div>
+                                <div class="col" id="week${index}_col4"></div>
+                                <div class="col-1"></div>
                             </div>
-                        `);
-                    } else {
-                        $(`#carouselBody`).append(`
-                            <div class="carousel-item" id="carousel_week${index}">
-                                <div class="row" align="center">
-                                    <div class="col-1"></div>
-                                    <div class="col" id="week${index}_col0"></div>
-                                    <div class="col" id="week${index}_col1"></div>
-                                    <div class="col" id="week${index}_col2"></div>
-                                    <div class="col" id="week${index}_col3"></div>
-                                    <div class="col" id="week${index}_col4"></div>
-                                    <div class="col-1"></div>
-                                </div>
-                            </div>
-                        `);
-                    };
+                        </div>
+                    `);
                     for(i=0; i<5; i++){
                         counter ++;
                         var dayStart = moment()
@@ -221,7 +199,6 @@ $(document).ready(() => {
                             .keys(weeks[index])
                             .forEach((day) => {
                                 if (dayStart == day) {
-                                        console.log(day);
                                         $(`#week${index}_col${i}`).append(`
                                             <div style="font-style: italic;">${day}</div>
                                         `);
@@ -231,67 +208,27 @@ $(document).ready(() => {
                                     Object
                                         .keys(weeks[index][day])
                                         .forEach((slot, slotIndex) => {
-                                            //if(slotIndex%2 == 0){
-                                                $(`#week${index}_col${i}`).append(`
-                                                    ${(slotIndex % 2 == 0) ? '<br>' : ''}
-                                                    <button 
-                                                        onclick="buttonClick(this.id)"
-                                                        type="button"
-                                                        id="week_${index}_${day}_${slot}_${counter}"
-                                                        class="btn timeButton"
-                                                        style="
-                                                            background-color:#572e5e;
-                                                            color:#ffffff;
-                                                            width:70px;
-                                                            font-size:13px;
-                                                            padding:2px 2px
-                                                        "
-                                                        ${(weeks[index][day][slot]) ? '' : 'disabled'} 
-                                                            >${moment(slot, "HH:mm").format("h:mm A")}</button>
-                                                    `);
-
-
-                                                if (weeks[index][day][slot] == true){
-                                                    $(`#week${index}_col${i}`).append(`
-                                                        <br><button onclick="buttonClick(this.id)" type="button" id="week_${index}_${day}_${slot}_${counter}" class="btn timeButton" style="background-color:#572e5e;color:#ffffff;width:70px;font-size:13px;padding:2px 2px">${moment(slot, "HH:mm").format("h:mm A")}</button>
-                                                    `);
-                                                } else {
-                                                    $(`#week${index}_col${i}`).append(`
-                                                        <br><button onclick="buttonClick(this.id)" type="button" id="week_${index}_${day}_${slot}_${counter}" class="btn timeButton" style="background-color:#572e5e;color:#ffffff;width:70px;font-size:13px;padding:2px 2px" disabled>${moment(slot, "HH:mm").format("h:mm A")}</button>
-                                                    `);
-                                                };
-                                            } else {
-                                                if (weeks[index][day][slot] == true){
-                                                    $(`#week${index}_col${i}`).append(`
-                                                        <button onclick="buttonClick(this.id)" type="button" id="week_${index}_${day}_${slot}_${counter}" class="btn timeButton" style="background-color:#572e5e;color:#ffffff;width:70px;font-size:13px;padding:2px 2px">${moment(slot, "HH:mm").format("h:mm A")}</button>
-                                                    `);
-                                                } else {
-                                                    $(`#week${index}_col${i}`).append(`
-                                                        <button onclick="buttonClick(this.id)" type="button" id="week_${index}_${day}_${slot}_${counter}" class="btn timeButton" style="background-color:#572e5e;color:#ffffff;width:70px;font-size:13px;padding:2px 2px" disabled>${moment(slot, "HH:mm").format("h:mm A")}</button>
-                                                    `);
-                                                };
-
-                                            };
-
+                                            $(`#week${index}_col${i}`).append(`
+                                                ${(slotIndex % 2 == 0) ? '<br>' : ''}
+                                                <button 
+                                                    onclick="buttonClick(this.id)"
+                                                    type="button"
+                                                    id="week_${index}_${day}_${slot}_${counter}"
+                                                    class="btn timeButton"
+                                                    style="
+                                                        background-color:#572e5e;
+                                                        color:#ffffff;
+                                                        width:70px;
+                                                        font-size:13px;
+                                                        padding:2px 2px"
+                                                    ${(weeks[index][day][slot]) ? '' : 'disabled'} 
+                                                    >${moment(slot, "HH:mm").format("h:mm A")}</button>
+                                                `);
                                         });
                                 };
                             });
                     };
                 });
-
-                /*$(`#carouselBody`).append(`
-                    <div class="carousel-item" id="carousel_loading">
-                        <div class="row" align="center">
-                            <div class="col" style="height: 259px">
-                                <br><br><br>
-                                <div class="text-center" id="loadingGoogle">
-                                    <span class="spinner-border" role="status"></span>
-                                    <span>Loading from Google Calendar...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `);*/
 
                 $(`#carousel_week${weeksCounter*4}`).addClass("active");
 
@@ -304,9 +241,7 @@ $(document).ready(() => {
 
     $("#carouselNext").click(function(e) {
         var slideAmount = weeks.length;
-        console.log("Slide Amount" +slideAmount);
         var currentIndex = $('div.active').index();
-        console.log(currentIndex);
         if (currentIndex+1 == 0){
             $("#carouselPrev").hide();
         } else {
@@ -328,9 +263,7 @@ $(document).ready(() => {
     });
         $("#carouselPrev").click(function(e) {
         var slideAmount = weeks.length;
-        console.log("Slide Amount" +slideAmount);
         var currentIndex = $('div.active').index();
-        console.log(currentIndex);
         if (currentIndex-1 == 0){
             $("#carouselPrev").hide();
         } else {
@@ -411,24 +344,21 @@ $(document).ready(() => {
             });
 
     });
+    //eventually should be combined with original submit button
     $('#submitCalendar').click(function (e) {
         e.preventDefault();
         if ($(`#laterDate`)[0].checked == true) {
             console.log("Later Date");
         } else {
-            var googleParameters = {
-                startEvent: startEventDateTime, 
-                endEvent: endEventDateTime,
-                firstName: $("#FirstName").val(),
-                lastName: $("#LastName").val(),
-                emailAddress: $("#Email").val(),
-                description: $("#Description").val()
-            };
-            var zoomParameters = {startEvent: startEventDateTime, duration: 60};
-            console.log(googleParameters);
-            console.log(zoomParameters);
-
-            $.post(`http://${location.hostname}${port}/api/scheduling/`, {data: googleParameters, zoomParameters})
+            $.post(`http://${location.hostname}${port}/api/scheduling/`, 
+                {
+                    startEvent, 
+                    endEvent,
+                    firstName: $("#FirstName").val(),
+                    lastName: $("#LastName").val(),
+                    emailAddress: $("#Email").val(),
+                    duration: 60
+                })
                 .done((res) => {
                     console.log("Success!");
                     console.log(res);
