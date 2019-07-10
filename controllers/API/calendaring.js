@@ -1,5 +1,5 @@
 const { google } = require('googleapis');
-const config = require('../../config/config');
+const zoom_config = require('../../config/config').zoom;
 const readline = require('readline');
 const fs = require('fs');
 const testemail = require('../../config/emails/hello_world.js');
@@ -14,13 +14,11 @@ const temporary = {
         APISecret: 'FkTnmLvQU0LeOKiDxXI1syPoc11ryyeEmZXQ'
     }
 };
-const payload = {
-    iss: temporary.production.APIKey,
-    exp: ((new Date()).getTime() + 5000)
-};
-const token = jwt.sign(payload, temporary.production.APISecret);
 
-const userID = 'EqzFmlwPRcKtSp4ArOhKDg';
+const zoom_token = jwt.sign({
+        iss: zoom_config.production.APIKey,
+        exp: ((new Date()).getTime() + 5000)
+    }, zoom_config.production.APISecret);
 
 const gauth = require('../../util/google_token');
 
@@ -67,51 +65,22 @@ var get = (req, res, next) => {
         });
 };
 
-var post_cal = (req, res, next) => {
-    gauth('gswfp@gswfinancialpartners.com')
-        .then((auth) => {
-            const calendar = google.calendar({version: 'v3', auth});
-            calendar.events.list({
-                calendarId: 'primary',
-                timeMin: (new Date()).toISOString(),
-                singleEvents: true,
-                orderBy: 'startTime',
-              }, (err, g_res) => {
-                console.log(err);
-                //if (err) return res.status(400).send({error: 'error retrieving google calendar information'}); 
-                const events = g_res.data.items;
-                if (events.length) {
-                  console.log('Upcoming Events:');
-                  events.map((event, i) => {
-                    const start = event.start.dateTime || event.start.date;
-                    return res.send({data: `${start} - ${event.summary}`});
-                  });
-                } else {
-                    return res.send({message: 'no upcoming events found'});
-                }
-              });
-        });
-};
-
 var post = (req, res, next) => {
-    console.log('Calendar Sumbitted.');
+    console.log('Calendar Submitted.');
     data = req.body;
-    console.log(data);
-    
     var subject = data.firstName + " " + data.lastName + " - Introductory Zoom Call";
 
     // start new Zoom meeting
-    axios.post((`https://api.zoom.us/v2/users/${userID}/meetings?access_token=${token}`), 
+    axios.post(`https://api.zoom.us/v2/users/${zoom_config.userID}/meetings?access_token=${zoom_token}`, 
         {
-              'topic': subject,
-              'type': 2,
-              'start_time': data.startEvent,
-              'duration': data.duration
-        })
-        .then((response) => {
-          console.log("SUCCESS!");
-          console.log(response.data); 
-          gauth('calendaring', 'gswfp@gswfinancialpartners.com')
+            'topic': subject,
+            'type': 2,
+            'start_time': data.startEvent,
+            'duration': data.duration
+        }
+    )
+        .then((response) => 
+            gauth('calendaring', 'gswfp@gswfinancialpartners.com')
               // create new Google Calendar event
               .then((auth) => {
                 console.log('google authorized');
@@ -140,10 +109,11 @@ var post = (req, res, next) => {
                 console.log('Event created: %s', event.htmlLink);
                 res.send({ messages: ['event successfully created']});
               })
-        })
-              .catch((err) => {
-                console.log(err);
-              });
+        )
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send({ errors: ['error creating event', err] });
+        });
 };
 
 
