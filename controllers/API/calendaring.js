@@ -2,18 +2,10 @@ const { google } = require('googleapis');
 const zoom_config = require('../../config/config').zoom;
 const readline = require('readline');
 const fs = require('fs');
-const testemail = require('../../config/emails/hello_world.js');
+const zoomEmail = require('../../config/emails/zoom.js');
 var moment = require('moment');
 var axios = require('axios');
 var jwt = require('jsonwebtoken');
-
-
-const temporary = {
-    production: {
-        APIKey: 'smlKQne2QLqMLyohFu29aw',
-        APISecret: 'FkTnmLvQU0LeOKiDxXI1syPoc11ryyeEmZXQ'
-    }
-};
 
 const zoom_token = jwt.sign({
         iss: zoom_config.production.APIKey,
@@ -69,6 +61,7 @@ var post = (req, res, next) => {
     console.log('Calendar Submitted.');
     data = req.body;
     var subject = data.firstName + " " + data.lastName + " - Introductory Zoom Call";
+    var zoomID = 0;
 
     // start new Zoom meeting
     axios.post(`https://api.zoom.us/v2/users/${zoom_config.userID}/meetings?access_token=${zoom_token}`, 
@@ -79,14 +72,15 @@ var post = (req, res, next) => {
             'duration': data.duration
         }
     )
-        .then((response) => 
+        .then((response) => {
+          //zoomID = response.data.id;
             gauth('calendaring', 'gswfp@gswfinancialpartners.com')
               // create new Google Calendar event
               .then((auth) => {
                 console.log('google authorized');
                 var event = {
                   'summary': subject,
-                  'description': 'Zoom Meeting ID: ' + response.data.id,
+                  'description': 'Zoom Meeting ID: ' + zoomID,
                   'start': {
                     'dateTime': data.startEvent,
                   },
@@ -104,18 +98,39 @@ var post = (req, res, next) => {
                   calendarId: 'primary',
                   resource: event,
                 });
-              })
-              .then((event) => {
-                console.log('Event created: %s', event.htmlLink);
-                res.send({ messages: ['event successfully created']});
-              })
-        )
-        .catch((err) => {
-            console.log(err);
-            res.status(400).send({ errors: ['error creating event', err] });
-        });
-};
+              })   
+              .then((response2) => {
 
+                gauth('emailer', 'gswfp@gswfinancialpartners.com')
+                  .then((auth) => 
+                    google.gmail({
+                      version: 'v1',
+                      auth
+                    })
+                    .users.messages.send({
+                      userId: 'me',
+                      requestBody: {
+                        raw: zoomEmail({
+                          FirstName: data.firstName,
+                          LastName: data.lastName,
+                          Email: data.emailAddress,
+                          time: moment(data.startEvent).format("h:mm A"),
+                          date: moment(data.startEvent).format("MMMM Do, YYYY"),
+                          code: zoomID,
+                        })
+                      }
+                    })
+                )
+                .catch((err) => {
+                  console.log('error here', err);
+                  console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                  console.log(err.data);
+                });
+              })
+              .then((email) => res.status(200).send({ messages: ['event successfully created']}))
+              .catch((err) => console.log('error here', err))
+            })
+};
 
 module.exports = {
     post,
