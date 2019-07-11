@@ -92,29 +92,30 @@ var mkdir_if_none = ({ auth, name, parent }) =>
         );
 
 
-/*var filegen_post = (req, res, next) {
+var filegen_post = (req, res, next) {
     var name = req.data.name;
     gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
         .then((auth) => 
             mkdir_if_none({ auth, name, parent: CLIENT_FILES })
                 // structure Financial Documents directory 
                 .then((folder) =>
-                    mkdir_if_none({ auth, name: 'Financial Documents', parent: folder.data.id })
-                        // add four years' worth of folders (or however many years requested in SOW)
-                        .then((FD) => {
-                            var year = moment(Date.now()).year();
-                            var years = Array(4).map((_, ind) => (year - ind);
-                                
-                                .reduce((promise_acc, yr) =>
-                                    promise_acc
-                                        .then((prev) => mkdir_if_none({ auth, name: yr.toString(), parent: FD.data.id }))
-                                )
-                                */
-                            
-                             
+                    mkdir_if_none({ auth, name: 'Financial Documents', parent: folder.data.id }))
+                // add four years' worth of folders (or however many years requested in SOW)
+                .then((FD) => 
+                    Array(4).reduce((promise_acc, ind) =>
+                        promise_acc
+                            .then((prev) => mkdir_if_none({
+                                auth,
+                                name: (moment(Date.now()).year() - ind).toString(),
+                                parent: FD.data.id 
+                            }))
+                    )
+                )
+        )
+        .then((gres)
 
-                       
-  
+
+
 
 module.exports = {
     ledger: {
