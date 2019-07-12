@@ -99,8 +99,9 @@ var post = (req, res, next) => {
                   resource: event,
                 });
               })   
-              .then((response2) => {
-                var auth = gauth('emailer', 'gswfp@gswfinancialpartners.com')
+              .then((calendar_res) => 
+                gauth('emailer', 'gswfp@gswfinancialpartners.com')
+                  .then((auth) =>
                     google.gmail({
                       version: 'v1',
                       auth
@@ -118,12 +119,15 @@ var post = (req, res, next) => {
                         })
                       }
                     })
+                  )
+              
+              
                 .catch((err) => {
                   console.log('error here', err);
                   console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
                   console.log(err.data);
                 });
-              })
+              )
               .then((email) => res.status(200).send({ messages: ['event successfully created']}))
               .catch((err) => console.log('error here', err))
             })
