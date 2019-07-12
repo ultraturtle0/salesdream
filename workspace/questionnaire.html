@@ -34,29 +34,29 @@
 			</div>
 			<div class="form-group">Business Address
 				<br>
-				<label for="businessAddressStreet">Street</label>
-				<input type="text" name="businessAddressStreet" id="businessAddressStreet" style="width: 500px">
+				<label for="bizAddrStreet">Street</label>
+				<input type="text" name="bizAddrStreet" id="bizAddrStreet" style="width: 500px">
 				<br>
-				<label for="businessAddressCity">City</label>
-				<input type="text" name="businessAddressCity" id="businessAddressCity">
-				<label for="businessAddressState">State</label>
-				<input type="text" name="businessAddressState" id="businessAddressState">
-				<label for="businessAddressZip">Zip Code</label>
-				<input type="text" name="businessAddressZip" id="businessAddressZip">
+				<label for="bizAddrCity">City</label>
+				<input type="text" name="bizAddrCity" id="bizAddrCity">
+				<label for="bizAddrState">State</label>
+				<input type="text" name="bizAddrState" id="bizAddrState">
+				<label for="bizAddrZip">Zip Code</label>
+				<input type="text" name="bizAddrZip" id="bizAddrZip">
 			</div>
 			<div class="form-group">Mailing Address
 				<br>
-				<label><input type="checkbox" name="differentFromBusinessAddress" id="differentFromBusinessAddress">Different from business address?</label>
-				<div id="mailingAddress" class="form-group">
-					<label for="mailingAddressStreet">Street</label>
-					<input type="text" name="mailingAddressStreet" id="businessAddressStreet" style="width: 500px">
+				<label><input type="checkbox" name="differentFromBizAddr" id="differentFromBizAddr">Different from business address?</label>
+				<div id="mailAddr" class="form-group">
+					<label for="mailAddrStreet">Street</label>
+					<input type="text" name="mailAddrStreet" id="mailAddrStreet" style="width: 500px">
 					<br>
-					<label for="mailingAddressCity">City</label>
-					<input type="text" name="mailingAddressCity" id="mailingAddressCity">
-					<label for="mailingAddressState">State</label>
-					<input type="text" name="mailingAddressState" id="mailingAddressState">
-					<label for="mailingAddressZip">Zip Code</label>
-					<input type="text" name="mailingAddressZip" id="mailingAddressZip">
+					<label for="mailAddrCity">City</label>
+					<input type="text" name="mailAddrCity" id="mailAddrCity">
+					<label for="vState">State</label>
+					<input type="text" name="mailAddrState" id="mailAddrState">
+					<label for="mailAddrZip">Zip Code</label>
+					<input type="text" name="mailAddrZip" id="mailAddrZip">
 				</div>
 			</div>
 			<div class="form-group">
@@ -76,15 +76,17 @@
 				<input type="text" name="state" id="state"> 
 			</div>
 			<div class="form-group">
-				<label for="businessClassificationChoice">What is your business classification?</label>
-				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationSoleProp">Sole Prop</label>
-				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationLLC">LLC</label>
-				<label><input type="radio" name="businessClassificationChoice" id="businessClassificationSCorp">SCorp</label>
-				<label><input type="radio" name="businessClassificationChoice" id="businessClassification">CCorp</label>
+				<label for="bizClass">What is your business classification?</label>
+				<select name="bizClass" id="bizClass">
+						<option value="SoleProp">Sole Prop</option>
+						<option value="LLC">LLC</option>
+						<option value="SCorp">SCorp</option>
+						<option value="CCorp">CCorp</option>
+					</select>
 			</div>
 			<div class="form-group">
 				<label for="ownershipYear">What year did you form or take ownership of your primary business?</label>
-				<input type="text" name="ownershipYear" id="ownershipYear"> 
+					<select name="ownershipYear" id="ownershipYear"></select>
 			</div>
 			<div class="form-group">
 				<label for="partnersYN">Do you have any partners, or shareholders?</label>
@@ -124,6 +126,11 @@
 			</div>
 
 			<div class="form-group">
+				<label for="AnnualRevenue">What is your annual revenue volume? Feel free to estimate.</label>
+				<input type="text" name="AnnualRevenue" id="AnnualRevenue"> 
+			</div>
+
+			<div class="form-group">
 				<label for="AccountingYear">Do you do your accounting on a calender year or fiscal year?</label>
 				<input value="Yes" type="radio" name="AccountingYear" id="AccountingYear1"> Yes 
 				<input value="No" type="radio" name="AccountingYear" id="AccountingYear2"> No
@@ -135,6 +142,35 @@
 					<input type="text" name="FiscalYear" id="FiscalYear"> 
 				</div>
 			</div>
+
+			<div class="form-group">
+				<label for="Cash">Is your company cash or accrual basis?</label>
+				<input type="text" name="Cash" id="Cash"> 
+			</div>
+
+			<div class="form-group">
+				<label for="FinancialReports">How often do you need to, or would like to, review financial reports? OR How frequently would you like to view current financial reports?</label>
+				<select name="FinancialReports" id="FinancialReports">
+						<option value="Daily">Daily</option>
+						<option value="Weekly">Weekly</option>
+						<option value="Bi-Monthly">Bi-Monthly</option>
+						<option value="Monthly">Monthly</option>
+						<option value="Bi-Yearly">Bi-Yearly</option>
+						<option value="Yearly">Yearly</option>
+					</select>
+			</div>
+
+			<div class="form-group">
+				<label for="DateOfStart">When would you like us to begin working?</label>
+			<div class="input-group date" data-provide="datepicker">
+					<input type="text" class="form-control datepicker" id="OtherStatementCycle${o}">
+					<div class="input-group-addon">
+						<span class="glyphicon glyphicon-th"></span>
+					</div>
+				</div>
+			</div>
+
+			
 		</div>
 
 		<div> <!--ACCOUNTING SERVICE-->
@@ -307,6 +343,58 @@
 				</div>
 			</div>
 
+			<div> <!--TAX FILING-->
+              <div class="form-group">
+				    <label for="AppointmentAccountant">Do you have an appointment scheduled with your accountant/tax preparer?</label>
+				<input value="Yes" type="radio" name="AppointmentAccountant" id="AppointmentAccountant1"> Yes 
+				<input value="No" type="radio" name="AppointmentAccountant" id="AppointmentAccountant2"> No
+			</div>
+
+			<div class="form-group">
+				<label for="AppointmentIndividual">Do you have an appointment scheduled with an indivdual or business that will be reviewing your accounting files once we have completed the work?</label>
+				<input value="Yes" type="radio" name="AppointmentIndividual" id="AppointmentIndividual1"> Yes 
+				<input value="No" type="radio" name="AppointmentIndividual" id="AppointmentIndividual2"> No
+          
+			</div>
+
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer1" class="form-group">
+				<div style="margin-left: 10px">
+					<label for="WhoWhen">Who and when? </label>
+					<input type="text" name="WhoWhen" id="WhoWhen"> 
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="TaxReturnBussiness">What is the last year you have cpmpleted tax return field for your business?</label>
+				<input type="text" name="TaxReturnBussiness" id="TaxReturnBussiness"> 
+	        </div>
+
+	        <div class="form-group">
+				<label for="TaxReturnPersonal">What is the last year you have cpmpleted tax return field for your personal?</label>
+				<input type="text" name="TaxReturnPersonal" id="TaxReturnPersonal"> 
+	        </div>
+
+	        <div class="form-group">
+				<label for="Extention">Are you on extention for your current financial year?</label>
+				<input value="Yes" type="radio" name="Extention" id="Extention1"> Yes 
+				<input value="No" type="radio" name="Extention" id="Extention2"> No
+          
+			</div>
+
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer2" class="form-group">
+				<div style="margin-left: 10px">
+					<label for="ExtentionDate">What date is your extention due?</label>
+					<input type="text" name="ExtentionDate" id="ExtentionDate"> 
+				</div>
+			</div>
+
+
+
+
+
+
+			</div>
+
 
 
 		<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
@@ -321,6 +409,8 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
+
+
 
 	</body>
 </html>

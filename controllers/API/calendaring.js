@@ -120,13 +120,7 @@ var post = (req, res, next) => {
                       }
                     })
                   )
-              
-              
-                .catch((err) => {
-                  console.log('error here', err);
-                  console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-                  console.log(err.data);
-                });
+                //.catch((err) => console.log('error here', err));
               )
               .then((email) => res.status(200).send({ messages: ['event successfully created']}))
               .catch((err) => console.log('error here', err))

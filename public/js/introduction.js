@@ -292,14 +292,26 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
-        var fields = ['FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Referral', 'ReferralLength', 'Description', 'questionnaire'];
+        var required = ['FirstName', 'LastName', 'Company', 'Email', 'Phone']
+        var fields = ['Referral', 'ReferralLength', 'Description', 'questionnaire'];
         var others = ['Referral', 'Preparer'];
 
+        var requiredFields = [];
         var body = {};
         var invalid = [];
+        required.forEach((field) => {
+            var val = $('#' + field).val();
+            if (val){
+                body[field] = val;
+            } else {
+                invalid.push('#' + field);
+            };
+            requiredFields.push('#' + field);
+            //val ? body[field] = val : invalid.push('#' + field);
+        });
         fields.forEach((field) => {
             var val = $('#' + field).val();
-            val ? body[field] = val : invalid.push('#' + field);
+            if (val) body[field] = val;
         });
         others.forEach((other) => {
             var val = $('#' + other + 'Other').val();
@@ -309,39 +321,45 @@ $(document).ready(() => {
                 body[other + 'Other'] = val :
                 invalid.push('#' + other + 'Other');
         });
-
         console.log(invalid);
         // add invalid handling here
-        if (invalid.length) return 0; 
+        //if (invalid.length) return 0; 
+        if (invalid.length) {
+            requiredFields.forEach((requiredField) => $(`${requiredField}Box`).css("color","black") );
+            invalid.forEach((invalidField)=> $(`${invalidField}Box`).css("color","red") );
+        };
 
-        $('#buttonStatus').text('Submitting...');
-        $('#submitStatus').show();
+        if(!invalid.length){
+            $('#buttonStatus').text('Submitting...');
+            $('#submitStatus').show();
 
-        $.post(`http://${location.hostname}${port}/api/introduction/`, body)
-            .done((res) => {
-                $('#buttonStatus').text('Success!');
-                $('#submitStatus').hide();
-                $('#submit').toggleClass('btn-primary');
-                $('#submit').toggleClass('btn-success');
-                $('#submit').attr('disabled', true);
-            })
-            .fail((err) => {
-                $('#buttonStatus').text('Internal Error.');
-                $('#submitStatus').hide();
-                $('#submit')
-                    .toggleClass('btn-primary')
-                    .toggleClass('btn-danger')
-                    .attr('disabled', true)
-                    .after(err.responseJSON.errors.map((error) => `<span>${error}</span>`).join('\n'));
-                setTimeout(() => {
+            $.post(`http://${location.hostname}${port}/api/introduction/`, body)
+                .done((res) => {
+                    $('#buttonStatus').text('Success!');
+                    $('#submitStatus').hide();
+                    $('#submit').toggleClass('btn-primary');
+                    $('#submit').toggleClass('btn-success');
+                    $('#submit').attr('disabled', true);
+                })
+                .fail((err) => {
+                    $('#buttonStatus').text('Internal Error.');
+                    $('#submitStatus').hide();
                     $('#submit')
-                        .toggleClass('btn-danger')
                         .toggleClass('btn-primary')
-                        .attr('disabled', false);
-                    $('#buttonStatus')
-                        .text('Submit');
-                }, 2000);
-            });
+                        .toggleClass('btn-danger')
+                        .attr('disabled', true)
+                        .after(err.responseJSON.errors.map((error) => `<span>${error}</span>`).join('\n'));
+                    setTimeout(() => {
+                        $('#submit')
+                            .toggleClass('btn-danger')
+                            .toggleClass('btn-primary')
+                            .attr('disabled', false);
+                        $('#buttonStatus')
+                            .text('Submit');
+                    }, 2000);
+                });
+            console.log("submitted");
+        };
 
     });
     //eventually should be combined with original submit button
