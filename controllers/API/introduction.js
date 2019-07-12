@@ -76,7 +76,8 @@ var post = (req, res, next) => {
     
         Link.save()
         .then((link) => 
-            gauth('emailer', 'gswfp@gswfinancialpartners.com')
+            new gauth('emailer', 'gswfp@gswfinancialpartners.com')
+                .auth()
                 .then((auth) => 
                     google.gmail({
                         version: 'v1',

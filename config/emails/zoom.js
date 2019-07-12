@@ -11,7 +11,7 @@ module.exports = (template) => {
         '',
         `Hi ${template.FirstName},<br>` +
         '<br>' +
-        `A virtual meeting has been set up on zoom.us for ${template.time} on ${template.date}. <br>
+        `A virtual meeting to discuss your bookkeeping has been set up on zoom.us for ${template.time} on ${template.date}. <br>
         Your zoom meeting code is: ${template.code} <br>
         To join the meeting at the scheduled time, go to zoom.us and click "Join Meeting". Enter your meeting code and join the meeting!
         Make sure that youre camera and microphone are working.`
