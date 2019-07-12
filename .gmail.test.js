@@ -1,5 +1,6 @@
 const { google } = require('googleapis');
 const gauth = require('./util/google_token.js');
+const assert = require('assert');
 
 const surveyEmail = require('./config/emails/hello_world.js');
 
@@ -9,9 +10,12 @@ const body = {
 const link = {
     hello: 'hello world'
 }
-gauth('emailer', 'gswfp@gswfinancialpartners.com')
-                .then((auth) => 
-                    google.gmail({
+
+new gauth('emailer', 'gswfp@gswfinancialpartners.com')
+    .auth()
+                .then((auth) => {
+                    console.log(auth);
+                    const gmail = google.gmail({
                         version: 'v1',
                         auth
                     })
@@ -20,27 +24,28 @@ gauth('emailer', 'gswfp@gswfinancialpartners.com')
                         requestBody: {
                             raw: surveyEmail({ body, link })
                         }
-                    })
-                )
-/*gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
-                .then((auth) => 
-                    google.sheets({
-                        version: 'v4',
-                        auth
-                    })
-.spreadsheets.create({
+                    });
+                    return gmail;
+                })
+                .catch((err) => console.error(err));
+
+
+return new gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
+    .auth()
+        .then((auth) => {
+            const sheets = google.sheets({
+                version: 'v4',
+                auth
+            })
+            .spreadsheets.create({
                 resource: {
                     properties: {
                         title: 'super' + ' Account Ledger' 
                     }
                 },
                 fields: 'spreadsheetId'
-            })
-            .then((res) => console.log(res))
-            .catch(err => console.error(err))
-
-                )
-                .catch(err => console.error(err));
-                */
-                
+            });
+            return sheets;
+        })
+        .catch(err => console.error(err));
 

@@ -23,7 +23,8 @@ var get = (req, res, next) => {
     var numberOfWeeks = 4;
     var endDate = (moment(currentDate).add(numberOfWeeks, 'weeks')).toDate();
     console.log(endDate);
-    gauth('calendaring', 'gswfp@gswfinancialpartners.com')
+    new gauth('calendaring', 'gswfp@gswfinancialpartners.com')
+        .auth()
         .then((auth) => {
             const calendar = google.calendar({ version: 'v3', auth });
             calendar.events.list({
@@ -72,65 +73,63 @@ var post = (req, res, next) => {
             'duration': data.duration
         }
     )
-        .then((response) => {
-            gauth('calendaring', 'gswfp@gswfinancialpartners.com')
-              // create new Google Calendar event
-              .then((auth) => {
-                zoomID = response.data.id;
-                console.log('google authorized');
-                var event = {
-                  'summary': subject,
-                  'description': 'Zoom Meeting ID: ' + zoomID,
-                  'start': {
-                    'dateTime': data.startEvent,
-                  },
-                  'end': {
-                    'dateTime': data.endEvent,
-                  },
-                  'attendees': [
-                    {'email': 'gabriella@gswfinancialpartners.com'},
-                    {'email': data.emailAddress},
-                  ],
-                };
-                const calendar = google.calendar({ version: 'v3', auth })
-                return calendar.events.insert({
-                  auth,
-                  calendarId: 'primary',
-                  resource: event,
-                });
-              })   
-              .then((calendar_res) => 
-                gauth('emailer', 'gswfp@gswfinancialpartners.com')
-                  .then((auth) =>
-                    google.gmail({
-                      version: 'v1',
-                      auth
-                    })
-                    .users.messages.send({
-                      userId: 'me',
-                      requestBody: {
-                        raw: zoomEmail({
-                          FirstName: data.firstName,
-                          LastName: data.lastName,
-                          Email: data.emailAddress,
-                          time: moment(data.startEvent).format("h:mm A"),
-                          date: moment(data.startEvent).format("MMMM Do, YYYY"),
-                          code: zoomID,
-                        })
-                      }
-                    })
-                  )
-              
-              
-                .catch((err) => {
-                  console.log('error here', err);
-                  console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-                  console.log(err.data);
-                });
-              )
-              .then((email) => res.status(200).send({ messages: ['event successfully created']}))
-              .catch((err) => console.log('error here', err))
-            })
+        .then((zoom_res) =>
+            new gauth('calendaring', 'gswfp@gswfinancialpartners.com')
+                .auth()
+                // create new Google Calendar event
+                .then((auth) => {
+                    console.log('google authorized');
+                    var event = {
+                      'summary': subject,
+                      'description': 'Zoom Meeting ID: ' + zoom_res.data.id,
+                      'start': {
+                        'dateTime': data.startEvent,
+                      },
+                      'end': {
+                        'dateTime': data.endEvent,
+                      },
+                      'attendees': [
+                        {'email': 'gabriella@gswfinancialpartners.com'},
+                        {'email': data.emailAddress,
+                        //'comment': 'would love to see you there can u make it?',
+                        }
+                      ],
+                    };
+                    const calendar = google.calendar({ version: 'v3', auth });
+                    return calendar.events.insert({
+                      auth,
+                      calendarId: 'primary',
+                      resource: event,
+                    });
+                }) 
+                .then((calendar_res) => 
+                    new gauth('emailer', 'gswfp@gswfinancialpartners.com').auth()
+                        .then((mail_auth) =>
+                            google.gmail({
+                              version: 'v1',
+                              auth: mail_auth
+                            })
+                            .users.messages.send({
+                                userId: 'me',
+                                requestBody: {
+                                    raw: zoomEmail({
+                                        FirstName: data.firstName,
+                                        LastName: data.lastName,
+                                        Email: data.emailAddress,
+                                        time: moment(data.startEvent).format("h:mm A"),
+                                        date: moment(data.startEvent).format("MMMM Do, YYYY"),
+                                        code: zoom_res.data.id,
+                                    })
+                                }
+                            })
+                        )
+                )
+        ) 
+        .then((email) => res.status(200).send({ messages: ['event successfully created']}))
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send({ errors: [err] });
+        });
 };
 
 module.exports = {
