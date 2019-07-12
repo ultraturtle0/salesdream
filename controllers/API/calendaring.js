@@ -61,7 +61,7 @@ var post = (req, res, next) => {
     console.log('Calendar Submitted.');
     data = req.body;
     var subject = data.firstName + " " + data.lastName + " - Introductory Zoom Call";
-    var zoomID = 0;
+    var zoomID;
 
     // start new Zoom meeting
     axios.post(`https://api.zoom.us/v2/users/${zoom_config.userID}/meetings?access_token=${zoom_token}`, 
@@ -73,10 +73,10 @@ var post = (req, res, next) => {
         }
     )
         .then((response) => {
-          //zoomID = response.data.id;
             gauth('calendaring', 'gswfp@gswfinancialpartners.com')
               // create new Google Calendar event
               .then((auth) => {
+                zoomID = response.data.id;
                 console.log('google authorized');
                 var event = {
                   'summary': subject,
@@ -99,10 +99,9 @@ var post = (req, res, next) => {
                   resource: event,
                 });
               })   
-              .then((response2) => {
-
+              .then((calendar_res) => 
                 gauth('emailer', 'gswfp@gswfinancialpartners.com')
-                  .then((auth) => 
+                  .then((auth) =>
                     google.gmail({
                       version: 'v1',
                       auth
@@ -120,13 +119,15 @@ var post = (req, res, next) => {
                         })
                       }
                     })
-                )
+                  )
+              
+              
                 .catch((err) => {
                   console.log('error here', err);
                   console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
                   console.log(err.data);
                 });
-              })
+              )
               .then((email) => res.status(200).send({ messages: ['event successfully created']}))
               .catch((err) => console.log('error here', err))
             })
