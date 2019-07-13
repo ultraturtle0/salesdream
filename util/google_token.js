@@ -40,14 +40,12 @@ module.exports = class gauth {
     }
 
     loadToken() {
-        console.log(`loading ${this.app} token with scopes ${scopes[this.app]}`);
         return (new GoogleAuth).getClient({
             keyFile: TOKEN_ROOT + this.app + '_gen.json',
             scopes: scopes[this.app] 
         })
         .then((auth) => {
             auth.subject = this.subject;
-            console.log(auth);
             console.log('authorization successful');
             return new Promise((resolve, reject) => resolve(auth));
         });

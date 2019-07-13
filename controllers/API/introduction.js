@@ -3,7 +3,7 @@ var axios = require('axios');
 const config = require('../../config/config');
 const LinkSchema = require('mongoose').model('Link');
 const surveyEmail = require('../../config/emails/questionnaire');
-const uuid = require('uuid/v4');
+const { ObjectId } = require('mongoose').Types;
 
 var accessToken = config.surveymonkey.accessToken;
 
@@ -43,40 +43,43 @@ var post = (req, res, next) => {
 
     if ('ReferralLength' in body)
         body.Description = body.Description.concat('\n', `${body.FirstName} has been with their current tax preparer for ${body.ReferralLength}.`);
-    // PREPARER
+    var standard = ['FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description']
+        .reduce((acc, key) => {
+            acc[key] = body[key];
+            return acc;
+        }, {});
+    var Link_id = new ObjectId;
     var sfbody = {
-        FirstName: body.FirstName,
-        LastName: body.LastName,
-        Company: body.Company,
-        Email: body.Email,
-        Phone: body.Phone,
         LeadSource: body.Referral,
         Lead_Source_Other__c: body.ReferralOther,
         Tax_Preparer__c: body.Preparer,
         Tax_Preparer_Other__c: body.PreparerOther,
-        Description: body.Description
+        Zoom_Meeting__c: body.startEvent,
+        Zoom_Meeting_ID__c: body.Zoom_Meeting_ID,
+        ...standard
     };
+    console.log(sfbody);
+    body.questionnaire ? 
+        sfbody.Questionnaire_ID__c = Link_id
+        : false;
 
 
-    /*sf.login()
+    sf.login()
         .then(() => sf.createObj(sf.conn, 'Lead', sfbody))
         ///////////////////////////////////////////////////////
         // generate questionnaire link and send
-        .then((lead) => {
-        */
-        var Link;
-            if (body.questionnaire === 'true') {
-                Link = new LinkSchema({
-                    salesforce: uuid(), //lead.id,
-                    email: body.Email
-                });
-            } else {
-                res.status(200).send({data: 'ok'});
-            }
-    
-        Link.save()
-        .then((link) => 
-            new gauth('emailer', 'gswfp@gswfinancialpartners.com')
+        .then((lead) => 
+            new LinkSchema({
+                _id: Link_id,
+                salesforce: lead.id,
+                email: body.Email
+            }).save()
+        )
+        .then((link) => {
+            // continue to emailer if sending questionnaire, otherwise respond
+            if (!body.questionnaire)
+                res.status(200).send({ messages: (req.messages || []).concat('Lead saved, questionnaire not sent.') })
+            return new gauth('emailer', 'gswfp@gswfinancialpartners.com')
                 .auth()
                 .then((auth) => 
                     google.gmail({
@@ -95,11 +98,13 @@ var post = (req, res, next) => {
                             })
                         }
                     })
-                )
-                .then((email) => res.status(200).send({data: 'ok'}))
-                .catch((err) => console.log('error here', err))
-        )
-        .catch((err) => res.status(400).send({ errors: [err] }));
+                );
+        })
+        .then((email) => res.status(200).send({ messages: (req.messages || []).concat('Lead saved, questionnaire email sent') }))
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send({ errors: [err] })
+        });
 };
 
 

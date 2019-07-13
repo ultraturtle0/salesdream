@@ -17,9 +17,11 @@ var buttonClick = function(id){
                     .set('minute', moment(dateName[3], "HH:mm").format("mm"))
                     .set('second', 0)
                     .format('YYYY-MM-DDTHH:mm:ssZ');
-    endEvent = moment(startEvent)
+    /*endEvent = moment(startEvent)
                     .add(1, 'hours')
                     .format('YYYY-MM-DDTHH:mm:ssZ');
+                    */
+    $('#startEvent').val(startEvent);
 };
 
 $(document).ready(() => {
@@ -293,42 +295,11 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
+        console.log($('#startEvent').val())
         var validation = true;
-        $(`#incomplete`).hide();
-        if ($(`#laterDate`)[0].checked == true) {
-            $(`#incomplete`).hide();
-            $(`#validation`).empty();
-            console.log("Later Date & submitted2");
-        } else if (startEvent) {
-            $(`#incomplete`).hide();
-            $(`#validation`).empty();
-            $.post(`http://${location.hostname}${port}/api/scheduling/`, 
-                {
-                    startEvent, 
-                    endEvent,
-                    firstName: $("#FirstName").val(),
-                    lastName: $("#LastName").val(),
-                    emailAddress: $("#Email").val(),
-                    duration: 60
-                })
-                .done((res) => {
-                    console.log("Success!");
-                    console.log(res);
-                })
-                .fail((err) => {
-                    console.log("error");
-                    console.log(err);
-                });
-                console.log("submitted2");
-        } else {
-            validation = false;
-            $(`#incomplete`).show();
-            $(`#validation`).append(`
-                <div style="color:red">Please pick a date and a time or select to pick one later</div>
-            `);
-        };
+
         var required = ['FirstName', 'LastName', 'Company', 'Email', 'Phone']
-        var fields = ['Referral', 'ReferralLength', 'Description', 'questionnaire'];
+        var fields = ['Referral', 'ReferralLength', 'Description', 'questionnaire', 'startEvent'];
         var others = ['Referral', 'Preparer'];
 
         var requiredFields = [];
@@ -385,7 +356,10 @@ $(document).ready(() => {
                         .toggleClass('btn-primary')
                         .toggleClass('btn-danger')
                         .attr('disabled', true)
-                        .after(err.responseJSON.errors.map((error) => `<span>${error}</span>`).join('\n'));
+                        .after(err.responseJSON.errors.map((error) => {
+                            console.log(error);
+                            return `<span>${error}</span>`;
+                        }).join('\n'));
                     setTimeout(() => {
                         $('#submit')
                             .toggleClass('btn-danger')
@@ -397,6 +371,42 @@ $(document).ready(() => {
                 });
             console.log("submitted1");
         };
+
+
+        /*
+        $(`#incomplete`).hide();
+        if ($(`#laterDate`)[0].checked == true) {
+            $(`#incomplete`).hide();
+            $(`#validation`).empty();
+            console.log("Later Date & submitted2");
+        } else if ($('#startEvent').val()) {
+            $(`#incomplete`).hide();
+            $(`#validation`).empty();
+            $.post(`http://${location.hostname}${port}/api/scheduling/`, 
+                {
+                    startEvent: $('#startEvent').val(), 
+                    FirstName: $("#FirstName").val(),
+                    LastName: $("#LastName").val(),
+                    Email: $("#Email").val(),
+                    duration: 60
+                })
+                .done((res) => {
+                    console.log("Success!");
+                    console.log(res);
+                })
+                .fail((err) => {
+                    console.log("error");
+                    console.log(err);
+                });
+                console.log("submitted2");
+        } else {
+            validation = false;
+            $(`#incomplete`).show();
+            $(`#validation`).append(`
+                <div style="color:red">Please pick a date and a time or select to pick one later</div>
+            `);
+        };
+        */
 
     });
     //eventually should be combined with original submit button
