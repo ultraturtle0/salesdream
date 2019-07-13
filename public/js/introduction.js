@@ -25,6 +25,7 @@ var buttonClick = function(id){
 $(document).ready(() => {
     window['moment-range'].extendMoment(moment);
     $("#carouselPrev").hide();
+    $(`#incomplete`).hide();
 
     var port;
     var picklist;
@@ -292,6 +293,40 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
+        var validation = true;
+        $(`#incomplete`).hide();
+        if ($(`#laterDate`)[0].checked == true) {
+            $(`#incomplete`).hide();
+            $(`#validation`).empty();
+            console.log("Later Date & submitted2");
+        } else if (startEvent) {
+            $(`#incomplete`).hide();
+            $(`#validation`).empty();
+            $.post(`http://${location.hostname}${port}/api/scheduling/`, 
+                {
+                    startEvent, 
+                    endEvent,
+                    firstName: $("#FirstName").val(),
+                    lastName: $("#LastName").val(),
+                    emailAddress: $("#Email").val(),
+                    duration: 60
+                })
+                .done((res) => {
+                    console.log("Success!");
+                    console.log(res);
+                })
+                .fail((err) => {
+                    console.log("error");
+                    console.log(err);
+                });
+                console.log("submitted2");
+        } else {
+            validation = false;
+            $(`#incomplete`).show();
+            $(`#validation`).append(`
+                <div style="color:red">Please pick a date and a time or select to pick one later</div>
+            `);
+        };
         var required = ['FirstName', 'LastName', 'Company', 'Email', 'Phone']
         var fields = ['Referral', 'ReferralLength', 'Description', 'questionnaire'];
         var others = ['Referral', 'Preparer'];
@@ -325,11 +360,13 @@ $(document).ready(() => {
         // add invalid handling here
         //if (invalid.length) return 0; 
         if (invalid.length) {
+            validation = false;
+            $(`#incomplete`).show();
             requiredFields.forEach((requiredField) => $(`${requiredField}Box`).css("color","black") );
             invalid.forEach((invalidField)=> $(`${invalidField}Box`).css("color","red") );
         };
 
-        if(!invalid.length){
+        if(validation){
             $('#buttonStatus').text('Submitting...');
             $('#submitStatus').show();
 
@@ -358,16 +395,21 @@ $(document).ready(() => {
                             .text('Submit');
                     }, 2000);
                 });
-            console.log("submitted");
+            console.log("submitted1");
         };
 
     });
     //eventually should be combined with original submit button
-    $('#submitCalendar').click(function (e) {
+    /*$('#submitCalendar').click(function (e) {
+        $(`#incomplete`).hide();
         e.preventDefault();
         if ($(`#laterDate`)[0].checked == true) {
+            $(`#incomplete`).hide();
+            $(`#validation`).empty();
             console.log("Later Date");
-        } else {
+        } else if (startEvent) {
+            $(`#incomplete`).hide();
+            $(`#validation`).empty();
             $.post(`http://${location.hostname}${port}/api/scheduling/`, 
                 {
                     startEvent, 
@@ -385,9 +427,14 @@ $(document).ready(() => {
                     console.log("error");
                     console.log(err);
                 });
+        } else {
+            $(`#incomplete`).show();
+            $(`#validation`).append(`
+                <div style="color:red">Please pick a date and a time or select to pick one later</div>
+            `);
         };
 
-    });
+    });*/
 
 
 });
