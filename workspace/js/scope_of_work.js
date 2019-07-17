@@ -23,13 +23,58 @@ $(document).ready(() => {
     })
     
     var questions = {
-    	"ar-deatial": [
+    	"ar-detial": [
     		'invoicing',
     		'moneyReceived'
+    	],
+    	"customer-detial": [
+    		'customerCommunication',
+    		'customerCollections',
+    		'jobTracking'
+    	],
+    	"ap-detial": [
+    		'recordingBills',
+    		'payingBills',
+    		'creditCards',
+    		'creditCardsPayable',
+    		'recordingExpenses'
+    	],
+    	"vendor-detial": [
+    		'vendor-detial',
+    		'classTracking'
+    	],
+    	"payroll-detial": [
+    		'enteringPayroll',
+    		'runningPayroll',
+    		'recordingPayroll',
+    		'payingPayrollTaxes',
+    		'payrollProcessing'
+    	],
+    	"inventory-detial": [
+    		'costOfGoodsSold'
+    	],
+    	"generalAccounting-detial": [
+    		'reconciliation',
+    		'bankingCashMonitoring',
+    		'AccessToDocumentation',
+    		'monthlyReconciliations',
+    		'classifications',
+    		'journals',
+    		'annualCompliance',
+    		'1099Filing',
+    		'businessTaxes',
+    		'W2s',
+    		'salesTax',
+    		'yearEndTaxes'
+    	],
+    	"generalAccounting-detial2": [
+    		'endOfMonth',
+    		'endOfQuarter',
+    		'adjusting',
+    		'closing'
     	]
     }
     // Generate category buttons
-
     Object.keys(questions)
     	.forEach((category) => {
             // category creation
@@ -41,6 +86,10 @@ $(document).ready(() => {
             // question creation
     		questions[category].forEach((question) => {
     			$('#' + category).append(`<button type="button" id="button-${question}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${question}</button>`);
+    			$(`#button-${question}`).click(function (e) {
+    				console.log("hi");
+                	$(`#${question}`).show();
+           		});
     		});	
     	});
 
