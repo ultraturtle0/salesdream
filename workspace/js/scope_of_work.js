@@ -31,13 +31,20 @@ $(document).ready(() => {
     // Generate category buttons
 
     Object.keys(questions)
-    	.forEach((key) => {
-    		questions[key].forEach((question) => {
-    			$('#' + key).append(`<button type="button" id="button-${question}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${question}</button>`);
+    	.forEach((category) => {
+            // category creation
+            $('#Buttons').append(`<button type="button" id="button-${category}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${category}</button>`);
+            $(`#button-${category}`).click(function (e) {
+                $(`#${category}`).show();
+            });
+            
+            // question creation
+    		questions[category].forEach((question) => {
+    			$('#' + category).append(`<button type="button" id="button-${question}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${question}</button>`);
     		});	
     	});
 
-    var button_ids = [
+/*    var button_ids = [
         'AR',
         'Customer',
         'AP',
@@ -56,13 +63,14 @@ $(document).ready(() => {
         	})
         })
     });
-
+*/
 	});
 
 	$("#formPreview").click(addInput);
 	function addInput(e){
 		e.preventDefault();
 		console.log("hi");
+        //$(this) .id()
 		$("#formDiv").append(`<div id="dropdown">
 			<label for="dropD">Question</label>
 				<select name="dropD" id="dropD">
@@ -75,5 +83,4 @@ $(document).ready(() => {
 		</div>`);
 
 	}
-
 	
