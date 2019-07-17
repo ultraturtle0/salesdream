@@ -58,7 +58,6 @@ var post = (req, res, next) => {
         Zoom_Meeting_ID__c: body.Zoom_Meeting_ID,
         ...standard
     };
-    console.log(sfbody);
     body.questionnaire ? 
         sfbody.Questionnaire_ID__c = Link_id
         : false;
@@ -76,9 +75,20 @@ var post = (req, res, next) => {
             }).save()
         )
         .then((link) => {
-            // continue to emailer if sending questionnaire, otherwise respond
-            if (!body.questionnaire)
-                res.status(200).send({ messages: (req.messages || []).concat('Lead saved, questionnaire not sent.') })
+            var template = {
+                FirstName: body.FirstName,
+                LastName: body.LastName,
+                Email: body.Email,
+                questionnaire: body.questionnaire,
+                // MAKE SURE THIS IS HTTPS LATER
+                link: `http://${req.get('host')}/survey/${link._id}/`
+            };
+            if (body.startEvent) {
+                template.time = moment(body.startEvent).format("h:mm A");
+                template.date = moment(body.startEvent).format("MMMM Do, YYYY");
+            };
+            if (zoom_res.data.id)
+                template.code = zoom_res.data.id;
             return new gauth('emailer', 'gswfp@gswfinancialpartners.com')
                 .auth()
                 .then((auth) => 
@@ -89,13 +99,7 @@ var post = (req, res, next) => {
                     .users.messages.send({
                         userId: 'me',
                         requestBody: {
-                            raw: surveyEmail({
-                                FirstName: body.FirstName,
-                                LastName: body.LastName,
-                                Email: body.Email,
-                                // MAKE SURE THIS IS HTTPS LATER
-                                link: `http://${req.get('host')}/survey/${link._id}/`
-                            })
+                            raw: surveyEmail(template)
                         }
                     })
                 );

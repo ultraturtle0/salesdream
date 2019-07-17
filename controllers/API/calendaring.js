@@ -112,31 +112,9 @@ var post = (req, res, next) => {
                       calendarId: 'primary',
                       resource: event,
                     });
-                }) 
-                .then((calendar_res) => 
-                    new gauth('emailer', 'gswfp@gswfinancialpartners.com').auth()
-                        .then((mail_auth) =>
-                            google.gmail({
-                              version: 'v1',
-                              auth: mail_auth
-                            })
-                            .users.messages.send({
-                                userId: 'me',
-                                requestBody: {
-                                    raw: zoomEmail({
-                                        FirstName: data.FirstName,
-                                        LastName: data.LastName,
-                                        Email: data.Email,
-                                        time: moment(data.startEvent).format("h:mm A"),
-                                        date: moment(data.startEvent).format("MMMM Do, YYYY"),
-                                        code: zoom_res.data.id,
-                                    })
-                                }
-                            })
-                        )
-                );
+                });
         }) 
-        .then((email) => {
+        .then((event) => {
             req.messages = (req.messages || []).concat('event successfully created');
             next();
         })
