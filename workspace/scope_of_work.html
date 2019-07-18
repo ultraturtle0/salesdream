@@ -6,78 +6,42 @@
 	</head>
 	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
 		<div id="Buttons">
-    		<button type="button" id="button-ar" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">AR</button>
-    		<button type="button" id="button-customer" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Customer</button>
-    		<button type="button" id="button-ap" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Ap</button>
-    		<button type="button" id="button-vendor" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Vendor</button>
-    		<button type="button" id="button-payroll" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Payroll</button>
-    		<button type="button" id="button-inventory" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Inventory</button>
-    		<button type="button" id="button-generalAccounting" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">General Accounting</button>
+
 		</div>
 
 		<div id="ar-deatial">
-			<button type="button" id="button-invoicing" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Invoicing</button>
-			<button type="button" id="button-moneyReceived" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Money Received</button>
-		</div>
-
-		<div id="dropdown">
-			<label for="bizClass"></label>
-				<select name="bizClass" id="bizClass">
-					<option value="businessOwner">Bussiness Owner</option>
-					<option value="businessStaffer">Business Staffer</option>
-					<option value="bookkeeper">Book Keeper</option>
-					<option value="cpa/ea">CPA/EA</option>
-					<option value="financialAdvisor">Financial Advisor</option>
-				</select>
+			
 		</div>
 
 		<div id="customer-deatial">
-			<button type="button" id="button-customerCommunication" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Customer Communication</button>
-			<button type="button" id="button-customerCollections" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Customer Collections</button>
-			<button type="button" id="button-jobTracking" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Job Tracking</button>
+			
 		</div>
 		<div id="ap-deatial">
-			<button type="button" id="button-recordingBills" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Recording Bills</button>
-			<button type="button" id="button-payingBills" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Paying Bills</button>
-			<button type="button" id="button-creditCards" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Credit Cards</button>
-			<button type="button" id="button-creditCardsPayable" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Credit Cards Payable</button>
-			<button type="button" id="button-recordingExpenses" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Recording Expenses</button>
+			
 		</div>
 		<div id="vendor-deatial">
-			<button type="button" id="button-vendorCommunication" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Vendor Communication</button>
-			<button type="button" id="button-classTracking" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Class Tracking</button>
-		</div>
-		<div id="payroll-deatial">
-			<button type="button" id="button-enteringPayroll" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Entering Payroll</button>
-			<button type="button" id="button-runningPayroll" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Running Payroll</button>
-			<button type="button" id="button-recordingPayroll" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Recording Payroll</button>
-			<button type="button" id="button-payingPayrollTaxes" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Paying Payroll Taxes</button>
-			<button type="button" id="button-payrollProcessing" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Payroll Processing</button>
-		</div>
-		<div id="inventory-deatial">
-			<button type="button" id="button-costOfGoodsSold" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Cost of Goods Sold</button>
-		</div>
-		<div id="generalAccounting-deatial">
-			<button type="button" id="button-reconciliation" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Reconciliation</button>
-			<button type="button" id="button-bankingCashMonitoring" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Banking/Cash Monitoring</button>
-			<button type="button" id="button-AccessToDocumentation" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Access to Documentation</button>
-			<button type="button" id="button-monthlyReconciliations" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Monthly Reconciliations</button>
-			<button type="button" id="button-classifications" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Classifications </button>
-			<button type="button" id="button-journals" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Journals</button>
-			<button type="button" id="button-annualCompliance" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Annual compliance</button>
-			<button type="button" id="button-1099Filing" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">1099 Filing</button>
-			<button type="button" id="button-businessTaxes" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Business Taxes</button>
-			<button type="button" id="button-W2s" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">W2s</button>
-			<button type="button" id="button-salesTax" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Sales Tax</button>
-			<button type="button" id="button-yearEndTaxes" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Year-End Taxes</button>
-		</div>
-		<div id ="generalAccounting-deatial2">
-			<button type="button" id="button-endOfMonth" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">End of month</button>
-			<button type="button" id="button-endOfQuarter" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">End of quarter</button>
-			<button type="button" id="button-adjusting" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Adjusting</button>
-			<button type="button" id="button-closing" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Closing</button>
 
 		</div>
+			
+		<div id="payroll-deatial">
+			
+		</div>
+		<div id="inventory-deatial">
+
+		</div>
+			
+		<div id="generalAccounting-deatial">
+			
+		</div>
+		<div id ="generalAccounting-deatial2">
+			
+
+		</div>
+
+		<form id="formDiv"></form>
+
+
+		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
