@@ -235,3 +235,18 @@ $("input[type='radio'][name='Extention']").change(function(e) {
 		}
 	});
 
+//Payroll
+
+$("input[type='radio'][name='employeeCount']").change(function(e) {
+		console.log(this.value);
+		if (this.value === 'Yes') {
+			$("#FYcontainer3").show();
+
+		} else {
+			$("#FYcontainer3").hide();
+
+		}
+	});
+
+
+
