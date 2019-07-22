@@ -18,7 +18,10 @@ $(document).ready(() => {
 	$("#externalBookkeeper").hide();
 	$("#cleanupBooks").hide();
 	$("#currentBookkeepingToolsOtherBox").hide();
-
+        
+        //Tax Filing
+    $("#FYcontainer1").hide();
+    $("#FYcontainer2").hide();
 
 
 	//EVENT LISTENERS
