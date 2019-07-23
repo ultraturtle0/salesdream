@@ -30,7 +30,7 @@ new gauth('emailer', 'gswfp@gswfinancialpartners.com')
                 .catch((err) => console.error(err));
 
 
-return new gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
+/*return new gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
     .auth()
         .then((auth) => {
             const sheets = google.sheets({
@@ -48,4 +48,5 @@ return new gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
             return sheets;
         })
         .catch(err => console.error(err));
+        */
 

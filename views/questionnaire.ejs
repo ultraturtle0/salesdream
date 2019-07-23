@@ -365,12 +365,12 @@
 			</div>
 
 			<div class="form-group">
-				<label for="TaxReturnBussiness">What is the last year you have cpmpleted tax return field for your business?</label>
+				<label for="TaxReturnBussiness">What is the last year you have completed tax return field for your business?</label>
 				<input type="text" name="TaxReturnBussiness" id="TaxReturnBussiness"> 
 	        </div>
 
 	        <div class="form-group">
-				<label for="TaxReturnPersonal">What is the last year you have cpmpleted tax return field for your personal?</label>
+				<label for="TaxReturnPersonal">What is the last year you have completed tax return field for your personal?</label>
 				<input type="text" name="TaxReturnPersonal" id="TaxReturnPersonal"> 
 	        </div>
 
@@ -388,23 +388,74 @@
 				</div>
 			</div>
 
-
-
-
-
-
+		    <div> <!--A/R-->
+		    	<div class="form-group">
+				<label for="invoiceCustomers">Do you invoice your cutomers or are you paid immediately?</label>
+				<input value="Invoice" type="radio" name="invoiceCustomers" id="invoiceCustomers1"> Invoice
+				<input value="paidImmediately" type="radio" name="paidImmediately" id="paidImmediately2"> Paid immediately 
+          
+			</div>
+			<div class="form-group">
+				<label for="collectSalesTax">Do you sell products that require you to collect and pay sales tax?</label>
+				<input value="Yes" type="radio" name="collectSalesTax" id="collectSalesTax1"> Yes
+				<input value="No" type="radio" name="collectSalesTax" id="collectSalesTax2"> No
+          
 			</div>
 
+		    </div>
+		    <div><!--Payroll-->
+		    	<div class="form-group">
+				<label for="subcontractors">Do you use subcontractors?</label>
+				<input value="Yes" type="radio" name="subcontractors" id="subcontractors1"> Yes
+				<input value="No" type="radio" name="subcontractors" id="subcontractors2"> No
+          
+			</div>
+			<div class="form-group">
+				<label for="employees">Do you have employees?</label>
+				<input value="Yes" type="radio" name="employees" id="employees1"> Yes
+				<input value="No" type="radio" name="employees" id="employees"> No
+          
+			</div>
 
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer3" class="form-group">
+				<div style="margin-left: 10px">
+					<label for="employeeCount">How many employees do you have?</label>
+					<input type="text" name="employeeCount" id="employeeCount"> 
+				</div>
+			</div>
+
+			<div class="form-group">
+					<label for="handlePayroll">How do you handle payroll?</label>
+					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">ADP</label>
+					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Paychex</label>
+					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Intuit</label>
+					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Other</label>
+				</div>
+
+		    </div>
+
+		    <div> <!-- Inventory -->
+		    	<div class="form-group">
+				<label for="Inventory">Do you manage or track inventory?</label>
+				<input value="Yes" type="radio" name="Inventory" id="Inventory1"> Manage
+				<input value="No" type="radio" name="Inventory" id="Inventory"> Track 
+          
+			</div>
+
+            <div id="hidden">
+                <input type="hidden" value="<%= id %>">
+            </div>
+        </div>
 
 		<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
 
+            </div>
 
         </form>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="js/questionnaire.js"></script>
+		<script src="/js/questionnaire.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js"></script>
