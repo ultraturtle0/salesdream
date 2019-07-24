@@ -5,7 +5,6 @@ const uuid = require('uuid/v4');
 var accessToken = config.surveymonkey.accessToken;
 
 const { google } = require('googleapis');
-const gauth = require('../../util/google_token');
 
 var get = (req, res, next) => 
     Link.findById(req.params.id, '-link -salesforce')

@@ -1,5 +1,6 @@
 const tokenName = 'googleAPI';
 const jwt = require('jsonwebtoken');
+const { GoogleAuth } = require('google-auth-library');
 
 // MOVE THESE TO CONFIG FILE
 const TOKEN_ROOT = __dirname + '/../config/tokens/';
@@ -22,54 +23,55 @@ const scopes = {
         "https://www.googleapis.com/auth/drive",
     ].join(' '),
     'emailer': [
-        "https://www.googleapis.com/auth/gmail.send",
-    ]
-}
+        'https://mail.google.com'
+    ].join(' ')
+};
 
-var loadToken = (app, subject) => 
-    //const token = JSON.parse(fs.readFileSync(FULL_PATH, 'utf8'));
-    google.auth.getClient({
-        keyFile: TOKEN_ROOT + app + '_gen.json',
-        scopes: scopes[app] 
-    })
-    .then((auth) => {
-        auth.subject = subject;
-        console.log('authorization successful');
-        return new Promise((resolve, reject) => resolve(auth));
-    });
+module.exports = class gauth {
+    constructor(app, subject) {
+        this.app = app;
+        this.subject = subject;
+    }
 
-var genToken = (app, subject) => {
-    const TOKEN_CONFIG = require(`${TOKEN_ROOT}${app}_gen.json`);
+    auth() {
+        return fs.existsSync(TOKEN_ROOT + this.app + '.json') ? 
+            this.loadToken() :
+            this.genToken();
+    }
 
-    return new google.auth.JWT(
-        TOKEN_CONFIG.client_email,
-        {
-            access_type: 'offline',
-        },
-        TOKEN_CONFIG.private_key,
-        scopes: scopes[app]
-    )
-    .authorize()
-        .then((tokens) => {
-            fs.writeFileSync(TOKEN_ROOT + app + '.json', JSON.stringify(tokens));
-            console.log('token generated');
-            console.log(tokens);
-            return loadToken(app, subject);
-        })   
-        .catch((err) => {
-            console.log("Error authorizing Google API token:");
-            console.log(err);
+    loadToken() {
+        return (new GoogleAuth).getClient({
+            keyFile: TOKEN_ROOT + this.app + '_gen.json',
+            scopes: scopes[this.app] 
+        })
+        .then((auth) => {
+            auth.subject = this.subject;
+            console.log('authorization successful');
+            return new Promise((resolve, reject) => resolve(auth));
         });
+    }
+
+    genToken() {
+        const TOKEN_CONFIG = require(`${TOKEN_ROOT}${this.app}_gen.json`);
+        return (new google.auth.JWT(
+            TOKEN_CONFIG.client_email,
+            {
+                access_type: 'offline',
+            },
+            TOKEN_CONFIG.private_key,
+            scopes[this.app]
+        ))
+            .authorize()
+            .then((tokens) => fs.writeFileSync(TOKEN_ROOT + this.app + '.json', JSON.stringify(tokens)))
+            .then((_) => this.loadToken())
+            .catch((err) => {
+                console.log("Error authorizing Google API token:");
+                console.log(err);
+            });
+    }
 }
 
 
-
-    
-
-module.exports = (app, subject) => 
-    fs.existsSync(TOKEN_ROOT + app + '.json') ? 
-        loadToken(app, subject) :
-        genToken(app, subject);
 
 
 

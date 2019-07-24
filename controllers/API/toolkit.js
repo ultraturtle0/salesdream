@@ -44,7 +44,8 @@ var ledger_post = (req, res, next) => {
         ledger_sheet.push(['','','','','']);
 
     // access Google APIs on behalf of gswfp
-    gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
+    new gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
+        .auth()
         .then((auth) => {
             const sheets = google.sheets({version: 'v4', auth });
             const drive = google.drive({version: 'v3', auth });

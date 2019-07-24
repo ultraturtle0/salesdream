@@ -30,6 +30,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "google-auth-library": "^4.2.5",
     "googleapis": "^40.0.0",
     "jsforce": "^1.9.1",
     "jsonwebtoken": "^8.5.0",
@@ -39,6 +40,8 @@
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "signrequest-client": "^1.0.1",
     "surveymonkey": "^1.1.0",
     "uuid": "^3.3.2"
