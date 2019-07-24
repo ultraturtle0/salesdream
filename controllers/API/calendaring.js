@@ -61,8 +61,10 @@ var get = (req, res, next) => {
 var post = (req, res, next) => {
     console.log('Calendar Submitted.');
     console.log(req.body);
-    if (req.laterDate)
+    if (req.body.laterDate === 'true') {
+        console.log('this should cut off');
         return next();
+    };
     var errors = [];
     var data = ['FirstName', 'LastName', 'Email']
         .reduce((acc, key) => {

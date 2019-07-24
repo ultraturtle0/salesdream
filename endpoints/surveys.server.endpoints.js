@@ -1,4 +1,3 @@
-const Link = require('mongoose').model('Link');
 const surveys = require('../controllers/surveys.server.controller');
 
 var validate_token = require('../config/strategies/jwt');
@@ -8,7 +7,7 @@ module.exports = (app) => {
         .get(validate_token, (req, res) => res.render('test'));
 
     app.route('/SOW')
-        .get((req, res) => res.render('scope_of_work'));
+        .get(validate_token, (req, res) => res.render('scope_of_work'));
 
     /*app.route('/surveys/:id')
         .get(surveys.get)

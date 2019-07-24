@@ -4,6 +4,7 @@ const config = require('../../config/config');
 const LinkSchema = require('mongoose').model('Link');
 const surveyEmail = require('../../config/emails/questionnaire');
 const { ObjectId } = require('mongoose').Types;
+const uuid = require('uuid/v4');
 
 var accessToken = config.surveymonkey.accessToken;
 
@@ -49,6 +50,7 @@ var post = (req, res, next) => {
             return acc;
         }, {});
     var Link_id = new ObjectId;
+    var qLink = uuid();
     var sfbody = {
         LeadSource: body.Referral,
         Lead_Source_Other__c: body.ReferralOther,
@@ -59,7 +61,7 @@ var post = (req, res, next) => {
         ...standard
     };
     body.questionnaire ? 
-        sfbody.Questionnaire_ID__c = Link_id
+        sfbody.Questionnaire_ID__c = qLink
         : false;
 
 
@@ -71,7 +73,8 @@ var post = (req, res, next) => {
             new LinkSchema({
                 _id: Link_id,
                 salesforce: lead.id,
-                email: body.Email
+                email: body.Email,
+                link: qLink
             }).save()
         )
         .then((link) => {
@@ -81,18 +84,19 @@ var post = (req, res, next) => {
                 Email: body.Email,
                 questionnaire: body.questionnaire,
                 // MAKE SURE THIS IS HTTPS LATER
-                link: `http://${req.get('host')}/survey/${link._id}/`
+                link: `http://${req.get('host')}/survey/${link.link}/`
             };
             if (body.startEvent) {
                 template.time = moment(body.startEvent).format("h:mm A");
                 template.date = moment(body.startEvent).format("MMMM Do, YYYY");
             };
-            if (zoom_res.data.id)
-                template.code = zoom_res.data.id;
+            if (req.body.Zoom_Meeting_ID)
+                template.code = req.body.Zoom_Meeting_ID;
             return new gauth('emailer', 'gswfp@gswfinancialpartners.com')
                 .auth()
-                .then((auth) => 
-                    google.gmail({
+                .then((auth) => {
+                    console.log('sending email...');
+                    return google.gmail({
                         version: 'v1',
                         auth
                     })
@@ -101,8 +105,8 @@ var post = (req, res, next) => {
                         requestBody: {
                             raw: surveyEmail(template)
                         }
-                    })
-                );
+                    });
+                });
         })
         .then((email) => res.status(200).send({ messages: (req.messages || []).concat('Lead saved, questionnaire email sent') }))
         .catch((err) => {

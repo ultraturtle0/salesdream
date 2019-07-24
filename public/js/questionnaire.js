@@ -175,6 +175,9 @@ $(document).ready(() => {
 
     var currentYear = new Date().getFullYear() + 1;
 	var difference1 = currentYear - 1970; 
+    /*Array(difference1).fill()
+        .forEach((_, index) /////////////////////////////////
+        */
 	for (difference1; difference1 > 0; difference1--) {
 		$('#ownershipYear').append(`
 			<option value="${currentYear - difference1}">${currentYear - difference1}</option>

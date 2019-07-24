@@ -16,17 +16,17 @@
 		<div> <!--General-->
 			<div class="form-group">
 				<label for="firstName">First Name</label>
-				<input type="text" name="firstName" id="firstName"> 
+                <input type="text" name="firstName" id="firstName" value="<%= fields.firstName %>"> 
 				<label for="lastName">Last Name</label>
-				<input type="text" name="lastName" id="lastName"> 
+				<input type="text" name="lastName" id="lastName" value="<%= fields.lastName %>"> 
 				<label for="companyName">Company Name</label>
-				<input type="text" name="companyName" id="companyName"> 
+				<input type="text" name="companyName" id="companyName" value="<%= fields.companyName %>"> 
 			</div>
 			<div class="form-group">
 				<label for="email">Email</label>
-				<input type="text" name="email" id="email" style="width: 500px"> 
+				<input type="text" name="email" id="email" style="width: 500px" value="<%= fields.email %>"> 
 				<label for="phone">Phone</label>
-				<input type="text" name="phone" id="phone"> 
+				<input type="text" name="phone" id="phone" value="<%= fields.phone %>"> 
 			</div>
 			<div class="form-group">
 				<label for="title">Title</label>
@@ -443,7 +443,7 @@
 			</div>
 
             <div id="hidden">
-                <input type="hidden" value="<%= id %>">
+                <input type="hidden" value="<%= fields.id %>">
             </div>
         </div>
 

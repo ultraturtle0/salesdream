@@ -314,6 +314,8 @@ $(document).ready(() => {
                 invalid.push('#' + other + 'Other');
         });
 
+        body.laterDate = ($('#laterDate').val() === 'on');
+
         if (invalid.length) {
             validation = false;
             $(`#incomplete`).show();
