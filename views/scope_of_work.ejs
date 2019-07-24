@@ -4,10 +4,43 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
 	</head>
-	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
+	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7; min-height: 800px">
 		<div id="Buttons">
+			<ul class="nav nav-tabs nav-justified">
+				<li class="active"><a data-toggle="tab" href="#ARMenu">AR</a></li>
+				<li><a data-toggle="tab" href="#CustomerMenu">Customer</a></li>
+				<li><a data-toggle="tab" href="#APMenu">AP</a></li>
+				<li><a data-toggle="tab" href="#VendorMenu">Vendor</a></li>
+				<li><a data-toggle="tab" href="#PayrollMenu">Payroll</a></li>
+				<li><a data-toggle="tab" href="#InventoryMenu">Inventory</a></li>
+				<li><a data-toggle="tab" href="#GeneralAccountingMenu">General Accounting</a></li>
+			</ul>
 
-		</div>
+			<div class="tab-content">
+				<div id="ARMenu" class="tab-pane fade in active">
+					AR
+				</div>
+				<div id="CustomerMenu" class="tab-pane fade">
+					Customer
+				</div>
+				<div id="APMenu" class="tab-pane fade">
+					AP
+				</div>
+				<div id="VendorMenu" class="tab-pane fade">
+					Vendor
+				</div>
+				<div id="PayrollMenu" class="tab-pane fade">
+					Payroll
+				</div>
+				<div id="InventoryMenu" class="tab-pane fade">
+					Inventory
+				</div>
+				<div id="GeneralAccountingMenu" class="tab-pane fade">
+					General Accounting
+				</div>
+			</div>
+
+		</div><br>
 
 	    <div id="category">
 
@@ -18,6 +51,9 @@
 	    </div>
 
 		<form id="formDiv">
+
+			<div id="addedQuestions">
+			</div>
 			
 		<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;" >Submit</button>
 
@@ -29,6 +65,12 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="js/scope_of_work.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="/js/questionnaire.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
 	</body>

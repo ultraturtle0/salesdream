@@ -1,62 +1,93 @@
 $(document).ready(() => {
     
     var questions = {
-    	"ar-detail": [
+    	"AR": [
     		'invoicing',
     		'moneyReceived'
     	],
-    	"customer-detail": [
+    	"Customer": [
     		'customerCommunication',
     		'customerCollections',
     		'jobTracking'
     	],
-    	"ap-detail": [
+    	"AP": [
     		'recordingBills',
     		'payingBills',
     		'creditCards',
     		'creditCardsPayable',
     		'recordingExpenses'
     	],
-    	"vendor-detail": [
+    	"Vendor": [
     		'vendor-detail',
     		'classTracking'
     	],
-    	"payroll-detial": [
+    	"Payroll": [
     		'enteringPayroll',
     		'runningPayroll',
     		'recordingPayroll',
     		'payingPayrollTaxes',
     		'payrollProcessing'
     	],
-    	"inventory-detial": [
+    	"Inventory": [
     		'costOfGoodsSold'
     	],
-    	"generalAccounting-detial": [
+    	"GeneralAccounting": [
     		'reconciliation',
     		'bankingCashMonitoring',
     		'AccessToDocumentation',
     		'monthlyReconciliations',
     		'classifications',
     		'journals',
+            'yearEndTaxes',
+            'endOfMonth',
+            'endOfQuarter',
+            'adjusting',
+            'closing',
     		'annualCompliance',
     		'1099Filing',
     		'businessTaxes',
     		'W2s',
-    		'salesTax',
-    		'yearEndTaxes'
+    		'salesTax'
     	],
-    	"generalAccounting-detial2": [
-    		'endOfMonth',
-    		'endOfQuarter',
-    		'adjusting',
-    		'closing'
-    	]
     }
+    Object.keys(questions)
+        .forEach((category) => {
+            $('#category').append(`<div id="${category}"> </div>`);
+            $('#addedQuestions').append(`<div id="form-${category}"></div>`);
+
+            $('#' + category).hide();
+
+            questions[category].forEach((question) => {
+                $('#' + category + 'Menu').append(`<button type="button" id="button-${question}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${question}</button>`);
+                $("#form-" + category).append(`<div id="dropdown-${question}" style="display:none;">
+                        <label for="dropD">${question}</label>
+                            <select name="dropD" id="dropD">
+                                <option value="businessOwner">Bussiness Owner</option>
+                                <option value="businessStaffer">Business Staffer</option>
+                                <option value="bookkeeper">Book Keeper</option>
+                                <option value="cpa/ea">CPA/EA</option>
+                                <option value="financialAdvisor">Financial Advisor</option>
+                            </select>
+                            &nbsp<button type="button" id="close-${question}" class="btn btn-sm" style="background-color:#b5b4b8;">Remove</button>
+                    </div>`);
+                $("#close-" + question).click(function(e) {
+                    e.preventDefault();
+                    $('#dropdown-' + question).hide();
+                })
+                $(`#button-${question}`).click(function(e){
+                    e.preventDefault();
+                    console.log("hi");
+                    $('#dropdown-' + question).show();
+                });
+
+
+            }); 
+
     // Generate category buttons
     Object.keys(questions)
     	.forEach((category) => {
     		$('#category').append(`<div id="${category}"> </div>`);
-    		$('#formDiv').append(`<div id="form-${category}"> <h3>${category}</h3> </div>`);
+    		$('#addedQuestions').append(`<div id="form-${category}"></div>`);
 
     		$('#' + category).hide();
 
@@ -71,7 +102,7 @@ $(document).ready(() => {
 								<option value="cpa/ea">CPA/EA</option>
 								<option value="financialAdvisor">Financial Advisor</option>
 							</select>
-							<button type="button" id="close-${question}"> x </button>
+                            &nbsp<button type="button" id="close-${question}" class="btn btn-sm" style="background-color:#b5b4b8;">Remove</button>
 					</div>`);
     			$("#close-" + question).click(function(e) {
     				e.preventDefault();
