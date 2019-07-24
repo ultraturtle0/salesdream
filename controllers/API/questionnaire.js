@@ -9,11 +9,25 @@ const { google } = require('googleapis');
 
 var get = (req, res, next) => {
     console.log(req.data.link);
+    var picklists = {};
     sf.login()
+        .then(() =>
+            sf.conn.describe("Lead")
+                .then((lead) =>
+                    ['Industry', 'Software', 'Business Classification'].forEach((list) => 
+                        picklists[list] = lead.fields
+                            .filter(field => (field.label === list))
+                            .map(picklist => 
+                                picklist.picklistValues
+                                    .map(value => value.label)
+                                    .filter(value => (value !== 'N/A'))
+                            )[0]
+                    )
+                )
+        )
         .then(() =>
             sf.conn.sobject("Lead").retrieve(req.data.link.salesforce)
                 .then((lead) => {
-                    console.log(lead);
                     var fields = {
                         firstName: lead.Name.split(' ')[0],
                         lastName: lead.Name.split(' ')[1],
@@ -21,7 +35,8 @@ var get = (req, res, next) => {
                         email: lead.Email,
                         phone: lead.Phone,
                     };
-                    return res.render('questionnaire', { fields });
+                    console.log(picklists);
+                    return res.render('questionnaire', { picklists, fields });
                 })
                 .catch((err) => {
                     console.log(err);

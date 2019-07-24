@@ -26,11 +26,12 @@ const LinkSchema = new Schema({
 });
 
 // generate uuid link parameter
-LinkSchema.pre('save', function (next) {
+/*LinkSchema.pre('save', function (next) {
     this.link = uuid();
     next();
     return null;
 });
+*/
 
 LinkSchema.set('toJSON', {
     getters: true,
