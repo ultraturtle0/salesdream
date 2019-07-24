@@ -1,37 +1,37 @@
 $(document).ready(() => {
     
     var questions = {
-    	"AR": [
-    		'invoicing',
-    		'moneyReceived'
-    	],
-    	"Customer": [
-    		'customerCommunication',
-    		'customerCollections',
-    		'jobTracking'
-    	],
-    	"AP": [
+    	"AR": {
+    		invoicing: "Invoicing",
+    		moneyReceived: "Money Received"
+    	},
+    	"Customer": {
+    		customerCommunication: "Customer Communcation",
+            customerCollections: "Customer Collections",
+            jobTracking: "Job Tracking"
+    	},
+    	/*"AP": {
     		'recordingBills',
     		'payingBills',
     		'creditCards',
     		'creditCardsPayable',
     		'recordingExpenses'
-    	],
-    	"Vendor": [
+    	},
+    	"Vendor": {
     		'vendor-detail',
     		'classTracking'
-    	],
-    	"Payroll": [
+    	},
+    	"Payroll": {
     		'enteringPayroll',
     		'runningPayroll',
     		'recordingPayroll',
     		'payingPayrollTaxes',
     		'payrollProcessing'
-    	],
-    	"Inventory": [
+    	},
+    	"Inventory": {
     		'costOfGoodsSold'
-    	],
-    	"GeneralAccounting": [
+        },
+    	"GeneralAccounting": {
     		'reconciliation',
     		'bankingCashMonitoring',
     		'AccessToDocumentation',
@@ -48,17 +48,36 @@ $(document).ready(() => {
     		'businessTaxes',
     		'W2s',
     		'salesTax'
-    	],
+    	},*/
     }
+    console.log(questions);
+    console.log(questions.AR);
+
     Object.keys(questions)
         .forEach((category) => {
             $('#category').append(`<div id="${category}"> </div>`);
             $('#addedQuestions').append(`<div id="form-${category}"></div>`);
+            $('#' + category + 'Menu').append(`
+                <div class="container" id="${category}Table">
+                    <div class="row">
+                        <div class="col-3" id="${category}Column1"></div>
+                        <div class="col-3" id="${category}Column2"></div>
+                        <div class="col-3" id="${category}Column3"></div>
+                        <div class="col-3" id="${category}Column4"></div>
+                    </div>
+                </div>
+            `);
+            var counter = 0;
 
             $('#' + category).hide();
 
-            questions[category].forEach((question) => {
-                $('#' + category + 'Menu').append(`<button type="button" id="button-${question}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${question}</button>`);
+            Object.keys(questions[category])
+                .forEach((question) => {
+                    console.log(question);
+                    console.log(category[question]);
+                counter ++;
+                if (counter > 4) counter = 1;
+                $('#' + category + 'Column' + counter).append(`<button type="button" id="button-${question}" class="btn btn-small" style="background-color:#572e5e;color:#ffffff;width:220px">${question}</button><br><br>`);
                 $("#form-" + category).append(`<div id="dropdown-${question}" style="display:none;">
                         <label for="dropD">${question}</label>
                             <select name="dropD" id="dropD">
@@ -81,10 +100,10 @@ $(document).ready(() => {
                 });
 
 
-            }); 
+            });
 
     // Generate category buttons
-    Object.keys(questions)
+    /*Object.keys(questions)
     	.forEach((category) => {
     		$('#category').append(`<div id="${category}"> </div>`);
     		$('#addedQuestions').append(`<div id="form-${category}"></div>`);
@@ -128,7 +147,7 @@ $(document).ready(() => {
     							$('#' + category).hide();
     						}
     					});
-            });
+            });*/
 
        $("#submit").click(function(e){
        	e.preventDefault();

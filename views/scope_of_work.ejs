@@ -6,38 +6,37 @@
 	</head>
 	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7; min-height: 800px">
 		<div id="Buttons">
-			<ul class="nav nav-tabs nav-justified">
-				<li class="active"><a data-toggle="tab" href="#ARMenu">AR</a></li>
-				<li><a data-toggle="tab" href="#CustomerMenu">Customer</a></li>
-				<li><a data-toggle="tab" href="#APMenu">AP</a></li>
-				<li><a data-toggle="tab" href="#VendorMenu">Vendor</a></li>
-				<li><a data-toggle="tab" href="#PayrollMenu">Payroll</a></li>
-				<li><a data-toggle="tab" href="#InventoryMenu">Inventory</a></li>
-				<li><a data-toggle="tab" href="#GeneralAccountingMenu">General Accounting</a></li>
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+			 	<li class="nav-item">
+			    	<a class="nav-link active" id="ARMenu-tab" data-toggle="tab" href="#ARMenu" role="tab" aria-controls="AR" aria-selected="true">AR</a>
+			 	</li>
+			  	<li class="nav-item">
+			  		<a class="nav-link" id="CustomerMenu-tab" data-toggle="tab" href="#CustomerMenu" role="tab" aria-controls="Customer" aria-selected="false">Customer</a>
+			  	</li>
+			  	<li class="nav-item">
+			    	<a class="nav-link" id="APMenu-tab" data-toggle="tab" href="#APMenu" role="tab" aria-controls="AP" aria-selected="false">AP</a>
+			  	</li>
+			  	<li class="nav-item">
+			    	<a class="nav-link" id="VendorMenu-tab" data-toggle="tab" href="#VendorMenu" role="tab" aria-controls="Vendor" aria-selected="false">Vendor</a>
+			  	</li>
+			  	<li class="nav-item">
+			    	<a class="nav-link" id="PayrollMenu-tab" data-toggle="tab" href="#PayrollMenu" role="tab" aria-controls="Payroll" aria-selected="false">Payroll</a>
+			  	</li>
+			  	<li class="nav-item">
+			    	<a class="nav-link" id="InventoryMenu-tab" data-toggle="tab" href="#InventoryMenu" role="tab" aria-controls="Inventory" aria-selected="false">Inventory</a>
+			  	</li>
+			  	<li class="nav-item">
+			    	<a class="nav-link" id="GeneralAccountingMenu-tab" data-toggle="tab" href="#GeneralAccountingMenu" role="tab" aria-controls="GeneralAccounting" aria-selected="false">General Accounting</a>
+			  	</li>
 			</ul>
-
-			<div class="tab-content">
-				<div id="ARMenu" class="tab-pane fade in active">
-					AR
-				</div>
-				<div id="CustomerMenu" class="tab-pane fade">
-					Customer
-				</div>
-				<div id="APMenu" class="tab-pane fade">
-					AP
-				</div>
-				<div id="VendorMenu" class="tab-pane fade">
-					Vendor
-				</div>
-				<div id="PayrollMenu" class="tab-pane fade">
-					Payroll
-				</div>
-				<div id="InventoryMenu" class="tab-pane fade">
-					Inventory
-				</div>
-				<div id="GeneralAccountingMenu" class="tab-pane fade">
-					General Accounting
-				</div>
+			<div class="tab-content" id="myTabContent">
+			 	<div class="tab-pane fade show active" id="ARMenu" role="tabpanel" aria-labelledby="ARMenu"><br></div>
+			 	<div class="tab-pane fade" id="CustomerMenu" role="tabpanel" aria-labelledby="CustomerMenu"><br></div>
+			 	<div class="tab-pane fade show" id="APMenu" role="tabpanel" aria-labelledby="APMenu"><br></div>
+			 	<div class="tab-pane fade show" id="VendorMenu" role="tabpanel" aria-labelledby="VendorMenu"><br></div>
+			 	<div class="tab-pane fade show" id="PayrollMenu" role="tabpanel" aria-labelledby="PayrollMenu"><br></div>
+			 	<div class="tab-pane fade show" id="InventoryMenu" role="tabpanel" aria-labelledby="InventoryMenu"><br></div>
+			 	<div class="tab-pane fade show" id="GeneralAccountingMenu" role="tabpanel" aria-labelledby="GeneralAccountingMenu"><br></div>
 			</div>
 
 		</div><br>
