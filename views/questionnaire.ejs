@@ -65,7 +65,11 @@
 			</div>
 			<div class="form-group">
 				<label for="industry">Industry</label>
-				<input type="text" name="industry" id="industry"> 
+				<select type="text" name="industry" id="industry"> 
+                    <% picklists['Industry'].forEach(item => { %>
+                        <option value="<% item.split().join(); %>"><%= item %></option>
+                    <% }) %>
+                </select>
 			</div>
 		</div>
 
@@ -73,16 +77,16 @@
 		<div> <!--Business-->
 			<div class="form-group">
 				<label for="state">What state is your company registered in?</label>
-				<input type="text" name="state" id="state"> 
+				<select name="state" id="state"> 
+                </select>
 			</div>
 			<div class="form-group">
 				<label for="bizClass">What is your business classification?</label>
 				<select name="bizClass" id="bizClass">
-						<option value="SoleProp">Sole Prop</option>
-						<option value="LLC">LLC</option>
-						<option value="SCorp">SCorp</option>
-						<option value="CCorp">CCorp</option>
-					</select>
+                    <% picklists['Business Classification'].forEach(item => { %>
+                        <option value="<% item.split().join(); %>"><%= item %></option>
+                    <% }) %>
+                </select>
 			</div>
 			<div class="form-group">
 				<label for="ownershipYear">What year did you form or take ownership of your primary business?</label>
@@ -131,7 +135,7 @@
 			</div>
 
 			<div class="form-group">
-				<label for="AccountingYear">Do you do your accounting on a calender year or fiscal year?</label>
+				<label for="AccountingYear">Do you do your accounting on a calendar year or fiscal year?</label>
 				<input value="Yes" type="radio" name="AccountingYear" id="AccountingYear1"> Yes 
 				<input value="No" type="radio" name="AccountingYear" id="AccountingYear2"> No
 			</div>
@@ -145,7 +149,11 @@
 
 			<div class="form-group">
 				<label for="Cash">Is your company cash or accrual basis?</label>
-				<input type="text" name="Cash" id="Cash"> 
+				<select type="text" name="Cash" id="Cash"> 
+                    <option value="Cash">Cash</option>
+                    <option value="Accrual">Accrual</option>
+                    <option value="I'm not sure">I'm not sure</option>
+                </select>
 			</div>
 
 			<div class="form-group">
@@ -162,12 +170,12 @@
 
 			<div class="form-group">
 				<label for="DateOfStart">When would you like us to begin working?</label>
-			<div class="input-group date" data-provide="datepicker">
-					<input type="text" class="form-control datepicker" id="OtherStatementCycle${o}">
-					<div class="input-group-addon">
-						<span class="glyphicon glyphicon-th"></span>
-					</div>
-				</div>
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control datepicker" id="OtherStatementCycle${o}">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
 			</div>
 
 			
@@ -235,7 +243,11 @@
 
 				<div class="form-group">
 					<label for="currentbookkeepingSoftware">What accounting software are you currently using, if any?</label>
-					<input type="text" name="currentbookkeepingSoftware" id="currentbookkeepingSoftware">
+					<select name="currentbookkeepingSoftware" id="currentbookkeepingSoftware">
+                        <% picklists['Software'].forEach(item => { %>
+                            <option value="<% item.split().join(); %>"><%= item %></option>
+                        <% }) %>
+                    </select>
 				</div>
 
 				<div class="form-group">
@@ -294,7 +306,7 @@
 					<input value="No" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupNO"> No
 				</div>
 
-				<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="cleanupBooks" class="form-group">
+				<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="booksRequiringCleanup" class="form-group">
 					<div style="margin-left: 10px">	
 						<label for="ongoingMaintenanceYN">Will you require ongoing maintenance after this initial clean-up project?</label>
 						<input value="Yes" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceYES"> Yes
@@ -351,7 +363,7 @@
 			</div>
 
 			<div class="form-group">
-				<label for="AppointmentIndividual">Do you have an appointment scheduled with an indivdual or business that will be reviewing your accounting files once we have completed the work?</label>
+				<label for="AppointmentIndividual">Do you have an appointment scheduled with an individual or business that will be reviewing your accounting files once we have completed the work?</label>
 				<input value="Yes" type="radio" name="AppointmentIndividual" id="AppointmentIndividual1"> Yes 
 				<input value="No" type="radio" name="AppointmentIndividual" id="AppointmentIndividual2"> No
           
@@ -365,26 +377,36 @@
 			</div>
 
 			<div class="form-group">
-				<label for="TaxReturnBussiness">What is the last year you have completed tax return field for your business?</label>
-				<input type="text" name="TaxReturnBussiness" id="TaxReturnBussiness"> 
+				<label for="TaxReturnBusiness">What is the last year you have completed tax return field for your business?</label>
+				<select name="TaxReturnBusiness" id="TaxReturnBusiness"> 
+                </select>
 	        </div>
 
 	        <div class="form-group">
 				<label for="TaxReturnPersonal">What is the last year you have completed tax return field for your personal?</label>
-				<input type="text" name="TaxReturnPersonal" id="TaxReturnPersonal"> 
+				<select name="TaxReturnPersonal" id="TaxReturnPersonal"> 
+                </select>
 	        </div>
 
 	        <div class="form-group">
-				<label for="Extention">Are you on extention for your current financial year?</label>
+				<label for="Extention">Are you on extension for your current financial year?</label>
 				<input value="Yes" type="radio" name="Extention" id="Extention1"> Yes 
 				<input value="No" type="radio" name="Extention" id="Extention2"> No
           
 			</div>
+			<div class="form-group">
+				<label for="DateOfStart">When would you like us to begin working?</label>
+			</div>
 
 			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer2" class="form-group">
 				<div style="margin-left: 10px">
-					<label for="ExtentionDate">What date is your extention due?</label>
-					<input type="text" name="ExtentionDate" id="ExtentionDate"> 
+					<label for="ExtensionDate">What date is your extention due?</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" name="ExtensionDate" id="ExtensionDate" class="form-control datepicker">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
 				</div>
 			</div>
 
