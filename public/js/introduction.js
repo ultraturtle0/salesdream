@@ -17,14 +17,17 @@ var buttonClick = function(id){
                     .set('minute', moment(dateName[3], "HH:mm").format("mm"))
                     .set('second', 0)
                     .format('YYYY-MM-DDTHH:mm:ssZ');
-    endEvent = moment(startEvent)
+    /*endEvent = moment(startEvent)
                     .add(1, 'hours')
                     .format('YYYY-MM-DDTHH:mm:ssZ');
+                    */
+    $('#startEvent').val(startEvent);
 };
 
 $(document).ready(() => {
     window['moment-range'].extendMoment(moment);
     $("#carouselPrev").hide();
+    $(`#incomplete`).hide();
 
     var port;
     var picklist;
@@ -88,10 +91,10 @@ $(document).ready(() => {
     //get event information from google calendar
     var weekDateGetFunction = function(counter) {
         return moment()
-                        .add(3, 'days')
-                        .add(counter*4, 'weeks')
-                        .startOf('day')
-                        .toDate();
+            .add(3, 'days')
+            .add(counter*4, 'weeks')
+            .startOf('day')
+            .toDate();
     };
 
     var getFromGoogle = function() {
@@ -239,43 +242,29 @@ $(document).ready(() => {
     };
     getFromGoogle();
 
-    $("#carouselNext").click(function(e) {
-        var slideAmount = weeks.length;
+    function carouselRot(dir) {
         var currentIndex = $('div.active').index();
-        if (currentIndex+1 == 0){
+        if (currentIndex + dir == 0){
             $("#carouselPrev").hide();
         } else {
             $("#carouselPrev").show();
         };
-        if (currentIndex+1 == slideAmount){
+        if (currentIndex + dir == weeks.length){
             $("#carouselNext").hide();
         } else {
             $("#carouselNext").show();
         };
-        if (currentIndex == slideAmount-1){
+        if (currentIndex == weeks.length - 1){
             console.log("needs a get request from google");
             weeksCounter++;
             $(`#carouselBody`).empty();
             getFromGoogle();
             $("#carouselNext").show();
         };
+    };
 
-    });
-        $("#carouselPrev").click(function(e) {
-        var slideAmount = weeks.length;
-        var currentIndex = $('div.active').index();
-        if (currentIndex-1 == 0){
-            $("#carouselPrev").hide();
-        } else {
-            $("#carouselPrev").show();
-        };
-        if (currentIndex-1 == slideAmount){
-            $("#carouselNext").hide();
-        } else {
-            $("#carouselNext").show();
-        };
-
-    });
+    $("#carouselNext").click((e) => carouselRot(1));
+    $("#carouselPrev").click((e) => carouselRot(-1));
 
     $("#laterDate").change(function(e) {
         if($("#laterDate")[0].checked == false){
@@ -292,28 +281,57 @@ $(document).ready(() => {
 
     $('#submit').click(function (e) {
         e.preventDefault();
-        var fields = ['FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Referral', 'ReferralLength', 'Description', 'questionnaire'];
+        var validation = true;
+        $(`#incomplete`).hide();
+        $(`#validation`).empty();
+
+        var required = ['FirstName', 'LastName', 'Company', 'Email', 'Phone']
+        var fields = ['Referral', 'ReferralLength', 'Description', 'questionnaire', 'startEvent'];
         var others = ['Referral', 'Preparer'];
 
+        var requiredFields = [];
         var body = {};
         var invalid = [];
+
+        required.forEach((field) => {
+            var val = $('#' + field).val();
+            if (val){
+                body[field] = val;
+            } else {
+                invalid.push('#' + field);
+            };
+            requiredFields.push('#' + field);
+        });
         fields.forEach((field) => {
             var val = $('#' + field).val();
-            val ? body[field] = val : invalid.push('#' + field);
+            if (val) body[field] = val;
         });
         others.forEach((other) => {
             var val = $('#' + other + 'Other').val();
-
             if ($('#' + other).val() === 'Other')
                 (val) ?
                 body[other + 'Other'] = val :
                 invalid.push('#' + other + 'Other');
         });
 
-        console.log(invalid);
-        // add invalid handling here
-        if (invalid.length) return 0; 
+        body.laterDate = ($('#laterDate').val() === 'on');
 
+        if (invalid.length) {
+            validation = false;
+            $(`#incomplete`).show();
+            requiredFields.forEach((requiredField) => $(`${requiredField}Box`).css("color","black") );
+            invalid.forEach((invalidField)=> $(`${invalidField}Box`).css("color","red") );
+        };
+
+        if ((!$(`#laterDate`)[0].checked) && !($('#startEvent').val())) { 
+            validation = false;
+            $(`#incomplete`).show();
+            $(`#validation`).append(`
+                <div style="color:red">Please pick a date and a time or select to pick one later</div>
+            `);
+        };
+
+        if (!validation) return;
         $('#buttonStatus').text('Submitting...');
         $('#submitStatus').show();
 
@@ -332,7 +350,10 @@ $(document).ready(() => {
                     .toggleClass('btn-primary')
                     .toggleClass('btn-danger')
                     .attr('disabled', true)
-                    .after(err.responseJSON.errors.map((error) => `<span>${error}</span>`).join('\n'));
+                    .after(err.responseJSON.errors.map((error) => {
+                        console.log(error);
+                        return `<span>${error}</span>`;
+                    }).join('\n'));
                 setTimeout(() => {
                     $('#submit')
                         .toggleClass('btn-danger')
@@ -342,34 +363,5 @@ $(document).ready(() => {
                         .text('Submit');
                 }, 2000);
             });
-
     });
-    //eventually should be combined with original submit button
-    $('#submitCalendar').click(function (e) {
-        e.preventDefault();
-        if ($(`#laterDate`)[0].checked == true) {
-            console.log("Later Date");
-        } else {
-            $.post(`http://${location.hostname}${port}/api/scheduling/`, 
-                {
-                    startEvent, 
-                    endEvent,
-                    firstName: $("#FirstName").val(),
-                    lastName: $("#LastName").val(),
-                    emailAddress: $("#Email").val(),
-                    duration: 60
-                })
-                .done((res) => {
-                    console.log("Success!");
-                    console.log(res);
-                })
-                .fail((err) => {
-                    console.log("error");
-                    console.log(err);
-                });
-        };
-
-    });
-
-
 });

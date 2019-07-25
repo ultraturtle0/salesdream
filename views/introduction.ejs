@@ -18,25 +18,25 @@
             <span>Loading from Salesforce...</span>
         </div>
         <form name="form" id="introForm" style="display: none;" method="post">
-            <div class="form-group">
-                <label for="FirstName">First Name</label>
+            <div class="form-group" id="NameBox">
+                <label for="FirstName" id="FirstNameBox">First Name</label>
                 <input type="text" id="FirstName" name="FirstName">
-                <label for="LastName">Last Name</label>
+                <label for="LastName" id = LastNameBox>Last Name</label>
                 <input type="text" id="LastName" name="LastName">
             </div>
-            <div class="form-group"> 
+            <div class="form-group" id="CompanyBox"> 
                 <label for="Company">Company Name</label>
                 <input type="text" id="Company" name="Company">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="EmailBox">
                 <label for="Email">Email Address</label>
                 <input type="email" id="Email" name="Email">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="PhoneBox">
                 <label for="Phone">Phone Number</label>
                 <input type="text" id="Phone" name="Phone">
             </div>
-            <div class="form-group">
+            <div class="form-group"  id="ReferralBox">
                 <label for="Referral">Whom can we thank for referring you?</label>
                 <select id="Referral" name="Referral">
                 </select>
@@ -44,11 +44,11 @@
                     <input type="text" name="ReferralOther">
                 </div>
             </div>            
-            <div class="form-group">
+            <div class="form-group" id="ReferralLengthBox">
                 <label for="ReferralLength">How long have you been working with them?</label>
                 <input type="text" id="ReferralLength" name="ReferralLength">
             </div>
-            <div class="form-group">
+            <div class="form-group"  id="PreparerBox">
                 <label for="Preparer">Who is your current tax preparer? (Optional)</label>
                 <select id="Preparer" name="Preparer">
                 </select>
@@ -64,6 +64,7 @@
                 <label for="Description">Notes</label>
                 <textarea class="form-control" rows="2" id="Description" name="Description"></textarea>
             </div>
+            <div id="validation"></div>
 
             <!-- CALENDARRR -->
             <div>
@@ -83,7 +84,9 @@
                 </div>
             </div>
             <div id="selected"></div>
+            <div id="incomplete" style="color:red"><b>Form Incomplete!!</b></div>
             <br>
+            <input type="hidden" id="startEvent"></input>
             <button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">
                 <span id="submitStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
                 <span id="buttonStatus">Submit</span>

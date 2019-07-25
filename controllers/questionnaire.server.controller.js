@@ -1,7 +1,7 @@
 var uuid = require('uuid/v4');
 var LinkSchema = require('mongoose').model('Link');
 
-var questionnaire = require('./API/linkgen');
+var questionnaire = require('./API/questionnaire');
 
 var gen = (req, res, next) => {
     var Link = new LinkSchema({
