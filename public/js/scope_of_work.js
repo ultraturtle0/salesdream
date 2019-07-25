@@ -10,53 +10,51 @@ $(document).ready(() => {
             customerCollections: "Customer Collections",
             jobTracking: "Job Tracking"
     	},
-    	/*"AP": {
-    		'recordingBills',
-    		'payingBills',
-    		'creditCards',
-    		'creditCardsPayable',
-    		'recordingExpenses'
+    	"AP": {
+            recordingBills: "Recording Bills",
+            payingBills: "Paying Bills",
+            creditCards: "Credit Cards",
+            creditCardsPayable: "Credit Cards Payable",
+            recordingExpenses: "Recording Expenses"
     	},
     	"Vendor": {
-    		'vendor-detail',
-    		'classTracking'
+            vendorCommunication: "Vendor Communication",
+            classTracking: "Class Tracking"
     	},
     	"Payroll": {
-    		'enteringPayroll',
-    		'runningPayroll',
-    		'recordingPayroll',
-    		'payingPayrollTaxes',
-    		'payrollProcessing'
+            enteringPayroll: "Entering Payroll",
+            runningPayroll: "Running Payroll",
+            recordingPayroll: "Recording Payroll",
+            payingPayrollTaxes: "Paying Payroll Taxes",
+            employeeCommunication: "Employee Communication",
+            payrollProcessing: "Payroll Processing"
     	},
     	"Inventory": {
-    		'costOfGoodsSold'
+            costOfGoodsSold: "Cost of Goods Sold"
         },
     	"GeneralAccounting": {
-    		'reconciliation',
-    		'bankingCashMonitoring',
-    		'AccessToDocumentation',
-    		'monthlyReconciliations',
-    		'classifications',
-    		'journals',
-            'yearEndTaxes',
-            'endOfMonth',
-            'endOfQuarter',
-            'adjusting',
-            'closing',
-    		'annualCompliance',
-    		'1099Filing',
-    		'businessTaxes',
-    		'W2s',
-    		'salesTax'
-    	},*/
+            reconciliation: "Reconciliation",
+            bankingCashMonitoring: "Banking/Cash Monitoring",
+            AccessToDocumentation: "Access to Documentation",
+            monthlyReconciliations: "Monthly Reconciliations",
+            classifications: "Classifications",
+            journals: "Journals",
+            endOfMonth: "Journals: End of Month",
+            endOfQuarter: "Journals: End of Quarter",
+            endOfYear: "Journals: End of Year",
+            adjusting: "Journals: Adjusting",
+            closing: "Journals: Closing",
+            annualCompliance: "Annual Compliance",
+            ten99Filing: "1099 Filing",
+            businessTaxes: "Business Taxes",
+            W2s: "W2s",
+            salesTax: "Sales Tax",
+            yearEndTaxes: "Year-End Taxes",
+    	},
     }
-    console.log(questions);
-    console.log(questions.AR);
 
     Object.keys(questions)
         .forEach((category) => {
-            $('#category').append(`<div id="${category}"> </div>`);
-            $('#addedQuestions').append(`<div id="form-${category}"></div>`);
             $('#' + category + 'Menu').append(`
                 <div class="container" id="${category}Table">
                     <div class="row">
@@ -67,19 +65,13 @@ $(document).ready(() => {
                     </div>
                 </div>
             `);
-            var counter = 0;
-
-            $('#' + category).hide();
+            $(`#${category}Heading`).hide();
 
             Object.keys(questions[category])
-                .forEach((question) => {
-                    console.log(question);
-                    console.log(category[question]);
-                counter ++;
-                if (counter > 4) counter = 1;
-                $('#' + category + 'Column' + counter).append(`<button type="button" id="button-${question}" class="btn btn-small" style="background-color:#572e5e;color:#ffffff;width:220px">${question}</button><br><br>`);
-                $("#form-" + category).append(`<div id="dropdown-${question}" style="display:none;">
-                        <label for="dropD">${question}</label>
+                .forEach((question, index) => {
+                $('#' + category + 'Column' + (index+1)%5).append(`<button type="button" id="button-${question}" class="btn btn-small" style="background-color:#572e5e;color:#ffffff;width:220px">${questions[category][question]}</button><br>`);
+                $(`#${category}div`).append(`<div id="dropdown-${question}" style="display:none;">
+                        <label for="dropD">${questions[category][question]}: </label>
                             <select name="dropD" id="dropD">
                                 <option value="businessOwner">Bussiness Owner</option>
                                 <option value="businessStaffer">Business Staffer</option>
@@ -92,104 +84,39 @@ $(document).ready(() => {
                 $("#close-" + question).click(function(e) {
                     e.preventDefault();
                     $('#dropdown-' + question).hide();
+                    $(`#button-${question}`).removeClass("disabled");
+                    if ($(`#${category}div`).contents().is(':visible') == false) {
+                        $(`#${category}Heading`).hide();
+                    };
                 })
                 $(`#button-${question}`).click(function(e){
                     e.preventDefault();
-                    console.log("hi");
                     $('#dropdown-' + question).show();
+                    $(`#button-${question}`).addClass("disabled");
+                    $(`#${category}Heading`).show();
                 });
 
 
             });
 
-    // Generate category buttons
-    /*Object.keys(questions)
-    	.forEach((category) => {
-    		$('#category').append(`<div id="${category}"> </div>`);
-    		$('#addedQuestions').append(`<div id="form-${category}"></div>`);
-
-    		$('#' + category).hide();
-
-    		questions[category].forEach((question) => {
-    			$('#' + category).append(`<button type="button" id="button-${question}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${question}</button>`);
-    			$("#form-" + category).append(`<div id="dropdown-${question}" style="display:none;">
-						<label for="dropD">${question}</label>
-							<select name="dropD" id="dropD">
-								<option value="businessOwner">Bussiness Owner</option>
-								<option value="businessStaffer">Business Staffer</option>
-								<option value="bookkeeper">Book Keeper</option>
-								<option value="cpa/ea">CPA/EA</option>
-								<option value="financialAdvisor">Financial Advisor</option>
-							</select>
-                            &nbsp<button type="button" id="close-${question}" class="btn btn-sm" style="background-color:#b5b4b8;">Remove</button>
-					</div>`);
-    			$("#close-" + question).click(function(e) {
-    				e.preventDefault();
-    				$('#dropdown-' + question).hide();
-    			})
-    			$(`#button-${question}`).click(function(e){
-					e.preventDefault();
-					console.log("hi");
-					$('#dropdown-' + question).show();
-				});
-
-
-    		});	
-            // hides categories when they are clicked 
-            $('#Buttons').append(`<button type="button" id="button-${category}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${category}</button>`);
-            $(`#button-${category}`).click(function (e) {
-            		var cat = $('#' + category);
-    				Object.keys(questions)
-    					.forEach((category) => {
-    						if (category === cat.attr('id')) {
-    							$('#' + category).show();
-    						} else {
-    							$('#' + category).hide();
-    						}
-    					});
-            });*/
-
-       $("#submit").click(function(e){
-       	e.preventDefault();
-       	var data = {};
-       	$("#formDiv").children().each(function(category){
-       		$(category).children().each(function(question){
-       			var id = $(question).attr('id');
-       			data[id] = id;
-
-       		})
-       		console.log(data);
-       	})
-       	
-
-       });
-
-
 
     	});
 
-/*    var button_ids = [
-        'AR',
-        'Customer',
-        'AP',
-        'Vendor',
-        'Payroll',
-        'Inventory',
-        'General Accounting'
-    ];
+    $("#submit").click(function(e){
+        e.preventDefault();
+        var data = {};
+        Object.keys(questions)
+            .forEach((category) => {
+                Object.keys(questions[category])
+                    .forEach((question) => {
+                        if($('#dropdown-' + question).is(':visible'))
+                            data[question] = questions[category][question];
+                    })
+            });
+        
+        console.log(data);
+        });
 
-    Object.keys(questions).forEach((button) => {
-        $('#Buttons').append(`<button type="button" id="button-${button.toLowerCase()}" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">${button}</button>`);
-        $('#button-' + button.toLowerCase()).click(function (e) {
-        	e.preventDefault();
-        	questions[button].forEach((q) => {
-        		
-        	})
-        })
-    });
-*/
-	});
-
-	//$("#formPreview").click(addInput);
+});
 	
 	
