@@ -40,7 +40,8 @@
 				<label for="bizAddrCity">City</label>
 				<input type="text" name="bizAddrCity" id="bizAddrCity">
 				<label for="bizAddrState">State</label>
-				<input type="text" name="bizAddrState" id="bizAddrState">
+				<select name="bizAddrState" id="bizAddrState">
+                </select>
 				<label for="bizAddrZip">Zip Code</label>
 				<input type="text" name="bizAddrZip" id="bizAddrZip">
 			</div>
@@ -53,8 +54,9 @@
 					<br>
 					<label for="mailAddrCity">City</label>
 					<input type="text" name="mailAddrCity" id="mailAddrCity">
-					<label for="vState">State</label>
-					<input type="text" name="mailAddrState" id="mailAddrState">
+					<label for="mailAddrState">State</label>
+					<select name="mailAddrState" id="mailAddrState">
+                    </select>
 					<label for="mailAddrZip">Zip Code</label>
 					<input type="text" name="mailAddrZip" id="mailAddrZip">
 				</div>
@@ -98,8 +100,8 @@
 				<label><input value="No" type="radio" name="partnersYN" id="partnersNO">No</label>
 			</div>
 				<div class="form-group" id="addPartnerNames">
-					<table class="partnersNames" id="partnersNames">
-					<tbody></tbody>
+					<table class="partnersNames">
+                        <tbody id="partnersNames"></tbody>
 					</table>
 					<button type="button" id="addPartner" class="btn btn-sm">Add Partner</button>
 				</div>
@@ -136,14 +138,22 @@
 
 			<div class="form-group">
 				<label for="AccountingYear">Do you do your accounting on a calendar year or fiscal year?</label>
-				<input value="Yes" type="radio" name="AccountingYear" id="AccountingYear1"> Yes 
-				<input value="No" type="radio" name="AccountingYear" id="AccountingYear2"> No
+                <select name="AccountingYear" id="AccountingYear">
+                    <option value="Calendar Year" type="checkbox">Calendar Year</option> 
+                    <option value="Fiscal Year" type="checkbox">Fiscal Year</option>
+                    <option value="I'm not sure" type="checkbox">I'm not sure</option>
+                </select>
 			</div>
 
 			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer" class="form-group">
 				<div style="margin-left: 10px">
 					<label for="FiscalYear">What is the beginning and ending date of your company's fiscal year?</label>
-					<input type="text" name="FiscalYear" id="FiscalYear"> 
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" class="form-control datepicker" id="FiscalYear">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
 				</div>
 			</div>
 
@@ -212,21 +222,29 @@
 					</div>
 					<div style="margin-left: 10px">
 						<label for="externalBookkeeperInformedYN">Have you informed them that you are meeting with us?</label>
-						<input value="Yes" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedYES"> Yes
-						<input value="No" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedNO"> No
+                        <label><input value="Yes" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedYES">Yes</label>
+                        <label><input value="No" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedNO">No</label>
 					</div>
 					<div style="margin-left: 10px">
 						<label for="externalBookkeeperLikeDislike">What do you like and don't like about your current bookkeeper/accountant?</label>
 						<textarea class="form-control" rows="2" id="externalBookkeeperLikeDislike"></textarea>
 					</div>
 					<div style="margin-left: 10px">
-						<label for="externalBookkeeperReachOut">Are we able to reach out to them to ask questions if necessary?</label>
-						<input type="text" name="externalBookkeeperReachOut" id="externalBookkeeperReachOut"> 
+						<label for="externalBookkeeperReachOutYN">Are we able to reach out to them to ask questions if necessary?</label>
+                        <label><input value="Yes" type="radio" name="externalBookkeeperReachOutYN">Yes</label>
+                        <label><input value="No" type="radio" name="externalBookkeeperReachOutYN">No</label>
 					</div>
+                    <div id="externalBookkeeperReachOut" class="form-group">
+                        <label>Please provide their email and/or phone number:</label>
+						<label for="externalBookkeeperEmail">Email</label>
+                        <input type="email" name="externalBookkeeperEmail" id="externalBookkeeperEmail">
+						<label for="externalBookkeeperPhone">Phone</label>
+                        <input type="text" name="externalBookkeeperPhone" id="externalBookkeeperPhone">
+                    </div>
 					<div style="margin-left: 10px">
 						<label for="directOwnershipOfBooksYN">Do you have direct ownership of your books and/or accounting files?</label>
-						<input value="Yes" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksYES"> Yes
-						<input value="No" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksNO"> No
+                        <label><input value="Yes" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksYES">Yes</label>
+						<label><input value="No" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksNO">No</label>
 					</div>
 				</div>
 
@@ -245,25 +263,28 @@
 					<label for="currentbookkeepingSoftware">What accounting software are you currently using, if any?</label>
 					<select name="currentbookkeepingSoftware" id="currentbookkeepingSoftware">
                         <% picklists['Software'].forEach(item => { %>
-                            <option value="<% item.split().join(); %>"><%= item %></option>
+                            <option value="<%= item %>"><%= item %></option>
                         <% }) %>
                     </select>
 				</div>
+                <div class="form-group" id="currentbookkeepingSoftwareOtherBox">
+                    <label for="currentbookkeepingSoftwareOther">Please specify:</label>
+                    <input type=text name="currentbookkeepingSoftwareOther" id="currentbookkeepingSoftwareOther">
+                </div>
 
 				<div class="form-group">
-					<label for="currentBookkeepingToolsChoice">Are there any external softwares/tools you are using to aid in your accounting?</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsInventory">Inventory</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPOS">POS</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsTime">Time Tracking</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPayroll">Payroll</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoiceOther" id="currentBookkeepingToolsOther">Other</label>
-					<input type="text" name="currentBookkeepingToolsOtherBox" id="currentBookkeepingToolsOtherBox">
-				</div>
-
-				<div id ="booksAccess" class="form-group">
+					<label for="currentBookkeepingTools">Are there any external softwares/tools you are using to aid in your accounting?</label>
+                    <div id="currentBookkeepingTools">
+                    </div>
+                </div>
+                <div class="form-group" id="currentBookkeepingToolsOtherBox">
+                    <label for="currentBookkeepingToolsOtherBox">Please specify:</label>
+                    <input type="text" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOther">
+                </div>
+				<div class="form-group">
 					<label for="booksAccess">Who has/will have access to your books, and what are their roles/titles?</label>
-					<table class="booksAccess" id="booksAccess">
-					<tbody></tbody>
+					<table class="booksAccess">
+                        <tbody id="booksAccess"></tbody>
 					</table>
 					<button type="button" id="addBooksAccess" class="btn btn-sm">Add Person</button>
 				</div>
@@ -358,21 +379,41 @@
 			<div> <!--TAX FILING-->
               <div class="form-group">
 				    <label for="AppointmentAccountant">Do you have an appointment scheduled with your accountant/tax preparer?</label>
-				<input value="Yes" type="radio" name="AppointmentAccountant" id="AppointmentAccountant1"> Yes 
-				<input value="No" type="radio" name="AppointmentAccountant" id="AppointmentAccountant2"> No
+                    <label><input value="Yes" type="radio" name="AppointmentAccountant">Yes</label>
+                    <label><input value="No" type="radio" name="AppointmentAccountant">No</label>
+			</div>
+
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYAppointmentAccountant" class="form-group">
+				<div style="margin-left: 10px">
+					<label for="AccWho">Who are they?</label>
+					<input type="text" name="AccWho" id="AccWho"> 
+					<label for="AccWhen">When is the appointment?</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" name="AccWhen" id="AccWhen" class="form-control datepicker">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="AppointmentIndividual">Do you have an appointment scheduled with an individual or business that will be reviewing your accounting files once we have completed the work?</label>
-				<input value="Yes" type="radio" name="AppointmentIndividual" id="AppointmentIndividual1"> Yes 
-				<input value="No" type="radio" name="AppointmentIndividual" id="AppointmentIndividual2"> No
-          
+                <label><input value="Yes" type="radio" name="AppointmentIndividual" id="AppointmentIndividual1">Yes</label>
+                <label><input value="No" type="radio" name="AppointmentIndividual" id="AppointmentIndividual2">No</label>
 			</div>
 
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer1" class="form-group">
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYAppointmentIndividual" class="form-group">
 				<div style="margin-left: 10px">
-					<label for="WhoWhen">Who and when? </label>
-					<input type="text" name="WhoWhen" id="WhoWhen"> 
+					<label for="IndWho">Who are they?</label>
+					<input type="text" name="IndWho" id="IndWho"> 
+					<label for="IndWhen">When is the appointment?</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" name="IndWhen" id="IndWhen" class="form-control datepicker">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
 				</div>
 			</div>
 
@@ -389,18 +430,14 @@
 	        </div>
 
 	        <div class="form-group">
-				<label for="Extention">Are you on extension for your current financial year?</label>
-				<input value="Yes" type="radio" name="Extention" id="Extention1"> Yes 
-				<input value="No" type="radio" name="Extention" id="Extention2"> No
-          
-			</div>
-			<div class="form-group">
-				<label for="DateOfStart">When would you like us to begin working?</label>
+				<label for="Extension">Are you on extension for your current financial year?</label>
+                <label><input value="Yes" type="radio" name="Extension" id="Extension1">Yes</label> 
+                <label><input value="No" type="radio" name="Extension" id="Extension2">No</label>
 			</div>
 
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer2" class="form-group">
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYExtension" class="form-group">
 				<div style="margin-left: 10px">
-					<label for="ExtensionDate">What date is your extention due?</label>
+					<label for="ExtensionDate">What date is your extension due?</label>
                     <div class="input-group date" data-provide="datepicker">
                         <input type="text" name="ExtensionDate" id="ExtensionDate" class="form-control datepicker">
                         <div class="input-group-addon">
@@ -410,12 +447,22 @@
 				</div>
 			</div>
 
+			<div class="form-group">
+				<label for="DateOfStart">When would you like us to begin working?</label>
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" name="DateOfStart" id="DateOfStart" class="form-control datepicker">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+			</div>
+
+
 		    <div> <!--A/R-->
 		    	<div class="form-group">
 				<label for="invoiceCustomers">Do you invoice your cutomers or are you paid immediately?</label>
-				<input value="Invoice" type="radio" name="invoiceCustomers" id="invoiceCustomers1"> Invoice
-				<input value="paidImmediately" type="radio" name="paidImmediately" id="paidImmediately2"> Paid immediately 
-          
+                <label><input value="Invoice" type="radio" name="invoiceCustomers">Invoice</label>
+                <label><input value="paidImmediately" type="radio" name="invoiceCustomers">Paid immediately</label>
 			</div>
 			<div class="form-group">
 				<label for="collectSalesTax">Do you sell products that require you to collect and pay sales tax?</label>
@@ -425,7 +472,7 @@
 			</div>
 
 		    </div>
-		    <div><!--Payroll-->
+        <div><!--Payroll-->
 		    	<div class="form-group">
 				<label for="subcontractors">Do you use subcontractors?</label>
 				<input value="Yes" type="radio" name="subcontractors" id="subcontractors1"> Yes
@@ -433,35 +480,38 @@
           
 			</div>
 			<div class="form-group">
-				<label for="employees">Do you have employees?</label>
-				<input value="Yes" type="radio" name="employees" id="employees1"> Yes
-				<input value="No" type="radio" name="employees" id="employees"> No
+				<label for="employeeCount">Do you have employees?</label>
+                <label><input value="Yes" type="radio" name="employeeCount">Yes</label>
+                <label><input value="No" type="radio" name="employeeCount">No</label>
           
 			</div>
 
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer3" class="form-group">
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYemployeeCount" class="form-group">
 				<div style="margin-left: 10px">
 					<label for="employeeCount">How many employees do you have?</label>
 					<input type="text" name="employeeCount" id="employeeCount"> 
 				</div>
 			</div>
 
-			<div class="form-group">
-					<label for="handlePayroll">How do you handle payroll?</label>
-					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">ADP</label>
-					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Paychex</label>
-					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Intuit</label>
-					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Other</label>
-				</div>
+			<div class="form-group" id="handlePayroll">
+                <label for="handlePayroll">How do you handle payroll?</label>
+                <label><input type="checkbox" name="handlePayroll" value="ADP">ADP</label>
+                <label><input type="checkbox" name="handlePayroll" value="Paychex">Paychex</label>
+                <label><input type="checkbox" name="handlePayroll" value="Intuit">Intuit</label>
+                <label><input type="checkbox" name="handlePayrollOther" value="Other">Other</label>
+            </div>
 
-		    </div>
+			<div class="form-group" id="handlePayrollOtherBox">
+                <label for="handlePayrollOther">Please specify:</label>
+                <input type="text" name="handlePayrollOther">
+            </div>
+        </div>
 
 		    <div> <!-- Inventory -->
 		    	<div class="form-group">
 				<label for="Inventory">Do you manage or track inventory?</label>
-				<input value="Yes" type="radio" name="Inventory" id="Inventory1"> Manage
-				<input value="No" type="radio" name="Inventory" id="Inventory"> Track 
-          
+                <label><input value="Yes" type="radio" name="Inventory" id="Inventory1">Yes</label>
+                <label><input value="No" type="radio" name="Inventory" id="Inventory">No</label> 
 			</div>
 
             <div id="hidden">
