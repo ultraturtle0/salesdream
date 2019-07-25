@@ -69,7 +69,7 @@ $(document).ready(() => {
 
             Object.keys(questions[category])
                 .forEach((question, index) => {
-                $('#' + category + 'Column' + (index+1)%5).append(`<button type="button" id="button-${question}" class="btn btn-small" style="background-color:#572e5e;color:#ffffff;width:220px">${questions[category][question]}</button><br>`);
+                $('#' + category + 'Column' + (index+1)%5).append(`<button type="button" id="button-${question}" class="btn btn-small" style="background-color:#572e5e;color:#ffffff;width:220px">${questions[category][question]}</button><br><br>`);
                 $(`#${category}div`).append(`<div id="dropdown-${question}" style="display:none;">
                         <label for="dropD">${questions[category][question]}: </label>
                             <select name="dropD" id="dropD">

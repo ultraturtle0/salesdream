@@ -3,33 +3,40 @@
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
+		<style type="text/css" media="screen">
+			.nav-link.active{ 
+				background:#572e5e !important; 
+				color:#fff !important;
+			}
+		</style>
 	</head>
 	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7; min-height: 800px">
-		<div align="center" style="font-size:30px">Scope of Work Questtionnaire Builder<br><br></div>
+		<div align="center" style="text-align:center; font-size:25px; color:#572e5e">Scope of Work Questionnaire Builder<br><br></div>
 		<div id="Buttons">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 			 	<li class="nav-item">
-			    	<a class="nav-link active" id="ARMenu-tab" data-toggle="tab" href="#ARMenu" role="tab" aria-controls="AR" aria-selected="true">AR</a>
+			    	<a class="nav-link active" id="ARMenu-tab" data-toggle="tab" href="#ARMenu" role="tab" aria-controls="AR" aria-selected="true" style="color:#572e5e">AR</a>
 			 	</li>
 			  	<li class="nav-item">
-			  		<a class="nav-link" id="CustomerMenu-tab" data-toggle="tab" href="#CustomerMenu" role="tab" aria-controls="Customer" aria-selected="false">Customer</a>
+			  		<a class="nav-link" id="CustomerMenu-tab" data-toggle="tab" href="#CustomerMenu" role="tab" aria-controls="Customer" aria-selected="false" style="color:#572e5e">Customer</a>
 			  	</li>
 			  	<li class="nav-item">
-			    	<a class="nav-link" id="APMenu-tab" data-toggle="tab" href="#APMenu" role="tab" aria-controls="AP" aria-selected="false">AP</a>
+			    	<a class="nav-link" id="APMenu-tab" data-toggle="tab" href="#APMenu" role="tab" aria-controls="AP" aria-selected="false" style="color:#572e5e">AP</a>
 			  	</li>
 			  	<li class="nav-item">
-			    	<a class="nav-link" id="VendorMenu-tab" data-toggle="tab" href="#VendorMenu" role="tab" aria-controls="Vendor" aria-selected="false">Vendor</a>
+			    	<a class="nav-link" id="VendorMenu-tab" data-toggle="tab" href="#VendorMenu" role="tab" aria-controls="Vendor" aria-selected="false" style="color:#572e5e">Vendor</a>
 			  	</li>
 			  	<li class="nav-item">
-			    	<a class="nav-link" id="PayrollMenu-tab" data-toggle="tab" href="#PayrollMenu" role="tab" aria-controls="Payroll" aria-selected="false">Payroll</a>
+			    	<a class="nav-link" id="PayrollMenu-tab" data-toggle="tab" href="#PayrollMenu" role="tab" aria-controls="Payroll" aria-selected="false" style="color:#572e5e">Payroll</a>
 			  	</li>
 			  	<li class="nav-item">
-			    	<a class="nav-link" id="InventoryMenu-tab" data-toggle="tab" href="#InventoryMenu" role="tab" aria-controls="Inventory" aria-selected="false">Inventory</a>
+			    	<a class="nav-link" id="InventoryMenu-tab" data-toggle="tab" href="#InventoryMenu" role="tab" aria-controls="Inventory" aria-selected="false" style="color:#572e5e">Inventory</a>
 			  	</li>
 			  	<li class="nav-item">
-			    	<a class="nav-link" id="GeneralAccountingMenu-tab" data-toggle="tab" href="#GeneralAccountingMenu" role="tab" aria-controls="GeneralAccounting" aria-selected="false">General Accounting</a>
+			    	<a class="nav-link" id="GeneralAccountingMenu-tab" data-toggle="tab" href="#GeneralAccountingMenu" role="tab" aria-controls="GeneralAccounting" aria-selected="false" style="color:#572e5e">General Accounting</a>
 			  	</li>
 			</ul>
+			<hr style="margin:0px; background-color:#572e5e">
 			<div class="tab-content" id="myTabContent">
 			 	<div class="tab-pane fade show active" id="ARMenu" role="tabpanel" aria-labelledby="ARMenu"><br></div>
 			 	<div class="tab-pane fade" id="CustomerMenu" role="tabpanel" aria-labelledby="CustomerMenu"><br></div>
@@ -74,7 +81,6 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="/js/questionnaire.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 

@@ -3,83 +3,197 @@
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
+		<style type="text/css" media="screen">
+			.nav-link.active{ 
+				background:#572e5e !important; 
+				color:#fff !important;
+			}
+		</style>
 	</head>
 	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
 		<form>
-			<button type="button" id="clientButton" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Client Contract</button>
-			<button type="button" id="headhunterButton" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Headhunter Contract</button>
-			<div id="Client">			
-				<div style="text-align:center; font-size:25px; color:#572e5e">Client Contract 
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active" id="ClientContract-tab" data-toggle="tab" href="#ClientContract" role="tab" aria-controls="Client" aria-selected="true" style="color:#572e5e">Client Contract</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="HeadhunterContract-tab" data-toggle="tab" href="#HeadhunterContract" role="tab" aria-controls="Headhunter" aria-selected="false" style="color:#572e5e">Headunter Contract</a>
+				</li>
+			</ul>
+			<hr style="margin:0px; background-color:#572e5e">
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="ClientContract" role="tabpanel" aria-labelledby="Client"><br>
+					<div style="text-align:center; font-size:25px; color:#572e5e">Client Contract</div>
 					<br></br>
+					<div class="container">
+					 	<div class="row">
+					    	<div class="col-2">
+					    		<label for="C_client_name_1">Name</label>
+					    		<br>
+					    		<label for="C_company_name_1">Company Name</label>
+					    	</div>
+					    	<div class="col">
+					    		<input type="text" name="C_client_name_1" id="C_client_name_1" style="width: 350px" placeholder=" Full Name">
+					    		<br>
+					    		<input type="text" name="C_company_name_1" id="C_company_name_1" style="width: 350px" placeholder="">
+					    	</div>
+					 	</div>
+					  	<div class="row">
+					    	<div class="col-2">
+					    		<hr>
+					    		<label for="C_client_address_1_1">Address</label>
+					    		<br>
+					    		<label for="C_client_address_1_2">Apt / Suite</label>
+					    		<br>
+					    		<label for="C_client_address_1_3">City</label>
+					    		<br>
+					    		<label for="C_client_address_1_4">State</label>
+					    		<br>
+					    		<label for="C_client_address_1_5">Zip Code</label>
+					    	</div>
+					    	<div class="col">
+					    		<hr>
+					    		<input type="text" name="C_client_address_1_1" id="C_client_address_1_1" style="width: 350px" placeholder="">
+					    		<br>
+					    		<input type="text" name="C_client_address_1_2" id="C_client_address_1_2" style="width: 350px" placeholder="(optional)">
+					    		<br>
+					    		<input type="text" name="C_client_address_1_3" id="C_client_address_1_3" style="width: 350px" placeholder="">
+					    		<br>
+					    		<select name="C_client_address_1_4" id="C_client_address_1_4" style="width: 350px;height: 32px"></select>
+					    		<br>
+					    		<input type="text" name="C_client_address_1_5" id="C_client_address_1_5" style="width: 350px" placeholder="">
+					    	</div>
+					  	</div>
+					  	<div class="row">
+					    	<div class="col-2">
+					    		<hr>
+					    		<label for="C_client_email_1">Email</label>
+					    	</div>
+					    	<div class="col">
+					    		<hr>
+					    		<input type="text" name="C_client_email_1" id="C_client_email_1" style="width: 350px" placeholder=" example@gswfinancialpartners.com">
+					    	</div>
+					 	</div>
+					 	<div class="row">
+					    	<div class="col-2">
+					    		<hr>
+					    		<label for="C_rd">Retainer Deposit</label>
+					    		<br>
+					    		<label for="C_hr">Hourly Rate</label>
+					    		<br>
+					    		<label for="C_tf">Technology Fee</label>
+					    		<br>
+					    		<label for="C_lf">Late Fee</label>
+					    		<br>
+					    		<label for="C_rf">Retention Fee</label>
+					    		<br>
+					    		<label for="C_term">Term length</label>
+					    	</div>
+					    	<div class="col">
+					    		<hr>
+					    		<input type="text" name="C_rd" id="C_rd" style="width: 200px" placeholder=""> 
+					    		<br>
+					    		<input type="text" name="C_hr" id="C_hr" style="width: 200px" placeholder="">
+					    		<br>
+					    		<input type="text" name="C_tf" id="C_tf" style="width: 200px" placeholder="">
+					    		<br>
+					    		<input type="text" name="C_lf" id="C_lf" style="width: 200px" placeholder="">
+					    		<br>
+					    		<input type="text" name="C_rf" id="C_rf" style="width: 200px" placeholder="">
+					    		<br>
+					    		<input type="text" name="C_term" id="C_term" style="width: 200px" placeholder="">
+					    	</div>
+					 	</div>
+					</div>
+					<br><br>
+					<button type="submit" id="submit_client" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
 				</div>
-				<div class="form-group">
-					<br>
-					<label for="C_client_name_1">Full Name</label>
-					<input type="text" name="C_client_name_1" id="C_client_name_1"> 
-					</br>
-					<label for="C_company_name_1">Company Name</label>
-					<input type="text" name="C_company_name_1" id="C_company_name_1"> 
-					<br>
-					<label for="C_client_address_1_1">Address</label >
-					<input type="text" name="C_client_address_1_1" id="C_client_address_1_1" style="width: 340px">
-					<input type="text" name="C_client_address_2_2" id="C_client_address_2_2" style="width: 340px">
-				</br>
-			    </br>
-					<label for="C_client_email_1">Email</label>
-					<input type="text" name="C_client_email_1" id="C_client_email_1" style="width: 240px">
-					<br>
-					<label for="C_rd">Retainer Deposit</label>
-					<input type="text" name="C_rd" id="C_rd"> 
-				    </br>
-				    <br>
-					<label for="C_hr">Hourly Rate</label>
-					<input type="text" name="C_hr" id="C_hr"> 
-					</br>
-					<br>
-					<label for="C_tf">Technology Fee</label>
-					<input type="text" name="C_tf" id="C_tf">
-					</br>
-					<br>
-					<label for="C_lf">Late Fee</label>
-					<input type="text" name="C_lf" id="C_lf">
-					</br>
-					<br>
-					<label for="C_rf">Retention Fee</label>
-					<input type="text" name="C_rf" id="C_rf">
-					</br>
-					<label for="C_term">Term length</label>
-					<input type="text" name="C_term" id="C_term">
+				<div class="tab-pane fade" id="HeadhunterContract" role="tabpanel" aria-labelledby="Hedhunter"><br>
+					<div style="text-align:center; font-size:25px; color:#572e5e">Headhunter Contract</div>
+					<br></br>
+					<div class="container">
+					 	<div class="row">
+					    	<div class="col-2">
+					    		<label for="H_client_name_1">Name</label>
+					    		<br>
+					    		<label for="H_company_name_1">Company Name</label>
+					    	</div>
+					    	<div class="col">
+					    		<input type="text" name="H_client_name_1" id="H_client_name_1" style="width: 350px" placeholder=" Full Name">
+					    		<br>
+					    		<input type="text" name="H_company_name_1" id="H_company_name_1" style="width: 350px" placeholder="">
+					    	</div>
+					 	</div>
+					  	<div class="row">
+					    	<div class="col-2">
+					    		<hr>
+					    		<label for="H_client_address_1_1">Address</label>
+					    		<br>
+					    		<label for="H_client_address_1_2">Apt / Suite</label>
+					    		<br>
+					    		<label for="H_client_address_1_3">City</label>
+					    		<br>
+					    		<label for="H_client_address_1_4">State</label>
+					    		<br>
+					    		<label for="H_client_address_1_5">Zip Code</label>
+					    	</div>
+					    	<div class="col">
+					    		<hr>
+					    		<input type="text" name="H_client_address_1_1" id="H_client_address_1_1" style="width: 350px" placeholder="">
+					    		<br>
+					    		<input type="text" name="H_client_address_1_2" id="H_client_address_1_2" style="width: 350px" placeholder="(optional)">
+					    		<br>
+					    		<input type="text" name="H_client_address_1_3" id="H_client_address_1_3" style="width: 350px" placeholder="">
+					    		<br>
+					    		<select name="H_client_address_1_4" id="H_client_address_1_4" style="width: 350px;height: 32px"></select>
+					    		<br>
+					    		<input type="text" name="H_client_address_1_5" id="H_client_address_1_5" style="width: 350px" placeholder="">
+					    	</div>
+					  	</div>
+					  	<div class="row">
+					    	<div class="col-2">
+					    		<hr>
+					    		<label for="H_client_email_1">Email</label>
+					    	</div>
+					    	<div class="col">
+					    		<hr>
+					    		<input type="text" name="H_client_email_1" id="H_client_email_1" style="width: 350px" placeholder="">
+					    	</div>
+					 	</div>
+					 	<div class="row">
+					    	<div class="col-2">
+					    		<hr>
+					    		<label for="H_af">Adittional Fee</label>
+					    		<br>
+					    		<label for="H_rd">Retainer Deposit</label>
+					    		<br>
+					    		<label for="H_lf">Late Fee</label>
+					    	</div>
+					    	<div class="col">
+					    		<hr>
+					    		<input type="text" name="H_af" id="H_af" style="width: 200px" placeholder=""> 
+					    		<br>
+					    		<input type="text" name="H_rd" id="H_rd" style="width: 200px" placeholder="">
+					    		<br>
+					    		<input type="text" name="H_lf" id="H_lf" style="width: 200px" placeholder="">
+					    	</div>
+					 	</div>
+					</div>
+					<br><br>
+					<button type="submit" id="submit_headhunter" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
 				</div>
-				<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>	
-			</div>
-			<div id="Headhunter">
-				<div style="text-align:center; font-size:25px; color:#572e5e">Headhunter Contract  
-				<br></br>
-				</div>
-				<div class="form-group">
-					<label for="H_client_name_1">Full Name</label>
-					<input type="text" name="H_client_name_1" id="H_client_name_1"> 
-					<br>
-					<label for="H_company_name_1">Company Name</label>
-					<input type="text" name="H_company_name_1" id="H_company_name_1"> 
-					</br>
-					<label for="H_client_address_1_1">Address</label>
-					<input type="text" name="H_client_address_1_1" id="					H_client_address_1_1"style="width: 340px"> 
-					<input type="text" name="H_client_address_2_2" id="					H_client_address_2_2"style="width: 340px"> 
-				</div>
-				<br>
-				<label for="H_client_email_1">Email</label>
-				<input type="text" name="H_client_email_1" id="H_client_email_1" style="width: 240px"> 
-				<label for="H_af">Additional Fee</label>
-				<input type="text" name="H_af" id="H_af"> 
-				<label for="H_rd">Retainer Deposit</label>
-				<input type="text" name="H_rd" id="H_rd"> 
-				<label for="H_lf">Late Fee</label>
-				<input type="text" name="H_lf" id="H_lf">
-				<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
 			</div>
 		</form>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="js/contracts.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="js/scope_of_work.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</body>
 </html>
