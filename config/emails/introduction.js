@@ -6,7 +6,7 @@ module.exports = (template) => {
     q_text.push(`Thank you for contacting GSW Financial Partners to discuss your bookkeeping needs!`);
 
     if (template.questionnaire && template.date) {
-        q_text.push(`Here's a link to a brief questionnaire so we can get a better idea of your accounting situation: ${template.link}.` +
+        q_text.push(`Here's a link to a brief questionnaire so we can get a better idea of your accounting situation: ${template.link} <br>` +
         `We ask that you please answer all questions to the best of your ability and submit the survey by ${moment(template.date).format("MMMM Do")} (<b>48 hours</b> before your scheduled meeting).`);
         q_text.push(`A virtual meeting to discuss your bookkeeping has been set up on Zoom.us for ${template.time} on ${template.date}.`);
         q_text.push(`Please ensure that your camera and microphone are working properly and join us at the scheduled time at http://zoom.us/j/${template.code}`);
