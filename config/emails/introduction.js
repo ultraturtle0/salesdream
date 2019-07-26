@@ -17,7 +17,9 @@ module.exports = (template) => {
     } else {
         q_text.push(`A virtual meeting to discuss your bookkeeping has been set up on Zoom.us for ${template.time} on ${template.date}.`);
         q_text.push(`Please ensure that your camera and microphone are working properly and join us at the scheduled time at http://zoom.us/j/${template.code}`);
-    }
+    };
+
+    console.log(q_text);
 
     const subject = 'It was great chatting with you about your bookkeeping needs!';
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
