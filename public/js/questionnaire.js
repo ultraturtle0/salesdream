@@ -1,188 +1,223 @@
 $(document).ready(() => {
-	var person = 0;
-	var name = 0;
 
+    // POPULATE STATES MENU
+    [
+         'CA','AL','AK','AS','AZ','AR','CO','CT','DE','DC','FM','FL','GA',
+             'GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA',
+             'MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND',
+             'MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT',
+    ].forEach((state) => 
+        ['bizAddrState', 'mailAddrState', 'state']
+            .forEach((id) => $('#' + id).append(`<option value="${state}">${state}</option>`))
+    );
+    
 
 	//HIDDEN FUNCTIONS
+    [
 		//General
-	$("#mailAddr").hide();
+        "mailAddr",
 
 		//Business
-	$("#addPartnerNames").hide();
-	$("#otherCompanies").hide();
+        "addPartnerNames",
+        "otherCompanies",
 
-		//Accounting
-	$("#FYcontainer").hide();
+        //Accounting
+        "FYAppointmentAccountant",
+        "FYcontainer",
 
-		//Accounting Service
-	$("#externalBookkeeper").hide();
-	$("#cleanupBooks").hide();
-	$("#currentBookkeepingToolsOtherBox").hide();
+	    //Accounting Service
+        "externalBookkeeper",
+        "externalBookkeeperReachOut",
+        "booksRequiringCleanup",
+        "currentbookkeepingSoftwareOtherBox",
+        "currentBookkeepingToolsOtherBox",
         
         //Tax Filing
-    $("#FYcontainer1").hide();
-    $("#FYcontainer2").hide();
+        "FYAppointmentIndividual",
+        "FYExtension",
+
+        //Payroll
+        "FYemployeeCount",
+        "handlePayrollOtherBox"
+    ].forEach((field) => $('#' + field).hide());
 
 
 	//EVENT LISTENERS
 	$("#submit").click((e) => {
 		e.preventDefault();
 		var body = {};
+        [
+		    'firstName',
+		    'lastName',
+		    'companyName',
+		    'email',
+		    'phone',
+		    'title',
+		    'bizAddrStreet',
+		    'bizAddrCity',
+		    'bizAddrState',
+		    'bizAddrZip',
+		    'mailAddrStreet',
+		    'mailAddrCity',
+		    'mailAddrState',
+		    'mailAddrZip',
+		    'website',
+		    'industry',
+		    'state',
+		    'bizClass',
+		    'ownershipYear',
+		    'partnersYN',
+		    'partnersNames',
+		    'moreCompaniesYN',
+		    'companiesSeparateBooksYN',
+		    'companiesSeparateAccountsYN',
+		    'Volume',
+		    'AnnualRevenue',
+		    'AccountingYear',
+		    'FiscalYear',
+		    'Cash',
+		    'FinancialReports',
+		    'DateOfStart',
+		    'currentBookkeepingMethod',
+		    'externalBookkeeperYN',
+		    'externalBookkeeperCompany',
+		    'externalBookkeeperName',
+		    'externalBookkeeperLocation',
+		    'externalBookkeeperFutureRole',
+		    'externalBookkeeperInformedYN',
+		    'externalBookkeeperLikeDislike',
+		    'directOwnershipOfBooksYN',
+		    'newBookkeeperReason',
+		    'currentbookkeepingTimeSpent',
+		    'currentbookkeepingSoftware',
+		    'currentBookkeepingTools',
+		    'currentBookkeepingInvolvementScale',
+		    'desiredBookkeepingInvolvementScale',
+		    'currentBookkeepingMonthlyExpenditure',
+		    'currentBookkeepingRatingScale',
+		    'booksRequiringCleanupYN',
+		    'ongoingMaintenanceYN',
+		    'issuesToBeReviewed',
+		    'currentBookkeepingConcerns',
+		    'booksLastYearFinished',
+		    'communicationExpectations',
+		    'responseTimeExpectations',
+		    'preferredCommunicationMethodChoice',
+		    'AppointmentAccountant',
+		    'AppointmentIndividual',
+		    'AccWhoWhen',
+		    'IndWhoWhen',
+		    'TaxReturnBussiness',
+		    'TaxReturnPersonal',
+		    'Extension',
+		    'ExtensionDate',
+		    'invoiceCustomers',
+		    'paidImmediately',
+		    'collectSalesTax',
+		    'subcontractors',
+		    'employees',
+		    'employeeCount',
+		    'Inventory',
+        ].forEach((field) => body[field] = $('#' + field).val());
 
-		body.firstName = $("#firstName").val();
-		body.lastName = $("#lastName").val();
-		body.companyName = $("#companyName").val();
-		body.email = $("#email").val();
-		body.phone = $("#phone").val();
-		body.title = $("#title").val();
-		body.bizAddrStreet = $("#bizAddrStreet").val();
-		body.bizAddrCity = $("#bizAddrCity").val();
-		body.bizAddrState = $("#bizAddrState").val();
-		body.bizAddrZip = $("#bizAddrZip").val();
-		body.differentFromBizAddr = $("#differentFromBizAddr").val();
-		body.mailAddrStreet = $("#mailAddrStreet").val();
-		body.mailAddrCity = $("#mailAddrCity").val();
-		body.mailAddrState = $("#mailAddrState").val();
-		body.mailAddrZip = $("#mailAddrZip").val();
-		body.website = $("#website").val();
-		body.industry = $("#industry").val();
-		body.state = $("#state").val();
-		body.bizClass = $("#bizClass").val();
-		body.ownershipYear = $("#ownershipYear").val();
-		body.partnersYN = $("input[type='radio'][name='partnersYN']").val();
-		body.partnersNames = $("#partnersNames").val();
-		body.moreCompaniesYN = $("#moreCompaniesYN").val();
-		body.companiesSeparateBooksYN = $("#companiesSeparateBooksYN").val();
-		body.companiesSeparateAccountsYN = $("#companiesSeparateAccountsYN").val();
-		body.Volume = $("#Volume").val();
-		body.AnnualRevenue = $("#AnnualRevenue").val();
-		body.AccountingYear = $("#AccountingYear").val();
-		body.FiscalYear = $("#FiscalYear").val();
-		body.Cash = $("#Cash").val();
-		body.FinancialReports = $("#FinancialReports").val();
-		body.DateOfStart = $("#DateOfStart").val();
-		body.currentBookkeepingMethod = $("#currentBookkeepingMethod").val();
-		body.externalBookkeeperYN = $("#externalBookkeeperYN").val();
-		body.externalBookkeeperCompany = $("#externalBookkeeperCompany").val();
-		body.externalBookkeeperName = $("#externalBookkeeperName").val();
-		body.externalBookkeeperLocation = $("#externalBookkeeperLocation").val();
-		body.externalBookkeeperFutureRole = $("#externalBookkeeperFutureRole").val();
-		body.externalBookkeeperInformedYN = $("#externalBookkeeperInformedYN").val();
-		body.externalBookkeeperLikeDislike = $("#externalBookkeeperLikeDislike").val();
-		body.externalBookkeeperReachOut = $("#externalBookkeeperReachOut").val();
-		body.directOwnershipOfBooksYN = $("#directOwnershipOfBooksYN").val();
-		body.newBookkeeperReason = $("#newBookkeeperReason").val();
-		body.currentbookkeepingTimeSpent = $("#currentbookkeepingTimeSpent").val();
-		body.currentbookkeepingSoftware = $("#currentbookkeepingSoftware").val();
-		body.currentBookkeepingToolsChoice = $("#currentBookkeepingToolsChoice").val();
-		body.booksAccess = $("#booksAccess").val();
-		body.currentBookkeepingInvolvementScale = $("#currentBookkeepingInvolvementScale").val();
-		body.desiredBookkeepingInvolvementScale = $("#desiredBookkeepingInvolvementScale").val();
-		body.currentBookkeepingMonthlyExpenditure = $("#currentBookkeepingMonthlyExpenditure").val();
-		body.currentBookkeepingRatingScale = $("#currentBookkeepingRatingScale").val();
-		body.booksRequiringCleanupYN = $("#booksRequiringCleanupYN").val();
-		body.ongoingMaintenanceYN = $("#ongoingMaintenanceYN").val();
-		body.issuesToBeReviewed = $("#issuesToBeReviewed").val();
-		body.currentBookkeepingConcerns = $("#currentBookkeepingConcerns").val();
-		body.booksLastYearFinished = $("#booksLastYearFinished").val();
-		body.communicationExpectations = $("#communicationExpectations").val();
-		body.responseTimeExpectations = $("#responseTimeExpectations").val();
-		body.preferredCommunicationMethodChoice = $("#preferredCommunicationMethodChoice").val();
-		body.AppointmentAccountant = $("#AppointmentAccountant").val();
-		body.AppointmentIndividual = $("#AppointmentIndividual").val();
-		body.WhoWhen = $("#WhoWhen").val();
-		body.TaxReturnBussiness = $("#TaxReturnBussiness").val();
-		body.TaxReturnPersonal = $("#TaxReturnPersonal").val();
-		body.Extention = $("#Extention").val();
-		body.ExtentionDate = $("#ExtentionDate").val();
-		body.invoiceCustomers = $("#invoiceCustomers").val();
-		body.paidImmediately = $("#paidImmediately").val();
-		body.collectSalesTax = $("#collectSalesTax").val();
-		body.subcontractors = $("#subcontractors").val();
-		body.employees = $("#employees").val();
-		body.employeeCount = $("#employeeCount").val();
-		body.handlePayroll = $("#handlePayroll").val();
-		body.Inventory = $("#Inventory").val();
+        body['differentFromBizAddr'] = $('#differentFromBizAddr').prop('checked');
+		body['externalBookkeeperReachOut'] = $("input[type='radio'][name='externalBookkeeperReachOut']").val();
 
+        ['handlePayroll']
+            .forEach((field) =>
+                body[field] = $('#' + field).find('input').map((index, check) => 
+                    $(check).prop('checked') ?
+                        $(check).attr('value') : null
+                ).get()
+            )
 
 		//ADD IN LIST OF PARTNERS ADDED
-		/*body.moreCompaniesYN = $("#moreCompaniesYN").val();
-		body.volume = $("#Volume").val();
-		body.currentBookeepingMethod = $("#currentBookeepingMethod").val();
-		body.externalBookkeeperYN = $("#externalBookkeeperYN").val();
-		body.externalBookkeeperCompany = $("#externalBookkeeperCompany").val();
-		body.externalBookkeeperName = $("#externalBookkeeperName").val();
-		body.externalBookkeeperLocation = $("#externalBookkeeperLocation").val();
-		body.externalBookkeeperFutureRole = $("#externalBookkeeperFutureRole").val();
-		body.externalBookkeeperInformedYN = $("#externalBookkeeperInformedYN").val();
-		body.externalBookkeeperLikeDislike = $("#externalBookkeeperLikeDislike").val();
-		body.externalBookkeeperReachOut = $("#externalBookkeeperReachOut").val();
-		body.directOwnershipOfBooksYN = $("#directOwnershipOfBooksYN").val();
-		body.newBookkeeperReason = $("#newBookkeeperReason").val();
-		body.currentbookkeepingTimeSpent = $("#currentbookkeepingTimeSpent").val();
-		body.currentbookkeepingSoftware = $("#currentbookkeepingSoftware").val();
-		body.currentBookkeepingToolsChoice = $("#currentBookkeepingToolsChoice").val();*/
-		console.log(body);
-		console.log($("input[type='radio'][name='partnersYN']").value);
+        /*[
+		    'moreCompaniesYN',
+		    'volume',
+		    'currentBookeepingMethod',
+		    'externalBookkeeperYN',
+		    'externalBookkeeperCompany',
+		    'externalBookkeeperName',
+		    'externalBookkeeperLocation',
+		    'externalBookkeeperFutureRole',
+		    'externalBookkeeperInformedYN',
+		    'externalBookkeeperLikeDislike',
+		    'externalBookkeeperReachOut',
+		    'directOwnershipOfBooksYN',
+		    'newBookkeeperReason',
+		    'currentbookkeepingTimeSpent',
+		    'currentbookkeepingSoftware',
+		    'currentBookkeepingTools',
+        ].forEach((field) => body[field] = $('#' + field).val());
+        */
+
+        // POPULATE PARTNERS
+        
+        body.partners = []; 
+        if ($("input[type='radio'][name='partnersYN']").val() === 'Yes')
+            $('#partnersNames').children().each(function (index) {
+                var inputs = $($(this).find('input'));
+                body.partners.push({
+                    Name: inputs[0].value,
+                    Role: inputs[1].value
+                });
+            });
+
+        // POPULATE BOOKS ACCESS
+        body.booksAccess = [];
+        $('#booksAccess').children().each(function (index) {
+            var inputs = $($(this).find('input'));
+            body.booksAccess.push({
+                Name: inputs[0].value,
+                Role: inputs[1].value
+            });
+        });
+        console.log(body);
 	});
 
 		
 		//General
 	$("input[type='checkbox'][name='differentFromBizAddr']").click(function(e) {
-		console.log(this.checked);
-		if (this.checked === true) {
-			$("#mailAddr").show();
-
-		} else {
+		this.checked ? 
+			$("#mailAddr").show() :
 			$("#mailAddr").hide();
-		}
 	});
 
 
 		//Business
 	$("input[type='radio'][name='partnersYN']").change(function(e) {
-		console.log(this.value);
-		if (this.value === 'Yes') {
-			$("#addPartnerNames").show();
-
-		} else {
+		this.value === 'Yes' ?
+			$("#addPartnerNames").show() :
 			$("#addPartnerNames").hide();
-
-		}
 	});
 
+	var name = 0;
 	$("#addPartner").click(function (e) {
         name += 1;
- 	console.log(name);
-        addPartnerName(name);
+        $('#partnersNames').append(`
+            <tr id="partnerNameRow${name}"> 
+                <td id ="${name}"></td>
+                <td>Name</td>
+                <td><input type="text" id="partnerName${name}" name="partnerName${name}"></td>
+                <td>Role</td>
+                <td><input type="text" id="partnerRole${name}" name="partnerRole${name}"></td>
+                <td><button type="button" id="partnerNameDelete${name}" class="btn btn-default btn-sm">Delete</button></td>
+            </tr> 
+        `);
+        $('#partnerNameDelete' + name).click(function (e) {
+            $(this).closest('tr').remove();
+        });
     });
 
-	function addPartnerName(name) {
-	$('#partnersNames tbody').append(`
-		<tr id="partnerNameRow${name}"> 
-			<td id ="${name}"></td>
-			<td>Name</td>
-			<td><input type="text" id="partnerName${name}" name="partnerName${name}"></td>
-			<td>Role</td>
-			<td><input type="text" id="partnerRole${name}" name="partnerRole${name}"></td>
-			<td><button type="button" id="partnerNameDelete${name}" class="btn btn-default btn-sm">Delete</button></td>
-		</tr> 
-	`);
-    	$('#partnerNameDelete' + name).click(function (e) {
- 			$('#partnerNameRow' + name).remove();
-   		});
-    }
-
-    var currentYear = new Date().getFullYear() + 1;
-	var difference1 = currentYear - 1970; 
-    /*Array(difference1).fill()
-        .forEach((_, index) /////////////////////////////////
-        */
-	for (difference1; difference1 > 0; difference1--) {
-		$('#ownershipYear').append(`
-			<option value="${currentYear - difference1}">${currentYear - difference1}</option>
-		`);
-	};
+    // GENERATE YEARS SINCE 1970
+    var currentYear = new Date().getFullYear(); 
+    Array(currentYear - 1970).fill()
+        .forEach((_, index) =>
+            $('#ownershipYear').append(`
+                <option value="${currentYear - index}">${currentYear - index}</option>
+            `)
+        );
 
     $("input[type='radio'][name='moreCompaniesYN']").change(function(e) {
 		console.log(this.value);
@@ -196,118 +231,97 @@ $(document).ready(() => {
 	});
 
 		//Accounting
-	$("input[type='radio'][name='AccountingYear']").change(function(e) {
+	$("#AccountingYear").change(function(e) {
 		console.log(this.value);
-		if (this.value === 'Yes') {
-			$("#FYcontainer").show();
-
-		} else {
+		this.value === 'Fiscal Year' ?
+			$("#FYcontainer").show() :
 			$("#FYcontainer").hide();
-
-		}
 	});
 
 		//Accounting Service
-	var difference2 = currentYear - 2010; 
-	for (difference2; difference2 > 0; difference2--) {
-		$('#booksLastYearFinished').append(`
-			<option value="booksLastYearFinished${currentYear - difference2}">${currentYear - difference2}</option>
-		`);
-	};
+    Array(currentYear - 2010).fill()
+        .forEach((_, index) =>
+            ['booksLastYearFinished', 'TaxReturnBusiness', 'TaxReturnPersonal']
+                .forEach((field) =>
+                    $('#' + field).append(`
+                        <option value="${currentYear - index}">${currentYear - index}</option>
+                    `)
+                )
+        );
 
-	$("input[type='checkbox'][name='currentBookkeepingToolsChoiceOther']").click(function(e) {
-		console.log(this.checked);
-		if (this.checked === true) {
-			$("#currentBookkeepingToolsOtherBox").show();
-
-		} else {
-			$("#currentBookkeepingToolsOtherBox").hide();
-		}
+    ['Inventory', 'POS', 'Time Tracking', 'Payroll']
+        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}">${tool}</label>`));
+    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOther">Other</label>`);
+    
+    $("#currentbookkeepingSoftware").change(function(e) {
+		this.value === 'Other' ?
+			$("#currentbookkeepingSoftwareOtherBox").show() :
+			$("#currentbookkeepingSoftwareOtherBox").hide();
 	});
 
-	$("input[type='radio'][name='externalBookkeeperYN']").change(function(e) {
-		console.log(this.value);
-		if (this.value === 'Yes') {
-			$("#externalBookkeeper").show();
+    // OTHER CHECKBOXES 
+    ['currentBookkeepingTools', 'handlePayroll']
+        .forEach((field) =>
+            $(`input[type='checkbox'][name='${field}Other']`).click(function(e) {
+                this.checked ?
+                    $(`#${field}OtherBox`).show() :
+                    $(`#${field}OtherBox`).hide();
+            })
+        );
 
-		} else {
-			$("#externalBookkeeper").hide();
+    // RADIO BUTTONS
+    //
+    ['externalBookkeeper', 'externalBookkeeperReachOut', 'booksRequiringCleanup'].forEach((field) => 
+        $(`input[type='radio'][name='${field}YN']`).change(function(e) {
+            console.log(this.value);
+            this.value === 'Yes' ?
+                $('#' + field).show() :
+                $('#' + field).hide();
+        })
+    );
 
-		}
-	});
-
-	$("input[type='radio'][name='booksRequiringCleanupYN']").change(function(e) {
-		console.log(this.value);
-		if (this.value === 'Yes') {
-			$("#cleanupBooks").show();
-
-		} else {
-			$("#cleanupBooks").hide();
-
-		}
-	});
-
+    ///////
+	var person = 0;
 	$("#addBooksAccess").click(function (e) {
         person += 1;
- 	console.log(person);
-        addBooksAccess(person);
+        $('#booksAccess').append(`
+            <tr id="booksAccessRow${person}"> 
+                <td id ="${person}"></td>
+                <td>Name</td>
+                <td><input type="text" id="booksAccessName${person}" name="booksAccessName${person}"></td>
+                <td>Role</td>
+                <td><input type="text" id="booksAccessRole${person}" name="booksAccessRole${person}"></td>
+                <td><button type="button" id="booksAccessDelete${person}" class="btn btn-default btn-sm">Delete</button></td>
+            </tr> 
+        `);
+        $('#booksAccessDelete' + person).click(function (e) {
+            $('#booksAccessRow' + person).remove();
+        });
     });
 
-	function addBooksAccess(person) {
-	$('#booksAccess tbody').append(`
-		<tr id="booksAccessRow${person}"> 
-			<td id ="${person}"></td>
-			<td>Name</td>
-			<td><input type="text" id="booksAccessName${person}" name="booksAccessName${person}"></td>
-			<td>Role</td>
-			<td><input type="text" id="booksAccessRole${person}" name="booksAccessRole${person}"></td>
-			<td><button type="button" id="booksAccessDelete${person}" class="btn btn-default btn-sm">Delete</button></td>
-		</tr> 
-	`);
-    	$('#booksAccessDelete' + person).click(function (e) {
- 			$('#booksAccessRow' + person).remove();
-   		});
-    }
 
 
-});
+    //Tax Filing 
 
-//Tax Filing 
+    ['AppointmentAccountant', 'AppointmentIndividual', 'Extension']
+        .forEach((field) => 
+            $(`input[type='radio'][name='${field}']`).change(function(e) {
+                this.value === 'Yes' ?
+                    $("#FY" + field).show() :
+                    $("#FY" + field).hide();
+            })
+        );
 
-$("input[type='radio'][name='AppointmentIndividual']").change(function(e) {
-		console.log(this.value);
-		if (this.value === 'Yes') {
-			$("#FYcontainer1").show();
 
-		} else {
-			$("#FYcontainer1").hide();
-
-		}
-	});
-
-$("input[type='radio'][name='Extention']").change(function(e) {
-		console.log(this.value);
-		if (this.value === 'Yes') {
-			$("#FYcontainer2").show();
-
-		} else {
-			$("#FYcontainer2").hide();
-
-		}
-	});
-
-//Payroll
-
-$("input[type='radio'][name='employeeCount']").change(function(e) {
-		console.log(this.value);
-		if (this.value === 'Yes') {
-			$("#FYcontainer3").show();
-
-		} else {
-			$("#FYcontainer3").hide();
-
-		}
-	});
-
+    //Payroll
+    ['employeeCount']
+        .forEach((field) => 
+            $(`input[type='radio'][name='${field}']`).change(function(e) {
+                this.value === 'Yes' ?
+                    $("#FY" + field).show() :
+                    $("#FY" + field).hide();
+            })
+        );
+})
 
 

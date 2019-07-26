@@ -7,13 +7,19 @@ var accessToken = config.surveymonkey.accessToken;
 
 const { google } = require('googleapis');
 
+PL = {
+    Lead: ['Industry'],
+    Account: ['Software', 'Business Classification']
+};
+
 var get = (req, res, next) => {
     console.log(req.data.link);
+    var picklists;
     sf.login()
-        .then(() =>
+        .then(() => sf.picklists(PL))
+        .then((picklists) =>
             sf.conn.sobject("Lead").retrieve(req.data.link.salesforce)
                 .then((lead) => {
-                    console.log(lead);
                     var fields = {
                         firstName: lead.Name.split(' ')[0],
                         lastName: lead.Name.split(' ')[1],
@@ -21,7 +27,7 @@ var get = (req, res, next) => {
                         email: lead.Email,
                         phone: lead.Phone,
                     };
-                    return res.render('questionnaire', { fields });
+                    return res.render('questionnaire', { picklists, fields });
                 })
                 .catch((err) => {
                     console.log(err);

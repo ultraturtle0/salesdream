@@ -117,50 +117,7 @@ var ledger_post = (req, res, next) => {
             console.log(err);
             return res.send({ messages: 'received' });
         });
-}
-
-/*
- * sheets = google.sheets({version: 'v4', auth });
-        drive = google.drive({version: 'v2', auth });
-
-        sheets.spreadsheets.create({
-            resource: {
-                properties: {
-                    title: 'new sheet!'
-                }
-            },
-            fields: 'spreadsheetId'
-        }, (err, res) => {
-            if (err) {
-                // Handle error.
-                console.log(err);
-            } else {
-                var spreadsheet = res.data;
-                console.log(res.data);
-                drive.files.get({
-                    fileId:spreadsheet.spreadsheetId,
-                    fields: 'parents'
-                }, (err, file) => {
-                    var parents = file.data.parents
-                        .map((parent) => parent.id)
-                        .join(',');
-                
-
-                drive.files.update({
-                    fileId: spreadsheet.spreadsheetId,
-                    addParents: '1dy7j2LkWtrY-IMF7GBgFbEgMCwEU5pLu',
-                    removeParents: parents,
-                    fields: 'id, parents'
-                }, (err, file) => {
-                    if (err) console.log(err)
-                    else console.log(file);
-                })});
-
-
-
-            };
-        });
-*/
+};
 
 module.exports = {
     ledger: {
