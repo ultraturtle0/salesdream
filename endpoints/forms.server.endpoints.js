@@ -59,8 +59,10 @@ module.exports = (app) => {
  
     app.route('/hiring')
         .get(validate_token, (req, res) => res.render('hiring'));
-    app.route('/api/hiring')
+    // ERROR WITH SIGNREQUEST
+    /*app.route('/api/hiring')
         .post(validate_token, forms['hiring']);
+        */
 
     app.route('/introduction')
         .get(validate_token, (req, res) => res.render('introduction'));
