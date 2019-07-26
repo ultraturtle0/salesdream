@@ -280,6 +280,7 @@ $(document).ready(() => {
 
 
     $('#submit').click(function (e) {
+        
         e.preventDefault();
         var validation = true;
         $(`#incomplete`).hide();
@@ -314,7 +315,7 @@ $(document).ready(() => {
                 invalid.push('#' + other + 'Other');
         });
 
-        body.laterDate = ($('#laterDate').val() === 'on');
+        body.laterDate = $('#laterDate').prop('checked');
 
         if (invalid.length) {
             validation = false;
@@ -323,7 +324,7 @@ $(document).ready(() => {
             invalid.forEach((invalidField)=> $(`${invalidField}Box`).css("color","red") );
         };
 
-        if ((!$(`#laterDate`)[0].checked) && !($('#startEvent').val())) { 
+        if ((!$(`#laterDate`)[0].prop('checked')) && !($('#startEvent').val())) { 
             validation = false;
             $(`#incomplete`).show();
             $(`#validation`).append(`
