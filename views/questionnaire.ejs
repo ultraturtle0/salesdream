@@ -1,469 +1,75 @@
 <!DOCTYPE html>
-<html style="background-color: #572e5e">
-	<head>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
-		<title>Client Questionnaire</title>
-	</head>
-	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
-		<form autocomplete="off" action="/action_page.php">
-		<div style="text-align:center; font-size:25px; color:#572e5e">
-			Client Questionnaire
-			<br></br>
-		</div>
-
-
-		<div> <!--General-->
-			<div class="form-group">
-				<label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" value="<%= fields.firstName %>"> 
-				<label for="lastName">Last Name</label>
-				<input type="text" name="lastName" id="lastName" value="<%= fields.lastName %>"> 
-				<label for="companyName">Company Name</label>
-				<input type="text" name="companyName" id="companyName" value="<%= fields.companyName %>"> 
-			</div>
-			<div class="form-group">
-				<label for="email">Email</label>
-				<input type="text" name="email" id="email" style="width: 500px" value="<%= fields.email %>"> 
-				<label for="phone">Phone</label>
-				<input type="text" name="phone" id="phone" value="<%= fields.phone %>"> 
-			</div>
-			<div class="form-group">
-				<label for="title">Title</label>
-				<input type="text" name="title" id="title"> 
-			</div>
-			<div class="form-group">Business Address
-				<br>
-				<label for="bizAddrStreet">Street</label>
-				<input type="text" name="bizAddrStreet" id="bizAddrStreet" style="width: 500px">
-				<br>
-				<label for="bizAddrCity">City</label>
-				<input type="text" name="bizAddrCity" id="bizAddrCity">
-				<label for="bizAddrState">State</label>
-				<input type="text" name="bizAddrState" id="bizAddrState">
-				<label for="bizAddrZip">Zip Code</label>
-				<input type="text" name="bizAddrZip" id="bizAddrZip">
-			</div>
-			<div class="form-group">Mailing Address
-				<br>
-				<label><input type="checkbox" name="differentFromBizAddr" id="differentFromBizAddr">Different from business address?</label>
-				<div id="mailAddr" class="form-group">
-					<label for="mailAddrStreet">Street</label>
-					<input type="text" name="mailAddrStreet" id="mailAddrStreet" style="width: 500px">
-					<br>
-					<label for="mailAddrCity">City</label>
-					<input type="text" name="mailAddrCity" id="mailAddrCity">
-					<label for="vState">State</label>
-					<input type="text" name="mailAddrState" id="mailAddrState">
-					<label for="mailAddrZip">Zip Code</label>
-					<input type="text" name="mailAddrZip" id="mailAddrZip">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="website">Website URL</label>
-				<input type="text" name="website" id="website" style="width: 500px"> 
-			</div>
-			<div class="form-group">
-				<label for="industry">Industry</label>
-				<input type="text" name="industry" id="industry"> 
-			</div>
-		</div>
-
-
-		<div> <!--Business-->
-			<div class="form-group">
-				<label for="state">What state is your company registered in?</label>
-				<input type="text" name="state" id="state"> 
-			</div>
-			<div class="form-group">
-				<label for="bizClass">What is your business classification?</label>
-				<select name="bizClass" id="bizClass">
-						<option value="SoleProp">Sole Prop</option>
-						<option value="LLC">LLC</option>
-						<option value="SCorp">SCorp</option>
-						<option value="CCorp">CCorp</option>
-					</select>
-			</div>
-			<div class="form-group">
-				<label for="ownershipYear">What year did you form or take ownership of your primary business?</label>
-					<select name="ownershipYear" id="ownershipYear"></select>
-			</div>
-			<div class="form-group">
-				<label for="partnersYN">Do you have any partners, or shareholders?</label>
-				<label><input value="Yes" type="radio" name="partnersYN" id="partnersYES">Yes</label>
-				<label><input value="No" type="radio" name="partnersYN" id="partnersNO">No</label>
-			</div>
-				<div class="form-group" id="addPartnerNames">
-					<table class="partnersNames" id="partnersNames">
-					<tbody></tbody>
-					</table>
-					<button type="button" id="addPartner" class="btn btn-sm">Add Partner</button>
-				</div>
-			<div class="form-group">
-				<label for="moreCompaniesYN">Do you have more than one company?</label>
-				<label><input value="Yes" type="radio" name="moreCompaniesYN" id="moreCompaniesYES">Yes</label>
-				<label><input value="No" type="radio" name="moreCompaniesYN" id="moreCompaniesNO">No</label>
-			</div>
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" class="form-group" id="otherCompanies">
-				<div style="margin-left: 10px" class="form-group">
-					<label for="companiesSeparateBooksYN">Does each company have its own set of books?</label>
-					<label><input value="Yes" type="radio" name="companiesSeparateBooksYN" id="companiesSeparateBooksYES">Yes</label>
-					<label><input value="No" type="radio" name="companiesSeparateBooksYN" id="companiesSeparateBookssNO">No</label>
-				</div>
-				<div style="margin-left: 10px" class="form-group">
-					<label for="companiesSeparateAccountsYN">Does each company have its own set of bank accounts and credit cards?</label>
-					<label><input value="Yes" type="radio" name="companiesSeparateAccountsYN" id="companiesSeparateAccountsYES">Yes</label>
-					<label><input value="No" type="radio" name="companiesSeparateAccountsYN" id="companiesSeparateAccountsNO">No</label>
-				</div>
-			</div>
-		</div>
-
-
-		<div> <!--ACCOUNTING-->
-			<div class="form-group">
-				<label for="Volume">What is the volume of transactions per month? Feel free to estimate.</label>
-				<input type="text" name="Volume" id="Volume"> 
-			</div>
-
-			<div class="form-group">
-				<label for="AnnualRevenue">What is your annual revenue volume? Feel free to estimate.</label>
-				<input type="text" name="AnnualRevenue" id="AnnualRevenue"> 
-			</div>
-
-			<div class="form-group">
-				<label for="AccountingYear">Do you do your accounting on a calender year or fiscal year?</label>
-				<input value="Yes" type="radio" name="AccountingYear" id="AccountingYear1"> Yes 
-				<input value="No" type="radio" name="AccountingYear" id="AccountingYear2"> No
-			</div>
-
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer" class="form-group">
-				<div style="margin-left: 10px">
-					<label for="FiscalYear">What is the beginning and ending date of your company's fiscal year?</label>
-					<input type="text" name="FiscalYear" id="FiscalYear"> 
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="Cash">Is your company cash or accrual basis?</label>
-				<input type="text" name="Cash" id="Cash"> 
-			</div>
-
-			<div class="form-group">
-				<label for="FinancialReports">How often do you need to, or would like to, review financial reports? OR How frequently would you like to view current financial reports?</label>
-				<select name="FinancialReports" id="FinancialReports">
-						<option value="Daily">Daily</option>
-						<option value="Weekly">Weekly</option>
-						<option value="Bi-Monthly">Bi-Monthly</option>
-						<option value="Monthly">Monthly</option>
-						<option value="Bi-Yearly">Bi-Yearly</option>
-						<option value="Yearly">Yearly</option>
-					</select>
-			</div>
-
-			<div class="form-group">
-				<label for="DateOfStart">When would you like us to begin working?</label>
-			<div class="input-group date" data-provide="datepicker">
-					<input type="text" class="form-control datepicker" id="OtherStatementCycle${o}">
-					<div class="input-group-addon">
-						<span class="glyphicon glyphicon-th"></span>
-					</div>
-				</div>
-			</div>
-
-			
-		</div>
-
-		<div> <!--ACCOUNTING SERVICE-->
-			<div class="form-group">
-				<label for="currentBookkeepingMethod">How do you currently maintain your books?</label>
-				<input type="text" name="currentBookkeepingMethod" id="currentBookkeepingMethod">
-			</div>
-
-			<div class="form-group">
-				<label for="externalBookkeeperYN">Do you work with an external bookkeeper/accountant?</label>
-				<input value="Yes" type="radio" name="externalBookkeeperYN" id="externalBookkeeperYES"> Yes
-				<input value="No" type="radio" name="externalBookkeeperYN" id="externalBookkeeperNO"> No
-			</div>
-				<!--IF YES (to externalBookkeeperYN)-->
-				<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="externalBookkeeper" class="form-group">
-					<div style="margin-left: 10px">
-						<label for="externalBookkeeperCompany">Bookkeeping/Accounting Company</label>
-						<input type="text" name="externalBookkeeperCompany" id="externalBookkeeperCompany"> 
-					</div>
-					<div style="margin-left: 10px">
-						<label for="externalBookkeeperName">Bookkeeper/Accountant Name</label>
-						<input type="text" name="externalBookkeeperName" id="externalBookkeeperName"> 
-					</div>
-					<div style="margin-left: 10px">
-						<label for="externalBookkeeperLocation">Bookkeeper/Accountant Location</label>
-						<input type="text" name="externalBookkeeperLocation" id="externalBookkeeperLocation"> 
-					</div>
-					<div style="margin-left: 10px">
-						<label for="externalBookkeeperFutureRole">What role will they continue to play in this process?</label>
-						<input type="text" name="externalBookkeeperFutureRole" id="externalBookkeeperFutureRole"> 
-					</div>
-					<div style="margin-left: 10px">
-						<label for="externalBookkeeperInformedYN">Have you informed them that you are meeting with us?</label>
-						<input value="Yes" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedYES"> Yes
-						<input value="No" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedNO"> No
-					</div>
-					<div style="margin-left: 10px">
-						<label for="externalBookkeeperLikeDislike">What do you like and don't like about your current bookkeeper/accountant?</label>
-						<textarea class="form-control" rows="2" id="externalBookkeeperLikeDislike"></textarea>
-					</div>
-					<div style="margin-left: 10px">
-						<label for="externalBookkeeperReachOut">Are we able to reach out to them to ask questions if necessary?</label>
-						<input type="text" name="externalBookkeeperReachOut" id="externalBookkeeperReachOut"> 
-					</div>
-					<div style="margin-left: 10px">
-						<label for="directOwnershipOfBooksYN">Do you have direct ownership of your books and/or accounting files?</label>
-						<input value="Yes" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksYES"> Yes
-						<input value="No" type="radio" name="directOwnershipOfBooksYN" id="directOwnershipOfBooksNO"> No
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="newBookkeeperReason">Why do you feel that you are ready for a (new) bookkeeper now?</label>
-					<textarea class="form-control" rows="2" id="newBookkeeperReason"></textarea>
-				</div>
-
-				<div class="form-group">
-					<label for="currentbookkeepingTimeSpent">How many hours per month are being spent on your bookkeeping?</label>
-					<input style="width: 40px" type="text" name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpentHours">
-					hours per month
-				</div>
-
-				<div class="form-group">
-					<label for="currentbookkeepingSoftware">What accounting software are you currently using, if any?</label>
-					<input type="text" name="currentbookkeepingSoftware" id="currentbookkeepingSoftware">
-				</div>
-
-				<div class="form-group">
-					<label for="currentBookkeepingToolsChoice">Are there any external softwares/tools you are using to aid in your accounting?</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsInventory">Inventory</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPOS">POS</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsTime">Time Tracking</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoice" id="currentBookkeepingToolsPayroll">Payroll</label>
-					<label><input type="checkbox" name="currentBookkeepingToolsChoiceOther" id="currentBookkeepingToolsOther">Other</label>
-					<input type="text" name="currentBookkeepingToolsOtherBox" id="currentBookkeepingToolsOtherBox">
-				</div>
-
-				<div id ="booksAccess" class="form-group">
-					<label for="booksAccess">Who has/will have access to your books, and what are their roles/titles?</label>
-					<table class="booksAccess" id="booksAccess">
-					<tbody></tbody>
-					</table>
-					<button type="button" id="addBooksAccess" class="btn btn-sm">Add Person</button>
-				</div>
-
-				<div class="form-group">
-					<label for="currentBookkeepingInvolvementScale">How involved are you in your current bookkeeping process?</label>
-					<input value="1" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale1"> 1
-					<input value="2" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale2"> 2
-					<input value="3" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale3"> 3
-					<input value="4" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale4"> 4
-					<input value="5" type="radio" name="currentBookkeepingInvolvementScale" id="currentBookkeepingInvolvementScale5"> 5
-				</div>
-
-				<div class="form-group">
-					<label for="desiredBookkeepingInvolvementScale">How involved would you prefer to be?</label>
-					<input value="1" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale1"> 1
-					<input value="2" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale2"> 2
-					<input value="3" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale3"> 3
-					<input value="4" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale4"> 4
-					<input value="5" type="radio" name="desiredBookkeepingInvolvementScale" id="desiredBookkeepingInvolvementScale5"> 5
-				</div>
-
-				<div class="form-group">
-					<label for="currentBookkeepingMonthlyExpenditure">What is your current monthly bookkeeping expenditure?</label>
-					<input type="text" name="currentBookkeepingMonthlyExpenditure" id="currentBookkeepingMonthlyExpenditure">
-				</div>
-
-				<div class="form-group">
-					<label for="currentBookkeepingRatingScale">How would you rate the current state of your books?</label>
-					<input value="1" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale1"> 1
-					<input value="2" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale2"> 2
-					<input value="3" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale3"> 3
-					<input value="4" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale4"> 4
-					<input value="5" type="radio" name="currentBookkeepingRatingScale" id="currentBookkeepingRatingScale5"> 5
-				</div>
-
-				<div class="form-group">
-					<label for="booksRequiringCleanupYN">Do you feel your books require cleanup?</label>
-					<input value="Yes" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupYES"> Yes
-					<input value="No" type="radio" name="booksRequiringCleanupYN" id="booksRequiringCleanupNO"> No
-				</div>
-
-				<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="cleanupBooks" class="form-group">
-					<div style="margin-left: 10px">	
-						<label for="ongoingMaintenanceYN">Will you require ongoing maintenance after this initial clean-up project?</label>
-						<input value="Yes" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceYES"> Yes
-						<input value="No" type="radio" name="ongoingMaintenanceYN" id="ongoingMaintenanceNO"> No
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="issuesToBeReviewed">Is there a particular issue you would like us to review more closely?</label>
-					<textarea class="form-control" rows="2" id="issuesToBeReviewed"></textarea>
-				</div>
-
-				<div class="form-group">
-					<label for="currentBookkeepingConcerns">What are your biggest bookkeeping concerns at this time?</label>
-					<textarea class="form-control" rows="2" id="currentBookkeepingConcerns"></textarea>
-				</div>
-
-				<div class="form-group">
-					<label for="booksLastYearFinished">To the best of your knowledge, what is the last year that is completed in your books? OR What year do we need to begin working on in your books?</label>
-						<select name="booksLastYearFinished" id="booksLastYearFinished"></select>
-				</div>
-
-				<div class="form-group">
-					<label for="communicationExpectations">What are your communication expectations for your accounting team?</label>
-					<textarea class="form-control" rows="2" id="communicationExpectations"></textarea>
-				</div>	
-
-				<div class="form-group">
-					<label for="responseTimeExpectations">What is your expectation for response time?</label>
-					<select name="responseTimeExpectations" id="responseTimeExpectations">
-						<option value="responseTimeExpectationsImmdiately">Immediately</option>
-						<option value="responseTimeExpectationsHour">Within the Hour</option>
-						<option value="responseTimeExpectationsFewHours">Within a Few Hours</option>
-						<option value="responseTimeExpectationsLessThanDay">Less Than a Day</option>
-						<option value="responseTimeExpectationsOneDay">Within One Day</option>
-						<option value="responseTimeExpectationsFewDays">Within a Few Days</option>
-					</select>
-				</div>
-
-				<div class="form-group">
-					<label for="preferredCommunicationMethodChoice">What is your preferred method of communication with your bookkeeper?</label>
-					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodEmail">Email</label>
-					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodTexting">Texting</label>
-					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodCall">Phone Calls</label>
-					<label><input type="checkbox" name="preferredCommunicationMethod" id="preferredCommunicationPerson">In-Person</label>
-				</div>
-			</div>
-
-			<div> <!--TAX FILING-->
-              <div class="form-group">
-				    <label for="AppointmentAccountant">Do you have an appointment scheduled with your accountant/tax preparer?</label>
-				<input value="Yes" type="radio" name="AppointmentAccountant" id="AppointmentAccountant1"> Yes 
-				<input value="No" type="radio" name="AppointmentAccountant" id="AppointmentAccountant2"> No
-			</div>
-
-			<div class="form-group">
-				<label for="AppointmentIndividual">Do you have an appointment scheduled with an indivdual or business that will be reviewing your accounting files once we have completed the work?</label>
-				<input value="Yes" type="radio" name="AppointmentIndividual" id="AppointmentIndividual1"> Yes 
-				<input value="No" type="radio" name="AppointmentIndividual" id="AppointmentIndividual2"> No
-          
-			</div>
-
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer1" class="form-group">
-				<div style="margin-left: 10px">
-					<label for="WhoWhen">Who and when? </label>
-					<input type="text" name="WhoWhen" id="WhoWhen"> 
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="TaxReturnBussiness">What is the last year you have completed tax return field for your business?</label>
-				<input type="text" name="TaxReturnBussiness" id="TaxReturnBussiness"> 
-	        </div>
-
-	        <div class="form-group">
-				<label for="TaxReturnPersonal">What is the last year you have completed tax return field for your personal?</label>
-				<input type="text" name="TaxReturnPersonal" id="TaxReturnPersonal"> 
-	        </div>
-
-	        <div class="form-group">
-				<label for="Extention">Are you on extention for your current financial year?</label>
-				<input value="Yes" type="radio" name="Extention" id="Extention1"> Yes 
-				<input value="No" type="radio" name="Extention" id="Extention2"> No
-          
-			</div>
-
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer2" class="form-group">
-				<div style="margin-left: 10px">
-					<label for="ExtentionDate">What date is your extention due?</label>
-					<input type="text" name="ExtentionDate" id="ExtentionDate"> 
-				</div>
-			</div>
-
-		    <div> <!--A/R-->
-		    	<div class="form-group">
-				<label for="invoiceCustomers">Do you invoice your cutomers or are you paid immediately?</label>
-				<input value="Invoice" type="radio" name="invoiceCustomers" id="invoiceCustomers1"> Invoice
-				<input value="paidImmediately" type="radio" name="paidImmediately" id="paidImmediately2"> Paid immediately 
-          
-			</div>
-			<div class="form-group">
-				<label for="collectSalesTax">Do you sell products that require you to collect and pay sales tax?</label>
-				<input value="Yes" type="radio" name="collectSalesTax" id="collectSalesTax1"> Yes
-				<input value="No" type="radio" name="collectSalesTax" id="collectSalesTax2"> No
-          
-			</div>
-
-		    </div>
-		    <div><!--Payroll-->
-		    	<div class="form-group">
-				<label for="subcontractors">Do you use subcontractors?</label>
-				<input value="Yes" type="radio" name="subcontractors" id="subcontractors1"> Yes
-				<input value="No" type="radio" name="subcontractors" id="subcontractors2"> No
-          
-			</div>
-			<div class="form-group">
-				<label for="employees">Do you have employees?</label>
-				<input value="Yes" type="radio" name="employees" id="employees1"> Yes
-				<input value="No" type="radio" name="employees" id="employees"> No
-          
-			</div>
-
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYcontainer3" class="form-group">
-				<div style="margin-left: 10px">
-					<label for="employeeCount">How many employees do you have?</label>
-					<input type="text" name="employeeCount" id="employeeCount"> 
-				</div>
-			</div>
-
-			<div class="form-group">
-					<label for="handlePayroll">How do you handle payroll?</label>
-					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">ADP</label>
-					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Paychex</label>
-					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Intuit</label>
-					<label><input type="checkbox" name="handlePayroll" id="handlePayroll">Other</label>
-				</div>
-
-		    </div>
-
-		    <div> <!-- Inventory -->
-		    	<div class="form-group">
-				<label for="Inventory">Do you manage or track inventory?</label>
-				<input value="Yes" type="radio" name="Inventory" id="Inventory1"> Manage
-				<input value="No" type="radio" name="Inventory" id="Inventory"> Track 
-          
-			</div>
-
-            <div id="hidden">
-                <input type="hidden" value="<%= fields.id %>">
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title></title>
+    </head>
+    <body>
+        
+        <!--<div class="text-center" id="loading">
+            <span class="spinner-border" role="status">
+            </span>
+            <span>Loading from Salesforce...</span>
+        </div>-->
+        <h3>Hello <%= console.log(link); %>!</h3>
+        <form name="form" id="questionnaire" method="post">
+            <div class="form-group">
+                <label for="FirstName">First Name</label>
+                <input type="text" id="FirstName" name="FirstName">
+                <label for="LastName">Last Name</label>
+                <input type="text" id="LastName" name="LastName">
             </div>
-        </div>
-
-		<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
-
+            <div class="form-group"> 
+                <label for="Company">Company Name</label>
+                <input type="text" id="Company" name="Company">
+            </div>
+            <div class="form-group">
+                <label for="Email">Email Address</label>
+                <input type="email" id="Email" name="Email">
+            </div>
+            <div class="form-group">
+                <label for="Phone">Phone Number</label>
+                <input type="text" id="Phone" name="Phone">
+            </div>
+            <div class="form-group">
+                <label for="Referral">Whom can we thank for referring you?</label>
+                <select id="Referral" name="Referral">
+                </select>
+                <div id="ReferralOther" style="display:none;">
+                    <input type="text" name="ReferralOther">
+                </div>
+            </div>            
+            <div class="form-group">
+                <label for="ReferralLength">How long have you been working with them?</label>
+                <input type="text" id="ReferralLength" name="ReferralLength">
+            </div>
+            <div class="form-group">
+                <label for="Preparer">Who is your current tax preparer? (Optional)</label>
+                <select id="Preparer" name="Preparer">
+                </select>
+                <div id="PreparerOther" style="display:none;">
+                    <input type="text" name="PreparerOther">
+                </div>
+            </div>            
+            <div class="form-group">
+                <label for="questionnaire">Send this client a bookkeeping questionnaire?</label>
+                <input type="checkbox" id="questionnaire" name="questionnaire" value="true">
+            </div>
+            <div class="form-group">
+                <label for="Description">Notes</label>
+                <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
             </div>
 
+            <button type="submit" id="submit" class="btn btn-primary">
+                <span id="submitStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                <span id="buttonStatus">Submit</span>
+            </button>
         </form>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="/js/questionnaire.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
-
-
-
-	</body>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="/js/questionnaire.js"></script>
+    </body>
 </html>
 
 
