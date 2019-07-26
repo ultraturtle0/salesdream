@@ -1,6 +1,6 @@
-var post = require('./API/calendaring.js').post;
+var cal = require('./API/calendaring.js');
 
 module.exports = {
-    //get:
-    post: post
+    get: cal.get,
+    post: cal.post
 };

@@ -1,3 +1,5 @@
+
+// CURRENTLY UNUSED - WILL BE SPLIT BETWEEN FORM API SCRIPTS
 const axios = require('axios');
 const config = require('../config/config.js');
 const EMAILS = config.emails;

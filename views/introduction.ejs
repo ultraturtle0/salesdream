@@ -1,35 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #572e5e">
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <title>Quick Onboarding Form</title>
+        <style>
+            .carousel-control-prev-icon,
+            .carousel-control-next-icon {
+                outline: black;
+                filter: brightness(0%);
+            }
+        </style>
     </head>
-    <body>
+    <body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
         <div class="text-center" id="loading">
             <span class="spinner-border" role="status">
             </span>
             <span>Loading from Salesforce...</span>
         </div>
         <form name="form" id="introForm" style="display: none;" method="post">
-            <div class="form-group">
-                <label for="FirstName">First Name</label>
+            <div class="form-group" id="NameBox">
+                <label for="FirstName" id="FirstNameBox">First Name</label>
                 <input type="text" id="FirstName" name="FirstName">
-                <label for="LastName">Last Name</label>
+                <label for="LastName" id = LastNameBox>Last Name</label>
                 <input type="text" id="LastName" name="LastName">
             </div>
-            <div class="form-group"> 
+            <div class="form-group" id="CompanyBox"> 
                 <label for="Company">Company Name</label>
                 <input type="text" id="Company" name="Company">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="EmailBox">
                 <label for="Email">Email Address</label>
                 <input type="email" id="Email" name="Email">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="PhoneBox">
                 <label for="Phone">Phone Number</label>
                 <input type="text" id="Phone" name="Phone">
             </div>
-            <div class="form-group">
+            <div class="form-group"  id="ReferralBox">
                 <label for="Referral">Whom can we thank for referring you?</label>
                 <select id="Referral" name="Referral">
                 </select>
@@ -37,11 +44,11 @@
                     <input type="text" name="ReferralOther">
                 </div>
             </div>            
-            <div class="form-group">
+            <div class="form-group" id="ReferralLengthBox">
                 <label for="ReferralLength">How long have you been working with them?</label>
                 <input type="text" id="ReferralLength" name="ReferralLength">
             </div>
-            <div class="form-group">
+            <div class="form-group"  id="PreparerBox">
                 <label for="Preparer">Who is your current tax preparer? (Optional)</label>
                 <select id="Preparer" name="Preparer">
                 </select>
@@ -50,11 +57,37 @@
                 </div>
             </div>            
             <div class="form-group">
-                <label for="Description">Notes</label>
-                <textarea class="form-control" rows="5" id="Description" name="Description"></textarea>
+                <label for="questionnaire">Send this client a bookkeeping questionnaire?</label>
+                <input type="checkbox" id="questionnaire" name="questionnaire" value="true">
             </div>
+            <div class="form-group">
+                <label for="Description">Notes</label>
+                <textarea class="form-control" rows="2" id="Description" name="Description"></textarea>
+            </div>
+            <div id="validation"></div>
 
-            <button type="submit" id="submit" class="btn btn-primary">
+            <!-- CALENDARRR -->
+            <div>
+                <div><b>Select a date and time for a future zoom meeting!</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="laterDate" id="laterDate"> Choose date at a later time </label></div>
+                <br>
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+                    <div class="carousel-inner" id="carouselBody">
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" id="carouselPrev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" id="carouselNext">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div id="selected"></div>
+            <div id="incomplete" style="color:red"><b>Form Incomplete!!</b></div>
+            <br>
+            <input type="hidden" id="startEvent"></input>
+            <button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">
                 <span id="submitStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
                 <span id="buttonStatus">Submit</span>
             </button>
@@ -63,6 +96,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="js/introduction.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+        <script
+          src="http://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="packages/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/4.0.2/moment-range.js"></script>
     </body>
 </html>
 

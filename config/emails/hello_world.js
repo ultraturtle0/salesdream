@@ -3,12 +3,14 @@ module.exports = (template) => {
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
     const messageParts = [
         'From: Jordan Kusel <jordan@gswfinancialpartners.com>',
-        'To: Gabriella Sande Waterman <gabriella@gswfinancialpartners.com>',
+        'To: Gabriella Sande Waterman <jordan@gswfinancialpartners.com>',
         'Content-Type: text/html; charset=utf-8',
         'MIME-Version: 1.0',
         `Subject: ${utf8Subject}`,
         '',
-        'I\'m sending this message automatically from the Gmail API! This will let us easily automate frequently sent emails (i.e. sending Scot new background checks when SignRequest receives them)!',
+        '<html><body>',
+        '<p>I\'m sending this message automatically from the Gmail API! This will let us easily automate frequently sent</p><h1> emails!</h1>',
+        '</body></html>'
     ];
 
     const message = messageParts.join('\n');

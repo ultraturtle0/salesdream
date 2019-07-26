@@ -9,15 +9,18 @@ const db = configMongoose();
 const passport = configPassport();
 
 require('./endpoints/surveys.server.endpoints.js')(app);
-//require('../endpoints/signrequest.server.endpoints.js')(app);
+require('./endpoints/signrequest.server.endpoints.js')(app);
 require('./endpoints/forms.server.endpoints.js')(app);
 require('./endpoints/general.server.endpoints.js')(app);
 
 require('./endpoints/zapier.server.endpoints.js')(app);
 
+require('./endpoints/questionnaire.server.endpoints.js')(app);
+
 require('./endpoints/scheduling.server.endpoints.js')(app);
 
 require('./endpoints/toolkit.server.endpoints.js')(app);
+
 app.listen(config.port);
 module.exports = app;
 

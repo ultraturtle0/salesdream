@@ -26,6 +26,31 @@ var findObjs = (conn, type, obj, options) =>
         .skip((options.limit || 100) * (options.page || 0))
     ;
 
+var picklists = (objFields) => {
+    var picklists = {};
+    return Object.keys(objFields)
+        .reduce((acc, obj) => acc.then(() =>
+            conn.describe(obj)
+                .then((schema) => {
+                    objFields[obj].forEach((list) => 
+                        picklists[list] = schema.fields
+                            .filter(field => (field.label === list))
+                            .map(picklist => 
+                                picklist.picklistValues
+                                    .map(value => value.label)
+                                    .filter(value => (value !== 'N/A'))
+                            )[0]
+                );
+            })
+            //.catch((err) => 
+        ), Promise.resolve()
+    )
+    .then(() => Promise.resolve(picklists));
+};
+
+
+
+
         
 
 
@@ -52,6 +77,7 @@ var connCallback = (err, userInfo) => {
 
 module.exports = {
     login: () => conn.login(username, password + token, connCallback),
-    conn:conn,
-    createObj: createObj
+    conn,
+    createObj,
+    picklists
 }

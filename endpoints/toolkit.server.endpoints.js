@@ -9,4 +9,7 @@ module.exports = (app) => {
         .get(validate_token, ledger.get)
         .post(validate_token, ledger.post);
 
+    app.route('/contracts')
+        .get((req, res) => res.render('contracts'));
+
 }

@@ -6,4 +6,8 @@ config/env/emails/
 config/tokens/*.json
 gmail_token.json
 *.swo
+<<<<<<< HEAD
 .g*
+=======
+>>>>>>> 64965425222f66d3a8972852d237a08e11a5bef1
+.DS_Store
