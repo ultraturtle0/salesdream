@@ -42,7 +42,7 @@
     "passport-local": "^1.0.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
-    "signrequest-client": "^1.0.1",
+    "signrequest-client": "^1.0.2",
     "surveymonkey": "^1.1.0",
     "uuid": "^3.3.2"
   }
