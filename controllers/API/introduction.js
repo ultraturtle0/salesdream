@@ -84,7 +84,7 @@ var post = (req, res, next) => {
                 Email: body.Email,
                 questionnaire: body.questionnaire,
                 // MAKE SURE THIS IS HTTPS LATER
-                link: `http://${req.get('host')}/survey/${link.link}/`
+                link: `http://${req.get('host')}/questionnaire/${link.link}/`
             };
             if (body.startEvent) {
                 template.time = moment(body.startEvent).format("h:mm A");
@@ -108,7 +108,7 @@ var post = (req, res, next) => {
                     });
                 });
         })
-        .then((email) => res.status(200).send({ messages: (req.messages || []).concat('Lead saved, questionnaire email sent') }))
+        .then((email) => res.status(200).send({ messages: (req.messages || []).concat('Lead saved, questionnaire email sent').concat(email) }))
         .catch((err) => {
             console.log(err);
             res.status(400).send({ errors: [err] })

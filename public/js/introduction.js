@@ -342,6 +342,7 @@ $(document).ready(() => {
                 $('#submit').toggleClass('btn-primary');
                 $('#submit').toggleClass('btn-success');
                 $('#submit').attr('disabled', true);
+                console.log(res);
             })
             .fail((err) => {
                 $('#buttonStatus').text('Internal Error.');
