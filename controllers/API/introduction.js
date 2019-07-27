@@ -90,6 +90,7 @@ var post = (req, res, next) => {
             if (body.startEvent) {
                 template.time = moment(body.startEvent).format("h:mm A");
                 template.date = moment(body.startEvent).format("MMMM Do, YYYY");
+                template.dateQuestionnaire = moment(body.startEvent).subtract(2, 'days').format("MMMM Do");
             };
             if (req.body.Zoom_Meeting_ID)
                 template.code = req.body.Zoom_Meeting_ID;
