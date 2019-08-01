@@ -20,6 +20,7 @@ var get = (req, res, next) => {
                     Company: 1,
                     CreatedDate: 1,
                     Description: 1,
+                    Title: 1,
                     Email: 1,
                     FirstName: 1,
                     LastName: 1,
@@ -28,7 +29,11 @@ var get = (req, res, next) => {
                     Phone: 1,
                     Status: 1,
                     Tax_Preparer_Other__c: 1,
-                    Tax_Preparer__c: 1
+                    Tax_Preparer__c: 1,
+                    Zoom_Meeting__c: 1,
+                    Zoom_Meeting_ID__c: 1,
+                    Questionnaire_ID__c: 1
+
                 })
                 .sort({ CreatedDate: -1 }) 
             
