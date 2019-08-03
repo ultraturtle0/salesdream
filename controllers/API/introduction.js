@@ -44,7 +44,7 @@ var post = (req, res, next) => {
     console.log(body);
 
     if ('ReferralLength' in body)
-        body.Description = body.Description.concat('\n', `${body.FirstName} has been with their current tax preparer for ${body.ReferralLength}.`);
+        body.Description = body.Description.concat('\n', `<br>${body.FirstName} has been with their current tax preparer for ${body.ReferralLength}.`);
     var standard = ['FirstName', 'LastName', 'Company', 'Email', 'Phone', 'Description']
         .reduce((acc, key) => {
             acc[key] = body[key];
