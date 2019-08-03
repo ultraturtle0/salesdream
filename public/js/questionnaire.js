@@ -38,12 +38,16 @@ $(document).ready(() => {
 
         //Payroll
         "FYemployeeCount",
-        "handlePayrollOtherBox"
+        "handlePayrollOtherBox",
+
+        // modalForm
+        "modalForm",
     ].forEach((field) => $('#' + field).hide());
 
 
 	//EVENT LISTENERS
-	$("#submit").click((e) => {
+
+	$("#modalSubmit").click((e) => {
 		e.preventDefault();
 		var body = {};
         [

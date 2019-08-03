@@ -4,10 +4,8 @@ const axios = require('axios');
 const config = require('../config/config.js');
 const EMAILS = config.emails;
 const TOKEN = config.signrequest.token.test_net;
+const contracts = require('./API/contracts');
 //const EMAILS
-var gapi = require('../apps/gmail');
-
-var gmail = gapi.authorize();
 
 
 var SIGN_CONFIG = require('../config/signrequest'); 
@@ -29,7 +27,8 @@ var signed = (req, res, next) => {
     }
 
 
-var events = {
+
+/*var events = {
     convert_error: (req, res, next) => {
         console.log('Document convert error');
     },
@@ -40,7 +39,6 @@ var events = {
         console.log('Document sending error');
     },
     signed: signed
-    /* ...
      * sent
      * declined
      * cancelled
@@ -52,17 +50,19 @@ var events = {
      * signer_forwarded
      * signer_downloaded
      * signrequest_received
-     */
 }
 
 var event_handler = (req, res, next) => {
     events[req.body.data.event_type](req, res, next);
 }
+*/
 
 
 module.exports = { 
-    events: event_handler,
+    /*events: event_handler,
     signrequest: (req, res, next) => {
         res.send(200).json({data: 'ok'})
     }
+    */
+    post: contracts.post
 }

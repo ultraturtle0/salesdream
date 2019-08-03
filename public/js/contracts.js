@@ -1,3 +1,19 @@
+var port = location.port ? ':' + location.port : '';
+
+function addressCompile(contract) {
+    var address_1 = [
+        $(`#${contract}_client_address_1_1`).val(),
+        $(`#${contract}_client_address_1_2`).val()
+    ].join(' ').trim();
+    var address_2 = [
+        $(`#${contract}_client_address_1_3`).val() + ',',
+        $(`#${contract}_client_address_1_4`).val(),
+        $(`#${contract}_client_address_1_5`).val()
+    ].join(' ').trim();
+    return [address_1, address_2].join('\n');
+};
+
+
 $(document).ready(() => {
 	$("#Client").show();
 	$("#Headhunter").hide();
@@ -7,45 +23,52 @@ $(document).ready(() => {
 		e.preventDefault();
 		console.log("SUBMITTING");
 		var body = {};
-		[	'C_client_name_1',
-			'C_company_name_1',
-			'C_client_address_1_1',
-			'C_client_address_1_2',
-			'C_client_address_1_3',
-			'C_client_address_1_4',
-			'C_client_address_1_5',
-			'C_client_email_1',
-			'C_rd',
-			'C_hr',
-			'C_tf',
-			'C_lf',
-			'C_rf',
-			'C_term'
+        body.client_address_1_1 = addressCompile('C');
+		[	
+            'client_name_1',
+			'company_name_1',
+			'client_email_1',
+            'client_phone',
+			'rd',
+			'hr',
+			'tf',
+			'lf',
+			'rf',
+			'term'
 		].forEach((field)=> {
-			body[field] = $(`#${field}`).val();
+			body[field] = $(`#C_${field}`).val();
 		});
+        body.contract = "client";
 		console.log(body);
+        console.log(`http://${location.hostname}${port}/api/contracts/`);
+        $.post(`http://${location.hostname}${port}/api/contracts/`, body)
+            .done((res) => console.log(res))
+            .fail((err) => console.log(err));
 	});
 
 	$("#submit_headhunter").click((e) => {
 		e.preventDefault();
 		console.log("SUBMITTING");
 		var body = {};
-		[	'H_client_name_1',
-			'H_company_name_1',
-			'H_client_address_1_1',
-			'H_client_address_1_2',
-			'H_client_address_1_3',
-			'H_client_address_1_4',
-			'H_client_address_1_5',
-			'H_client_email_1',
-			'H_af',
-			'H_rd',
-			'H_lf'
+        body.client_address_1_1 = addressCompile('H');
+
+		[	
+            'client_name_1',
+			'company_name_1',
+			'client_email_1',
+            'client_phone',
+			'af',
+			'rd',
+			'lf'
 		].forEach((field)=> {
-			body[field] = $(`#${field}`).val();
+			body[field] = $(`#H_${field}`).val();
 		});
+        body.contract = "headhunter";
 		console.log(body);
+        console.log(`http://${location.hostname}${port}/api/contracts/`);
+        $.post(`http://${location.hostname}${port}/api/contracts/`, body)
+            .done((res) => console.log(res))
+            .fail((err) => console.log(err));
 	});
 		
 	$("#clientButton").click((e) => {

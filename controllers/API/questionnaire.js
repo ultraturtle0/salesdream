@@ -43,25 +43,34 @@ var get = (req, res, next) => {
     
 
 var post = (req, res, next) => {
-    var { _id, ...body } = req.body;
-    Link.findByIdAndUpdate(_id, 
-        {
-            $set: {
-                questionnaire: body,
-                completed: Date.now(),
-                email: body.email
-            }
+    console.log(req.body);
+    var { internal, id, ...body } = req.body;
+    var update = {
+        $set: {
+            questionnaire: body,
         }
-    )
-    .then((link) => {
-        res.cookie('complete', link.id, {
-            expires: new Date(new Date().getTime() + (1000*60*60*24*365*10))
-        });
-        res.render('thankyou');
-    })
-    .catch((err) => {
-        res.send({ errors: ['Error saving questionnaire answers.', err] });
-    });
+    };
+
+    // if questionnaire was not updated internally:
+    if (internal !== 'true') {
+        update.$set.completed = Date.now();
+        update.$set.email = body.email;
+        LinkSchema.updateOne({ _id: id }, update)
+            .then((link) => {
+                res.cookie('complete', link.id, {
+                    expires: new Date(new Date().getTime() + (1000*60*60*24*365*10))
+                });
+                res.render('thankyou');
+            })
+            .catch((err) => {
+                res.send({ errors: ['Error saving questionnaire answers.', err] });
+            });
+    } else {
+        LinkSchema.updateOne({ _id: id }, update)
+            .then((link) => res.send({ messages: ['Questionnaire updated', link] }))
+            .catch((err) => res.send({ errors: ['Error saving questionnaire answers.', err] }));
+    };
+
 };
 
 

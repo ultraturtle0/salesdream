@@ -6,7 +6,7 @@
 		<title>Client Questionnaire</title>
 	</head>
 	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
-		<form autocomplete="off" action="/action_page.php">
+		<form>
 		<div style="text-align:center; font-size:25px; color:#572e5e">
 			Client Questionnaire
 			<br></br>
@@ -169,13 +169,13 @@
 			<div class="form-group">
 				<label for="FinancialReports">How often do you need to, or would like to, review financial reports? OR How frequently would you like to view current financial reports?</label>
 				<select name="FinancialReports" id="FinancialReports">
-						<option value="Daily">Daily</option>
-						<option value="Weekly">Weekly</option>
-						<option value="Bi-Monthly">Bi-Monthly</option>
-						<option value="Monthly">Monthly</option>
-						<option value="Bi-Yearly">Bi-Yearly</option>
-						<option value="Yearly">Yearly</option>
-					</select>
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Bi-Monthly">Bi-Monthly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Bi-Yearly">Bi-Yearly</option>
+                    <option value="Yearly">Yearly</option>
+                </select>
 			</div>
 
 			<div class="form-group">
@@ -187,8 +187,6 @@
                     </div>
                 </div>
 			</div>
-
-			
 		</div>
 
 		<div> <!--ACCOUNTING SERVICE-->
@@ -377,151 +375,146 @@
 			</div>
 
 			<div> <!--TAX FILING-->
-              <div class="form-group">
+                <div class="form-group">
 				    <label for="AppointmentAccountant">Do you have an appointment scheduled with your accountant/tax preparer?</label>
                     <label><input value="Yes" type="radio" name="AppointmentAccountant">Yes</label>
                     <label><input value="No" type="radio" name="AppointmentAccountant">No</label>
-			</div>
+                </div>
 
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYAppointmentAccountant" class="form-group">
-				<div style="margin-left: 10px">
-					<label for="AccWho">Who are they?</label>
-					<input type="text" name="AccWho" id="AccWho"> 
-					<label for="AccWhen">When is the appointment?</label>
-                    <div class="input-group date" data-provide="datepicker">
-                        <input type="text" name="AccWhen" id="AccWhen" class="form-control datepicker">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
+                <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYAppointmentAccountant" class="form-group">
+                    <div style="margin-left: 10px">
+                        <label for="AccWho">Who are they?</label>
+                        <input type="text" name="AccWho" id="AccWho"> 
+                        <label for="AccWhen">When is the appointment?</label>
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="text" name="AccWhen" id="AccWhen" class="form-control datepicker">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
                         </div>
-                    </div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="AppointmentIndividual">Do you have an appointment scheduled with an individual or business that will be reviewing your accounting files once we have completed the work?</label>
-                <label><input value="Yes" type="radio" name="AppointmentIndividual" id="AppointmentIndividual1">Yes</label>
-                <label><input value="No" type="radio" name="AppointmentIndividual" id="AppointmentIndividual2">No</label>
-			</div>
-
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYAppointmentIndividual" class="form-group">
-				<div style="margin-left: 10px">
-					<label for="IndWho">Who are they?</label>
-					<input type="text" name="IndWho" id="IndWho"> 
-					<label for="IndWhen">When is the appointment?</label>
-                    <div class="input-group date" data-provide="datepicker">
-                        <input type="text" name="IndWhen" id="IndWhen" class="form-control datepicker">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
-                    </div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="TaxReturnBusiness">What is the last year you have completed tax return field for your business?</label>
-				<select name="TaxReturnBusiness" id="TaxReturnBusiness"> 
-                </select>
-	        </div>
-
-	        <div class="form-group">
-				<label for="TaxReturnPersonal">What is the last year you have completed tax return field for your personal?</label>
-				<select name="TaxReturnPersonal" id="TaxReturnPersonal"> 
-                </select>
-	        </div>
-
-	        <div class="form-group">
-				<label for="Extension">Are you on extension for your current financial year?</label>
-                <label><input value="Yes" type="radio" name="Extension" id="Extension1">Yes</label> 
-                <label><input value="No" type="radio" name="Extension" id="Extension2">No</label>
-			</div>
-
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYExtension" class="form-group">
-				<div style="margin-left: 10px">
-					<label for="ExtensionDate">What date is your extension due?</label>
-                    <div class="input-group date" data-provide="datepicker">
-                        <input type="text" name="ExtensionDate" id="ExtensionDate" class="form-control datepicker">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
-                    </div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="DateOfStart">When would you like us to begin working?</label>
-                <div class="input-group date" data-provide="datepicker">
-                    <input type="text" name="DateOfStart" id="DateOfStart" class="form-control datepicker">
-                    <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
                     </div>
                 </div>
-			</div>
 
+                <div class="form-group">
+                    <label for="AppointmentIndividual">Do you have an appointment scheduled with an individual or business that will be reviewing your accounting files once we have completed the work?</label>
+                    <label><input value="Yes" type="radio" name="AppointmentIndividual" id="AppointmentIndividual1">Yes</label>
+                    <label><input value="No" type="radio" name="AppointmentIndividual" id="AppointmentIndividual2">No</label>
+                </div>
+
+                <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYAppointmentIndividual" class="form-group">
+                    <div style="margin-left: 10px">
+                        <label for="IndWho">Who are they?</label>
+                        <input type="text" name="IndWho" id="IndWho"> 
+                        <label for="IndWhen">When is the appointment?</label>
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="text" name="IndWhen" id="IndWhen" class="form-control datepicker">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="TaxReturnBusiness">What is the last year you have completed tax return field for your business?</label>
+                    <select name="TaxReturnBusiness" id="TaxReturnBusiness"> 
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="TaxReturnPersonal">What is the last year you have completed tax return field for your personal?</label>
+                    <select name="TaxReturnPersonal" id="TaxReturnPersonal"> 
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Extension">Are you on extension for your current financial year?</label>
+                    <label><input value="Yes" type="radio" name="Extension" id="Extension1">Yes</label> 
+                    <label><input value="No" type="radio" name="Extension" id="Extension2">No</label>
+                </div>
+
+                <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYExtension" class="form-group">
+                    <div style="margin-left: 10px">
+                        <label for="ExtensionDate">What date is your extension due?</label>
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="text" name="ExtensionDate" id="ExtensionDate" class="form-control datepicker">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="DateOfStart">When would you like us to begin working?</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" name="DateOfStart" id="DateOfStart" class="form-control datepicker">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 		    <div> <!--A/R-->
 		    	<div class="form-group">
-				<label for="invoiceCustomers">Do you invoice your cutomers or are you paid immediately?</label>
-                <label><input value="Invoice" type="radio" name="invoiceCustomers">Invoice</label>
-                <label><input value="paidImmediately" type="radio" name="invoiceCustomers">Paid immediately</label>
-			</div>
-			<div class="form-group">
-				<label for="collectSalesTax">Do you sell products that require you to collect and pay sales tax?</label>
-				<input value="Yes" type="radio" name="collectSalesTax" id="collectSalesTax1"> Yes
-				<input value="No" type="radio" name="collectSalesTax" id="collectSalesTax2"> No
-          
-			</div>
-
+                    <label for="invoiceCustomers">Do you invoice your cutomers or are you paid immediately?</label>
+                    <label><input value="Invoice" type="radio" name="invoiceCustomers">Invoice</label>
+                    <label><input value="paidImmediately" type="radio" name="invoiceCustomers">Paid immediately</label>
+                </div>
+                <div class="form-group">
+                    <label for="collectSalesTax">Do you sell products that require you to collect and pay sales tax?</label>
+                    <input value="Yes" type="radio" name="collectSalesTax" id="collectSalesTax1"> Yes
+                    <input value="No" type="radio" name="collectSalesTax" id="collectSalesTax2"> No
+              
+                </div>
 		    </div>
-        <div><!--Payroll-->
+            <div> <!--Payroll-->
 		    	<div class="form-group">
-				<label for="subcontractors">Do you use subcontractors?</label>
-				<input value="Yes" type="radio" name="subcontractors" id="subcontractors1"> Yes
-				<input value="No" type="radio" name="subcontractors" id="subcontractors2"> No
-          
-			</div>
-			<div class="form-group">
-				<label for="employeeCount">Do you have employees?</label>
-                <label><input value="Yes" type="radio" name="employeeCount">Yes</label>
-                <label><input value="No" type="radio" name="employeeCount">No</label>
-          
-			</div>
+                    <label for="subcontractors">Do you use subcontractors?</label>
+                    <input value="Yes" type="radio" name="subcontractors" id="subcontractors1"> Yes
+                    <input value="No" type="radio" name="subcontractors" id="subcontractors2"> No
+                </div>
+                <div class="form-group">
+                    <label for="employeeCount">Do you have employees?</label>
+                    <label><input value="Yes" type="radio" name="employeeCount">Yes</label>
+                    <label><input value="No" type="radio" name="employeeCount">No</label>
+                </div>
 
-			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYemployeeCount" class="form-group">
-				<div style="margin-left: 10px">
-					<label for="employeeCount">How many employees do you have?</label>
-					<input type="text" name="employeeCount" id="employeeCount"> 
-				</div>
-			</div>
+                <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYemployeeCount" class="form-group">
+                    <div style="margin-left: 10px">
+                        <label for="employeeCount">How many employees do you have?</label>
+                        <input type="text" name="employeeCount" id="employeeCount"> 
+                    </div>
+                </div>
 
-			<div class="form-group" id="handlePayroll">
-                <label for="handlePayroll">How do you handle payroll?</label>
-                <label><input type="checkbox" name="handlePayroll" value="ADP">ADP</label>
-                <label><input type="checkbox" name="handlePayroll" value="Paychex">Paychex</label>
-                <label><input type="checkbox" name="handlePayroll" value="Intuit">Intuit</label>
-                <label><input type="checkbox" name="handlePayrollOther" value="Other">Other</label>
+                <div class="form-group" id="handlePayroll">
+                    <label for="handlePayroll">How do you handle payroll?</label>
+                    <label><input type="checkbox" name="handlePayroll" value="ADP">ADP</label>
+                    <label><input type="checkbox" name="handlePayroll" value="Paychex">Paychex</label>
+                    <label><input type="checkbox" name="handlePayroll" value="Intuit">Intuit</label>
+                    <label><input type="checkbox" name="handlePayrollOther" value="Other">Other</label>
+                </div>
+
+                <div class="form-group" id="handlePayrollOtherBox">
+                    <label for="handlePayrollOther">Please specify:</label>
+                    <input type="text" name="handlePayrollOther">
+                </div>
             </div>
-
-			<div class="form-group" id="handlePayrollOtherBox">
-                <label for="handlePayrollOther">Please specify:</label>
-                <input type="text" name="handlePayrollOther">
-            </div>
-        </div>
 
 		    <div> <!-- Inventory -->
 		    	<div class="form-group">
-				<label for="Inventory">Do you manage or track inventory?</label>
-                <label><input value="Yes" type="radio" name="Inventory" id="Inventory1">Yes</label>
-                <label><input value="No" type="radio" name="Inventory" id="Inventory">No</label> 
-			</div>
+                    <label for="Inventory">Do you manage or track inventory?</label>
+                    <label><input value="Yes" type="radio" name="Inventory" id="Inventory1">Yes</label>
+                    <label><input value="No" type="radio" name="Inventory" id="Inventory">No</label> 
+                </div>
 
-            <div id="hidden">
-                <input type="hidden" value="<%= fields.id %>">
+                <div id="hidden">
+                    <input type="hidden" value="<%= fields.id %>">
+                </div>
             </div>
-        </div>
 
-		<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
-
-            </div>
+            <button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
 
         </form>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

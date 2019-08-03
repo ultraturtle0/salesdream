@@ -1,5 +1,6 @@
 var validate_token = require('../config/strategies/jwt');
 var ledger = require('../controllers/ledger.server.controller.js');
+var sr = require('../controllers/signrequest.server.controller.js');
 
 module.exports = (app) => {
     app.route('/ledger')
@@ -11,5 +12,6 @@ module.exports = (app) => {
 
     app.route('/contracts')
         .get((req, res) => res.render('contracts'));
-
+    app.route('/api/contracts')
+        .post(sr.post);
 }
