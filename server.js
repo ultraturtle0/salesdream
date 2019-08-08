@@ -20,6 +20,7 @@ require('./endpoints/scheduling.server.endpoints.js')(app);
 
 require('./endpoints/toolkit.server.endpoints.js')(app);
 
+require('./endpoints/admin.server.endpoints.js')(app);
 app.listen(config.port);
 module.exports = app;
 
