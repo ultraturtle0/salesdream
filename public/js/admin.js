@@ -13,7 +13,7 @@ $(document).ready(() => {
     $('#submit').click(function(e) {
         e.preventDefault();
         var body = {};
-        ['firstName', 'lastName', 'username', 'email', 'password']
+        ['firstName', 'lastName', 'username', 'email']
             .forEach((field) => body[field] = $('#' + field).val());
         $.post(`http://${location.hostname}${port}/api/users/`, body)
             .done((res) => {
