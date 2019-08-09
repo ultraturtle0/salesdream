@@ -93,7 +93,10 @@ $(document).ready(() => {
             picklist = data.picklists;
             [
                 {id: 'Referral', field: 'Lead Source'},
-                {id: 'Preparer', field: 'Tax Preparer'}
+                {id: 'Preparer', field: 'Tax Preparer'},
+                {id: 'industry', field: 'Industry'},
+                {id: 'bizClass', field: 'Business Classification'},
+                {id: 'currentbookkeepingSoftware', field: 'Software'}
             ]
             .forEach((drop) =>
                 $(`#${drop.id}`).html(
@@ -116,7 +119,7 @@ $(document).ready(() => {
                     });
                     return `
                         <div id="${drop.id + 'OtherDiv'}" style="display:none;">
-                            <label for="${drop.id + 'Other'}">Other</label>
+                            <label for="${drop.id + 'Other'}">Please specify:</label>
                             <input type="text" id="${drop.id + 'Other'}" name="${drop.id + 'Other'}">
                         </div>
                     `
@@ -302,6 +305,8 @@ $(document).ready(() => {
 
     // GENERATE YEARS SINCE 1970
     var currentYear = new Date().getFullYear(); 
+
+    $('#ownershipYear').append(`<option value=""></option>`);
     Array(currentYear - 1970).fill()
         .forEach((_, index) =>
             $('#ownershipYear').append(`
@@ -329,15 +334,16 @@ $(document).ready(() => {
 	});
 
 		//Accounting Service
-    Array(currentYear - 2010).fill()
-        .forEach((_, index) =>
-            ['booksLastYearFinished', 'TaxReturnBusiness', 'TaxReturnPersonal']
-                .forEach((field) =>
+    ['booksLastYearFinished', 'TaxReturnBusiness', 'TaxReturnPersonal']
+        .forEach((field) => {
+            $('#' + field).append(`<option value=""></option>`);
+            Array(currentYear - 2010).fill()
+                .forEach((_, index) =>
                     $('#' + field).append(`
                         <option value="${currentYear - index}">${currentYear - index}</option>
                     `)
-                )
-        );
+                );
+        });
 
     ['Inventory', 'POS', 'Time Tracking', 'Payroll']
         .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}">${tool}</label>`));
@@ -376,7 +382,7 @@ $(document).ready(() => {
         person += 1;
         $('#booksAccess').append(`
             <tr id="booksAccessRow${person}"> 
-                <td id ="${person}"></td>
+                <td id="${person}"></td>
                 <td>Name</td>
                 <td><input type="text" id="booksAccessName${person}" name="booksAccessName${person}"></td>
                 <td>Role</td>
@@ -621,6 +627,29 @@ $(document).ready(() => {
     });
     */
 
+    var copy = {
+        FirstName: 'firstName',
+        LastName: 'lastName',
+        Company: 'companyName',
+        Email: 'email',
+        Phone: 'phone',
+        Description: 'uDescription',
+        // REFERRAL
+        // PREPARER
+        // REFERRAL LENGTH
+    };
+
+    Object
+        .keys(copy)
+        .forEach((key) => {
+            $('#' + key).change(function (e) {
+                $('#' + copy[key]).val($(this).val());
+            });
+            $('#' + copy[key]).change(function (e) {
+                $('#' + key).val($(this).val());
+            });
+        });
+
 
     $('#submit').click(function (e) {
         
@@ -679,7 +708,7 @@ $(document).ready(() => {
         $('#buttonStatus').text('Submitting...');
         $('#submitStatus').show();
 
-        $.post(`http://${location.hostname}${port}/api/introduction/`, body)
+        /*$.post(`http://${location.hostname}${port}/api/introduction/`, body)
             .done((res) => {
                 console.log(res);
                 var ids = {
@@ -689,16 +718,18 @@ $(document).ready(() => {
                     'Description': 'uDescription',
                     'Email': 'email',
                     'Phone': 'phone',
-                    '_id': 'id',
                     //'Referral': null
                     //'ReferralLength':
                     //'Zoom_Meeting_ID':
                     //'startEvent':
                 };
                 Object.keys(ids).forEach((field) => $('#' + ids[field]).val(res.link.questionnaire[field]));
+                // add id
+                $('#id').val(res.link._id);
                 $('#uModal').modal('show');
             });
 
+                */
         // OLD POST
         /*$.post(`http://${location.hostname}${port}/api/introduction/`, body)
             .done((res) => {

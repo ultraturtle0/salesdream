@@ -75,6 +75,7 @@
                 <label for="Description">Notes</label>
                 <textarea class="form-control" rows="2" id="Description" name="Description"></textarea>
             </div>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#uModal" data-index="${index}" data-name="${lead.Name}">Additional Fields</button>
             <div id="validation"></div>
 
             <!-- CALENDARRR -->
@@ -102,7 +103,6 @@
                 <span id="submitStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
                 <span id="buttonStatus">Submit</span>
             </button>
-            <button type="button" class="btn btn-danger dismiss" data-toggle="modal" data-target="#uModal" data-index="${index}" data-name="${lead.Name}"></button>
         </form>
 
 
@@ -244,9 +244,10 @@
 			<div class="form-group">
 				<label for="AccountingYear">Do you do your accounting on a calendar year or fiscal year?</label>
                 <select name="AccountingYear" id="AccountingYear">
-                    <option value="Calendar Year" type="checkbox">Calendar Year</option> 
-                    <option value="Fiscal Year" type="checkbox">Fiscal Year</option>
-                    <option value="I'm not sure" type="checkbox">I'm not sure</option>
+                    <option value=""></option> 
+                    <option value="Calendar Year">Calendar Year</option> 
+                    <option value="Fiscal Year">Fiscal Year</option>
+                    <option value="I'm not sure">I'm not sure</option>
                 </select>
 			</div>
 
@@ -265,6 +266,7 @@
 			<div class="form-group">
 				<label for="Cash">Is your company cash or accrual basis?</label>
 				<select type="text" name="Cash" id="Cash"> 
+                    <option value="" type="checkbox"></option> 
                     <option value="Cash">Cash</option>
                     <option value="Accrual">Accrual</option>
                     <option value="I'm not sure">I'm not sure</option>
@@ -274,6 +276,7 @@
 			<div class="form-group">
 				<label for="FinancialReports">How often do you need to, or would like to, review financial reports? OR How frequently would you like to view current financial reports?</label>
 				<select name="FinancialReports" id="FinancialReports">
+                    <option value=""></option> 
                     <option value="Daily">Daily</option>
                     <option value="Weekly">Weekly</option>
                     <option value="Bi-Monthly">Bi-Monthly</option>
@@ -367,10 +370,6 @@
 					<select name="currentbookkeepingSoftware" id="currentbookkeepingSoftware">
                     </select>
 				</div>
-                <div class="form-group" id="currentbookkeepingSoftwareOtherBox">
-                    <label for="currentbookkeepingSoftwareOther">Please specify:</label>
-                    <input type=text name="currentbookkeepingSoftwareOther" id="currentbookkeepingSoftwareOther">
-                </div>
 
 				<div class="form-group">
 					<label for="currentBookkeepingTools">Are there any external softwares/tools you are using to aid in your accounting?</label>

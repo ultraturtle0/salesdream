@@ -12,10 +12,15 @@ var accessToken = config.surveymonkey.accessToken;
 const { google } = require('googleapis');
 const gauth = require('../../util/google_token');
 
+const PL = {
+    Lead: ['Lead Source', 'Tax Preparer'],
+    Account: ['Industry', 'Business Classification', 'Software']
+};
+
 var get = (req, res, next) => {
     sf.login()
-        .then(() => 
-            sf.conn.describe("Lead", (err, lead) => {
+        .then(() => sf.picklists(PL))
+            /*sf.conn.describe("Lead", (err, lead) => {
 
                 var picklists = {};
                 var message = '';
@@ -23,7 +28,7 @@ var get = (req, res, next) => {
                     message = 'Error retrieving picklist values.';
                     return res.status(400).send({message, picklists});
                 }; 
-                ['Lead Source', 'Tax Preparer'].forEach((list) => 
+                ['Lead Source', 'Tax Preparer', 'Industry', 'Business Classification'].forEach((list) => 
                     picklists[list] = lead.fields
                         .filter(field => (field.label === list))
                         .map(picklist => 
@@ -32,10 +37,13 @@ var get = (req, res, next) => {
                                 .filter(value => (value !== 'N/A'))
                         )[0]
                 );
+                */
                 
-                return res.send({ message, picklists });
-            })
-        );
+        .then((picklists) => res.send({ picklists }))
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send({ errors: ['Error retrieving picklist values.', err] });
+        });
 };
 
 var post = (req, res, next) => {
