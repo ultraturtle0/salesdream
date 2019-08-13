@@ -68,7 +68,7 @@ $(document).ready(() => {
         "FYExtension",
 
         //Payroll
-        "FYemployeeCount",
+        "FYemployees",
         "handlePayrollOtherBox",
 
         // Calendar-related
@@ -130,144 +130,12 @@ $(document).ready(() => {
 
         });
 
-    $('#modalSubmit').click(function (e) {
+    /*$('#modalSubmit').click(function (e) {
         e.preventDefault();
 		var body = {};
         body.internal = true;
-        [
-            'id',
-		    'firstName',
-		    'lastName',
-		    'companyName',
-		    'email',
-		    'phone',
-		    'title',
-		    'bizAddrStreet',
-		    'bizAddrCity',
-		    'bizAddrState',
-		    'bizAddrZip',
-		    'mailAddrStreet',
-		    'mailAddrCity',
-		    'mailAddrState',
-		    'mailAddrZip',
-		    'website',
-		    'industry',
-		    'state',
-		    'bizClass',
-		    'ownershipYear',
-		    'partnersYN',
-		    'partnersNames',
-		    'moreCompaniesYN',
-		    'companiesSeparateBooksYN',
-		    'companiesSeparateAccountsYN',
-		    'Volume',
-		    'AnnualRevenue',
-		    'AccountingYear',
-		    'FiscalYear',
-		    'Cash',
-		    'FinancialReports',
-		    'DateOfStart',
-		    'currentBookkeepingMethod',
-		    'externalBookkeeperYN',
-		    'externalBookkeeperCompany',
-		    'externalBookkeeperName',
-		    'externalBookkeeperLocation',
-		    'externalBookkeeperFutureRole',
-		    'externalBookkeeperInformedYN',
-		    'externalBookkeeperLikeDislike',
-		    'directOwnershipOfBooksYN',
-		    'newBookkeeperReason',
-		    'currentbookkeepingTimeSpent',
-		    'currentbookkeepingSoftware',
-		    'currentBookkeepingTools',
-		    'currentBookkeepingInvolvementScale',
-		    'desiredBookkeepingInvolvementScale',
-		    'currentBookkeepingMonthlyExpenditure',
-		    'currentBookkeepingRatingScale',
-		    'booksRequiringCleanupYN',
-		    'ongoingMaintenanceYN',
-		    'issuesToBeReviewed',
-		    'currentBookkeepingConcerns',
-		    'booksLastYearFinished',
-		    'communicationExpectations',
-		    'responseTimeExpectations',
-		    'preferredCommunicationMethodChoice',
-		    'AppointmentAccountant',
-		    'AppointmentIndividual',
-		    'AccWhoWhen',
-		    'IndWhoWhen',
-		    'TaxReturnBussiness',
-		    'TaxReturnPersonal',
-		    'Extension',
-		    'ExtensionDate',
-		    'invoiceCustomers',
-		    'paidImmediately',
-		    'collectSalesTax',
-		    'subcontractors',
-		    'employees',
-		    'employeeCount',
-		    'Inventory',
-        ].forEach((field) => body[field] = $('#' + field).val());
-
-        body['differentFromBizAddr'] = $('#differentFromBizAddr').prop('checked');
-		body['externalBookkeeperReachOut'] = $("input[type='radio'][name='externalBookkeeperReachOut']").val();
-
-        ['handlePayroll']
-            .forEach((field) =>
-                body[field] = $('#' + field).find('input').map((index, check) => 
-                    $(check).prop('checked') ?
-                        $(check).attr('value') : null
-                ).get()
-            )
-
-		//ADD IN LIST OF PARTNERS ADDED
-        /*[
-		    'moreCompaniesYN',
-		    'volume',
-		    'currentBookeepingMethod',
-		    'externalBookkeeperYN',
-		    'externalBookkeeperCompany',
-		    'externalBookkeeperName',
-		    'externalBookkeeperLocation',
-		    'externalBookkeeperFutureRole',
-		    'externalBookkeeperInformedYN',
-		    'externalBookkeeperLikeDislike',
-		    'externalBookkeeperReachOut',
-		    'directOwnershipOfBooksYN',
-		    'newBookkeeperReason',
-		    'currentbookkeepingTimeSpent',
-		    'currentbookkeepingSoftware',
-		    'currentBookkeepingTools',
-        ].forEach((field) => body[field] = $('#' + field).val());
-        */
-
-        // POPULATE PARTNERS
-        
-        body.partners = []; 
-        if ($("input[type='radio'][name='partnersYN']").val() === 'Yes')
-            $('#partnersNames').children().each(function (index) {
-                var inputs = $($(this).find('input'));
-                body.partners.push({
-                    Name: inputs[0].value,
-                    Role: inputs[1].value
-                });
-            });
-
-        // POPULATE BOOKS ACCESS
-        body.booksAccess = [];
-        $('#booksAccess').children().each(function (index) {
-            var inputs = $($(this).find('input'));
-            body.booksAccess.push({
-                Name: inputs[0].value,
-                Role: inputs[1].value
-            });
-        });
-        console.log(body);
-
-        $.post(`http://${location.hostname}${port}/api/questionnaire/`, body)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
 	});
+    */
 
     // COPIED FROM QUESTIONNAIRE.JS		
 		//General
@@ -327,7 +195,6 @@ $(document).ready(() => {
 
 		//Accounting
 	$("#AccountingYear").change(function(e) {
-		console.log(this.value);
 		this.value === 'Fiscal Year' ?
 			$("#FYcontainer").show() :
 			$("#FYcontainer").hide();
@@ -347,7 +214,7 @@ $(document).ready(() => {
 
     ['Inventory', 'POS', 'Time Tracking', 'Payroll']
         .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}">${tool}</label>`));
-    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOther">Other</label>`);
+    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" value="Other">Other</label>`);
     
     $("#currentbookkeepingSoftware").change(function(e) {
 		this.value === 'Other' ?
@@ -366,11 +233,9 @@ $(document).ready(() => {
         );
 
     // RADIO BUTTONS
-    //
     ['externalBookkeeper', 'externalBookkeeperReachOut', 'booksRequiringCleanup'].forEach((field) => 
         $(`input[type='radio'][name='${field}YN']`).change(function(e) {
             console.log(this.value);
-            this.value === 'Yes' ?
                 $('#' + field).show() :
                 $('#' + field).hide();
         })
@@ -399,7 +264,7 @@ $(document).ready(() => {
 
     //Tax Filing 
 
-    ['AppointmentAccountant', 'AppointmentIndividual', 'Extension']
+    ['AppointmentAccountant', 'AppointmentIndividual', 'Extension', 'employees']
         .forEach((field) => 
             $(`input[type='radio'][name='${field}']`).change(function(e) {
                 this.value === 'Yes' ?
@@ -408,20 +273,7 @@ $(document).ready(() => {
             })
         );
 
-
-    //Payroll
-    ['employeeCount']
-        .forEach((field) => 
-            $(`input[type='radio'][name='${field}']`).change(function(e) {
-                this.value === 'Yes' ?
-                    $("#FY" + field).show() :
-                    $("#FY" + field).hide();
-            })
-        );
-
-
-
-
+                    
     var firstWeekDate;
     var dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     var timeSlots = ["9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
@@ -707,6 +559,137 @@ $(document).ready(() => {
         if (!validation) return;
         $('#buttonStatus').text('Submitting...');
         $('#submitStatus').show();
+
+        [
+            'id',
+		    'title',
+		    'bizAddrStreet',
+		    'bizAddrCity',
+		    'bizAddrState',
+		    'bizAddrZip',
+		    'mailAddrStreet',
+		    'mailAddrCity',
+		    'mailAddrState',
+		    'mailAddrZip',
+		    'website',
+		    'industry',
+		    'state',
+		    'bizClass',
+		    'ownershipYear',
+		    'Volume',
+		    'AnnualRevenue',
+            'AccountingYear',
+		    'FiscalYear',
+		    'Cash',
+		    'FinancialReports',
+		    'DateOfStart',
+		    'currentBookkeepingMethod',
+		    'externalBookkeeperCompany',
+		    'externalBookkeeperName',
+		    'externalBookkeeperEmail',
+		    'externalBookkeeperPhone',
+		    'externalBookkeeperLocation',
+		    'externalBookkeeperFutureRole',
+		    'externalBookkeeperLikeDislike',
+		    'newBookkeeperReason',
+		    'currentbookkeepingTimeSpent',
+		    'currentbookkeepingSoftware',
+		    'currentBookkeepingMonthlyExpenditure',
+		    'issuesToBeReviewed',
+		    'currentBookkeepingConcerns',
+		    'booksLastYearFinished',
+		    'communicationExpectations',
+		    'responseTimeExpectations',
+		    'preferredCommunicationMethodChoice',
+		    'AccWho',
+            'AccWhen',
+		    'IndWho',
+            'IndWhen',
+		    'TaxReturnBusiness',
+		    'TaxReturnPersonal',
+		    'ExtensionDate',
+		    'employeeCount',
+        ].forEach((field) => body[field] = $('#' + field).val());
+
+        body['differentFromBizAddr'] = $('#differentFromBizAddr').prop('checked');
+
+        // CHECKBOXES
+        [
+            'handlePayroll',
+            'currentBookkeepingTools',
+            'preferredCommunicationMethodChoice'
+        ].forEach((field) => 
+            body[field] = $(`input[name='${field}']:checked`).map(
+                function (checked) {
+                    return checked ? $(this).val() : null
+                }).get()
+        );
+
+        // RADIO BUTTONS
+        [
+            'AppointmentAccountant',
+            'AppointmentIndividual',
+            'Extension',
+            'invoiceCustomers',
+            'collectSalesTax',
+            'invoiceCustomers',
+            'subcontractors',
+            'employees',
+            'Inventory',
+            'partnersYN',
+            'moreCompaniesYN',
+            'companiesSeparateBooksYN',
+            'companiesSeparateAccountsYN',
+            'externalBookkeeperYN',
+            'externalBookkeeperInformedYN',
+            'externalBookkeeperReachOutYN',
+            'directOwnershipOfBooksYN',
+            'currentBookkeepingInvolvementScale',
+            'desiredBookkeepingInvolvementScale',
+            'currentBookkeepingRatingScale',
+            'booksRequiringCleanupYN',
+            'ongoingMaintenanceYN'
+        ].forEach((field) => body[field] = $(`input[type='radio'][name='${field}']:checked`).val());
+
+        // OTHERS
+        if (body.industry === 'Other')
+            body.industryOther = $('#industryOther').val();
+        if (body.currentbookkeepingSoftware === 'Other')
+            body.currentbookkeepingSoftwareOther = $('#currentbookkeepingSoftwareOther').val();
+        if ('Other' in body.currentBookkeepingTools)
+            body.currentBookkeepingToolsOther = $('#currentbookkepingToolsOther').val();
+        if ('Other' in body.handlePayroll)
+            body.handlePayrollOther = $('#handlePayrollOther').val();
+        
+
+        // POPULATE PARTNERS
+        
+        body.partners = []; 
+        if ($("input[type='radio'][name='partnersYN']").val() === 'Yes')
+            $('#partnersNames').children().each(function (index) {
+                var inputs = $($(this).find('input'));
+                body.partners.push({
+                    Name: inputs[0].value,
+                    Role: inputs[1].value
+                });
+            });
+
+        // POPULATE BOOKS ACCESS
+        body.booksAccess = [];
+        $('#booksAccess').children().each(function (index) {
+            var inputs = $($(this).find('input'));
+            body.booksAccess.push({
+                Name: inputs[0].value,
+                Role: inputs[1].value
+            });
+        });
+        console.log(body);
+
+        /*$.post(`http://${location.hostname}${port}/api/questionnaire/`, body)
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+            */
+
 
         /*$.post(`http://${location.hostname}${port}/api/introduction/`, body)
             .done((res) => {

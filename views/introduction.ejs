@@ -80,7 +80,7 @@
 
             <!-- CALENDARRR -->
             <div>
-                <div><b>Select a date and time for a future zoom meeting!</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="laterDate" id="laterDate"> Choose date at a later time </label></div>
+                <div><b>Select a date and time for a future zoom meeting!</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="laterDate" value="true" id="laterDate"> Choose date at a later time </label></div>
                 <br>
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
                     <div class="carousel-inner" id="carouselBody">
@@ -158,7 +158,7 @@
 			</div>
 			<div class="form-group">Mailing Address
 				<br>
-				<label><input type="checkbox" name="differentFromBizAddr" id="differentFromBizAddr">Different from business address?</label>
+				<label><input type="checkbox" value="true" name="differentFromBizAddr" id="differentFromBizAddr">Different from business address?</label>
 				<div id="mailAddr" class="form-group">
 					<label for="mailAddrStreet">Street</label>
 					<input type="text" name="mailAddrStreet" id="mailAddrStreet" style="width: 500px">
@@ -266,7 +266,7 @@
 			<div class="form-group">
 				<label for="Cash">Is your company cash or accrual basis?</label>
 				<select type="text" name="Cash" id="Cash"> 
-                    <option value="" type="checkbox"></option> 
+                    <option value=""></option> 
                     <option value="Cash">Cash</option>
                     <option value="Accrual">Accrual</option>
                     <option value="I'm not sure">I'm not sure</option>
@@ -305,8 +305,8 @@
 
 			<div class="form-group">
 				<label for="externalBookkeeperYN">Do you work with an external bookkeeper/accountant?</label>
-				<input value="Yes" type="radio" name="externalBookkeeperYN" id="externalBookkeeperYES"> Yes
-				<input value="No" type="radio" name="externalBookkeeperYN" id="externalBookkeeperNO"> No
+				<input value="Yes" type="radio" name="externalBookkeeperYN">Yes
+				<input value="No" type="radio" name="externalBookkeeperYN">No
 			</div>
 				<!--IF YES (to externalBookkeeperYN)-->
 				<div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="externalBookkeeper" class="form-group">
@@ -328,8 +328,8 @@
 					</div>
 					<div style="margin-left: 10px">
 						<label for="externalBookkeeperInformedYN">Have you informed them that you are meeting with us?</label>
-                        <label><input value="Yes" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedYES">Yes</label>
-                        <label><input value="No" type="radio" name="externalBookkeeperInformedYN" id="externalBookkeeperInformedNO">No</label>
+                        <label><input value="Yes" type="radio" name="externalBookkeeperInformedYN">Yes</label>
+                        <label><input value="No" type="radio" name="externalBookkeeperInformedYN">No</label>
 					</div>
 					<div style="margin-left: 10px">
 						<label for="externalBookkeeperLikeDislike">What do you like and don't like about your current bookkeeper/accountant?</label>
@@ -361,7 +361,7 @@
 
 				<div class="form-group">
 					<label for="currentbookkeepingTimeSpent">How many hours per month are being spent on your bookkeeping?</label>
-					<input style="width: 40px" type="text" name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpentHours">
+					<input style="width: 40px" type="text" name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpent">
 					hours per month
 				</div>
 
@@ -457,21 +457,22 @@
 				<div class="form-group">
 					<label for="responseTimeExpectations">What is your expectation for response time?</label>
 					<select name="responseTimeExpectations" id="responseTimeExpectations">
-						<option value="responseTimeExpectationsImmdiately">Immediately</option>
-						<option value="responseTimeExpectationsHour">Within the Hour</option>
-						<option value="responseTimeExpectationsFewHours">Within a Few Hours</option>
-						<option value="responseTimeExpectationsLessThanDay">Less Than a Day</option>
-						<option value="responseTimeExpectationsOneDay">Within One Day</option>
-						<option value="responseTimeExpectationsFewDays">Within a Few Days</option>
+                        <option value=""></option>
+						<option value="Immediately">Immediately</option>
+						<option value="Within-the-Hour">Within the Hour</option>
+						<option value="Within-a-Few-Hours">Within a Few Hours</option>
+						<option value="Less-Than-a-Day">Less Than a Day</option>
+						<option value="Within-One-Day">Within One Day</option>
+						<option value="Within-a-Few-Days">Within a Few Days</option>
 					</select>
 				</div>
 
 				<div class="form-group">
-					<label for="preferredCommunicationMethodChoice">What is your preferred method of communication with your bookkeeper?</label>
-					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodEmail">Email</label>
-					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodTexting">Texting</label>
-					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodCall">Phone Calls</label>
-					<label><input type="checkbox" name="preferredCommunicationMethod" id="preferredCommunicationPerson">In-Person</label>
+					<label for="preferredCommunicationMethodChoice">What are your preferred methods of communication with your bookkeeper?</label>
+					<label><input type="checkbox" name="preferredCommunicationMethodChoice" value="Email">Email</label>
+					<label><input type="checkbox" name="preferredCommunicationMethodChoice" value="Texting">Texting</label>
+					<label><input type="checkbox" name="preferredCommunicationMethodChoice" value="Phone">Phone Calls</label>
+					<label><input type="checkbox" name="preferredCommunicationMethod" value="In-Person">In-Person</label>
 				</div>
 			</div>
 
@@ -559,7 +560,7 @@
 
 		    <div> <!--A/R-->
 		    	<div class="form-group">
-                    <label for="invoiceCustomers">Do you invoice your cutomers or are you paid immediately?</label>
+                    <label for="invoiceCustomers">Do you invoice your customers or are you paid immediately?</label>
                     <label><input value="Invoice" type="radio" name="invoiceCustomers">Invoice</label>
                     <label><input value="paidImmediately" type="radio" name="invoiceCustomers">Paid immediately</label>
                 </div>
@@ -577,12 +578,12 @@
                     <input value="No" type="radio" name="subcontractors" id="subcontractors2"> No
                 </div>
                 <div class="form-group">
-                    <label for="employeeCount">Do you have employees?</label>
-                    <label><input value="Yes" type="radio" name="employeeCount">Yes</label>
-                    <label><input value="No" type="radio" name="employeeCount">No</label>
+                    <label for="employees">Do you have employees?</label>
+                    <label><input value="Yes" type="radio" name="employees">Yes</label>
+                    <label><input value="No" type="radio" name="employees">No</label>
                 </div>
 
-                <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYemployeeCount" class="form-group">
+                <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYemployees" class="form-group">
                     <div style="margin-left: 10px">
                         <label for="employeeCount">How many employees do you have?</label>
                         <input type="text" name="employeeCount" id="employeeCount"> 
@@ -599,22 +600,21 @@
 
                 <div class="form-group" id="handlePayrollOtherBox">
                     <label for="handlePayrollOther">Please specify:</label>
-                    <input type="text" name="handlePayrollOther">
+                    <input type="text" name="handlePayrollOther" id="handlePayrollOther">
                 </div>
             </div>
 
 		    <div> <!-- Inventory -->
 		    	<div class="form-group">
                     <label for="Inventory">Do you manage or track inventory?</label>
-                    <label><input value="Yes" type="radio" name="Inventory" id="Inventory1">Yes</label>
-                    <label><input value="No" type="radio" name="Inventory" id="Inventory">No</label> 
+                    <label><input value="Yes" type="radio" name="Inventory">Yes</label>
+                    <label><input value="No" type="radio" name="Inventory">No</label> 
                 </div>
             </div>
 
 
 
                         </form>
-                        <button class="btn btn-default" id="modalSubmit">Update</button>
                     </div>
                 </div>
             </div>
