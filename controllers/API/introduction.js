@@ -49,7 +49,6 @@ var get = (req, res, next) => {
 var post = (req, res, next) => {
     console.log('Basic Client Introduction completed.');
     var body = req.body;
-    console.log(body);
 
     if ('ReferralLength' in body)
         body.Description = body.Description.concat('\n', `<br>${body.FirstName} has been with their current tax preparer for ${body.ReferralLength}.`);

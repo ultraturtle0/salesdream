@@ -24,8 +24,9 @@ module.exports = (app) => {
         .post(validate_token, questionnaire.gen);
 
     app.route('/questionnaire/:link')
-        .get(validate_Link, questionnaire.get);
-    app.route('/api/questionnaire')
-        .post(validate_token, questionnaire.post);
+        .get(validate_Link, (req, res) => res.render('questionnaire', { id: req.data.link.link }));
+    app.route('/api/questionnaire/:link')
+        .get(validate_Link, questionnaire.get)
+        .post(validate_Link, questionnaire.post);
 
 }

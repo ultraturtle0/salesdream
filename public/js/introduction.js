@@ -613,7 +613,7 @@ $(document).ready(() => {
 
         body['differentFromBizAddr'] = $('#differentFromBizAddr').prop('checked');
 
-        // CHECKBOXES
+        // FILL CHECKBOXES
         [
             'handlePayroll',
             'currentBookkeepingTools',
@@ -625,7 +625,7 @@ $(document).ready(() => {
                 }).get()
         );
 
-        // RADIO BUTTONS
+        // FILL RADIO BUTTONS
         [
             'AppointmentAccountant',
             'AppointmentIndividual',
@@ -651,7 +651,7 @@ $(document).ready(() => {
             'ongoingMaintenanceYN'
         ].forEach((field) => body[field] = $(`input[type='radio'][name='${field}']:checked`).val());
 
-        // OTHERS
+        // FILL OTHERS
         if (body.industry === 'Other')
             body.industryOther = $('#industryOther').val();
         if (body.currentbookkeepingSoftware === 'Other')
@@ -662,8 +662,7 @@ $(document).ready(() => {
             body.handlePayrollOther = $('#handlePayrollOther').val();
         
 
-        // POPULATE PARTNERS
-        
+        // FILL PARTNERS
         body.partners = []; 
         if ($("input[type='radio'][name='partnersYN']").val() === 'Yes')
             $('#partnersNames').children().each(function (index) {
@@ -674,7 +673,7 @@ $(document).ready(() => {
                 });
             });
 
-        // POPULATE BOOKS ACCESS
+        // FILL BOOKS ACCESS
         body.booksAccess = [];
         $('#booksAccess').children().each(function (index) {
             var inputs = $($(this).find('input'));
@@ -683,39 +682,16 @@ $(document).ready(() => {
                 Role: inputs[1].value
             });
         });
+
         console.log(body);
+        //'Referral': null
+        //'ReferralLength':
+        //'Zoom_Meeting_ID':
+        //'startEvent':
 
-        /*$.post(`http://${location.hostname}${port}/api/questionnaire/`, body)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-            */
-
-
-        /*$.post(`http://${location.hostname}${port}/api/introduction/`, body)
+        $.post(`http://${location.hostname}${port}/api/introduction/`, body)
             .done((res) => {
-                console.log(res);
-                var ids = {
-                    'FirstName': 'firstName',
-                    'LastName': 'lastName',
-                    'Company': 'companyName',
-                    'Description': 'uDescription',
-                    'Email': 'email',
-                    'Phone': 'phone',
-                    //'Referral': null
-                    //'ReferralLength':
-                    //'Zoom_Meeting_ID':
-                    //'startEvent':
-                };
-                Object.keys(ids).forEach((field) => $('#' + ids[field]).val(res.link.questionnaire[field]));
-                // add id
                 $('#id').val(res.link._id);
-                $('#uModal').modal('show');
-            });
-
-                */
-        // OLD POST
-        /*$.post(`http://${location.hostname}${port}/api/introduction/`, body)
-            .done((res) => {
                 $('#buttonStatus').text('Success!');
                 $('#submitStatus').hide();
                 $('#submit').toggleClass('btn-primary');
@@ -743,6 +719,5 @@ $(document).ready(() => {
                         .text('Submit');
                 }, 2000);
             });
-            */
     });
 });

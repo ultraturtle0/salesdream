@@ -16,17 +16,17 @@
 		<div> <!--General-->
 			<div class="form-group">
 				<label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" value="<%= fields.firstName %>"> 
+                <input type="text" name="firstName" id="firstName"> 
 				<label for="lastName">Last Name</label>
-				<input type="text" name="lastName" id="lastName" value="<%= fields.lastName %>"> 
+				<input type="text" name="lastName" id="lastName"> 
 				<label for="companyName">Company Name</label>
-				<input type="text" name="companyName" id="companyName" value="<%= fields.companyName %>"> 
+				<input type="text" name="companyName" id="companyName"> 
 			</div>
 			<div class="form-group">
 				<label for="email">Email</label>
-				<input type="text" name="email" id="email" style="width: 500px" value="<%= fields.email %>"> 
+				<input type="text" name="email" id="email" style="width: 500px"> 
 				<label for="phone">Phone</label>
-				<input type="text" name="phone" id="phone" value="<%= fields.phone %>"> 
+				<input type="text" name="phone" id="phone"> 
 			</div>
 			<div class="form-group">
 				<label for="title">Title</label>
@@ -68,9 +68,6 @@
 			<div class="form-group">
 				<label for="industry">Industry</label>
 				<select type="text" name="industry" id="industry"> 
-                    <% picklists['Industry'].forEach(item => { %>
-                        <option value="<% item.split().join(); %>"><%= item %></option>
-                    <% }) %>
                 </select>
 			</div>
 		</div>
@@ -85,9 +82,6 @@
 			<div class="form-group">
 				<label for="bizClass">What is your business classification?</label>
 				<select name="bizClass" id="bizClass">
-                    <% picklists['Business Classification'].forEach(item => { %>
-                        <option value="<% item.split().join(); %>"><%= item %></option>
-                    <% }) %>
                 </select>
 			</div>
 			<div class="form-group">
@@ -260,9 +254,6 @@
 				<div class="form-group">
 					<label for="currentbookkeepingSoftware">What accounting software are you currently using, if any?</label>
 					<select name="currentbookkeepingSoftware" id="currentbookkeepingSoftware">
-                        <% picklists['Software'].forEach(item => { %>
-                            <option value="<%= item %>"><%= item %></option>
-                        <% }) %>
                     </select>
 				</div>
                 <div class="form-group" id="currentbookkeepingSoftwareOtherBox">
@@ -510,7 +501,7 @@
                 </div>
 
                 <div id="hidden">
-                    <input type="hidden" value="<%= fields.id %>">
+                    <input type="hidden" id="id" value="<%= id %>">
                 </div>
             </div>
 

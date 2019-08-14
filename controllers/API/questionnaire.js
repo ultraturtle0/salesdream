@@ -16,23 +16,10 @@ var get = (req, res, next) => {
     console.log(req.data.link);
     var picklists;
     sf.login()
-        .then(() => sf.picklists(PL))
-        .then((picklists) =>
-            sf.conn.sobject("Lead").retrieve(req.data.link.salesforce)
-                .then((lead) => {
-                    var fields = {
-                        firstName: lead.Name.split(' ')[0],
-                        lastName: lead.Name.split(' ')[1],
-                        companyName: lead.Company,
-                        email: lead.Email,
-                        phone: lead.Phone,
-                    };
-                    return res.render('questionnaire', { picklists, fields });
-                })
-                .catch((err) => {
-                    console.log(err);
-                    return res.status(403).send({ errors: ['Error retrieving client from Salesforce'] });
-                })
+        .then(() => sf.picklists(PL)
+            .then((picklists) =>
+                res.send({ picklists, link: req.data.link })
+            )
         )
         .catch((err) => {
             console.log(err);
