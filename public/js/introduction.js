@@ -236,6 +236,7 @@ $(document).ready(() => {
     ['externalBookkeeper', 'externalBookkeeperReachOut', 'booksRequiringCleanup'].forEach((field) => 
         $(`input[type='radio'][name='${field}YN']`).change(function(e) {
             console.log(this.value);
+            this.value === 'Yes' ?
                 $('#' + field).show() :
                 $('#' + field).hide();
         })

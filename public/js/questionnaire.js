@@ -152,8 +152,9 @@ $(document).ready(() => {
 
 
 	//EVENT LISTENERS
+	$("#submit").click((e) => {
 
-	$("#modalSubmit").click((e) => {
+    // WHAT GOES TO SALESFORCE HERE?
 		e.preventDefault();
 		var body = {};
         [
