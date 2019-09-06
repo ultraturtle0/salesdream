@@ -22,6 +22,9 @@ const HIDDEN = [
 
     // Calendar-related
     "carouselPrev", "incomplete",
+
+    //modal sections
+    "section2", "section3",  "section4",  "section5",  "section6",  "section7", 
 ];
 
 const PICKLISTS = [
@@ -75,7 +78,6 @@ $(document).ready(() => {
 	//HIDDEN FUNCTIONS
     HIDDEN.forEach((field) => $('#' + field).hide());
 
-
     var port;
     var picklist;
     if (location.port) {
@@ -124,6 +126,12 @@ $(document).ready(() => {
 
     // COPIED FROM QUESTIONNAIRE.JS		
     //General
+    $("section2").click(function(e) {
+        console.log("clicked");
+        $("section2").show();
+        $("section1").hide();
+    });
+
 	$("input[type='checkbox'][name='differentFromBizAddr']").click(function(e) {
 		this.checked ? 
 			$("#mailAddr").show() :
@@ -359,7 +367,7 @@ $(document).ready(() => {
 		    'state',
 		    'bizClass',
 		    'ownershipYear',
-		    'Volume',
+		    'invoiceValue',
 		    'AnnualRevenue',
             'AccountingYear',
 		    'FiscalYear',
