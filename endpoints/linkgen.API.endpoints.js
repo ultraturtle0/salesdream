@@ -4,5 +4,5 @@ var validate_token = require('../config/strategies/jwt');
 module.exports = (app) => {
     // API routes 
     app.route('/api/link/create')
-        .post(validate_token, linkgen.create);
+        .post(linkgen.create);
 }
