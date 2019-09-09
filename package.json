@@ -17,6 +17,7 @@
     "deploy_client": "NODE_ENV=deployment node server",
     "init": "node initialize",
     "root_init": "NODE_ENV=development node root_init",
+    "admin_init": "NODE_ENV=development node admin_init",
     "zapier_init": "NODE_ENV=development node zapier_init"
   },
   "author": "",
@@ -43,6 +44,7 @@
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "readline-sync": "^1.4.10",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "scp2": "^0.5.0",
