@@ -20,13 +20,12 @@ var validate_Link = (req, res, next) =>
 
 module.exports = (app) => {
     // generate client questionnaire link
-    app.route('/linkgen')
+    // IS THIS STILL NEEDED?
+    /*app.route('/linkgen')
         .post(validate_token, questionnaire.gen);
+        */
 
     app.route('/questionnaire/:link')
         .get(validate_Link, (req, res) => res.render('questionnaire', { id: req.data.link.link }));
-    app.route('/api/questionnaire/:link')
-        .get(validate_Link, questionnaire.get)
-        .post(validate_Link, questionnaire.post);
 
 }

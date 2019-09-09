@@ -49,6 +49,7 @@ function fillForm(link) {
         'ExtensionDate',
         'employeeCount',
     ].forEach((field) => $('#' + field).val(link[field]));
+}
 
 
 $(document).ready(() => {
@@ -60,7 +61,14 @@ $(document).ready(() => {
         port = '';
     };
 
-    $.get(`http://${location.hostname}${port}/api/questionnaire/${$('#id').val()}`)
+    // fill form - not working, add loading screen later
+    $.get(`http://${location.hostname}:9601/api/link`, {
+        _id: $('#id').val()
+    })
+        .done((data) => fillForm(data))
+        .fail((err) => console.log(err));
+
+    $.get(`http://${location.hostname}:9601/api/sf/picklists`)
         .done((data) => {
             console.log(data);
             $('#loading').hide();

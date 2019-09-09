@@ -1,5 +1,4 @@
 $(document).ready(() => {
-    var leads;
     var picklist;
     var port;
     if (location.port) {
@@ -8,13 +7,11 @@ $(document).ready(() => {
         port = '';
     };
 
-    $.get(`http://${location.hostname}${port}/api/onboarding/`)
+    $.get(`http://${location.hostname}:${9601}/api/sf/Lead`)
         .done((data) => {
-            console.log(data);
-            leads = data.leads;
             $('#loading').hide();
 
-            leads.forEach((lead, index) => {
+            data.forEach((lead, index) => {
                 $('#leads').append(`<tr id="lead${index}"> </tr>`);
 
                 $(`#lead${index}`).append(`
@@ -43,7 +40,7 @@ $(document).ready(() => {
             $('.more').each(function () {
                 $(this).click(function (e) {
                     e.preventDefault();
-                    var lead = leads[$(this).data('index')];
+                    var lead = data[$(this).data('index')];
 
                     $(`#modal-body`).empty();
 

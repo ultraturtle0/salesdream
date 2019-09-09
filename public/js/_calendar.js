@@ -25,7 +25,7 @@ $(document).ready(() => {
             .startOf('day')
             .toDate();
 
-        $.get(`http://${location.hostname}${port}/api/scheduling/`, {startDate})
+        $.get(`http://${location.hostname}:${9601}/api/calendar`, {startDate})
             .done((data) => {
                 console.log(data);
                 $('#loading').hide();

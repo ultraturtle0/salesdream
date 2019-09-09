@@ -6,7 +6,7 @@ $(document).ready(() => {
     } else {
         port = '';
     };
-    $.get(`http://${location.hostname}${port}/api/ledger/`)
+    $.get(`http://${location.hostname}${port}/api/ledger`)
         .done((data) => {
             accounts = data.accounts;
             console.log(data);
@@ -165,7 +165,7 @@ function submit(data) {
     console.log(inputData);
 	$.post("/api/ledger",inputData)
 		.done((res) => {
-			console.log(res.data.messages);
+			console.log(res.messages);
 		})
 		.fail((err) => {
 			console.error(err);

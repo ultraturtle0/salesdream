@@ -12,10 +12,33 @@ var accessToken = config.surveymonkey.accessToken;
 const { google } = require('googleapis');
 const gauth = require('../../util/google_token');
 
+const PL = {
+    Lead: ['Lead Source', 'Tax Preparer'],
+    Account: ['Industry', 'Business Classification', 'Software']
+};
 
 var get = (req, res, next) => {
     sf.login()
         .then(() => sf.picklists(PL))
+            /*sf.conn.describe("Lead", (err, lead) => {
+
+                var picklists = {};
+                var message = '';
+                if (err) {
+                    message = 'Error retrieving picklist values.';
+                    return res.status(400).send({message, picklists});
+                }; 
+                ['Lead Source', 'Tax Preparer', 'Industry', 'Business Classification'].forEach((list) => 
+                    picklists[list] = lead.fields
+                        .filter(field => (field.label === list))
+                        .map(picklist => 
+                            picklist.picklistValues
+                                .map(value => value.label)
+                                .filter(value => (value !== 'N/A'))
+                        )[0]
+                );
+                */
+                
         .then((picklists) => res.send({ picklists }))
         .catch((err) => {
             console.log(err);
@@ -51,26 +74,20 @@ var post = (req, res, next) => {
         sfbody.Zoom_Meeting__c = body.startEvent
         : false;
 
-    axios
-        .post(`http://${config.API.domain}:${config.API.port}/api/sf/Lead`, sfbody)
+    sf.login()
+        .then(() => sf.createObj(sf.conn, 'Lead', sfbody))
+        ///////////////////////////////////////////////////////
+        // generate questionnaire link and send
         .then((lead) => 
-            axios.post(`http://${config.API.domain}:${config.API.port}/api/link/create`, {
+            new LinkSchema({
                 _id: Link_id,
                 salesforce: lead.id,
                 email: body.Email,
                 link: qLink,
                 questionnaire: body
-            })
+            }).save()
         )
-    /*
-     *  .then((link) => {
-     *      send email here!
-     *  })
-     */
-        .then((link) => {
-            console.log(link.data);
-            return res.status(200).send({ link: link.data });
-        })
+        .then((link) => res.status(200).send({ messages: (req.messages || []).concat('Lead saved'), link }))
         .catch((err) => {
             console.log(err);
             res.status(400).send({ errors: [err] })

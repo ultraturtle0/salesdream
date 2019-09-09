@@ -6,42 +6,49 @@ const { google } = require('googleapis');
 // load token by Promise
 const gauth = require('../../util/google_token');
 
-var ledger_get = (req, res, next) => {
-    var body = {};
-    sf.login()
-        .then(() =>
-            sf.conn.sobject("Account")
-                .find({}, {
-                    Id: 1,
-                    Name: 1
-                })
-                .sort({ CreatedDate: -1 })
-                .execute()
-                .then((Accounts) => {
-                    body.accounts = Accounts;
-                    return res.send(body);
-                }, (err) => 
-                    res.status(400).send({ messages: ['error retrieving accounts from Salesforce', err] })
-                )
-        );
-}
+var ledger_get = (req, res, next) => 
+    axios.get(`http://${config.domain}:${9601}/api/sf/Account`,
+        { params: { fields: "Id, Name" } }
+    )
+        .then((response) => {
+            /*if (res.data.errors) {
+                console.log(res.data.errors);
+                res.status(500).send({ errors: [res.data.errors] });
+            };
+            */
+            console.log(response.data);
+            res.status(200).send({ accounts: response.data });
+        })
+        .catch((err) => {
+            console.log('THIS FAILS');
+            console.log(err);
+            res.status(500).send({ errors: [err] });;
+        });
 
 var ledger_post = (req, res, next) => {
     console.log("Ledger generation requested.");
     var { cardInfo, bankInfo, otherInfo, name } = req.body;
 
-    var ledger_sheet = [];
-    cardInfo.forEach((cat) => 
-        ledger_sheet.push(['CardName', 'CardType', 'CardBank', 'CardStatementCycle', 'CardLastReconciled'].map((field) => cat[field])));
-    ledger_sheet.push(['','','','','']);
+    // set column headers
+    var ledger_sheet = [['Account Name', 'Account Type', 'Bank Name', 'Statement Cycle', 'Last Reconciliation Date']];
 
-    bankInfo.forEach((cat) => 
-        ledger_sheet.push(['BankName', 'BankType', 'Bank', 'BankStatementCycle', 'BankLastReconciled'].map((field) => cat[field])));
+    if (cardInfo) {
+        cardInfo.forEach((cat) => 
+            ledger_sheet.push(['CardName', 'CardType', 'CardBank', 'CardStatementCycle', 'CardLastReconciled'].map((field) => cat[field])));
         ledger_sheet.push(['','','','','']);
+    };
 
-    otherInfo.forEach((cat) => 
-        ledger_sheet.push(['OtherName', 'OtherType', '', 'OtherStatementCycle', 'OtherLastReconciled'].map((field) => cat[field] || '')));
+    if (bankInfo) {
+        bankInfo.forEach((cat) => 
+            ledger_sheet.push(['BankName', 'BankType', 'Bank', 'BankStatementCycle', 'BankLastReconciled'].map((field) => cat[field])));
         ledger_sheet.push(['','','','','']);
+    };
+
+    if (otherInfo) {
+        otherInfo.forEach((cat) => 
+            ledger_sheet.push(['OtherName', 'OtherType', '', 'OtherStatementCycle', 'OtherLastReconciled'].map((field) => cat[field] || '')));
+        ledger_sheet.push(['','','','','']);
+    };
 
     // access Google APIs on behalf of gswfp
     new gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
@@ -73,28 +80,22 @@ var ledger_post = (req, res, next) => {
                     fileId: response.data.spreadsheetId,
                     fields: 'id, parents'
                 }))
-                .then((sheet) => {
-                    // check for specific client folder
-                    console.log('do we get here?');
-                    return drive.files.list({
+                // check for specific client folder
+                .then((sheet) => 
+                    drive.files.list({
                         q: `(name='${name} Files') and ('${config.g_drive.folders.client_files}' in parents)`,
                         fields: 'files(id)'
                     })
                     .then((folder) => {
-                        console.log('how about here?');
                         const files = folder.data.files;
-                        console.log(files);
-                        var cb = (client) => {
-                            console.log('or this one.');
-                            console.log(client);
-                            return drive.files.update({
+                        var cb = (client) => 
+                            drive.files.update({
                                 fileId: sheet.data.id,
                                 addParents: client.data.id,
                                 removeParents: sheet.data.parents.join(','),
                                 fields: 'id'
-                            })};
+                            });
                         if (!folder.data.files.length) {
-                            console.log('ok, maybe here?');
                             // STILL NOT PUTTING IN CLIENT FILES FOLDER. HM
                             return drive.files.create({
                                 resource: {
@@ -109,7 +110,7 @@ var ledger_post = (req, res, next) => {
                             return cb({data: files[0]});
                         }
                     })
-                })
+                )
             );
         })
         .then((file) => res.send({ messages: 'received' }))
@@ -122,6 +123,6 @@ var ledger_post = (req, res, next) => {
 module.exports = {
     ledger: {
         get: ledger_get,
-        post: ledger_post
-    }
+        post: ledger_post,
+    },
 };

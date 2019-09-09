@@ -84,7 +84,7 @@ $(document).ready(() => {
         port = '';
     };
 
-    $.get(`http://${location.hostname}${port}/api/introduction/`)
+    $.get(`http://${location.hostname}:${9601}/api/sf/picklists`)
         .done((data) => {
             console.log(data);
             $('#loading').hide();
@@ -293,7 +293,7 @@ $(document).ready(() => {
         $(`#incomplete`).hide();
         $(`#validation`).empty();
 
-        var required = ['firstName', 'lastName', 'companyName', 'email', 'phone']
+        var required = ['FirstName', 'LastName', 'Company', 'Email', 'Phone']
         var fields = ['Referral', 'ReferralLength', 'Description', 'questionnaire', 'startEvent'];
         var others = ['Referral', 'Preparer'];
 
@@ -472,7 +472,7 @@ $(document).ready(() => {
         //'Zoom_Meeting_ID':
         //'startEvent':
 
-        $.post(`http://${location.hostname}${port}/api/introduction/`, body)
+        $.post(`http://${location.hostname}${port}/introduction`, body)
             .done((res) => {
                 $('#id').val(res.link._id);
                 $('#buttonStatus').text('Success!');
@@ -481,6 +481,9 @@ $(document).ready(() => {
                 $('#submit').toggleClass('btn-success');
                 $('#submit').attr('disabled', true);
                 console.log(res);
+                /*
+                 * PROMPT FOR REFERRAL THANK-YOU EMAIL!
+                 */
             })
             .fail((err) => {
                 $('#buttonStatus').text('Internal Error.');

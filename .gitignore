@@ -5,6 +5,7 @@ config/env/
 config/env/emails/
 config/tokens/*.json
 gmail_token.json
+config/sysadmin.js
 *.swo
 <<<<<<< HEAD
 .g*

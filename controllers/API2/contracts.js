@@ -100,8 +100,6 @@ var post = (req, res, next) => {
 	    prefill_tags: formatted_tags
 	};
 
-    console.log(body);
-
 	axios.post('https://signrequest.com/api/v1/signrequest-quick-create/', body, { headers })
 	    .then((response) => {
             res.send(response.data);
