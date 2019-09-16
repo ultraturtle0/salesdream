@@ -21,10 +21,7 @@ var picklists = {
 var Lead = {
     get: (req, res, next) =>
         sf.findObjs(sf.conn, 'Lead', req.query)
-            .then((lead) => {
-                console.log(lead);
-                res.send(lead);
-            })
+            .then((lead) => res.send(lead))
             .catch((err) => {
                 console.log(err);
                 res.status(500).send({ errors: [err] });

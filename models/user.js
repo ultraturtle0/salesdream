@@ -32,10 +32,10 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
-    perms: {
+    perms: [{
         type: String,
-        default: ''
-    },
+        default: []
+    }],
     token: {
         type: String,
         required: false

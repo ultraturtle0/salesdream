@@ -1,5 +1,5 @@
 var Link = require('mongoose').model('Link');
-var validate_token = require('../config/strategies/jwt');
+var validate_token = require('../config/strategies/jwt')([]);
 
 var questionnaire = require('../controllers/questionnaire.server.controller.js');
 

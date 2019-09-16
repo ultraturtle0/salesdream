@@ -16,7 +16,7 @@ function addressCompile(contract) {
 
 $(document).ready(() => {
 	$("#Client").show();
-	$("#Headhunter").hide();
+	$("#Recruitment").hide();
 
 
 	$("#submit_client").click((e) => {
@@ -46,7 +46,7 @@ $(document).ready(() => {
             .fail((err) => console.log(err));
 	});
 
-	$("#submit_headhunter").click((e) => {
+	$("#submit_recruitment").click((e) => {
 		e.preventDefault();
 		console.log("SUBMITTING");
 		var body = {};
@@ -63,7 +63,7 @@ $(document).ready(() => {
 		].forEach((field)=> {
 			body[field] = $(`#H_${field}`).val();
 		});
-        body.contract = "headhunter";
+        body.contract = "recruitment";
 		console.log(body);
         console.log(`http://${location.hostname}${port}/api/contracts/`);
         $.post(`http://${location.hostname}${port}/api/contracts/`, body)
@@ -73,14 +73,14 @@ $(document).ready(() => {
 		
 	$("#clientButton").click((e) => {
 		console.log("client button pressed");
-		$("#Headhunter").hide();
+		$("#Recruitment").hide();
 		$("#Client").show();
 	});
 
-	$("#headhunterButton").click((e) => {
-		console.log("headhunter button pressed");
+	$("#recruitmentButton").click((e) => {
+		console.log("recruitment button pressed");
 		$("#Client").hide();
-		$("#Headhunter").show();
+		$("#Recruitment").show();
 	});
 	[
          'CA','AL','AK','AS','AZ','AR','CO','CT','DE','DC','FM','FL','GA',

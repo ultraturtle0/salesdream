@@ -15,6 +15,7 @@ require('./endpoints/salesforce.API.endpoints.js')(app);
 require('./endpoints/linkgen.API.endpoints.js')(app);
 require('./endpoints/toolkit.API.endpoints.js')(app);
 require('./endpoints/calendar.API.endpoints.js')(app);
+require('./endpoints/admin.API.endpoints.js')(app);
 app.listen(config.port);
 module.exports = app;
 

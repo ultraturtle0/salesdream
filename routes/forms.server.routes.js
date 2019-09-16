@@ -28,7 +28,7 @@ var login = (req, res, next) =>
                 // Build the JWT payload
                 const payload = {
                     sub: user.username,
-                    perms: 'GET POST',
+                    perms: user.perms.join(' '),
                     iss: config.passport.issuer,
                     tempkey: tempkey
                 };
@@ -52,21 +52,21 @@ var login = (req, res, next) =>
 
 module.exports = (app) => {
     app.route('/')
-        .get((req, res) => {
-            if (!req.cookies.apikey) return res.redirect('/login');
+        .get(validate_token('GET'), (req, res) => {
+            //if (!req.cookies.apikey) return res.redirect('/login');
             res.render('home');
         });
  
     app.route('/hiring')
-        .get(validate_token, (req, res) => res.render('hiring'));
+        .get(validate_token('GET'), (req, res) => res.render('hiring'));
     // ERROR WITH SIGNREQUEST
     /*app.route('/api/hiring')
         .post(validate_token, forms['hiring']);
         */
 
     app.route('/introduction')
-        .get(validate_token, (req, res) => res.render('introduction'))
-        .post(validate_token, calendar.post, forms['introduction'].post);
+        .get(validate_token('GET'), (req, res) => res.render('introduction'))
+        .post(validate_token('GET'), calendar.post, forms['introduction'].post);
 
 
     // DEPRECATED 

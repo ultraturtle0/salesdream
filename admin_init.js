@@ -28,6 +28,7 @@ config.username = (config.firstName.charAt(0) + config.lastName).toLowerCase();
 
 const admin = new User(config);
 admin.provider = 'local';
+admin.perms = 'POST';
 
 admin.save((err) => {
     if (err) {

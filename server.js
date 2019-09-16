@@ -16,7 +16,7 @@ require('./routes/questionnaire.server.routes.js')(app);
 
 require('./routes/toolkit.server.routes.js')(app);
 
-require('./endpoints/admin.server.endpoints.js')(app);
+require('./routes/admin.server.routes.js')(app);
 app.listen(config.port);
 module.exports = app;
 

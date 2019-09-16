@@ -2,14 +2,19 @@ const config = require('../config');
 const jwt = require('jsonwebtoken');
 const User = require('mongoose').model('User');
 
-module.exports = (req, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
+module.exports = (perms) =>
+    (req, res, next) => {
+    /*if (process.env.NODE_ENV === 'development') {
         next();
     } else {
+    }
+    */
 
         var payload = req.cookies.apikey;
         var failure = (err) => {
             req.flash('error', err);
+            console.log('WHAT ERROR');
+            console.log(err);
             res.redirect('/login');
         };
 
@@ -17,28 +22,36 @@ module.exports = (req, res, next) => {
 
         jwt.verify(payload, config.passport.secret, function(err, decoded) {
             
-
+            console.log(decoded);
             // check for verification error
             if (err) return failure('Invalid token format.');
-            // check for incorrect token permissions
-            if (!decoded.perms.includes(req.method)) return failure('Failed to authenticate token.');
             // check for incorrect issuer
-            if (decoded.iss !== config.passport.issuer) return failure('issuer');
+            //if (decoded.iss !== config.passport.issuer) return failure('issuer');
             
             var query = {};
             // check for temporary or permanent api key
             if (decoded.apikey) query.apikey = decoded.apikey
                 else query.tempkey = decoded.tempkey;
 
+            
             User.findOne(query)
                 .exec()
                 .then(user => {
                     if (!user) return failure('Token registrant not recognized.');
-                    if (!user.perms.includes(req.method)) return failure('Inadequate permissions for this endpoint.');
-                    console.log('validation successful!');
-                    next();
+
+                    // make permissions an array if only a single string
+                    perms = Array.isArray(perms) ? perms : [perms];
+
+                    // check if permissions are missing
+                    var missing = perms.reduce((acc, perm) =>
+                        user.perms.includes(perm) ? acc : acc.concat(perm), []);
+                    missing.length ?
+                        console.log(missing) || failure('Inadequate permissions for this endpoint - ' + missing.join(', ')) :
+                        next();
                 })
-                .catch(err => res.status(500).send({ auth: false, message: 'Error looking up user - please try again momentarily.' }));
+                .catch(err => {
+                    console.log(err); 
+                    res.status(500).send({ auth: false, message: 'Error looking up user - please try again momentarily.' })
+                });
         });
-    };
-}; 
+    }; 
