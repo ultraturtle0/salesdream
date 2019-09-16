@@ -17,8 +17,8 @@ var contractConfig = {
             company_name_1: ['company_name_2'],
         },
     },
-    headhunter: {
-        template: config.signrequest.templates.headhunter_contract.url,
+    recruitment: {
+        template: config.signrequest.templates.recruitment_contract.url,
         tags_core: [ 'lf', 'client_address_1_1', 'company_name_1', 'client_name_1', 'rd', 'af', 'client_phone', 'client_email_1' ],
         tags_redundant: {
             client_name_1: [ 'client_name_2', 'client_name_3', 'cl_name_4', 'client_name_5', 'client_name_6' ],
