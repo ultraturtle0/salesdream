@@ -1,5 +1,5 @@
-const config = require('./config/config');
-const db = require('./config/mongoose')();
+const config = require('../config/config');
+const db = require('../config/mongoose')();
 const User = require('mongoose').model('User');
 
 const zapier = new User(config.zapier);

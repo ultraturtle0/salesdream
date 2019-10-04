@@ -1,22 +1,10 @@
 var Link = require('mongoose').model('Link');
 var validate_token = require('../config/strategies/jwt')([]);
+var tracker = require('../util/tracker');
+var { ledger } = require('../controllers/API/toolkit.js');
+var validate_Link = require('../util/validate_link');
 
 var questionnaire = require('../controllers/questionnaire.server.controller.js');
-
-var validate_Link = (req, res, next) =>
-    Link.findOne({ link: req.params.link })
-        .then((doc) => {
-            if (doc) {
-                req.data = req.data ? { ...req.data, link: doc } : { link: doc };
-                next();
-            } else {
-                return res.status(404).send();
-            };
-        })
-        .catch((err) => {
-            console.log(err);
-            return res.status(500).send();
-        });
 
 module.exports = (app) => {
     // generate client questionnaire link
@@ -26,6 +14,11 @@ module.exports = (app) => {
         */
 
     app.route('/questionnaire/:link')
-        .get(validate_Link, (req, res) => res.render('questionnaire', { id: req.data.link.link }));
-
+        .get(validate_Link('link'), tracker.open('questionnaire'), (req, res) => res.render('questionnaire', { id: req.body.link, name: req.body.companyName }));
+    app.route('/ledger/:link')
+        .get(validate_Link('ledgerLink'), tracker.open('ledger'), (req, res) => res.render('ledger', { id: req.body.ledgerLink, companyName: req.body.companyName }))
+        .post(validate_Link('ledgerLink'), tracker.complete('ledger'), ledger.post);
+    /*app.route('/ledger')
+     *  .get(validate_token, (req, res) => res.render('ledger'));
+     */
 }

@@ -6,10 +6,19 @@
 		<title>Card Ledger</title>
 	</head>
 	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
-		<img src="/assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>
+		<img src="assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #572e5e;">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link" href="/introduction">New Client</a>
+                <a class="nav-item nav-link" href="/onboarding">Client Follow-up</a>
+                <a class="nav-item nav-link" href="/QBOtest">Interview Process</a>
+                <a class="nav-item nav-link active" href="/ledger">Accounts Ledger<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/contracts">Contracts</a>
+            </div>
+        </nav> <br><br>
 	<form>
-        <input type="hidden" id="id" value="<%= id %>">
-        <span><%= companyName %> Account Ledger</span>
+        <select id="id"></select>
 		<table class="cardtable" id="CardTable" style="width:100%">
 			<thead>
 				<tr>
@@ -72,7 +81,7 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="/js/ledger.js"></script>
+		<script src="js/ledger.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</body>

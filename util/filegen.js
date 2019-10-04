@@ -2,11 +2,11 @@ const { google } = require('googleapis');
 
 // creates folder, returns promise with google drive id
 
-var ls = ({ auth, name, parent }) =>
+var ls = ({ auth, id }) =>
     google.drive({ version: 'v3', auth })
         .files.list({
-            q: `(name='${name} Files') and ('${parent}' in parents)`,
-            fields: 'files(id)'
+            q: `('${id}' in parents)`,
+            fields: 'files(id, name)'
         });
 
 var mv = ({ auth, id, addParents, removeParents }) =>
@@ -48,8 +48,11 @@ var mksheet = ({ auth, name, parents, range, values }) => {
             fields: 'id, parents'
         })
     )
-    .then((res) => 
-        drive.files.update({
+    .then((res) => {
+        console.log('PARENTS');
+        console.log(res.data.parents);
+        console.log(parents);
+        return drive.files.update({
             fileId: res.data.id,
             addParents: (parents || []).join(','),
             removeParents: res.data.parents,
@@ -77,7 +80,7 @@ var mksheet = ({ auth, name, parents, range, values }) => {
                 .catch((err) => rej(err));
             })
         })
-    );
+    });
 };
         
 

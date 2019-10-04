@@ -1,5 +1,30 @@
 $(document).ready(() => {
-   	var c = 1;
+    var port;
+    var accounts;
+    if (location.port) {
+        port = ':' + location.port;
+    } else {
+        port = '';
+    };
+    $.get(`http://${location.hostname}${port}/api/ledger`)
+        .done((data) => {
+            accounts = data.accounts;
+            console.log(data);
+            $('#id').html(
+                data.accounts.map((acc, index) =>
+                    `<option
+                        value="${acc.Id}">${acc.Name}</option>`
+                ).join('')
+            );
+        })
+        .fail(err => console.log(err));
+
+                
+
+
+
+
+	var c = 1;
 	var b = 1;
 	var o = 1;
 	var body;
@@ -23,13 +48,15 @@ $(document).ready(() => {
     $("#submit").click(function (e) {
     	e.preventDefault();
     	$(this).attr("disabled", true);
-        var input = {
+        acc = $('#id').find('option:selected');
+    	var input = {
             fields: ["#CardTable", "#BankTable", "#OtherTable"],
             cardIndex: c, 
             bankIndex: b, 
             otherIndex: o,
             cards: cards,
-            id: $('#id').val(),
+            id: acc.val(),
+            name: acc.text() 
         };
  		submit(input);
     });
@@ -136,13 +163,14 @@ function newOtherRow(o) {
 function submit(data) {
 	var inputData = fillarrays(data);
     console.log(inputData);
-	$.post("/ledger/" + data.id, inputData)
+	$.post("/ledger",inputData)
 		.done((res) => {
 			console.log(res.messages);
 		})
 		.fail((err) => {
 			console.error(err);
 		});
+
 };
 
 function fillarrays(data) {
@@ -194,11 +222,15 @@ function fillarrays(data) {
 
 			};
 	};
+	console.log(cardInfo);
+	console.log(bankInfo);
+	console.log(otherInfo);
 	var inputData = {
 		cardInfo,
 		bankInfo,
 		otherInfo,
         id: data.id,
+        name: data.name
 	}
 	return inputData;
 };

@@ -42,11 +42,9 @@ var post = (req, res, next) => {
         Lead_Source_Other__c: body.ReferralOther,
         Tax_Preparer__c: body.Preparer,
         Tax_Preparer_Other__c: body.PreparerOther,
+        Toolkit_ID__c: Link_id,
         ...standard
     };
-    body.questionnaire ? 
-        sfbody.Questionnaire_ID__c = qLink
-        : false;
     body.startEvent ? 
         sfbody.Zoom_Meeting__c = body.startEvent
         : false;
@@ -56,6 +54,9 @@ var post = (req, res, next) => {
         .then((lead) => 
             axios.post(`http://${config.API.domain}:${config.API.port}/api/link/create`, {
                 _id: Link_id,
+                firstName: body.FirstName,
+                lastName: body.LastName,
+                companyName: body.Company,
                 salesforce: lead.id,
                 email: body.Email,
                 link: qLink,

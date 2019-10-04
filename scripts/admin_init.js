@@ -1,4 +1,4 @@
-const db = require('./config/mongoose')();
+const db = require('../config/mongoose')();
 const User = require('mongoose').model('User');
 const readline = require('readline-sync');
 

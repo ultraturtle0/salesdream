@@ -1,10 +1,15 @@
 var LinkSchema = require('mongoose').model('Link');
 
-// RETURN MORE THAN QUESTIONNAIRE LATER
 var get = (req, res, next) => { 
-    LinkSchema.findOne({ link: req.params._id })
-        .then((link) => res.status(200).send(link.questionnaire))
-        .catch((err) => res.status(500).send({ errors: [err] }));
+    LinkSchema.findOne({ _id: req.params.id })
+        .then((link) => {
+            console.log(link);
+            return res.status(200).send(link)
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).send({ errors: [err] })
+        });
 };
 
 var create = (req, res, next) => {
@@ -12,13 +17,25 @@ var create = (req, res, next) => {
     console.log(req.body);
     new LinkSchema(req.body)
         .save()
-        .then((link) => res.status(200).send(link))
+        .then((link) => {
+            console.log(link);
+            res.status(200).send(link)
+        })
         .catch((err) => res.status(500).send({ errors: [err] }));
+    
 };
 
 var update = (req, res, next) => {
-    LinkSchema.updateOne({ _id: id }, { $set: req.data })
-        .then((link) => res.status(200).send(link))
+    var update = {
+        $set: req.body.$set || {},
+        $push: req.body.$push || {}
+    };
+    console.log(update);
+    LinkSchema.findOneAndUpdate({ _id: req.params.id }, update, { new: true })
+        .then((link) => {
+            console.log(link);
+            return res.status(200).send(link)
+        })
         .catch((err) => res.status(500).send({ errors: [err] }));
 };
 

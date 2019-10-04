@@ -1,5 +1,7 @@
 const forms = require('../controllers/forms.server.controller');
 const calendar = require('../controllers/API/calendar');
+const leads = require('../controllers/API/leads');
+const links = require('../controllers/API/links');
 const uuid = require('uuid/v4');
 
 const User = require('mongoose').model('User');
@@ -11,6 +13,7 @@ const config = require('../config/config');
 const sf = require('../apps/salesforce');
 
 const validate_token = require('../config/strategies/jwt.js');
+const validate_Link = require('../util/validate_link.js');
 
 var login = (req, res, next) => 
     passport.authenticate('local', 
@@ -56,6 +59,10 @@ module.exports = (app) => {
             //if (!req.cookies.apikey) return res.redirect('/login');
             res.render('home');
         });
+    app.route('/leads')
+        .get(validate_token('GET'), leads.get);
+    app.route('/links/:link')
+        .get(validate_token('GET'), validate_Link('_id'), links.get);
  
     app.route('/hiring')
         .get(validate_token('GET'), (req, res) => res.render('hiring'));

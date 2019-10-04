@@ -5,6 +5,8 @@ const uuid = require('uuid/v4');
 const LinkSchema = new Schema({
     firstName: String,
     lastName: String,
+    companyName: String,
+    clientFiles: String,
     link: {
         type: String,
     },
@@ -12,6 +14,34 @@ const LinkSchema = new Schema({
         type: String
     },
     questionnaire: Object,
+    q_sent: [{
+        type: Date,
+        default: []
+    }],
+    q_opened: [{
+        type: Date,
+        default: []
+    }],
+    q_completed: [{
+        type: Date,
+        default: []
+    }],
+    ledgerLink: {
+        type: String
+    },
+    l_sent: [{
+        type: Date,
+        default: []
+    }],
+    l_opened: [{
+        type: Date,
+        default: []
+    }],
+    l_completed: [{
+        type: Date,
+        default: []
+    }],
+    ledger: Object,
     email: {
         type: String,
         match: [/.+\@.+\..+/, "Please fill in a valid email address"]

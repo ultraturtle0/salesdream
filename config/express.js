@@ -11,10 +11,10 @@ const methodOverride = require('method-override');
 module.exports = () => {
     const app = express();
     app.use(morgan('dev'));
-    app.use(methodOverride());
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+    app.use(methodOverride());
     app.use(cookie());
     app.use(session({
         saveUninitialized: true,
