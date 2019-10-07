@@ -80,22 +80,12 @@
 
             <!-- CALENDARRR -->
             <div>
-                <div><b>Select a date and time for a future zoom meeting!</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="laterDate" value="true" id="laterDate"> Choose date at a later time </label></div>
+                <label>
+                    <input type="checkbox" name="laterDate" value="true" id="laterDate"> Choose date at a later time
+                </label>
+                <div id="calendar"></div>
                 <br>
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
-                    <div class="carousel-inner" id="carouselBody">
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" id="carouselPrev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" id="carouselNext">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
             </div>
-            <div id="selected"></div>
             <div id="incomplete" style="color:red"><b>Form Incomplete!!</b></div>
             <br>
             <input type="hidden" id="startEvent"></input>
@@ -623,8 +613,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-        <script src="js/introduction.js"></script>
         <script src="js/_calendar.js"></script>
+        <script src="js/introduction.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
         <script
           src="http://code.jquery.com/jquery-3.3.1.min.js"

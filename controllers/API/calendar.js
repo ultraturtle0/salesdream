@@ -27,7 +27,6 @@ var post = (req, res, next) => {
             acc[key] = req.body[key] || errors.concat('Missing field: ' + key); //res.status(403).send({ errors: ['Missing field: ' + key] });
             return acc;
         }, {});
-    //errors ? res.status(403).send({ errors }) : false;
     data.startEvent = req.body.startEvent;
     var subject = data.FirstName + " " + data.LastName + " - Introductory Zoom Call";
     // start new Zoom meeting

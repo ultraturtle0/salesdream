@@ -32,36 +32,13 @@ const PICKLISTS = [
     {id: 'currentbookkeepingSoftware', field: 'Software'}
 ];
 
-
-// GLOBALS
-var startEvent;
-var endEvent;
-
-
-//time slot button function
-var buttonClick = function(id){
-    $("#laterDate")[0].checked = false;
-    $(`#selected`).empty();
-    var dateName = id.split("_");
-    var date = moment()
-                .add(3, 'days')
-                .add(dateName[4], 'days');
-
-    $(`#selected`).append(`
-        <br><b>Date-Time Selected:</b> ${dateName[2]}, ${date.format("MMMM D")} at ${moment(dateName[3], "HH:mm").format("h:mm A")}
-    `);
-    startEvent = date
-                    .set('hour', moment(dateName[3], "HH:mm").format("HH"))
-                    .set('minute', moment(dateName[3], "HH:mm").format("mm"))
-                    .set('second', 0)
-                    .format('YYYY-MM-DDTHH:mm:ssZ');
-    $('#startEvent').val(startEvent);
-};
-
-
-
 $(document).ready(() => {
     window['moment-range'].extendMoment(moment);
+    calendarLoad('#calendar');
+    calendarOnSelect(function (id) {
+        $("#laterDate")[0].checked = false;
+    });
+
 
 // COPIED FROM QUESTIONNAIRE.JS
 
@@ -294,7 +271,7 @@ $(document).ready(() => {
         $(`#validation`).empty();
 
         var required = ['FirstName', 'LastName', 'Company', 'Email', 'Phone']
-        var fields = ['Referral', 'ReferralLength', 'Description', 'questionnaire', 'startEvent'];
+        var fields = ['Referral', 'ReferralLength', 'Description', 'questionnaire'];
         var others = ['Referral', 'Preparer'];
 
         var requiredFields = [];
@@ -318,11 +295,12 @@ $(document).ready(() => {
             var val = $('#' + other + 'Other').val();
             if ($('#' + other).val() === 'Other')
                 (val) ?
-                body[other + 'Other'] = val :
-                invalid.push('#' + other + 'Other');
+                    body[other + 'Other'] = val :
+                    invalid.push('#' + other + 'Other');
         });
 
         body.laterDate = $('#laterDate').prop('checked');
+        body.startEvent = calendarGet();
 
         if (invalid.length) {
             validation = false;
@@ -331,7 +309,7 @@ $(document).ready(() => {
             invalid.forEach((invalidField)=> $(`${invalidField}Box`).css("color","red") );
         };
 
-        if ((!$(`#laterDate`).prop('checked')) && !($('#startEvent').val())) { 
+        if ((!$(`#laterDate`).prop('checked')) && !(body.startEvent) { 
             validation = false;
             $(`#incomplete`).show();
             $(`#validation`).append(`
@@ -470,7 +448,6 @@ $(document).ready(() => {
         //'Referral': null
         //'ReferralLength':
         //'Zoom_Meeting_ID':
-        //'startEvent':
 
         $.post(`http://${location.hostname}${port}/introduction`, body)
             .done((res) => {

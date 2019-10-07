@@ -1,9 +1,10 @@
 var modalLoader = (lead) => {
+    $('#modal-body-calendar').hide();
     var link = lead.link;
     var meeting;
     
     if (!lead.Zoom_Meeting__c) {
-        meeting = 'Unscheduled. Schedule a meeting here:';
+        meeting = 'Unscheduled. Schedule a meeting <a id="scheduler" href="#">here</a>.';
     } else {
         meeting_format = moment(lead.Zoom_Meeting__c).format('MMMM Do YYYY at h:mm a');
         if (moment(lead.Zoom_Meeting__c).isBefore(Date.now())) {
@@ -24,9 +25,7 @@ var modalLoader = (lead) => {
         ledger = `Account ledger has not been opened. Last sent: ${moment(link.l_sent[link.l_sent.length-1]).format('MMM Do, YYYY')}`;
     }
         
-    
-    $(`#modal-body`).empty();
-    $(`#modal-body`).append(`
+    $(`#modal-body-top`).html(`
         <input id="modal-id" type="hidden" value="${lead._id}">
         <div id="Statusinfo">Status: <b>${lead.Status}</b></div>
         <span id="FirstNameinfo">First Name: <b>${lead.FirstName}</b></span> &emsp;&emsp;&emsp;
@@ -37,6 +36,7 @@ var modalLoader = (lead) => {
         <hr>
         <div id="Phoneinfo">Phone Number: <b>(${parseInt(lead.Phone/10000000)}) ${parseInt((lead.Phone%10000000)/10000)} - ${lead.Phone%10000}</b></div>
         <div id="Emailinfo">Email: <b>${lead.Email}</b></div>
+        <div id="CreatedDateinfo">Date Created: <b>${moment(lead.CreatedDate).format('MMM Do, YYYY')}</b></div>
         <hr>
         <br>
         <span>Zoom Meeting: ${meeting}</span>
@@ -49,7 +49,25 @@ var modalLoader = (lead) => {
         </span>
     `);
 
-    $(`#modal-body`).append(`<div id="CreatedDateinfo">Date Created: <b>${moment(lead.CreatedDate).format('MMM Do, YYYY')}</b></div>`);
+    $('#submitCal').click(function (e) {
+        e.preventDefault();
+        console.log(calendarGet());
+        $.post(`http://${location.hostname}:${9600}/api/calendar/create`, {
+            _id: lead.Toolkit_ID__c,
+            FirstName: lead.link.firstName,
+            LastName: lead.link.lastName,
+            Email: lead.link.email,
+            startEvent: calendarGet()
+        })
+            // WRITE SUCCESS/FAILURE LATER
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+    });
+
+    $('#scheduler').click(function (e) {
+        e.preventDefault();
+        $('#modal-body-calendar').toggle();
+    });
 
     $('#mModalLabel').text(`${lead.FirstName} ${lead.LastName}'s Information`);
 
@@ -65,6 +83,8 @@ var modalLoader = (lead) => {
 
 
 $(document).ready(() => {
+    window['moment-range'].extendMoment(moment);
+
     var picklist;
     var port;
     if (location.port) {
@@ -125,6 +145,12 @@ $(document).ready(() => {
 
         })
         .fail((err) => console.log(err));
+    
+    calendarLoad('#modal-body-calendar');
+    $('#modal-body-calendar').append(`
+        <button type="button" class="btn btn-primary" id="submitCal">Schedule</button>
+    `);
+
 
 
 });

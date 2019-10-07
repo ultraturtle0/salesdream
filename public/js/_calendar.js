@@ -15,7 +15,54 @@ if (location.port) {
     port = '';
 };
 
-$(document).ready(() => {
+const _full_carousel = `
+    <b>Select a date and time for a future zoom meeting!</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+        <div class="carousel-inner" id="carouselBody"></div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" id="carouselPrev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" id="carouselNext">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div id="selected"></div>
+    <input type="hidden" id="startEvent">
+`;
+
+var calendarGet = () => $('#startEvent').val();
+var _calCallback = (() => {});
+var calendarOnSelect = (func => _calCallback = func);
+
+//time slot button function
+var _buttonClick = function(id){
+    _calCallback();
+    $(`#selected`).empty();
+    var dateName = id.split("_");
+    var date = moment()
+                .add(3, 'days')
+                .add(dateName[4], 'days');
+
+    $(`#selected`).html(`
+        <br><b>Date-Time Selected:</b> ${dateName[2]}, ${date.format("MMMM D")} at ${moment(dateName[3], "HH:mm").format("h:mm A")}
+    `);
+    startEvent = date
+                    .set('hour', moment(dateName[3], "HH:mm").format("HH"))
+                    .set('minute', moment(dateName[3], "HH:mm").format("mm"))
+                    .set('second', 0)
+                    .format('YYYY-MM-DDTHH:mm:ssZ');
+    $('#startEvent').val(startEvent);
+};
+
+
+
+var calendarLoad = (id) => {
+    $(id).html(_full_carousel);
+
+    
+
     var _getFromGoogle = function() {
 
         //get event information from google calendar
@@ -136,7 +183,7 @@ $(document).ready(() => {
                                             $(`#week${index}_col${i}`).append(`
                                                 ${(slotIndex % 2 == 0) ? '<br>' : ''}
                                                 <button 
-                                                    onclick="buttonClick(this.id)"
+                                                    onclick="_buttonClick(this.id)"
                                                     type="button"
                                                     id="week_${index}_${day}_${slot}_${counter}"
                                                     class="btn timeButton"
@@ -196,4 +243,4 @@ $(document).ready(() => {
 
     _getFromGoogle();
 
-});
+};
