@@ -174,9 +174,16 @@ $(document).ready(() => {
                 );
         });
 
+    $('#booksLastMonthFinished').append(`<option value=""></option>`);
+    Array(12).fill().forEach((_, ind) => {
+        var mo = moment().month(ind).format('MMM');
+        console.log(mo);
+        $('#booksLastMonthFinished').append(`<option value="${mo}">${mo}</option>`);
+    });
+
     ['Inventory', 'POS', 'Time Tracking', 'Payroll']
-        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}">${tool}</label>`));
-    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" value="Other">Other</label>`);
+        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}"> ${tool} </label><br>`));
+    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" value="Other"> Other</label>`);
     
     $("#currentbookkeepingSoftware").change(function(e) {
 		this.value === 'Other' ?
