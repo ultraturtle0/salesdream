@@ -309,7 +309,7 @@ $(document).ready(() => {
             invalid.forEach((invalidField)=> $(`${invalidField}Box`).css("color","red") );
         };
 
-        if ((!$(`#laterDate`).prop('checked')) && !(body.startEvent) { 
+        if ((!$(`#laterDate`).prop('checked')) && !(body.startEvent)) { 
             validation = false;
             $(`#incomplete`).show();
             $(`#validation`).append(`

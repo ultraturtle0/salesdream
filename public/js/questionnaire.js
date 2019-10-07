@@ -1,6 +1,11 @@
-function fillForm(link) {
+var fillForm = (link) => {
     [
         'id',
+        'FirstName',
+        'LastName',
+        'Email',
+        'Phone',
+        'Company',
         'title',
         'bizAddrStreet',
         'bizAddrCity',
@@ -16,6 +21,7 @@ function fillForm(link) {
         'bizClass',
         'ownershipYear',
         'Volume',
+        'Value',
         'AnnualRevenue',
         'AccountingYear',
         'FiscalYear',
@@ -36,6 +42,7 @@ function fillForm(link) {
         'currentBookkeepingMonthlyExpenditure',
         'issuesToBeReviewed',
         'currentBookkeepingConcerns',
+        'booksLastMonthFinished',
         'booksLastYearFinished',
         'communicationExpectations',
         'responseTimeExpectations',
@@ -48,9 +55,15 @@ function fillForm(link) {
         'TaxReturnPersonal',
         'ExtensionDate',
         'employeeCount',
-    ].forEach((field) => $('#' + field).val(link[field]));
+    ].forEach((field) => {
+        var newval = link.questionnaire[field];
+        console.log(field);
+        console.log(newval);
+        $('#' + field).val(newval);
+    });
 }
 
+var index = 1;
 
 $(document).ready(() => {
     var port;
@@ -61,11 +74,46 @@ $(document).ready(() => {
         port = '';
     };
 
+    // hide all pages
+    Array(7).fill().forEach((_, ind) => {
+        console.log(ind);
+        $('#page-' + (ind + 2)).hide();
+    });
+    $('#submit').hide();
+
+    // rotate pages
+    $('#next').click(function (e) {
+        e.preventDefault();
+        $('#page-' + index).hide();
+        index = index + 1;
+        if (index > 7) index = 7;
+        $('#page-' + index).show();
+        if (index === 7) {
+            $('#next').hide();
+            $('#submit').show();
+        } else {
+            $('#submit').hide();
+        }
+    });
+    $('#previous').click(function (e) {
+        e.preventDefault();
+        $('#page-' + index).hide();
+        index = index - 1;
+        if (index < 1) index = 1;
+        $('#page-' + index).show();
+        (index === 1) ?
+            $('#previous').hide() :
+            $('#previous').show();
+    });
+
+
     // fill form - not working, add loading screen later
-    $.get(`http://${location.hostname}:9601/api/link`, {
-        _id: $('#id').val()
+    $.get(`http://${location.hostname}:9600/api/questionnaire`, {
+        link: $('#id').val()
     })
-        .done((data) => fillForm(data))
+        .done((data) => {
+            fillForm(data);
+        })
         .fail((err) => console.log(err));
 
     $.get(`http://${location.hostname}:9601/api/sf/picklists`)
@@ -108,7 +156,6 @@ $(document).ready(() => {
                     `
                 })
             );
-            fillForm(data.link);
             $('#loading').hide();
             $('#form').show();
 
@@ -166,11 +213,11 @@ $(document).ready(() => {
 		e.preventDefault();
 		var body = {};
         [
-		    'firstName',
-		    'lastName',
-		    'companyName',
-		    'email',
-		    'phone',
+		    'FirstName',
+		    'LastName',
+		    'Company',
+		    'Email',
+		    'Phone',
             'id',
 		    'title',
 		    'bizAddrStreet',
@@ -187,6 +234,7 @@ $(document).ready(() => {
 		    'bizClass',
 		    'ownershipYear',
 		    'Volume',
+            'Value',
 		    'AnnualRevenue',
             'AccountingYear',
 		    'FiscalYear',
@@ -207,6 +255,7 @@ $(document).ready(() => {
 		    'currentBookkeepingMonthlyExpenditure',
 		    'issuesToBeReviewed',
 		    'currentBookkeepingConcerns',
+		    'booksLastMonthFinished',
 		    'booksLastYearFinished',
 		    'communicationExpectations',
 		    'responseTimeExpectations',
@@ -257,6 +306,7 @@ $(document).ready(() => {
             'directOwnershipOfBooksYN',
             'currentBookkeepingInvolvementScale',
             'desiredBookkeepingInvolvementScale',
+            'self-reportYN',
             'currentBookkeepingRatingScale',
             'booksRequiringCleanupYN',
             'ongoingMaintenanceYN'
@@ -371,10 +421,17 @@ $(document).ready(() => {
                     `)
                 );
         });
+
+    $('#booksLastMonthFinished').append(`<option value=""></option>`);
+    Array(12).fill().forEach((_, ind) => {
+        var mo = moment().month(ind).format('MMM');
+        console.log(mo);
+        $('#booksLastMonthFinished').append(`<option value="${mo}">${mo}</option>`);
+    });
     
     ['Inventory', 'POS', 'Time Tracking', 'Payroll']
-        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}">${tool}</label>`));
-    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOther">Other</label>`);
+        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}"> ${tool} </label><br>`));
+    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOther"> Other</label>`);
     
     $("#currentbookkeepingSoftware").change(function(e) {
 		this.value === 'Other' ?

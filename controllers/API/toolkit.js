@@ -10,6 +10,17 @@ const gauth = require('../../util/google_token');
 const gfile = require('../../util/filegen');
 const LinkSchema = require('mongoose').model('Link');
 
+var questionnaire_get = (req, res, next) => {
+    console.log(req.params)
+    LinkSchema.findOne({ link: req.query.link })
+        .select('firstName lastName companyName questionnaire')
+        .exec()
+        .then((doc) => {
+            console.log(doc);
+            res.send(doc);
+        });
+};
+
 var ledger_get = (req, res, next) => 
     axios.get(`http://${config.domain}:${9601}/api/sf/Account`,
         { params: { fields: "Id, Name" } }
@@ -168,4 +179,8 @@ module.exports = {
         post: ledger_post,
         gen: ledger_gen
     },
+    questionnaire: {
+        get: questionnaire_get,
+        //post: questionnaire.post
+    }
 };
