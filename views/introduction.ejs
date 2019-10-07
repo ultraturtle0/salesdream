@@ -17,7 +17,6 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="/">Home</a>
                 <a class="nav-item nav-link active" href="/introduction">New Client<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/onboarding">Client Follow-up</a>
                 <a class="nav-item nav-link" href="/QBOtest">Interview Process</a>
                 <a class="nav-item nav-link" href="/ledger">Accounts Ledger</a>
                 <a class="nav-item nav-link" href="/contracts">Contracts</a>
@@ -75,8 +74,9 @@
                 <label for="Description">Notes</label>
                 <textarea class="form-control" rows="2" id="Description" name="Description"></textarea>
             </div>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#uModal" data-index="${index}" data-name="${lead.Name}">Additional Fields</button>
+            <button type="button" class="btn" data-toggle="modal" data-target="#uModal" data-index="${index}" data-name="${lead.Name}" style="background-color:#572e5e;color:#ffffff;">Additional Fields</button>
             <div id="validation"></div>
+            <br>
 
             <!-- CALENDARRR -->
             <div>
@@ -99,11 +99,11 @@
         <!-- questionnaire modal -->
 
         <div class="modal fade" id="uModal" tabindex="-1" role="dialog" aria-labelledby="uModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="uModalLabel">Client Questionnaire</h5>
-                        <textarea id="uDescription"></textarea>
+                        <!--<textarea id="uDescription"></textarea>-->
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
