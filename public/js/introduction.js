@@ -212,8 +212,13 @@ $(document).ready(() => {
     );
 
     ///////
+
+
+
+
 	var person = 0;
-	$("#addBooksAccess").click(function (e) {
+
+    var add_person = function (e) {
         person += 1;
         $('#booksAccess').append(`
             <tr id="booksAccessRow${person}"> 
@@ -225,12 +230,46 @@ $(document).ready(() => {
                 <td><button type="button" id="booksAccessDelete${person}" class="btn btn-default btn-sm">Delete</button></td>
             </tr> 
         `);
+
+        $('#booksDecision').append(`
+            <tr id="booksDecisionRow${person}"> 
+                <td id="${person}"></td>
+                <td>Name</td>
+                <td><input type="text" id="booksDecisionName${person}" name="booksDecisionName${person}"></td>
+                <td>Role</td>
+                <td><input type="text" id="booksDecisionRole${person}" name="booksDecisionRole${person}"></td>
+                <td><button type="button" id="booksDecisionDelete${person}" class="btn btn-default btn-sm">Delete</button></td>
+            </tr> 
+        `);
+
+        // mirror contact names in both instances
+        // ADD EMAIL SENDER TO ADDITIONAL CONTACTS
+        $('#booksDecisionName' + person).change(() => 
+            $('#booksAccessName' + person).val($('#booksDecisionName' + person).val())
+        );
+        $('#booksDecisionRole' + person).change(() => 
+            $('#booksAccessRole' + person).val($('#booksDecisionRole' + person).val())
+        );
+
+        $('#booksAccessName' + person).change(() => 
+            $('#booksDecisionName' + person).val($('#booksAccessName' + person).val())
+        );
+        $('#booksAccessRole' + person).change(() => 
+            $('#booksDecisionRole' + person).val($('#booksAccessRole' + person).val())
+        );
+
+        // delete buttons for both instances
+        // DOESN'T WORK YET
         $('#booksAccessDelete' + person).click(function (e) {
             $('#booksAccessRow' + person).remove();
         });
-    });
+        $('#booksDecisionDelete' + person).click(function (e) {
+            $('#booksDecisionRow' + person).remove();
+        });
+    };
 
-
+	$("#addBooksDecision").click(add_person);
+	$("#addBooksAccess").click(add_person);
 
     //Tax Filing 
 
@@ -246,6 +285,10 @@ $(document).ready(() => {
                     
 
     // mirror form fields between standard form and modal    
+    //
+    //
+    
+
     var copy = {
         FirstName: 'firstName',
         LastName: 'lastName',
