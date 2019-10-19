@@ -45,24 +45,31 @@
                 <label for="phone">Phone Number</label>
                 <input type="text" id="phone" name="phone">
             </div>
-            <div class="form-group"  id="ReferralBox">
-                <label for="Referral">Whom can we thank for referring you?</label>
-                <select id="Referral" name="Referral">
+            <div class="form-group">
+                <label for="booksDecision">Besides us, who has/will have access to your books, and what are their roles/titles?</label>
+                <table class="booksDecision">
+                    <tbody id="booksDecision"></tbody>
+                </table>
+                <button type="button" id="addBooksDecision" class="btn btn-sm">Add Person</button>
+            </div>
+            <div class="form-group" id="PreparerBox">
+                <label for="Preparer">Who is your current tax preparer? (Optional)</label>
+                <select id="Preparer" name="Preparer">
                 </select>
-                <div id="ReferralOther" style="display:none;">
-                    <input type="text" name="ReferralOther">
+                <div id="PreparerOther" style="display:none;">
+                    <input type="text" name="PreparerOther">
                 </div>
             </div>            
             <div class="form-group" id="ReferralLengthBox">
                 <label for="ReferralLength">How long have you been working with them?</label>
                 <input type="text" id="ReferralLength" name="ReferralLength">
             </div>
-            <div class="form-group"  id="PreparerBox">
-                <label for="Preparer">Who is your current tax preparer? (Optional)</label>
-                <select id="Preparer" name="Preparer">
+            <div class="form-group"  id="ReferralBox">
+                <label for="Referral">Whom can we thank for referring you?</label>
+                <select id="Referral" name="Referral">
                 </select>
-                <div id="PreparerOther" style="display:none;">
-                    <input type="text" name="PreparerOther">
+                <div id="ReferralOther" style="display:none;">
+                    <input type="text" name="ReferralOther">
                 </div>
             </div>            
             <div class="form-group">

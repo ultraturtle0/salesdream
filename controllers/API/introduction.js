@@ -63,11 +63,35 @@ var post = (req, res, next) => {
                 questionnaire: body
             })
         )
-    /*
-     *  .then((link) => {
-     *      send email here!
-     *  })
-     */
+        .then((link) => {
+            var meeting = moment(body.startEvent);
+            var template = {
+                questionnaire: true,
+                link: `http://${config.domain}:${config.port}/questionnaire/${qLink}`,
+                dateQuestionnaire: moment(body.startEvent).subtract(2, 'days').format("dddd, MMMM Do YYYY"),
+                time: meeting.format('h:mm a'),
+                date: meeting.format("dddd, MMMM Do YYYY"),
+                code: body.Zoom_Meeting_ID,
+                FirstName: body.FirstName,
+                LastName: body.LastName,
+                Email: body.Email
+            };
+            return new gauth('emailer', 'gswfp@gswfinancialpartners.com')
+                .auth()
+                .then((auth) => 
+                    google.gmail({
+                        version: 'v1',
+                        auth
+                    })
+                    .users.messages.send({
+                        userId: 'me',
+                        requestBody: {
+                            raw: surveyEmail(template)
+                        }
+                    })
+                )
+                .catch((err) => console.error(err));
+        })
         .then((link) => {
             console.log(link.data);
             return res.status(200).send({ link: link.data });
