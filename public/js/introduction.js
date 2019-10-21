@@ -40,6 +40,7 @@ $(document).ready(() => {
     });
 
 
+
 // COPIED FROM QUESTIONNAIRE.JS
 
     // POPULATE STATES MENU
@@ -98,6 +99,41 @@ $(document).ready(() => {
             $('#form').show();
         });
 
+    $.get(`http://${location.hostname}${port}/api/templates/referral`)
+        .done((data) => {
+            var referral = load_template('#referral-quill', data.email);
+
+            // REFERRAL EMAIL SENDER
+            $('#referralEmailSend').click(function (e) {
+                $('#emailButtonStatus').text('Sending...');
+                $('#emailStatus').show();
+                var body = {
+                    email: $('#referralEmail').val(),
+                    subject: $('#referralSubject').val(),
+                    body: referral.getContents()
+                };
+                console.log(body);
+                $('emailButtonStatus').text('Sent!');
+                $('#emailStatus').hide();
+            });
+        });
+
+    $('#Referral').change(function (e) {
+        $('#rModalLabel').text(
+            $(this).val() === 'Other' ?
+                `Send a note to ${$('#ReferralOther').val()}:` :
+                `Send a note to ${$(this).val()}:`
+        );
+    });
+
+    // TROUBLESHOOT THIS
+    $('#ReferralOtherInput').change(function (e) {
+        console.log($(this).val());
+        $('#rModalLabel').text(`Send a note to ${$(this).val()}:`);
+    });
+
+
+
 
     // COPIED FROM QUESTIONNAIRE.JS		
     //General
@@ -125,7 +161,7 @@ $(document).ready(() => {
                 <td><input type="text" id="partnerName${name}" name="partnerName${name}"></td>
                 <td>Role</td>
                 <td><input type="text" id="partnerRole${name}" name="partnerRole${name}"></td>
-                <td><button type="button" id="partnerNameDelete${name}" class="btn btn-default btn-sm">Delete</button></td>
+                <td><button type="button" id="partnerNameDelete${name}" class="btn btn-default btn-sm" style="background-color:#572e5e;color:#ffffff;">Delete</button></td>
             </tr> 
         `);
         $('#partnerNameDelete' + name).click(function (e) {
@@ -227,7 +263,7 @@ $(document).ready(() => {
                 <td><input type="text" id="booksAccessName${person}" name="booksAccessName${person}"></td>
                 <td>Role</td>
                 <td><input type="text" id="booksAccessRole${person}" name="booksAccessRole${person}"></td>
-                <td><button type="button" id="booksAccessDelete${person}" class="btn btn-default btn-sm">Delete</button></td>
+                <td><button type="button" id="booksAccessDelete${person}" class="btn btn-default btn-sm" style="background-color:#572e5e;color:#ffffff;">Delete</button></td>
             </tr> 
         `);
 
@@ -238,7 +274,7 @@ $(document).ready(() => {
                 <td><input type="text" id="booksDecisionName${person}" name="booksDecisionName${person}"></td>
                 <td>Role</td>
                 <td><input type="text" id="booksDecisionRole${person}" name="booksDecisionRole${person}"></td>
-                <td><button type="button" id="booksDecisionDelete${person}" class="btn btn-default btn-sm">Delete</button></td>
+                <td><button type="button" id="booksDecisionDelete${person}" class="btn btn-default btn-sm" style="background-color:#572e5e;color:#ffffff;">Delete</button></td>
             </tr> 
         `);
 

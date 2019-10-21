@@ -11,6 +11,7 @@ const passport = configPassport();
 require('./routes/surveys.server.routes.js')(app);
 require('./routes/forms.server.routes.js')(app);
 require('./routes/general.server.routes.js')(app);
+require('./routes/emails.server.routes.js')(app);
 
 require('./routes/questionnaire.server.routes.js')(app);
 

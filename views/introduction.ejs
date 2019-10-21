@@ -2,6 +2,7 @@
 <html style="background-color: #572e5e">
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" />
         <title>Quick Onboarding Form</title>
         <style>
             .carousel-control-prev-icon,
@@ -13,14 +14,17 @@
     </head>
     <body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
         <img src="assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>
-        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #572e5e;">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/">Home</a>
-                <a class="nav-item nav-link active" href="/introduction">New Client<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/QBOtest">Interview Process</a>
-                <a class="nav-item nav-link" href="/contracts">Contracts</a>
-            </div>
-        </nav> <br><br>
+        <div id="navContainer" class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #572e5e;">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link active" href="/introduction">New Client<span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="/QBOtest">Interview Process</a>
+                    <a class="nav-item nav-link" href="/contracts">Contracts</a>
+                </div>
+            </nav>
+        </div>
+        <br><br>
         <div class="text-center" id="loading">
             <span class="spinner-border" role="status">
             </span>
@@ -29,7 +33,7 @@
         <form name="form" id="introForm" style="display: none;" method="post">
             <div class="form-group" id="NameBox">
                 <label for="firstName" id="firstNameBox">First Name</label>
-                <input type="text" id="firstName" name="firstName">
+                <input type="text" id="firstName" name="firstName" style="margin-right: 20px;">
                 <label for="lastName" id = lastNameBox>Last Name</label>
                 <input type="text" id="lastName" name="lastName">
             </div>
@@ -45,12 +49,13 @@
                 <label for="phone">Phone Number</label>
                 <input type="text" id="phone" name="phone">
             </div>
+            <hr>
             <div class="form-group">
-                <label for="booksDecision">Besides us, who has/will have access to your books, and what are their roles/titles?</label>
+                <label for="booksDecision">Who are the other decision-makers for your bookkeeping, and what are their roles/titles?</label>
                 <table class="booksDecision">
                     <tbody id="booksDecision"></tbody>
                 </table>
-                <button type="button" id="addBooksDecision" class="btn btn-sm">Add Person</button>
+                <button type="button" id="addBooksDecision" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Add Person</button>
             </div>
             <div class="form-group" id="PreparerBox">
                 <label for="Preparer">Who is your current tax preparer? (Optional)</label>
@@ -68,10 +73,13 @@
                 <label for="Referral">Whom can we thank for referring you?</label>
                 <select id="Referral" name="Referral">
                 </select>
+                <span><button type="button" class="btn btn-sm" data-toggle="modal" data-target="#rModal" data-index="${index}" data-name="${lead.Name}" style="background-color:#572e5e;color:#ffffff;">Send Referral Email</button></span>
+
                 <div id="ReferralOther" style="display:none;">
-                    <input type="text" name="ReferralOther">
+                    <input type="text" id="ReferralOtherInput">
                 </div>
             </div>            
+            <hr>
             <div class="form-group">
                 <label for="questionnaire">Send this client a bookkeeping questionnaire?</label>
                 <input type="checkbox" id="questionnaire" name="questionnaire" value="true">
@@ -80,6 +88,7 @@
                 <label for="Description">Notes</label>
                 <textarea class="form-control" rows="2" id="Description" name="Description"></textarea>
             </div>
+
             <button type="button" class="btn" data-toggle="modal" data-target="#uModal" data-index="${index}" data-name="${lead.Name}" style="background-color:#572e5e;color:#ffffff;">Additional Fields</button>
             <div id="validation"></div>
             <br>
@@ -101,11 +110,44 @@
             </button>
         </form>
 
+        <!-- referral email modal -->
+
+        <div class="modal fade" id="rModal" tabindex="-1" role="dialog" aria-labelledby="rModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rModalLabel">Send a note to...</h5>
+                        <!--<textarea id="uDescription"></textarea>-->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="referralEmail">Email Address</label>
+                            <input type="text" name="referralEmail" id="referralEmail" style="width: 300px"> 
+                            <br>
+                            <label for="referralSubject">Subject</label>
+                            <input type="text" name="referralSubject" id="referralSubject"> 
+                        </div>
+
+                        <div id="referral-quill">
+                        </div>
+                        <br>
+                        <button type="button" id="referralEmailSend" class="btn btn-primary text-align-right">
+                            <span id="emailButtonStatus">Send Email</span>
+                            <span id="emailStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- questionnaire modal -->
 
         <div class="modal fade" id="uModal" tabindex="-1" role="dialog" aria-labelledby="uModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="uModalLabel">Client Questionnaire</h5>
@@ -118,6 +160,7 @@
                         <form id="modalForm">
                             <input type="hidden" id="id">
 <!-- Nav tabs -->
+
                           <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="nav-item"><a class="nav-link active" href="#qs" aria-controls="q1" role="tab" data-toggle="tab">General</a>
                             </li>
@@ -226,7 +269,7 @@
 					<table class="partnersNames">
                         <tbody id="partnersNames"></tbody>
 					</table>
-					<button type="button" id="addPartner" class="btn btn-sm">Add Partner</button>
+					<button type="button" id="addPartner" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Add Partner</button>
 				</div>
 			<div class="form-group">
 				<label for="moreCompaniesYN">Do you have more than one company that you will need our bookkeeping services for?</label>
@@ -461,10 +504,10 @@
             </div>
             <div class="form-group">
                 <label for="booksAccess">Besides us, who has/will have access to your books, and what are their roles/titles?</label>
+                <button type="button" id="addBooksAccess" class="btn btn-sm" style="background-color:#572e5e;color:#ffffff;">Add Person</button>
                 <table class="booksAccess">
                     <tbody id="booksAccess"></tbody>
                 </table>
-                <button type="button" id="addBooksAccess" class="btn btn-sm">Add Person</button>
             </div>
             <div class="form-group">
                 <label for="booksLastYearFinished">What is the last month and year your bookkeeping has been completed?</label>
@@ -634,8 +677,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
         <script src="js/_calendar.js"></script>
         <script src="js/introduction.js"></script>
+        <script src="js/_emailer.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
         <script
           src="http://code.jquery.com/jquery-3.3.1.min.js"
