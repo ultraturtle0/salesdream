@@ -6,7 +6,7 @@ module.exports = (template) => {
     q_text.push(`<html style="background-color: #572e5e">
                 <body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
                 <div style="font-size: 18px">`);
-    q_text.push(`<img src="http://localhost:9600/assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>`);
+    q_text.push(`<img src="http://138.197.20.29:9600/assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>`);
     q_text.push(`Thank you for contacting GSW Financial Partners to discuss your bookkeeping needs!<br>`);
 
     var questionnaire = [
