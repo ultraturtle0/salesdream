@@ -74,6 +74,7 @@
                 <select id="Referral" name="Referral">
                 </select>
                 <span><button type="button" class="btn btn-sm" data-toggle="modal" data-target="#rModal" data-index="${index}" data-name="${lead.Name}" style="background-color:#572e5e;color:#ffffff;">Send Referral Email</button></span>
+                <span><button type="button" class="btn btn-sm" data-toggle="modal" data-target="#tModal" data-index="${index}" data-name="${lead.Name}" style="background-color:#572e5e;color:#ffffff;">Request Tax Filing</button></span>
 
                 <div id="ReferralOther" style="display:none;">
                     <input type="text" id="ReferralOtherInput">
@@ -110,6 +111,40 @@
             </button>
         </form>
 
+        <!-- tax filing email modal -->
+
+        <div class="modal fade" id="tModal" tabindex="-1" role="dialog" aria-labelledby="tModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tModalLabel">Send a note to...</h5>
+                        <!--<textarea id="uDescription"></textarea>-->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="taxEmail">Email Address</label>
+                            <input type="text" name="taxEmail" id="taxEmail" style="width: 300px"> 
+                            <br>
+                            <label for="taxSubject">Subject</label>
+                            <input type="text" name="taxSubject" id="taxSubject" style="width: 450px;"> 
+                        </div>
+
+                        <div id="tax_filing-quill">
+                        </div>
+                        <br>
+                        <button type="button" id="taxEmailSend" class="btn btn-primary text-align-right">
+                            <span id="emailButtonStatus">Send Email</span>
+                            <span id="emailStatus" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- referral email modal -->
 
         <div class="modal fade" id="rModal" tabindex="-1" role="dialog" aria-labelledby="rModalLabel" aria-hidden="true">
@@ -128,7 +163,7 @@
                             <input type="text" name="referralEmail" id="referralEmail" style="width: 300px"> 
                             <br>
                             <label for="referralSubject">Subject</label>
-                            <input type="text" name="referralSubject" id="referralSubject"> 
+                            <input type="text" name="referralSubject" id="referralSubject" style="width: 450px;"> 
                         </div>
 
                         <div id="referral-quill">
@@ -633,7 +668,7 @@
                 <br>
                 <label><input type="checkbox" name="preferredCommunicationMethod" id="preferredCommunicationPerson">In-Person</label>
             </div>
-            <div class="form-group">
+            <!--<div class="form-group">
                 <label for="responseTimeExpectations">What is your expectation for response time?</label>
                 <select name="responseTimeExpectations" id="responseTimeExpectations">
                     <option value="responseTimeExpectationsImmdiately">Immediately</option>
@@ -643,7 +678,7 @@
                     <option value="responseTimeExpectationsOneDay">Within One Day</option>
                     <option value="responseTimeExpectationsFewDays">Within a Few Days</option>
                 </select>
-            </div>
+            </div>-->
             <div class="form-group">
                 <label for="FinancialReports">What is the frequency that you would like to have access to your financial reports?</label>
                 <select name="FinancialReports" id="FinancialReports">

@@ -101,7 +101,8 @@ $(document).ready(() => {
 
     $.get(`http://${location.hostname}${port}/api/templates/referral`)
         .done((data) => {
-            var referral = load_template('#referral-quill', data.email);
+            var referral = load_template('#referral-quill', data.email.body);
+            $('#referralSubject').val(data.email.subject);
 
             // REFERRAL EMAIL SENDER
             $('#referralEmailSend').click(function (e) {
@@ -117,6 +118,13 @@ $(document).ready(() => {
                 $('#emailStatus').hide();
             });
         });
+
+    $.get(`http://${location.hostname}${port}/api/templates/tax_filing`)
+        .done((data) => {
+            var tax_filing = load_template('#tax_filing-quill', data.email.body);
+            $('#taxSubject').val(data.email.subject);
+        });
+
 
     $('#Referral').change(function (e) {
         $('#rModalLabel').text(
