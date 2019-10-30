@@ -94,6 +94,11 @@ $(document).ready(() => {
         } else {
             $('#submit').hide();
         }
+        (index === 1) ?
+            $('#previous').hide() :
+            $('#previous').show();
+
+        console.log(index);
     });
     $('#previous').click(function (e) {
         e.preventDefault();
@@ -104,6 +109,7 @@ $(document).ready(() => {
         (index === 1) ?
             $('#previous').hide() :
             $('#previous').show();
+        console.log(index);
     });
 
 
