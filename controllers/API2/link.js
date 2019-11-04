@@ -1,10 +1,15 @@
 var LinkSchema = require('mongoose').model('Link');
 
 var get = (req, res, next) => { 
-    LinkSchema.findOne({ _id: req.params.id })
-        .then((link) => {
-            console.log(link);
-            return res.status(200).send(link)
+    var query = req.params.id ?
+        { _id: req.params.id } :
+        {};
+    LinkSchema.find(query)
+        .then((docs) => {
+            var links = (docs.length === 1) ?
+                docs[0] : docs;
+            console.log(links);
+            return res.status(200).send(links)
         })
         .catch((err) => {
             console.log(err);

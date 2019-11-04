@@ -1,11 +1,16 @@
 var validate_token = require('../config/strategies/jwt');
 var { ledger } = require('../controllers/API/toolkit.js');
+var link = require('../controllers/API/links.js');
 var calendar = require('../controllers/API/calendar.js');
 
 module.exports = (app) => {
     app.route('/ledger')
         .get((req, res) => res.render('ledger'));
         //.post(ledger.post);
+    app.route('/explorer')
+        .get((req, res) => res.render('explorer'));
+    app.route('/api/link')
+        .get(validate_token('GET'), link.get);
     app.route('/api/ledger/create')
         .post(validate_token('POST'), ledger.gen);
     app.route('/api/calendar/create')
