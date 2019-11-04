@@ -5,6 +5,8 @@ module.exports = (app) => {
     // API routes 
     app.route('/api/link/create')
         .post(link.create);
+    app.route('/api/link')
+        .get(link.get);
     app.route('/api/link/:id')
         .get(link.get)
         .put(link.update);

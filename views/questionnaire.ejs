@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html style="background-color: #572e5e">
 	<head>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
-		<title>Client Questionnaire</title>
+		<title>Potential Client Intake Form</title>
 	</head>
 	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7; height: 2000px;">
         <img src="/assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>
 		<form>
 		<div style="text-align:center; font-size:25px; color:#572e5e">
-			Client Questionnaire
+            Potential Client Intake Form
 			<br></br>
 		</div>
 
@@ -104,6 +104,31 @@
 				<select name="bizClass" id="bizClass">
                 </select>
 			</div>
+			<div class="form-group">
+				<label for="restructureYN">Did you change company structure during the year?</label>
+				<label><input value="Yes" type="radio" name="restructureYN">Yes</label>
+				<label><input value="No" type="radio" name="restructureYN">No</label>
+			</div>
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" class="form-group" id="restructureBox">
+				<div style="margin-left: 10px" class="form-group">
+                    <label>Restructure Date:
+                        <select id="restructureMonth">
+                        </select>
+                        <select id="restructureYear">
+                        </select>
+                    </label>
+                    <br>
+                    <label>From 
+                        <select id="restructureStart">
+                        </select>
+                        To 
+                        <select id="restructureEnd">
+                        </select>
+                    </label>
+                    <br>
+				</div>
+			</div>
+
 			<div class="form-group">
 				<label for="ownershipYear">What year did you form or take ownership of your primary business?</label>
 					<select name="ownershipYear" id="ownershipYear"></select>
@@ -320,6 +345,8 @@
                     <br>
                     <label><input value="Invoice" type="radio" name="invoiceCustomers"> Invoice</label>
                     <label><input value="paidImmediately" type="radio" name="invoiceCustomers"> Paid immediately</label>
+
+                    <label><input value="Commission" type="radio" name="invoiceCustomers"> Commission</label>
                 </div>
 		    	<div class="form-group">
                     <label for="Inventory">Do you manage or track inventory?</label>
@@ -561,21 +588,24 @@
             </div>
 
         <div id="hidden">
-            <input type="hidden" id="id" value="<%= id %>">
+            <input type="hidden" id="link" value="<%= link %>">
         </div>
 
         <button type="button" id="previous" class="btn btn-block btn-lg col-sm-3 float-left" style="background-color:#572e5e;color:#ffffff;">Previous</button>
         <button type="button" id="next" class="btn btn-block btn-lg col-sm-3 float-right" style="background-color:#572e5e;color:#ffffff;margin:0px;">Next</button>
-        <button type="submit" id="submit" class="btn btn-block btn-lg col-sm-3 float-right" style="background-color:#572e5e;color:#ffffff;">Submit</button>
+        <button type="submit" id="submit" class="btn btn-block btn-lg col-sm-3 float-right" style="background-color:#572e5e;color:#ffffff;">       
+            <span id="submitStatus" class="spinner-border spinner-border-sm" role="status"></span>
+            <span id="buttonStatus">Submit</span>
+        </button>
 
         </form>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="/js/questionnaire.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+		<script src="/js/questionnaire.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
