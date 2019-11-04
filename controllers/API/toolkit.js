@@ -21,6 +21,31 @@ var questionnaire_get = (req, res, next) => {
         });
 };
 
+var questionnaire_post = (req, res, next) => {
+    console.log(req.body);
+    var { internal, link, ...body } = req.body;
+    var update = {
+        $set: {
+            questionnaire: body,
+            Email: body.Email
+        },
+        $push: {
+            completed: Date.now()
+        },
+        search: 'link'
+    };
+
+    axios.put(`http://${config.API.domain}:${config.API.port}/api/link/${link}`, update)
+        .then((link) => {
+            res.redirect('http://localhost:9600/thankyou');
+        })
+        .catch((err) => {
+            console.log(err);
+            res.send({ errors: ['Error saving questionnaire answers.', err] });
+        });
+};
+
+
 var ledger_get = (req, res, next) => 
     axios.get(`http://${config.domain}:${9601}/api/sf/Account`,
         { params: { fields: "Id, Name" } }
@@ -181,6 +206,6 @@ module.exports = {
     },
     questionnaire: {
         get: questionnaire_get,
-        //post: questionnaire.post
+        post: questionnaire_post
     }
 };

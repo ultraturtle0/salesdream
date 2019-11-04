@@ -1,6 +1,5 @@
 var fillForm = (link) => {
     [
-        'id',
         'FirstName',
         'LastName',
         'Email',
@@ -57,8 +56,6 @@ var fillForm = (link) => {
         'employeeCount',
     ].forEach((field) => {
         var newval = link.questionnaire[field];
-        console.log(field);
-        console.log(newval);
         $('#' + field).val(newval);
     });
 }
@@ -66,6 +63,9 @@ var fillForm = (link) => {
 var index = 1;
 
 $(document).ready(() => {
+
+    $('#submitStatus').hide();
+
     var port;
     var picklist;
     if (location.port) {
@@ -73,12 +73,9 @@ $(document).ready(() => {
     } else {
         port = '';
     };
-
+    
     // hide all pages
-    Array(7).fill().forEach((_, ind) => {
-        console.log(ind);
-        $('#page-' + (ind + 2)).hide();
-    });
+    Array(7).fill().forEach((_, ind) => $('#page-' + (ind + 2)).hide());
     $('#submit').hide();
 
     // rotate pages
@@ -109,9 +106,10 @@ $(document).ready(() => {
 
     // fill form - not working, add loading screen later
     $.get(`http://${location.hostname}:9600/api/questionnaire`, {
-        link: $('#id').val()
+        link: $('#link').val()
     })
         .done((data) => {
+            console.log(data);
             fillForm(data);
         })
         .fail((err) => console.log(err));
@@ -127,6 +125,8 @@ $(document).ready(() => {
                 //{id: 'Preparer', field: 'Tax Preparer'},
                 {id: 'industry', field: 'Industry'},
                 {id: 'bizClass', field: 'Business Classification'},
+                {id: 'restructureStart', field: 'Business Classification'},
+                {id: 'restructureEnd', field: 'Business Classification'},
                 {id: 'currentbookkeepingSoftware', field: 'Software'}
             ]
             .forEach((drop) =>
@@ -180,6 +180,7 @@ $(document).ready(() => {
 
 		//Business
         "addPartnerNames",
+        "restructureBox",
         "otherCompanies",
 
         //Accounting
@@ -208,17 +209,19 @@ $(document).ready(() => {
 
 	//EVENT LISTENERS
 	$("#submit").click((e) => {
+        $('#buttonStatus').text('Submitting...');
+        $('#submitStatus').show();
 
     // WHAT GOES TO SALESFORCE HERE?
 		e.preventDefault();
 		var body = {};
         [
+            'link',
 		    'FirstName',
 		    'LastName',
 		    'Company',
 		    'Email',
 		    'Phone',
-            'id',
 		    'title',
 		    'bizAddrStreet',
 		    'bizAddrCity',
@@ -297,6 +300,7 @@ $(document).ready(() => {
             'employees',
             'Inventory',
             'partnersYN',
+            'restructureYN',
             'moreCompaniesYN',
             'companiesSeparateBooksYN',
             'companiesSeparateAccountsYN',
@@ -344,6 +348,23 @@ $(document).ready(() => {
             });
         });
         console.log(body);
+
+        $.post(`http://${location.hostname}${port}/questionnaire/${body.link}`, body)
+            .done((res) => {
+                console.log(res);
+                $('#buttonStatus').text('Done!');
+                $('#buttonStatus').addClass('btn-success');
+                $('#submitStatus').hide();
+
+            })
+            .fail((err) => {
+                $('#buttonStatus').text('Error, please try again.');
+                $('#buttonStatus').attr('class', 'btn btn-danger');
+                setTimeout(() => {
+                    $('#buttonStatus').attr('class', 'btn btn-primary');
+                });
+                console.log(err);
+            });
 	});
 
 		
@@ -384,21 +405,27 @@ $(document).ready(() => {
     var currentYear = new Date().getFullYear(); 
 
     $('#ownershipYear').append(`<option value=""></option>`);
+    $('#restructureYear').append(`<option value=""></option>`);
     Array(currentYear - 1970).fill()
-        .forEach((_, index) =>
-            $('#ownershipYear').append(`
-                <option value="${currentYear - index}">${currentYear - index}</option>
-            `)
-        );
+        .forEach((_, index) => {
+            var option = `<option value="${currentYear - index}">${currentYear - index}</option>`;
+            $('#ownershipYear').append(option);
+            $('#restructureYear').append(option);
+        });
+
+    $("input[type='radio'][name='restructureYN']").change(function(e) {
+		if (this.value === 'Yes') {
+			$("#restructureBox").show();
+		} else {
+			$("#restructureBox").hide();
+		}
+	});
 
     $("input[type='radio'][name='moreCompaniesYN']").change(function(e) {
-		console.log(this.value);
 		if (this.value === 'Yes') {
 			$("#otherCompanies").show();
-
 		} else {
 			$("#otherCompanies").hide();
-
 		}
 	});
 
@@ -423,10 +450,12 @@ $(document).ready(() => {
         });
 
     $('#booksLastMonthFinished').append(`<option value=""></option>`);
+    $('#restructureMonth').append(`<option value=""></option>`);
     Array(12).fill().forEach((_, ind) => {
         var mo = moment().month(ind).format('MMM');
-        console.log(mo);
-        $('#booksLastMonthFinished').append(`<option value="${mo}">${mo}</option>`);
+        var option = `<option value="${mo}">${mo}</option>`;
+        $('#booksLastMonthFinished').append(option);
+        $('#restructureMonth').append(option);
     });
     
     ['Inventory', 'POS', 'Time Tracking', 'Payroll']

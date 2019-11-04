@@ -4,6 +4,6 @@ var email = require('../controllers/API/email');
 
 module.exports = (app) => {
     app.route('/api/templates/:template')
-        .get(email.get)
+        //.get(email.get)
         .post(email.post);
 }

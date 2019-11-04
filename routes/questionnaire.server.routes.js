@@ -7,10 +7,12 @@ var validate_Link = require('../util/validate_link');
 
 module.exports = (app) => {
     app.route('/questionnaire/:link')
-        .get(validate_Link('link'), tracker.open('questionnaire'), (req, res) => res.render('questionnaire', { id: req.body.link, name: req.body.companyName }));
+        .get(validate_Link('link'), tracker.open('questionnaire'), (req, res) => {
+            res.render('questionnaire', { link: req.body.link });
+        })
+        .post(validate_Link('link'), tracker.complete('questionnaire'), questionnaire.post);
     app.route('/api/questionnaire')
         .get(questionnaire.get);
-        //.post(questionnaire.post);
     app.route('/ledger/:link')
         .get(validate_Link('ledgerLink'), tracker.open('ledger'), (req, res) => res.render('ledger', { id: req.body.ledgerLink, companyName: req.body.companyName }))
         .post(validate_Link('ledgerLink'), tracker.complete('ledger'), ledger.post);

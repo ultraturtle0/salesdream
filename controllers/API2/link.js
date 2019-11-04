@@ -30,13 +30,17 @@ var update = (req, res, next) => {
         $set: req.body.$set || {},
         $push: req.body.$push || {}
     };
+    var search = req.body.search || '_id';
     console.log(update);
-    LinkSchema.findOneAndUpdate({ _id: req.params.id }, update, { new: true })
+    LinkSchema.findOneAndUpdate({ [search]: req.params[search] }, update, { new: true })
         .then((link) => {
             console.log(link);
             return res.status(200).send(link)
         })
-        .catch((err) => res.status(500).send({ errors: [err] }));
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send({ errors: [err] });
+        });
 };
 
 
