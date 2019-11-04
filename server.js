@@ -8,14 +8,16 @@ const app = configExpress();
 const db = configMongoose();
 const passport = configPassport();
 
-require('./endpoints/surveys.server.endpoints.js')(app);
-//require('../endpoints/signrequest.server.endpoints.js')(app);
-require('./endpoints/forms.server.endpoints.js')(app);
-require('./endpoints/general.server.endpoints.js')(app);
+require('./routes/surveys.server.routes.js')(app);
+require('./routes/forms.server.routes.js')(app);
+require('./routes/general.server.routes.js')(app);
+require('./routes/emails.server.routes.js')(app);
 
-require('./endpoints/zapier.server.endpoints.js')(app);
+require('./routes/questionnaire.server.routes.js')(app);
 
+require('./routes/toolkit.server.routes.js')(app);
 
+require('./routes/admin.server.routes.js')(app);
 app.listen(config.port);
 module.exports = app;
 

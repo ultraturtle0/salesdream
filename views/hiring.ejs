@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #572e5e">
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <title>Hiring Procedure</title>
     </head>
-    <body>
+    <body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
+        <img src="assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #572e5e;">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link" href="/introduction">New Client</a>
+                <a class="nav-item nav-link active" href="/QBOtest">Interview Process<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/contracts">Contracts</a>
+            </div>
+        </nav> <br><br>
         <form name="form" action="/api/hiring" method="post">
             <div class="form-group">
                 <label for="FirstName">First Name</label>

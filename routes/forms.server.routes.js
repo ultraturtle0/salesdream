@@ -1,4 +1,7 @@
 const forms = require('../controllers/forms.server.controller');
+const calendar = require('../controllers/API/calendar');
+const leads = require('../controllers/API/leads');
+const links = require('../controllers/API/links');
 const uuid = require('uuid/v4');
 
 const User = require('mongoose').model('User');
@@ -10,6 +13,7 @@ const config = require('../config/config');
 const sf = require('../apps/salesforce');
 
 const validate_token = require('../config/strategies/jwt.js');
+const validate_Link = require('../util/validate_link.js');
 
 var login = (req, res, next) => 
     passport.authenticate('local', 
@@ -27,7 +31,7 @@ var login = (req, res, next) =>
                 // Build the JWT payload
                 const payload = {
                     sub: user.username,
-                    perms: 'GET POST',
+                    perms: user.perms.join(' '),
                     iss: config.passport.issuer,
                     tempkey: tempkey
                 };
@@ -51,56 +55,43 @@ var login = (req, res, next) =>
 
 module.exports = (app) => {
     app.route('/')
-        .get((req, res) => {
-            if (!req.cookies.apikey) return res.redirect('/login');
+        .get(validate_token('GET'), (req, res) => {
+            //if (!req.cookies.apikey) return res.redirect('/login');
             res.render('home');
         });
+    app.route('/leads')
+        .get(validate_token('GET'), leads.get);
+    app.route('/links/:link')
+        .get(validate_token('GET'), validate_Link('_id'), links.get);
  
     app.route('/hiring')
-        .get(validate_token, (req, res) => res.render('hiring'));
+        .get(validate_token('GET'), (req, res) => res.render('hiring'));
+    // ERROR WITH SIGNREQUEST
     app.route('/api/hiring')
         .post(validate_token, forms['hiring']);
 
     app.route('/introduction')
-        .get(validate_token, (req, res) => {
-            sf.login()
-                .then(() => 
-                    sf.conn.describe("Account", (err, acc) => {
-                        var body = {}
-                        body.message = err ?
-                            'Error retrieving picklist values, please try again.' :
-                            'Picklists retrieved.';
-                        var picklists = ['Referral', 'Preparer'];
-                        picklists.forEach(list => body[list] = acc.fields
-                            .filter(field => (field.label === list))
-                            .map(picklist => 
-                                picklist.picklistValues
-                                    .map(value => value.label)
-                            )
-                            .reduce((acc, val) => acc.concat(val), [])
-                        );
-                        
-                        res.render('introduction', body);
-                    })
-                );
-        });
+        .get(validate_token('GET'), (req, res) => res.render('introduction'))
+        .post(validate_token('GET'), calendar.post, forms['introduction'].post);
 
-    app.route('/api/introduction')
-        .post(validate_token, forms['introduction'].post);
 
-    app.route('/api/onboarding')
+    // DEPRECATED 
+    /*app.route('/api/onboarding')
         .get(validate_token, forms['onboarding'].get)
         .post(validate_token, forms['onboarding'].post);
-
-    app.route('/login')
-        .get((req, res, next) => {
-            if (req.cookies.apikey) return res.redirect('/')
-                else next();
+    */
+    app.route('/login') 
+        .get((req, res, next) => { 
+            if (req.cookies.apikey) 
+                return res.redirect('/') 
+            else next();
         }, forms['login'])
         .post(login);
 
-    app.route('/onboarding')
+    // DEPRECATED
+    /*app.route('/onboarding')
         .get(validate_token, (req, res) => res.render('onboarding'));
+        */
 
 }
 

@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #572e5e">
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
         <title>Quick Onboarding Form</title>
     </head>
-    <body>
+    <body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color:#e3e2e7;">
+        <img src="assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #572e5e;">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="http://localhost:9600/">Home</a>
+                <a class="nav-item nav-link" href="/introduction">New Client</a>
+                <a class="nav-item nav-link active" href="/onboarding">Client Follow-up<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/QBOtest">Interview Process</a>
+                <a class="nav-item nav-link" href="/ledger">Accounts Ledger</a>
+                <a class="nav-item nav-link" href="/contracts">Contracts</a>
+            </div>
+        </nav> <br><br>
         <table class="table .table-striped">
             <thead>
                 <tr>
@@ -48,9 +59,13 @@
                                 <label for="LastName">Last Name</label>
                                 <input type="text" id="LastName" name="LastName">
                             </div>
+                            <div class="form-group">
+                                <label for="Title">Title</label>
+                                <input type="text" id="Title" name="Title">
+                            </div>
                             <div class="form-group"> 
-                                <label for="pastBookkeeper">Who has been doing your bookkeeping?</label>
-                                <input type="text" id="pastBookkeeper" name="pastBookkeeper">
+                                <label for="PastBookkeeper">Who has been doing your bookkeeping?</label>
+                                <input type="text" id="PastBookkeeper" name="RastBookkeeper">
                             </div>
                             <div class="form-group">
                                 <label for="Frequency">Is your bookkeeping being done...</label>
@@ -73,13 +88,13 @@
                                 <input type="text" id="Phone" name="Phone">
                             </div>
                             <div class="form-group">
-                                <label for="Referral">Who can we thank for referring us?</label>
-                                <select id="Referral" name="Referral">
+                                <label for="AccountSource">Who can we thank for referring us?</label>
+                                <select id="AccountSource" name="AccountSource">
                                 </select>
                             </div>
                             <div class="input-group date" data-provide="datepicker">
-                                <label for="Current">How far back will we need to go\nto get your books caught up?</label>
-                                <input type="text" class="form-control datepicker">
+                                <label for="Current">How far back will we need to go </br>to get your books caught up?</label>
+                                <input type="text" id="Current" class="form-control datepicker">
                                 <div class="input-group-addon">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </div>
@@ -90,8 +105,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="Preparer">Who is your current tax preparer?</label>
-                                <select id="Preparer" name="Preparer">
+                                <label for="TaxPreparer">Who is your current tax preparer?</label>
+                                <select id="TaxPreparer" name="TaxPreparer">
                                 </select>
                             </div>
                             <div class="form-group">
@@ -103,10 +118,6 @@
                                     <div class="form-group"> 
                                         <label for="Company">Company Name</label>
                                         <input type="text" id="Company" name="Company">
-                                    </div>
-                                    <div class="form-group"> 
-                                        <label for="Title">Title/Role</label>
-                                        <input type="text" id="Title" name="Title">
                                     </div>
                                     <div class="form-row"> 
                                         <div class="form-group col-xs-12">
@@ -152,13 +163,13 @@
                                     </div>
 
                                     <div class="form-group"> 
-                                        <label for="Classification">Is your company a...</label>
-                                        <select id="Classification" name="Classification">
+                                        <label for="BusinessClassification">Is your company a...</label>
+                                        <select id="BusinessClassification" name="BusinessClassification">
                                         </select>
                                     </div>
                                     <div class="form-group"> 
-                                        <div id="Industry-div">
-                                            <label for="Industry">What is the primary business your company does?</label>
+                                        <div id="Industries-div">
+                                            <label for="Industries">What is the primary business your company does?</label>
                                         </div>
                                     </div>
                                 </div>
@@ -175,6 +186,66 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Lead lost modal -->
+        <div class="modal fade" id="dModal" tabindex="-1" role="dialog" aria-labelledby="dModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dModalLabel"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form name="form">
+                            <input type="hidden" id="dId">
+                            <div class="form-group">
+                                <label for="dFirstName">First Name</label>
+                                <input type="text" id="dFirstName" name="dFirstName">
+                                <label for="dLastName">Last Name</label>
+                                <input type="text" id="dLastName" name="dLastName">
+                            </div>
+                            <div class="form-group">
+                                <label for="dCompany">Company</label>
+                                <input type="text" id="dCompany" name="dCompany">
+                            </div>
+                            <div class="form-group">
+                                <label for="dEmail">Email</label>
+                                <input type="text" id="dEmail" name="dEmail">
+                            </div>
+                            <div class="form-group">
+                                <label for="dPhone">Phone</label>
+                                <input type="text" id="dPhone" name="dPhone">
+                            </div>
+                            <div class="form-group">
+                                <label for="dDescription">Description</label>
+                                <textarea rows="5" id="dDescription" name="dDescription"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="dAccountSource">Who can we thank for referring us?</label>
+                                <select id="dAccountSource" name="dAccountSource">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div id="dReasons-div">
+                                    <label for="dReasons">Reason for dismissal:</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dReasons-Detail">Reason details:</label>
+                                <textarea rows="5" id="dReasons-Detail" name="dReasons-Detail"></textarea>
+                            </div>
+
+
+                            <button type="dismiss" id="dismiss" class="btn btn-danger">Dismiss</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
         <script
           src="http://code.jquery.com/jquery-3.3.1.min.js"

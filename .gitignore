@@ -1,6 +1,14 @@
 *.swp
 node_modules/
+config/tokens/
 config/env/
 config/env/emails/
-token.json
+config/tokens/*.json
 gmail_token.json
+config/sysadmin.js
+*.swo
+<<<<<<< HEAD
+.g*
+=======
+>>>>>>> 64965425222f66d3a8972852d237a08e11a5bef1
+.DS_Store

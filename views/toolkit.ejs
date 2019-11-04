@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html style="background-color: #572e5e">
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
+		<title>Card Ledger</title>
+	</head>
+	<body style="margin-left: 100px; margin-right: 100px; padding: 30px 30px 30px 30px; background-color: #e3e2e7;">
+		<img src="assets/header.png" alt="header" class="responsive" style="width:100%;height:auto;"><br><br>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #572e5e;">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link" href="/introduction">New Client</a>
+                <a class="nav-item nav-link" href="/onboarding">Client Follow-up</a>
+                <a class="nav-item nav-link" href="/QBOtest">Interview Process</a>
+                <a class="nav-item nav-link active" href="/ledger">Accounts Ledger<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/contracts">Contracts</a>
+            </div>
+        </nav> <br><br>
+	<form>
+        <select id="id"></select>
+		<table class="cardtable" id="CardTable" style="width:100%">
+			<thead>
+				<tr>
+					<th id="cardsRowTitle" colspan="8" scope="colgroup" style="background-color:#572e5e;color:#ffffff;">Cards</th>
+				</tr>
+				<tr style="background-color:#e3e2e7">
+					<th scope="col1"> </th>
+					<th scope="col2">Card Name</th>
+					<th scope="col3">Type</th>
+					<th scope="col4">Bank</th>
+					<th scope="col5">Last 4 Digits</th>
+					<th scope="col6">Statement Cycle</th>
+					<th scope="col7">Last Reconciled</th>
+					<th scope="col8"><button type="button" id="addCard" class="btn btn-sm" style="background-color:#e3e2e7">Add Card</button></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<br><br>
+		<table class="banktable" id="BankTable" style="width:100%">
+			<thead>
+				<tr>
+					<th id="BankRowTitle" colspan="8" scope="colgroup" style="background-color:#572e5e;color:#ffffff;">Banks</th>
+				</tr>
+				<tr style="background-color:#e3e2e7">
+					<th scope="col1"> </th>
+					<th scope="col2">Bank Name</th>
+					<th scope="col3">Type</th>
+					<th scope="col4">Bank</th>
+					<th scope="col5">Last 4 Digits</th>
+					<th scope="col6">Statement Cycle</th>
+					<th scope="col7">Last Reconciled</th>
+					<th scope="col8"><button type="button" id="addBank" class="btn btn-sm" style="background-color:#e3e2e7">Add Bank</button></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<br><br>
+		<table class="othertable" id="OtherTable" style="width:100%">
+			<thead>
+				<tr>
+					<th id="OtherRowTitle" colspan="8" scope="colgroup" style="background-color:#572e5e;color:#ffffff;">Other</th>
+				</tr>
+				<tr style="background-color:#e3e2e7">
+					<th scope="col1"> </th>
+					<th scope="col2">Other Name</th>
+					<th scope="col3">Type</th>
+					<th scope="col4">Bank</th>
+					<th scope="col5">Last 4 Digits</th>
+					<th scope="col6">Statement Cycle</th>
+					<th scope="col7">Last Reconciled</th>
+					<th scope="col8"> <button type="button" id="addOther" class="btn btn-sm" style="background-color:#e3e2e7">Add Other</button></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+			<br><br>
+        	<button type="submit" id="submit" class="btn btn-block btn-lg" style="background-color:#572e5e;color:#ffffff;">Submit</button>
+        </form>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="js/ledger.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	</body>
+</html>
+
+
