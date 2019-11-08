@@ -6,7 +6,7 @@ const HIDDEN = [
     "mailAddr",
 
     //Business
-    "addPartnerNames", "otherCompanies",
+    "addPartnerNames", "otherCompanies", "restructureBox",
 
     //Accounting
     "FYAppointmentAccountant", "FYcontainer",
@@ -18,7 +18,7 @@ const HIDDEN = [
     "FYAppointmentIndividual", "FYExtension",
 
     //Payroll
-    "FYemployees", "handlePayrollOtherBox",
+    "employees", "handlePayrollOtherBox",
 
     // Calendar-related
     "carouselPrev", "incomplete",
@@ -29,6 +29,8 @@ const PICKLISTS = [
     {id: 'Preparer', field: 'Tax Preparer'},
     {id: 'industry', field: 'Industry'},
     {id: 'bizClass', field: 'Business Classification'},
+    {id: 'restructureStart', field: 'Business Classification'},
+    {id: 'restructureEnd', field: 'Business Classification'},
     {id: 'currentbookkeepingSoftware', field: 'Software'}
 ];
 
@@ -39,6 +41,21 @@ $(document).ready(() => {
         $("#laterDate")[0].checked = false;
     });
 
+    // DEBUG
+    /*$('#debug').click(function(e) {
+        [
+            'handlePayroll',
+            'currentBookkeepingTools',
+            'preferredCommunicationMethodChoice'
+        ].forEach((field) => {
+
+            console.log($(`input[name='${field}']:checked`).map(
+                function (index, checked) {
+                    return checked ? $(this).val() : null
+                }).get());
+        });
+    });
+    */
 
 
 // COPIED FROM QUESTIONNAIRE.JS
@@ -181,21 +198,28 @@ $(document).ready(() => {
     var currentYear = new Date().getFullYear(); 
 
     $('#ownershipYear').append(`<option value=""></option>`);
+    $('#restructureYear').append(`<option value=""></option>`);
     Array(currentYear - 1970).fill()
-        .forEach((_, index) =>
-            $('#ownershipYear').append(`
-                <option value="${currentYear - index}">${currentYear - index}</option>
-            `)
-        );
+        .forEach((_, index) => {
+             var option = `<option value="${currentYear - index}">${currentYear - index}</option>`;
+            $('#ownershipYear').append(option);
+            $('#restructureYear').append(option);
+        });
+
+    $("input[type='radio'][name='restructureYN']").change(function(e) {
+		if (this.value === 'Yes') {
+			$("#restructureBox").show();
+		} else {
+			$("#restructureBox").hide();
+		}
+	});
 
     $("input[type='radio'][name='moreCompaniesYN']").change(function(e) {
 		console.log(this.value);
 		if (this.value === 'Yes') {
 			$("#otherCompanies").show();
-
 		} else {
 			$("#otherCompanies").hide();
-
 		}
 	});
 
@@ -219,15 +243,17 @@ $(document).ready(() => {
         });
 
     $('#booksLastMonthFinished').append(`<option value=""></option>`);
+    $('#restructureMonth').append(`<option value=""></option>`);
     Array(12).fill().forEach((_, ind) => {
         var mo = moment().month(ind).format('MMM');
-        console.log(mo);
-        $('#booksLastMonthFinished').append(`<option value="${mo}">${mo}</option>`);
+        var option = `<option value="${mo}">${mo}</option>`;
+        $('#booksLastMonthFinished').append(option);
+        $('#restructureMonth').append(option);
     });
 
     ['Inventory', 'POS', 'Time Tracking', 'Payroll']
         .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}"> ${tool} </label><br>`));
-    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" value="Other"> Other</label>`);
+    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" id="currentBookkeepingToolsOtherCheckbox" value="Other"> Other</label>`);
     
     $("#currentbookkeepingSoftware").change(function(e) {
 		this.value === 'Other' ?
@@ -238,7 +264,7 @@ $(document).ready(() => {
     // OTHER CHECKBOXES 
     ['currentBookkeepingTools', 'handlePayroll']
         .forEach((field) =>
-            $(`input[type='checkbox'][name='${field}Other']`).click(function(e) {
+            $(`#${field}OtherCheckbox`).click(function(e) {
                 this.checked ?
                     $(`#${field}OtherBox`).show() :
                     $(`#${field}OtherBox`).hide();
@@ -246,7 +272,7 @@ $(document).ready(() => {
         );
 
     // RADIO BUTTONS
-    ['externalBookkeeper', 'externalBookkeeperReachOut', 'booksRequiringCleanup'].forEach((field) => 
+    ['externalBookkeeper', 'externalBookkeeperReachOut', 'booksRequiringCleanup', 'employees'].forEach((field) => 
         $(`input[type='radio'][name='${field}YN']`).change(function(e) {
             console.log(this.value);
             this.value === 'Yes' ?
@@ -288,7 +314,7 @@ $(document).ready(() => {
 
         // mirror contact names in both instances
         // ADD EMAIL SENDER TO ADDITIONAL CONTACTS
-        $('#booksDecisionName' + person).change(() => 
+        /*$('#booksDecisionName' + person).change(() => 
             $('#booksAccessName' + person).val($('#booksDecisionName' + person).val())
         );
         $('#booksDecisionRole' + person).change(() => 
@@ -301,15 +327,18 @@ $(document).ready(() => {
         $('#booksAccessRole' + person).change(() => 
             $('#booksDecisionRole' + person).val($('#booksAccessRole' + person).val())
         );
+        */
 
         // delete buttons for both instances
         // DOESN'T WORK YET
+        /*
         $('#booksAccessDelete' + person).click(function (e) {
             $('#booksAccessRow' + person).remove();
         });
         $('#booksDecisionDelete' + person).click(function (e) {
             $('#booksDecisionRow' + person).remove();
         });
+        */
     };
 
 	$("#addBooksDecision").click(add_person);
@@ -317,7 +346,7 @@ $(document).ready(() => {
 
     //Tax Filing 
 
-    ['AppointmentAccountant', 'AppointmentIndividual', 'Extension', 'employees']
+    ['AppointmentAccountant', 'AppointmentIndividual', 'Extension']
         .forEach((field) => 
             $(`input[type='radio'][name='${field}']`).change(function(e) {
                 this.value === 'Yes' ?
@@ -430,6 +459,8 @@ $(document).ready(() => {
 		    'industry',
 		    'state',
 		    'bizClass',
+            'restructureStart',
+            'restructureEnd',
 		    'ownershipYear',
 		    'Volume',
 		    'AnnualRevenue',
@@ -474,10 +505,11 @@ $(document).ready(() => {
             'currentBookkeepingTools',
             'preferredCommunicationMethodChoice'
         ].forEach((field) => 
-            body[field] = $(`input[name='${field}']:checked`).map(
-                function (checked) {
+            body[field] = $(`input[name='${field}']:checked`)
+                .map(function (index, checked) {
                     return checked ? $(this).val() : null
-                }).get()
+                })
+                .get()
         );
 
         // FILL RADIO BUTTONS
@@ -492,6 +524,7 @@ $(document).ready(() => {
             'employees',
             'Inventory',
             'partnersYN',
+            'restructureYN',
             'moreCompaniesYN',
             'companiesSeparateBooksYN',
             'companiesSeparateAccountsYN',

@@ -187,6 +187,9 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="uModalLabel">Client Questionnaire</h5>
                         <!--<textarea id="uDescription"></textarea>-->
+                        <button type="button" id="debug">
+                            debug
+                        </button>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -286,6 +289,31 @@
                 </select>
 			</div>
 			<div class="form-group">
+				<label for="restructureYN">Did you change company structure during the year?</label>
+				<label><input value="Yes" type="radio" name="restructureYN">Yes</label>
+				<label><input value="No" type="radio" name="restructureYN">No</label>
+			</div>
+			<div style="margin-left: 65px; border-left: 1px solid #572e5e;" class="form-group" id="restructureBox">
+				<div style="margin-left: 10px" class="form-group">
+                    <label>Restructure Date:
+                        <select id="restructureMonth">
+                        </select>
+                        <select id="restructureYear">
+                        </select>
+                    </label>
+                    <br>
+                    <label>From 
+                        <select id="restructureStart">
+                        </select>
+                        To 
+                        <select id="restructureEnd">
+                        </select>
+                    </label>
+                    <br>
+				</div>
+			</div>
+
+			<div class="form-group">
 				<label for="ownershipYear">What year did you form or take ownership of your primary business?</label>
 					<select name="ownershipYear" id="ownershipYear"></select>
 			</div>
@@ -365,6 +393,10 @@
             <div class="form-group">
                 <label for="currentBookkeepingTools">Are there any external softwares/tools you are using in conjunction with accounting software to aid in your accounting?</label>
                 <div id="currentBookkeepingTools">
+                </div>
+                <div id="currentBookkeepingToolsOtherBox">
+                    <label for="currentBookkeepingTools">Please Specify:
+                    <input type="text" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOther"></label>
                 </div>
             </div>
             <div>
@@ -462,6 +494,7 @@
                 <br>
                 <label><input value="Invoice" type="radio" name="invoiceCustomers"> Invoice</label>
                 <label><input value="paidImmediately" type="radio" name="invoiceCustomers"> Paid immediately</label>
+                <label><input value="Commission" type="radio" name="invoiceCustomers"> Commission</label>
             </div>
             <div class="form-group">
                 <label for="Inventory">Do you manage or track inventory?</label>
@@ -486,12 +519,12 @@
                 hours per month
             </div>
             <div class="form-group">
-                <label for="employeeCount">Do you have employees?</label>
+                <label for="employeesYN">Do you have employees?</label>
                 <br>
-                <label><input value="Yes" type="radio" name="employeeCount"> Yes</label>
-                <label><input value="No" type="radio" name="employeeCount"> No</label>
+                <label><input value="Yes" type="radio" name="employeesYN"> Yes</label>
+                <label><input value="No" type="radio" name="employeesYN"> No</label>
             </div>
-            <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYemployeeCount" class="form-group">
+            <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="employees" class="form-group">
                 <div style="margin-left: 10px">
                     <label for="employeeCount">How many employees do you have?</label>
                     <input type="text" name="employeeCount" id="employeeCount"> 
@@ -502,12 +535,12 @@
                 <label><input type="checkbox" name="handlePayroll" value="ADP"> ADP</label>
                 <label><input type="checkbox" name="handlePayroll" value="Paychex"> Paychex</label>
                 <label><input type="checkbox" name="handlePayroll" value="Intuit"> Intuit</label>
-                <label><input type="checkbox" name="handlePayrollOther" value="Other"> Other</label>
+                <label><input type="checkbox" name="handlePayroll" id="handlePayrollOtherCheckbox" value="Other"> Other</label>
             </div>
 
             <div class="form-group" id="handlePayrollOtherBox">
                 <label for="handlePayrollOther">Please specify:</label>
-                <input type="text" name="handlePayrollOther">
+                <input type="text" name="handlePayrollOther" id="handlePayrollOther">
             </div>
             <div class="form-group">
                 <label for="subcontractors">Do you use subcontractors?</label>
@@ -660,13 +693,13 @@
             <div class="form-group">
                 <label for="preferredCommunicationMethodChoice">What is your preferred method of communication with your bookkeeper?</label>
                 <br>
-                <label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodEmail">Email</label>
+                <label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodEmail" value="Email">Email</label>
                 <br>
-                <label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodTexting">Texting</label>
+                <label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodTexting" value="Texting">Texting</label>
                 <br>
-                <label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodCall">Phone Calls</label>
+                <label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodCall" value="Phone Calls">Phone Calls</label>
                 <br>
-                <label><input type="checkbox" name="preferredCommunicationMethod" id="preferredCommunicationPerson">In-Person</label>
+                <label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationPerson" value="In-Person">In-Person</label>
             </div>
             <!--<div class="form-group">
                 <label for="responseTimeExpectations">What is your expectation for response time?</label>
