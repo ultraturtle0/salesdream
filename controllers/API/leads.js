@@ -3,7 +3,7 @@ const config = require('../../config/config');
 
 // get leads from backend API
 var get = (req, res, next) =>
-    axios.get(`${config.API.protocol}${config.API.domain}:${config.API.port}/api/sf/Lead`)
+    axios.get(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/sf/Lead`)
         .then((response) => res.status(200).send(response.data))
         .catch((err) => {
             console.log(err);

@@ -50,9 +50,9 @@ var post = (req, res, next) => {
         : false;
 
     axios
-        .post(`http://${config.API.domain}:${config.API.port}/api/sf/Lead`, sfbody)
+        .post(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/sf/Lead`, sfbody)
         .then((lead) => 
-            axios.post(`http://${config.API.domain}:${config.API.port}/api/link/create`, {
+            axios.post(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/link/create`, {
                 _id: Link_id,
                 firstName: body.FirstName,
                 lastName: body.LastName,
@@ -67,7 +67,7 @@ var post = (req, res, next) => {
             var meeting = moment(body.startEvent);
             var template = {
                 questionnaire: true,
-                link: `http://${config.domain}:${config.port}/questionnaire/${qLink}`,
+                link: `${config.API.protocol}//${config.domain}:${config.port}/questionnaire/${qLink}`,
                 dateQuestionnaire: moment(body.startEvent).subtract(2, 'days').format("dddd, MMMM Do YYYY"),
                 time: meeting.format('h:mm a'),
                 date: meeting.format("dddd, MMMM Do YYYY"),

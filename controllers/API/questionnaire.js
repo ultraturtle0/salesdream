@@ -8,7 +8,7 @@ var accessToken = config.surveymonkey.accessToken;
 const { google } = require('googleapis');
 
 var get = (req, res, next) => {
-    axios.get(`https://${config.API.domain}:${config.API.port}/api/sf/picklists`)
+    axios.get(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/sf/picklists`)
         .then((picklists) => res.send({ picklists, link: req.data.link }))
         .catch((err) => {
             console.log(err);
@@ -27,7 +27,7 @@ var post = (req, res, next) => {
 
     // if questionnaire was not updated internally:
     //if (internal !== 'true') {
-    axios.post(`https://${config.API.domain}:${config.API.port}/api/link/update`)
+    axios.post(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/link/update`)
         .then((link) => {
             res.cookie('complete', link.id, {
                 expires: new Date(new Date().getTime() + (1000*60*60*24*365*10))

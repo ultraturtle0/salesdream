@@ -58,7 +58,7 @@ var post = (req, res, next) => {
                     }
                 ],
             };
-            return axios.post(`http://${config.API.domain}:${config.API.port}/api/calendar`, { event });
+            return axios.post(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/calendar`, { event });
         }) 
         .then((event) => {
             req.messages = (req.messages || []).concat('event successfully created');

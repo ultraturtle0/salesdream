@@ -58,7 +58,7 @@ module.exports = (req, res, next) => {
     // (last document in flow)
     var redirect = (config.domain === 'localhost') ?
         "http://gswfinancialpartners.com" :
-        `http://${config.domain}:${config.port}/thankyou`;
+        `${config.protocol}//${config.domain}:${config.port}/thankyou`;
     bg.redirect_url = redirect; // replace with thank-you/instruction page
 
 

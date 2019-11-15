@@ -35,9 +35,9 @@ var questionnaire_post = (req, res, next) => {
         search: 'link'
     };
 
-    axios.put(`http://${config.API.domain}:${config.API.port}/api/link/${link}`, update)
+    axios.put(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/link/${link}`, update)
         .then((link) => {
-            res.redirect('http://localhost:9600/thankyou');
+            res.redirect(`${config.protocol}//${config.domain}:${config.port}/thankyou`);
         })
         .catch((err) => {
             console.log(err);
@@ -47,7 +47,7 @@ var questionnaire_post = (req, res, next) => {
 
 
 var ledger_get = (req, res, next) => 
-    axios.get(`http://${config.domain}:${9601}/api/sf/Account`,
+    axios.get(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/sf/Account`,
         { params: { fields: "Id, Name" } }
     )
         .then((response) => {
