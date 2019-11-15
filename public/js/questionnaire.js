@@ -58,6 +58,21 @@ var fillForm = (link) => {
         var newval = link.questionnaire[field];
         $('#' + field).val(newval);
     });
+
+    // RADIO BUTTONS
+    ['partnersYN', 'restructureYN', 'moreCompaniesYN', 'companiesSeparateBooksYN',
+        'companiesSeparateAccountsYN', 'directOwnershipOfBooksYN', 'externalBookkeeperYN',
+        'externalBookkeeperInformedYN', 'externalBookkeeperReachOutYN', 'invoiceCustomers', 
+        'Inventory', 'collectSalesTax', 'employeeCount', 'subcontractors',
+        'currentBookeepingInvolvementScale', 'desiredBookkeepingInvolvementScale',
+        'currentBookkeepingRatingScale', 'booksRequiringCleanupYN', 'ongoingMaintenanceYN',
+        'AppointmentAccountant', 'Extension', 'AppointmentIndividual', 'self-reportYN',
+    ]
+        .forEach((field) =>
+            $(`input[type='radio'][name='partnersYN'][value='${link.questionnaire[field]}']`)
+                .prop('checked', true)
+                .trigger("click")
+        );
 }
 
 var index = 1;
@@ -110,62 +125,6 @@ $(document).ready(() => {
     });
 
 
-    // fill form - not working, add loading screen later
-    $.get(`http://${location.hostname}:9600/api/questionnaire`, {
-        link: $('#link').val()
-    })
-        .done((data) => {
-            console.log(data);
-            fillForm(data);
-        })
-        .fail((err) => console.log(err));
-
-    $.get(`http://${location.hostname}:9601/api/sf/picklists`)
-        .done((data) => {
-            console.log(data);
-            $('#loading').hide();
-            $('#introForm').show();
-            picklist = data.picklists;
-            [
-                //{id: 'Referral', field: 'Lead Source'},
-                //{id: 'Preparer', field: 'Tax Preparer'},
-                {id: 'industry', field: 'Industry'},
-                {id: 'bizClass', field: 'Business Classification'},
-                {id: 'restructureStart', field: 'Business Classification'},
-                {id: 'restructureEnd', field: 'Business Classification'},
-                {id: 'currentbookkeepingSoftware', field: 'Software'}
-            ]
-            .forEach((drop) =>
-                $(`#${drop.id}`).html(
-                    `<option
-                        disabled selected value></option>
-                    \n${
-                        picklist[drop.field]
-                            .map(item => `
-                                <option
-                                    value="${item}"
-                                >${item}</option>
-                            `) 
-                            .join('\n')
-                    }`
-                ).after(function () {
-                    $(this).change(function () {
-                        ($(this).val()==='Other') ?
-                            $(`#${drop.id}OtherDiv`).show() :
-                            $(`#${drop.id}OtherDiv`).hide();
-                    });
-                    return `
-                        <div id="${drop.id + 'OtherDiv'}" style="display:none;">
-                            <label for="${drop.id + 'Other'}">Please specify:</label>
-                            <input type="text" id="${drop.id + 'Other'}" name="${drop.id + 'Other'}">
-                        </div>
-                    `
-                })
-            );
-            $('#loading').hide();
-            $('#form').show();
-
-        });
 
     // POPULATE STATES MENU
     [
@@ -526,6 +485,63 @@ $(document).ready(() => {
                     $("#FY" + field).hide();
             })
         );
+
+    // fill form - not working, add loading screen later
+    $.get(`http://${location.hostname}:9600/api/questionnaire`, {
+        link: $('#link').val()
+    })
+        .done((data) => {
+            console.log(data);
+            fillForm(data);
+        })
+        .fail((err) => console.log(err));
+
+    $.get(`http://${location.hostname}:9601/api/sf/picklists`)
+        .done((data) => {
+            console.log(data);
+            $('#loading').hide();
+            $('#introForm').show();
+            picklist = data.picklists;
+            [
+                //{id: 'Referral', field: 'Lead Source'},
+                //{id: 'Preparer', field: 'Tax Preparer'},
+                {id: 'industry', field: 'Industry'},
+                {id: 'bizClass', field: 'Business Classification'},
+                {id: 'restructureStart', field: 'Business Classification'},
+                {id: 'restructureEnd', field: 'Business Classification'},
+                {id: 'currentbookkeepingSoftware', field: 'Software'}
+            ]
+            .forEach((drop) =>
+                $(`#${drop.id}`).html(
+                    `<option
+                        disabled selected value></option>
+                    \n${
+                        picklist[drop.field]
+                            .map(item => `
+                                <option
+                                    value="${item}"
+                                >${item}</option>
+                            `) 
+                            .join('\n')
+                    }`
+                ).after(function () {
+                    $(this).change(function () {
+                        ($(this).val()==='Other') ?
+                            $(`#${drop.id}OtherDiv`).show() :
+                            $(`#${drop.id}OtherDiv`).hide();
+                    });
+                    return `
+                        <div id="${drop.id + 'OtherDiv'}" style="display:none;">
+                            <label for="${drop.id + 'Other'}">Please specify:</label>
+                            <input type="text" id="${drop.id + 'Other'}" name="${drop.id + 'Other'}">
+                        </div>
+                    `
+                })
+            );
+            $('#loading').hide();
+            $('#form').show();
+
+        });
 
 
 })
