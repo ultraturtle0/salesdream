@@ -79,7 +79,7 @@ $(document).ready(() => {
         port = '';
     };
 
-    $.get(`http://${location.hostname}:${9601}/api/sf/picklists`)
+    $.get(`${location.protocol}//${location.hostname}:${9601}/api/sf/picklists`)
         .done((data) => {
             console.log(data);
             $('#loading').hide();
@@ -116,7 +116,7 @@ $(document).ready(() => {
             $('#form').show();
         });
 
-    $.get(`http://${location.hostname}${port}/api/templates/referral`)
+    $.get(`${location.protocol}//${location.hostname}${port}/api/templates/referral`)
         .done((data) => {
             var referral = load_template('#referral-quill', data.email.body);
             $('#referralSubject').val(data.email.subject);
@@ -136,7 +136,7 @@ $(document).ready(() => {
             });
         });
 
-    $.get(`http://${location.hostname}${port}/api/templates/tax_filing`)
+    $.get(`${location.protocol}//${location.hostname}${port}/api/templates/tax_filing`)
         .done((data) => {
             var tax_filing = load_template('#tax_filing-quill', data.email.body);
             $('#taxSubject').val(data.email.subject);
@@ -576,7 +576,7 @@ $(document).ready(() => {
         //'ReferralLength':
         //'Zoom_Meeting_ID':
 
-        $.post(`http://${location.hostname}${port}/introduction`, body)
+        $.post(`${location.protocol}//${location.hostname}${port}/introduction`, body)
             .done((res) => {
                 $('#id').val(res.link._id);
                 $('#buttonStatus').text('Success!');

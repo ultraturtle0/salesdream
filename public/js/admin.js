@@ -16,7 +16,7 @@ var username_gen = (e) =>
 
 $(document).ready(() => {
 
-    $.get(`http://${location.hostname}:9601/api/users`)
+    $.get(`${location.protocol}//${location.hostname}:9601/api/users`)
         .done((users) => {
             users.forEach((user, index) => 
                 $('#users').append(`<tr>
@@ -58,7 +58,7 @@ $(document).ready(() => {
         var body = {};
         ['firstName', 'lastName', 'username', 'email']
             .forEach((field) => body[field] = $('#' + field).val());
-        $.post(`http://${location.hostname}${port}/api/users/`, { body })
+        $.post(`${location.protocol}//${location.hostname}${port}/api/users/`, { body })
             .done((res) => {
                 console.log(res);
             })

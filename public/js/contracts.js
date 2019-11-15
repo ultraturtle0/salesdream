@@ -40,8 +40,8 @@ $(document).ready(() => {
 		});
         body.contract = "client";
 		console.log(body);
-        console.log(`http://${location.hostname}${port}/api/contracts/`);
-        $.post(`http://${location.hostname}${port}/api/contracts/`, body)
+        console.log(`${location.protocol}//${location.hostname}${port}/api/contracts/`);
+        $.post(`${location.protocol}//${location.hostname}${port}/api/contracts/`, body)
             .done((res) => console.log(res))
             .fail((err) => console.log(err));
 	});
@@ -65,8 +65,8 @@ $(document).ready(() => {
 		});
         body.contract = "recruitment";
 		console.log(body);
-        console.log(`http://${location.hostname}${port}/api/contracts/`);
-        $.post(`http://${location.hostname}${port}/api/contracts/`, body)
+        console.log(`${location.protocol}//${location.hostname}${port}/api/contracts/`);
+        $.post(`${location.protocol}//${location.hostname}${port}/api/contracts/`, body)
             .done((res) => console.log(res))
             .fail((err) => console.log(err));
 	});

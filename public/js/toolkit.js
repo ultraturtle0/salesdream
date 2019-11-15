@@ -6,7 +6,7 @@ $(document).ready(() => {
     } else {
         port = '';
     };
-    $.get(`http://${location.hostname}${port}/api/ledger`)
+    $.get(`${location.protocol}//${location.hostname}${port}/api/ledger`)
         .done((data) => {
             accounts = data.accounts;
             console.log(data);

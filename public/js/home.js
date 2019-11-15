@@ -52,7 +52,7 @@ var modalLoader = (lead) => {
     $('#submitCal').click(function (e) {
         e.preventDefault();
         console.log(calendarGet());
-        $.post(`http://${location.hostname}:${9600}/api/calendar/create`, {
+        $.post(`${location.protocol}//${location.hostname}:${9600}/api/calendar/create`, {
             _id: lead.Toolkit_ID__c,
             FirstName: lead.link.firstName,
             LastName: lead.link.lastName,
@@ -74,7 +74,7 @@ var modalLoader = (lead) => {
     $('#sendLedger').click(function (e) {
         e.preventDefault();
         console.log(lead);
-        $.post(`http://${location.hostname}:${9600}/api/ledger/create`, {
+        $.post(`${location.protocol}//${location.hostname}:${9600}/api/ledger/create`, {
             _id: lead.Toolkit_ID__c
         })
         .then((res) => console.log(res));
@@ -93,7 +93,7 @@ $(document).ready(() => {
         port = '';
     };
 
-    $.get(`http://${location.hostname}${port}/leads`)
+    $.get(`${location.protocol}//${location.hostname}${port}/leads`)
         .done((data) => {
             console.log(data);
             $('#loading').hide();
@@ -132,7 +132,7 @@ $(document).ready(() => {
                     // check if link is cached. if not, fetch it from the backend
                     lead.link ?
                         modalLoader(lead) :
-                        $.get(`http://${location.hostname}${port}/links/${lead.Toolkit_ID__c}`)
+                        $.get(`${location.protocol}//${location.hostname}${port}/links/${lead.Toolkit_ID__c}`)
                             .then((link) => {
                                 lead.link = link;
                                 console.log(link);

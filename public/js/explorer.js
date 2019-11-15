@@ -9,7 +9,7 @@ $(document).ready(() => {
         port = '';
     };
 
-    $.get(`http://${location.hostname}${port}/api/link`)
+    $.get(`${location.protocol}//${location.hostname}${port}/api/link`)
         .done((data) => {
             console.log(data);
             $('#loading').hide();
@@ -48,7 +48,7 @@ $(document).ready(() => {
                     // check if link is cached. if not, fetch it from the backend
                     lead.link ?
                         modalLoader(lead) :
-                        $.get(`http://${location.hostname}${port}/links/${lead.Toolkit_ID__c}`)
+                        $.get(`${location.protocol}//${location.hostname}${port}/links/${lead.Toolkit_ID__c}`)
                             .then((link) => {
                                 lead.link = link;
                                 console.log(link);
