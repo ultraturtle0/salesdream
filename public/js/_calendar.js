@@ -72,7 +72,7 @@ var calendarLoad = (id) => {
             .startOf('day')
             .toDate();
 
-        $.get(`${location.protocol}//${location.hostname}:${9601}/api/calendar`, {startDate})
+        $.get(`${location.protocol}//api.gswfp.work/api/calendar`, {startDate})
             .done((data) => {
                 console.log(data);
                 $('#loading').hide();
