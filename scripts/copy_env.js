@@ -1,5 +1,8 @@
-const scp = require('./util/scp.js');
-const config = require('./config/sysadmin');
+// USAGE: in this folder, run "NODE_ENV=deployment node copy_env"
+
+
+const scp = require('../util/scp.js');
+const config = require('../config/sysadmin');
 const fs = require('fs');
 const path = require('path');
 
@@ -12,6 +15,6 @@ scp({
     host: config.host,
     username: config.username,
     password: config.password,
-    path: path.join(config.path, file)
+    path: path.join(config.path, 'config/env/deployment.js')
 });
 
