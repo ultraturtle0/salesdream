@@ -606,8 +606,6 @@ $(document).ready(() => {
     $.get(`${location.protocol}//${location.hostname}${port}/api/picklists`)
         .done((data) => {
             console.log(data);
-            $('#loading').hide();
-            $('#introForm').show();
             picklist = data.picklists;
             [
                 //{id: 'Referral', field: 'Lead Source'},
@@ -642,7 +640,7 @@ $(document).ready(() => {
                             <label for="${drop.id + 'Other'}">Please specify:</label>
                             <input type="text" id="${drop.id + 'Other'}" name="${drop.id + 'Other'}">
                         </div>
-                    `
+                    `;
                 })
             );
             // fill form - not working, add loading screen later
@@ -652,15 +650,12 @@ $(document).ready(() => {
                 .done((data) => {
                     console.log(data);
                     fillForm(data, picklist);
+                    $('#loading').hide();
+                    ['#page-1', '#next', '#previous']
+                        .forEach((id) => $(id).show());
                 })
                 .fail((err) => console.log(err));
-
-            $('#loading').hide();
-            $('#form').show();
-
         });
-
-
 })
 
 
