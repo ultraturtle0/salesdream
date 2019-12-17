@@ -47,9 +47,8 @@
                 <table class="partnersNames">
                     <tbody id="partnersNames"></tbody>
                 </table>
-                <button type="button" id="addPartner" class="btn btn-sm">Add Partner</button>
+                <button type="button" id="addPartner" style="background-color:#572e5e;color:#ffffff;margin:0px;" class="btn btn-sm">Add Partner</button>
             </div>
-
 			<div class="form-group">Business Address
 				<br>
 				<label for="bizAddrStreet">Street</label>
@@ -200,6 +199,10 @@
             <div class="form-group">
                 <label for="currentBookkeepingTools">Are there any external softwares/tools you are using in conjunction with accounting software to aid in your accounting?</label>
                 <div id="currentBookkeepingTools">
+                </div>
+                <div id="currentBookkeepingToolsOtherBox">
+                    <label for="currentBookkeepingToolsOtherBox">Please specify:</label>
+                    <input type="text" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOther">
                 </div>
             </div>
             <div style="margin-left: 10px">
@@ -365,16 +368,16 @@
                     <input type="text" name="Volume" id="Volume"> 
                 </div>
 				<div class="form-group">
-					<label for="currentbookkeepingTimeSpent">How many hours per month are being spent on your bookkeeping?</label>
+					<label for="currentBookkeepingTimeSpent">How many hours per month are being spent on your bookkeeping?</label>
                     <br>
-					<input style="width: 40px" type="text" name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpentHours">
+					<input style="width: 40px" type="text" name="currentBookkeepingTimeSpent" id="currentBookkeepingTimeSpent">
 					hours per month
 				</div>
                 <div class="form-group">
-                    <label for="employeeCount">Do you have employees?</label>
+                    <label for="employeesYN">Do you have employees?</label>
                     <br>
-                    <label><input value="Yes" type="radio" name="employeeCount"> Yes</label>
-                    <label><input value="No" type="radio" name="employeeCount"> No</label>
+                    <label><input value="Yes" type="radio" name="employeesYN"> Yes</label>
+                    <label><input value="No" type="radio" name="employeesYN"> No</label>
                 </div>
                 <div style="margin-left: 65px; border-left: 1px solid #572e5e;" id="FYemployeeCount" class="form-group">
                     <div style="margin-left: 10px">
@@ -387,12 +390,12 @@
                     <label><input type="checkbox" name="handlePayroll" value="ADP"> ADP</label>
                     <label><input type="checkbox" name="handlePayroll" value="Paychex"> Paychex</label>
                     <label><input type="checkbox" name="handlePayroll" value="Intuit"> Intuit</label>
-                    <label><input type="checkbox" name="handlePayrollOther" value="Other"> Other</label>
+                    <label><input type="checkbox" id="handlePayrollOtherCheckbox" name="handlePayroll" value="Other"> Other</label>
                 </div>
 
                 <div class="form-group" id="handlePayrollOtherBox">
                     <label for="handlePayrollOther">Please specify:</label>
-                    <input type="text" name="handlePayrollOther">
+                    <input type="text" name="handlePayrollOther" id="handlePayrollOther">
                 </div>
 		    	<div class="form-group">
                     <label for="subcontractors">Do you use subcontractors?</label>
@@ -548,7 +551,7 @@
 					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodEmail">Email</label>
 					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodTexting">Texting</label>
 					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodCall">Phone Calls</label>
-					<label><input type="checkbox" name="preferredCommunicationMethod" id="preferredCommunicationPerson">In-Person</label>
+					<label><input type="checkbox" name="preferredCommunicationMethodChoice" id="preferredCommunicationMethodPerson">In-Person</label>
 				</div>
 				<!--<div class="form-group">
 					<label for="responseTimeExpectations">What is your expectation for response time?</label>
@@ -571,10 +574,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="self-reportYN">Would you like to learn to run financial reports on your own?</label>
+                    <label for="selfreportYN">Would you like to learn to run financial reports on your own?</label>
                     <br>
-                    <label><input value="Yes" type="radio" name="self-reportYN">Yes</label>
-                    <label><input value="No" type="radio" name="self-reportYN">No</label>
+                    <label><input value="Yes" type="radio" name="selfreportYN">Yes</label>
+                    <label><input value="No" type="radio" name="selfreportYN">No</label>
                 </div>
                 <div class="form-group">
                     <label for="DateOfStart">When would you like us to begin working?</label>
@@ -593,7 +596,7 @@
 
         <button type="button" id="previous" class="btn btn-block btn-lg col-sm-3 float-left" style="background-color:#572e5e;color:#ffffff;">Previous</button>
         <button type="button" id="next" class="btn btn-block btn-lg col-sm-3 float-right" style="background-color:#572e5e;color:#ffffff;margin:0px;">Next</button>
-        <button type="submit" id="submit" class="btn btn-block btn-lg col-sm-3 float-right" style="background-color:#572e5e;color:#ffffff;">       
+        <button type="submit" id="submit" class="btn btn-block btn-primary btn-lg col-sm-3 float-right" style="color:#ffffff;margin:0px;">       
             <span id="submitStatus" class="spinner-border spinner-border-sm" role="status"></span>
             <span id="buttonStatus">Submit</span>
         </button>

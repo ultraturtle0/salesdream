@@ -1,6 +1,7 @@
 const moment = require('moment');
 
 module.exports = (template) => {
+    console.log(template);
     var q_text = [];
 
     q_text.push(`<html style="background-color: #572e5e">
@@ -17,8 +18,10 @@ module.exports = (template) => {
             </a>
         </div>`,
         `Please note, none of these questions are mandatory.`,
-        `We ask that you submit the survey by <b>${template.dateQuestionnaire}.</b><hr>`
     ];
+    if (template.date)
+        questionnaire.push(`We ask that you submit the survey by <b>${template.dateQuestionnaire}.</b>`);
+    questionnaire.push('<hr>');
 
     var meeting = [
         `We have set up a virtual meeting to discuss your bookkeeping needs on Zoom.us for <b>${template.time}</b> on <b>${template.date}</b>.`,

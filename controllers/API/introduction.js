@@ -64,17 +64,23 @@ var post = (req, res, next) => {
             })
         )
         .then((link) => {
-            var meeting = moment(body.startEvent);
+            // REFACTOR THIS
             var template = {
                 questionnaire: true,
                 link: `${config.API.protocol}//${config.domain}:${config.port}/questionnaire/${qLink}`,
-                dateQuestionnaire: moment(body.startEvent).subtract(2, 'days').format("dddd, MMMM Do YYYY"),
-                time: meeting.format('h:mm a'),
-                date: meeting.format("dddd, MMMM Do YYYY"),
                 code: body.Zoom_Meeting_ID,
                 FirstName: body.FirstName,
                 LastName: body.LastName,
                 Email: body.Email
+            };
+            if (body.startEvent) {
+                var meeting = moment(body.startEvent);
+                template = {
+                    dateQuestionnaire: moment(body.startEvent).subtract(2, 'days').format("dddd, MMMM Do YYYY"),
+                    time: meeting.format('h:mm a'),
+                    date: meeting.format("dddd, MMMM Do YYYY"),
+                    ...template
+                };
             };
             return new gauth('emailer', 'gswfp@gswfinancialpartners.com')
                 .auth()

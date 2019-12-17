@@ -1,4 +1,7 @@
-var fillForm = (link) => {
+// for booksAccess
+var person = 0;
+
+var fillForm = (link, picklists) => {
     [
         'FirstName',
         'LastName',
@@ -36,8 +39,9 @@ var fillForm = (link) => {
         'externalBookkeeperFutureRole',
         'externalBookkeeperLikeDislike',
         'newBookkeeperReason',
-        'currentbookkeepingTimeSpent',
+        'currentBookkeepingTimeSpent',
         'currentbookkeepingSoftware',
+        'currentBookkeepingToolsOther',
         'currentBookkeepingMonthlyExpenditure',
         'issuesToBeReviewed',
         'currentBookkeepingConcerns',
@@ -54,25 +58,132 @@ var fillForm = (link) => {
         'TaxReturnPersonal',
         'ExtensionDate',
         'employeeCount',
+        'restructureMonth',
+        'restructureYear',
+        'handlePayrollOther',
     ].forEach((field) => {
         var newval = link.questionnaire[field];
         $('#' + field).val(newval);
     });
 
+    if (link.questionnaire.currentbookkeepingSoftware === 'Other') {
+        $('#currentbookkeepingSoftwareOther').val(link.questionnaire.currentbookkeepingSoftwareOther);
+        $('#currentbookkeepingSoftwareOtherDiv').show();
+    };
+
+
+    if ('Other' in link.questionnaire.currentBookkeepingTools) {
+    };
+
+
     // RADIO BUTTONS
     ['partnersYN', 'restructureYN', 'moreCompaniesYN', 'companiesSeparateBooksYN',
         'companiesSeparateAccountsYN', 'directOwnershipOfBooksYN', 'externalBookkeeperYN',
         'externalBookkeeperInformedYN', 'externalBookkeeperReachOutYN', 'invoiceCustomers', 
-        'Inventory', 'collectSalesTax', 'employeeCount', 'subcontractors',
-        'currentBookeepingInvolvementScale', 'desiredBookkeepingInvolvementScale',
+        'Inventory', 'collectSalesTax', 'employeesYN', 'subcontractors',
+        'currentBookkeepingInvolvementScale', 'desiredBookkeepingInvolvementScale',
         'currentBookkeepingRatingScale', 'booksRequiringCleanupYN', 'ongoingMaintenanceYN',
-        'AppointmentAccountant', 'Extension', 'AppointmentIndividual', 'self-reportYN',
+        'AppointmentAccountant', 'Extension', 'AppointmentIndividual', 'selfreportYN',
     ]
-        .forEach((field) =>
-            $(`input[type='radio'][name='partnersYN'][value='${link.questionnaire[field]}']`)
+        .forEach((field) => {
+            $(`input[type='radio'][name='${field}'][value='${link.questionnaire[field]}']`)
                 .prop('checked', true)
-                .trigger("click")
+                .trigger("change");
+        });
+    // DROPDOWNS
+    [
+        //{id: 'Referral', field: 'Lead Source'},
+        //{id: 'Preparer', field: 'Tax Preparer'},
+        {id: 'industry', field: 'Industry'},
+        {id: 'bizClass', field: 'Business Classification'},
+        {id: 'restructureStart', field: 'Business Classification'},
+        {id: 'restructureEnd', field: 'Business Classification'},
+        {id: 'currentbookkeepingSoftware', field: 'Software'}
+    ].forEach((drop) => {
+        if (link.questionnaire[drop.id]) {
+            $('#' + drop.id).val(link.questionnaire[drop.id])
+        }
+    });
+
+
+    link.questionnaire.currentBookkeepingTools.forEach((tool, index) => {
+        if (tool === 'Other') {
+            $('#currentBookkeepingToolsOtherCheckbox')
+                .prop('checked', true)
+                .trigger("change");
+            $('#currentbookkeepingToolsOther').val(link.questionnaire.currentbookkeepingToolsOther);
+
+            $('#currentbookkeepingToolsOtherBox').show();
+        };
+        $('#currentBookkeepingTools' + tool.replace(/ /g, "-"))
+            .prop('checked', true);
+    });
+
+    methods = {
+        Email: 'Email',
+        Texting: 'Texting',
+        'Phone Calls': 'Calls',
+        'In-Person': 'Person'
+    };
+
+    if (link.questionnaire.preferredCommunicationMethodChoice)
+        link.questionnaire.preferredCommunicationMethodChoice.forEach((method) =>
+            $('#preferredCommunicationMethod' + methods[method])
+                .prop('checked', true)
         );
+
+    if (link.questionnaire.handlePayroll) {
+        link.questionnaire.handlePayroll.forEach((tool, index) =>
+            $(`input[type='checkbox'][name='handlePayroll'][value='${tool}']`)
+                .prop('checked', true)
+                .trigger('change')
+        );
+        if (link.questionnaire.handlePayroll.includes('Other')) {
+            //$('#handlePayrollOther').val(link.questionnaire.handlePayrollOther);
+            $('#handlePayrollOtherBox').show();
+        };
+    };
+
+    if (link.questionnaire.partners)
+        link.questionnaire.partners.forEach((partner, index) =>
+            $('#partnersNames').append(`
+                <tr id="partnerNameRow${index}"> 
+                    <td id ="${index}"></td>
+                    <td>Name</td>
+                    <td><input type="text" id="partnerName${index}" name="partnerName${index}" value="${partner.Name}"></td>
+                    <td>Role</td>
+                    <td><input type="text" id="partnerRole${index}" name="partnerRole${index}" value="${partner.Role}"></td>
+                    <td><button type="button" id="partnerNameDelete${index}" class="btn btn-default btn-sm" style="background-color:#572e5e;color:#ffffff;">Delete</button></td>
+                </tr> 
+            `));
+
+    if (link.questionnaire.differentFromBizAddr && link.questionnaire.differentFromBizAddr === 'true') {
+        ['mailAddrCity', 'mailAddrState', 'mailAddrStreet', 'mailAddrZip']
+            .forEach((field) => $('#' + field).val(link.questionnaire[field]));
+        $('#differentFromBizAddr').prop('checked', true);
+        $('#mailAddr').show();
+    };
+
+    if (link.questionnaire.booksAccess)
+        link.questionnaire.booksAccess.forEach((access) => {
+            person += 1;
+            $('#booksAccess').append(`
+                <tr id="booksAccessRow${person}"> 
+                    <td id ="${person}"></td>
+                    <td>Name</td>
+                    <td><input type="text" id="booksAccessName${person}" name="booksAccessName${person}" value="${access.Name}"></td>
+                    <td>Role</td>
+                    <td><input type="text" id="booksAccessRole${person}" name="booksAccessRole${person}" value="${access.Role}"></td>
+                    <td><button type="button" id="booksAccessDelete${person}" class="btn btn-default btn-sm" style="background-color:#572e5e;color:#ffffff;margin:0px;">Delete</button></td>
+                </tr> 
+            `);
+            $('#booksAccessDelete' + person).click(function (e) {
+                $('#booksAccessRow' + person).remove();
+            });
+        });
+
+
+
 }
 
 var index = 1;
@@ -109,8 +220,6 @@ $(document).ready(() => {
         (index === 1) ?
             $('#previous').hide() :
             $('#previous').show();
-
-        console.log(index);
     });
     $('#previous').click(function (e) {
         e.preventDefault();
@@ -121,7 +230,10 @@ $(document).ready(() => {
         (index === 1) ?
             $('#previous').hide() :
             $('#previous').show();
-        console.log(index);
+        if (index !== 7) {
+            $('#next').show();
+            $('#submit').hide();
+        };
     });
 
 
@@ -262,7 +374,7 @@ $(document).ready(() => {
             'collectSalesTax',
             'invoiceCustomers',
             'subcontractors',
-            'employees',
+            'employeesYN',
             'Inventory',
             'partnersYN',
             'restructureYN',
@@ -275,7 +387,7 @@ $(document).ready(() => {
             'directOwnershipOfBooksYN',
             'currentBookkeepingInvolvementScale',
             'desiredBookkeepingInvolvementScale',
-            'self-reportYN',
+            'selfreportYN',
             'currentBookkeepingRatingScale',
             'booksRequiringCleanupYN',
             'ongoingMaintenanceYN'
@@ -314,7 +426,7 @@ $(document).ready(() => {
         });
         console.log(body);
 
-        $.post(`http://${location.hostname}${port}/questionnaire/${body.link}`, body)
+        $.post(`${location.protocol}//${location.hostname}${port}/questionnaire/${body.link}`, body)
             .done((res) => {
                 console.log(res);
                 $('#buttonStatus').text('Done!');
@@ -348,6 +460,12 @@ $(document).ready(() => {
 			$("#addPartnerNames").hide();
 	});
 
+	$("input[type='radio'][name='employeesYN']").change(function(e) {
+		this.value === 'Yes' ?
+			$("#FYemployeeCount").show() :
+			$("#FYemployeeCount").hide();
+	});
+
 	var name = 0;
 	$("#addPartner").click(function (e) {
         name += 1;
@@ -358,7 +476,7 @@ $(document).ready(() => {
                 <td><input type="text" id="partnerName${name}" name="partnerName${name}"></td>
                 <td>Role</td>
                 <td><input type="text" id="partnerRole${name}" name="partnerRole${name}"></td>
-                <td><button type="button" id="partnerNameDelete${name}" class="btn btn-default btn-sm">Delete</button></td>
+                <td><button type="button" id="partnerNameDelete${name}" class="btn btn-default btn-sm" style="background-color:#572e5e;color:#ffffff;margin:0px;">Delete</button></td>
             </tr> 
         `);
         $('#partnerNameDelete' + name).click(function (e) {
@@ -424,8 +542,8 @@ $(document).ready(() => {
     });
     
     ['Inventory', 'POS', 'Time Tracking', 'Payroll']
-        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}"> ${tool} </label><br>`));
-    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOther"> Other</label>`);
+        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" id="currentBookkeepingTools${tool.replace(/ /g, "-")}" value="${tool}"> ${tool} </label><br>`));
+    $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingToolsOther" id="currentBookkeepingToolsOtherCheckbox"> Other</label>`);
     
     $("#currentbookkeepingSoftware").change(function(e) {
 		this.value === 'Other' ?
@@ -436,7 +554,7 @@ $(document).ready(() => {
     // OTHER CHECKBOXES 
     ['currentBookkeepingTools', 'handlePayroll']
         .forEach((field) =>
-            $(`input[type='checkbox'][name='${field}Other']`).click(function(e) {
+            $(`#${field}OtherCheckbox`).change(function(e) {
                 this.checked ?
                     $(`#${field}OtherBox`).show() :
                     $(`#${field}OtherBox`).hide();
@@ -447,7 +565,6 @@ $(document).ready(() => {
     //
     ['externalBookkeeper', 'externalBookkeeperReachOut', 'booksRequiringCleanup'].forEach((field) => 
         $(`input[type='radio'][name='${field}YN']`).change(function(e) {
-            console.log(this.value);
             this.value === 'Yes' ?
                 $('#' + field).show() :
                 $('#' + field).hide();
@@ -455,7 +572,6 @@ $(document).ready(() => {
     );
 
     ///////
-	var person = 0;
 	$("#addBooksAccess").click(function (e) {
         person += 1;
         $('#booksAccess').append(`
@@ -486,17 +602,8 @@ $(document).ready(() => {
             })
         );
 
-    // fill form - not working, add loading screen later
-    $.get(`http://${location.hostname}:9600/api/questionnaire`, {
-        link: $('#link').val()
-    })
-        .done((data) => {
-            console.log(data);
-            fillForm(data);
-        })
-        .fail((err) => console.log(err));
 
-    $.get(`http://${location.hostname}:9601/api/sf/picklists`)
+    $.get(`${location.protocol}//${location.hostname}${port}/api/picklists`)
         .done((data) => {
             console.log(data);
             $('#loading').hide();
@@ -538,6 +645,16 @@ $(document).ready(() => {
                     `
                 })
             );
+            // fill form - not working, add loading screen later
+            $.get(`${location.protocol}//${location.hostname}${port}/api/questionnaire`, {
+                link: $('#link').val()
+            })
+                .done((data) => {
+                    console.log(data);
+                    fillForm(data, picklist);
+                })
+                .fail((err) => console.log(err));
+
             $('#loading').hide();
             $('#form').show();
 

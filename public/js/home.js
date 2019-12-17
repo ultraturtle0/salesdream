@@ -52,7 +52,7 @@ var modalLoader = (lead) => {
     $('#submitCal').click(function (e) {
         e.preventDefault();
         console.log(calendarGet());
-        $.post(`${location.protocol}//${location.hostname}:${9600}/api/calendar/create`, {
+        $.post(`${location.protocol}//${location.hostname}${port}/api/calendar/create`, {
             _id: lead.Toolkit_ID__c,
             FirstName: lead.link.firstName,
             LastName: lead.link.lastName,
@@ -74,7 +74,7 @@ var modalLoader = (lead) => {
     $('#sendLedger').click(function (e) {
         e.preventDefault();
         console.log(lead);
-        $.post(`${location.protocol}//${location.hostname}:${9600}/api/ledger/create`, {
+        $.post(`${location.protocol}//${location.hostname}${port}/api/ledger/create`, {
             _id: lead.Toolkit_ID__c
         })
         .then((res) => console.log(res));

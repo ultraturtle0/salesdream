@@ -15,6 +15,11 @@ const zoom_token = jwt.sign({
 
 const gauth = require('../../util/google_token');
 
+var get = (req, res, next) =>
+    axios.get(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/calendar`, req.params)
+        .then((cal_res) => res.send(cal_res.data))
+        .catch((err) => res.status(500).send({ errors: ['Error retrieving calendar entries from API: ', err] }));
+
 var post = (req, res, next) => {
     console.log('Calendar Submitted.');
     console.log(req.body);
@@ -71,6 +76,7 @@ var post = (req, res, next) => {
 };
 
 module.exports = {
+    get,
     post,
 };
 

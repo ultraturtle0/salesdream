@@ -2,6 +2,7 @@ const forms = require('../controllers/forms.server.controller');
 const calendar = require('../controllers/API/calendar');
 const leads = require('../controllers/API/leads');
 const links = require('../controllers/API/links');
+const picklists = require('../controllers/API/picklists');
 const uuid = require('uuid/v4');
 
 const User = require('mongoose').model('User');
@@ -63,6 +64,8 @@ module.exports = (app) => {
         .get(validate_token('GET'), leads.get);
     app.route('/links/:link')
         .get(validate_token('GET'), validate_Link('_id'), links.get);
+    app.route('/picklists')
+        .get(validate_token('GET'), picklists.get);
  
     app.route('/hiring')
         .get(validate_token('GET'), (req, res) => res.render('hiring'));

@@ -11,13 +11,15 @@ const gfile = require('../../util/filegen');
 const LinkSchema = require('mongoose').model('Link');
 
 var questionnaire_get = (req, res, next) => {
-    console.log(req.params)
-    LinkSchema.findOne({ link: req.query.link })
-        .select('firstName lastName companyName questionnaire')
-        .exec()
+    axios.get(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/link`, { params: { link: req.query.link }})
         .then((doc) => {
-            console.log(doc);
-            res.send(doc);
+            var { firstName, lastName, companyName, questionnaire } = doc.data[0];
+            delete questionnaire.Description;
+            return res.send({ firstName, lastName, companyName, questionnaire });
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).send({ errors: [err] });
         });
 };
 
@@ -68,7 +70,7 @@ var ledger_get = (req, res, next) =>
 var ledger_gen = (req, res, next) => {
     var link = uuid();
     console.log(req.body);
-    axios.put(`${config.API.protocol}${config.API.domain}:${config.API.port}/api/link/${req.body._id}`, { $set: { ledgerLink: link }, $push: { l_sent: Date(Date.now()) }})
+    axios.put(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/link/${req.body._id}`, { $set: { ledgerLink: link }, $push: { l_sent: Date(Date.now()) }})
         .then((update) => {
             console.log(link);
             res.status(200).send({ ledgerLink: link });

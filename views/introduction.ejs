@@ -513,9 +513,9 @@
                 <input type="text" name="Volume" id="Volume"> 
             </div>
             <div class="form-group">
-                <label for="currentbookkeepingTimeSpent">How many hours per month are being spent on your bookkeeping?</label>
+                <label for="currentBookkeepingTimeSpent">How many hours per month are being spent on your bookkeeping?</label>
                 <br>
-                <input style="width: 40px" type="text" name="currentbookkeepingTimeSpent" id="currentbookkeepingTimeSpentHours">
+                <input style="width: 40px" type="text" name="currentBookkeepingTimeSpent" id="currentBookkeepingTimeSpent">
                 hours per month
             </div>
             <div class="form-group">
@@ -715,6 +715,7 @@
             <div class="form-group">
                 <label for="FinancialReports">What is the frequency that you would like to have access to your financial reports?</label>
                 <select name="FinancialReports" id="FinancialReports">
+                    <option value=""></option>
                     <option value="Monthly">Monthly</option>
                     <option value="Quarterly">Quarterly</option>
                     <option value="Semi-Annual">Semi-Annual</option>
@@ -722,10 +723,10 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="self-reportYN">Would you like to learn to run financial reports on your own?</label>
+                <label for="selfreportYN">Would you like to learn to run financial reports on your own?</label>
                 <br>
-                <label><input value="Yes" type="radio" name="self-reportYN">Yes</label>
-                <label><input value="No" type="radio" name="self-reportYN">No</label>
+                <label><input value="Yes" type="radio" name="selfreportYN">Yes</label>
+                <label><input value="No" type="radio" name="selfreportYN">No</label>
             </div>
             <div class="form-group">
                 <label for="DateOfStart">When would you like us to begin working?</label>
@@ -750,10 +751,6 @@
         <script src="js/introduction.js"></script>
         <script src="js/_emailer.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-        <script
-          src="http://code.jquery.com/jquery-3.3.1.min.js"
-          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-          crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="packages/bootstrap-datepicker/bootstrap-datepicker.js"></script>

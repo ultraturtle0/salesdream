@@ -79,7 +79,7 @@ $(document).ready(() => {
         port = '';
     };
 
-    $.get(`${location.protocol}//${location.hostname}:${9601}/api/sf/picklists`)
+    $.get(`${location.protocol}//${location.hostname}${port}/api/picklists`)
         .done((data) => {
             console.log(data);
             $('#loading').hide();
@@ -252,7 +252,7 @@ $(document).ready(() => {
     });
 
     ['Inventory', 'POS', 'Time Tracking', 'Payroll']
-        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool}"> ${tool} </label><br>`));
+        .forEach(tool => $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" value="${tool.replace(/ /g, "-")}"> ${tool} </label><br>`));
     $("#currentBookkeepingTools").append(`<label><input type="checkbox" name="currentBookkeepingTools" id="currentBookkeepingToolsOtherCheckbox" value="Other"> Other</label>`);
     
     $("#currentbookkeepingSoftware").change(function(e) {
@@ -264,7 +264,7 @@ $(document).ready(() => {
     // OTHER CHECKBOXES 
     ['currentBookkeepingTools', 'handlePayroll']
         .forEach((field) =>
-            $(`#${field}OtherCheckbox`).click(function(e) {
+            $(`#${field}OtherCheckbox`).change(function(e) {
                 this.checked ?
                     $(`#${field}OtherBox`).show() :
                     $(`#${field}OtherBox`).hide();
@@ -459,6 +459,8 @@ $(document).ready(() => {
 		    'industry',
 		    'state',
 		    'bizClass',
+            'restructureMonth',
+            'restructureYear',
             'restructureStart',
             'restructureEnd',
 		    'ownershipYear',
@@ -478,11 +480,14 @@ $(document).ready(() => {
 		    'externalBookkeeperFutureRole',
 		    'externalBookkeeperLikeDislike',
 		    'newBookkeeperReason',
-		    'currentbookkeepingTimeSpent',
+		    'currentBookkeepingTimeSpent',
 		    'currentbookkeepingSoftware',
 		    'currentBookkeepingMonthlyExpenditure',
+            'currentBookkeepingTimeSpent',
+            'handlePayrollOther',
 		    'issuesToBeReviewed',
 		    'currentBookkeepingConcerns',
+		    'booksLastMonthFinished',
 		    'booksLastYearFinished',
 		    'communicationExpectations',
 		    'responseTimeExpectations',
@@ -495,6 +500,7 @@ $(document).ready(() => {
 		    'TaxReturnPersonal',
 		    'ExtensionDate',
 		    'employeeCount',
+            'Value',
         ].forEach((field) => body[field] = $('#' + field).val());
 
         body['differentFromBizAddr'] = $('#differentFromBizAddr').prop('checked');
@@ -519,9 +525,8 @@ $(document).ready(() => {
             'Extension',
             'invoiceCustomers',
             'collectSalesTax',
-            'invoiceCustomers',
             'subcontractors',
-            'employees',
+            'employeesYN',
             'Inventory',
             'partnersYN',
             'restructureYN',
@@ -536,7 +541,8 @@ $(document).ready(() => {
             'desiredBookkeepingInvolvementScale',
             'currentBookkeepingRatingScale',
             'booksRequiringCleanupYN',
-            'ongoingMaintenanceYN'
+            'ongoingMaintenanceYN',
+            'selfreportYN',
         ].forEach((field) => body[field] = $(`input[type='radio'][name='${field}']:checked`).val());
 
         // FILL OTHERS
@@ -544,9 +550,9 @@ $(document).ready(() => {
             body.industryOther = $('#industryOther').val();
         if (body.currentbookkeepingSoftware === 'Other')
             body.currentbookkeepingSoftwareOther = $('#currentbookkeepingSoftwareOther').val();
-        if ('Other' in body.currentBookkeepingTools)
-            body.currentBookkeepingToolsOther = $('#currentbookkepingToolsOther').val();
-        if ('Other' in body.handlePayroll)
+        if (body.currentBookkeepingTools.includes('Other'))
+            body.currentBookkeepingToolsOther = $('#currentBookkeepingToolsOther').val();
+        if (body.handlePayroll.includes('Other'))
             body.handlePayrollOther = $('#handlePayrollOther').val();
         
 

@@ -1,16 +1,9 @@
 var LinkSchema = require('mongoose').model('Link');
 
 var get = (req, res, next) => { 
-    var query = req.params.id ?
-        { _id: req.params.id } :
-        {};
+    var query = req.query || {};
     LinkSchema.find(query)
-        .then((docs) => {
-            var links = (docs.length === 1) ?
-                docs[0] : docs;
-            console.log(links);
-            return res.status(200).send(links)
-        })
+        .then((docs) => res.status(200).send(docs))
         .catch((err) => {
             console.log(err);
             return res.status(500).send({ errors: [err] })
@@ -36,7 +29,6 @@ var update = (req, res, next) => {
         $push: req.body.$push || {}
     };
     var search = req.body.search || '_id';
-    console.log(update);
     LinkSchema.findOneAndUpdate({ [search]: req.params[search] }, update, { new: true })
         .then((link) => {
             console.log(link);

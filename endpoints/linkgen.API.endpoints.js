@@ -7,9 +7,7 @@ module.exports = (app) => {
         .post(link.create);
     app.route('/api/link')
         .get(link.get);
-    app.route('/api/link/:id')
+    app.route('/api/link/:_id')
         .get(link.get)
         .put(link.update);
-    app.route('/api/link/')
-        .post(link.update);
-    }
+};
