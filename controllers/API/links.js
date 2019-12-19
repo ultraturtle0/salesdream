@@ -4,7 +4,7 @@ const config = require('../../config/config');
 // get links from backend API
 var get = (req, res, next) => {
     var id = req.body._id || '';
-    axios.get(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/link/${id}`)
+    axios.get(`${config.API.protocol}//${config.API.domain}:${config.API.port}/api/link/${id}`, req.query)
         .then((leads) => {
             return res.status(200).send(leads.data)
         })

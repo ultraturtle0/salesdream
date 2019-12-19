@@ -4,16 +4,9 @@ const User = require('mongoose').model('User');
 
 module.exports = (perms) =>
     (req, res, next) => {
-    /*if (process.env.NODE_ENV === 'development') {
-        next();
-    } else {
-    }
-    */
-
         var payload = req.cookies.apikey;
         var failure = (err) => {
             req.flash('error', err);
-            console.log('WHAT ERROR');
             console.log(err);
             res.redirect('/login');
         };
