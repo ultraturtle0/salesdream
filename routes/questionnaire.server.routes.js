@@ -13,9 +13,6 @@ module.exports = (app) => {
         .post(validate_Link('link'), tracker.complete('questionnaire'), questionnaire.post);
     app.route('/api/questionnaire')
         .get(questionnaire.get);
-    app.route('/ledger/:link')
-        .get(validate_Link('ledgerLink'), tracker.open('ledger'), (req, res) => res.render('ledger', { id: req.body.ledgerLink, companyName: req.body.companyName }))
-        .post(validate_Link('ledgerLink'), tracker.complete('ledger'), ledger.post);
     /*app.route('/ledger')
      *  .get(validate_token, (req, res) => res.render('ledger'));
      */
