@@ -1,6 +1,6 @@
-const api_key = require('../config/config').API.api_key;
+module.exports = (app) => 
+    (req, res, next) => {
+        req.body.api_key = app.get('api_key');
+        next();
+    };
 
-module.exports = (req, res, next) => {
-    req.query.api_key = api_key;
-    next();
-};

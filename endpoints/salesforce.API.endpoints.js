@@ -1,14 +1,15 @@
 var sf = require('../controllers/API2/salesforce');
 var validate_token = require('../config/strategies/jwt');
+var keys = require('../util/API_key.js');
 
 module.exports = (app) => {
     app.route('/api/sf/picklists')
-        .get(sf['picklists'].get);
+        .get(keys.verify(['sf.picklists']), sf['picklists'].get);
 
     ['Lead', 'Account']
         .forEach((obj) =>
             app.route('/api/sf/' + obj)
-                .get(sf[obj].get)
-                .post(sf[obj].create)
+                .get(keys.verify([`sf.${obj}.get`]), sf[obj].get)
+                .post(keys.verify([`sf.${obj}.create`]), sf[obj].create)
         );
 };

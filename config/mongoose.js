@@ -8,6 +8,7 @@ module.exports = () => {
     const db = mongoose.connect(connectionStr, { useNewUrlParser: true });
     require('../models/user.js');
     require('../models/link.js');
+    require('../models/key.js');
     return db;
 };
 

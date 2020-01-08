@@ -1,15 +1,52 @@
-var { mkdir, mksheet } = require('./filegen.js');
-const gauth = require('./google_token');
 
-var values = Array(1, 2, 3).map((_) => Array(1, 2, 3, 4, 5));
+var scopes = ['admin.test'];
+var perms = ['admin.test', 'admin.create'];
 
-gauth('ledger-generator', 'gswfp@gswfinancialpartners.com')
-    .then((auth) => 
-        mkdir({ auth, name: 'testing new util script', parents: [] })
-            .then((file) => {
-                console.log(file);
-                return mksheet({ auth, name: 'tester sheet', parents: [file.data.id], range: `Sheet1!1:3`, values })
-            })
+/*function compress(string, acc) {
+    var pieces = string
+        .split('.');
+    var next = pieces.shift();
+    if (next.length)
+        compress(pieces.join('.'), acc.concat(next).join('.'))
+    return acc;
+};
+*/
+
+function compress(string) {
+    var old_pieces = [];
+    return string
+        .split('.')
+        .reduce((acc, piece) => {
+            old_pieces.push(piece);
+            return [...acc, old_pieces.join('.')];
+        }, []);
+};
+
+console.log(compress('admin.test.dev'));
+    
+
+var all_perms = [...new Set(perms
+        .reduce((acc, perm) => 
+            perm
+                .split('.')
+                .reduce((acc, branch) => {
+                    console.log(acc);
+                    console.log(branch);
+                    return [...acc, [acc[acc.length - 1], branch].join('.')];
+                }), []
+        )
     )
-    .catch((err) => console.log(err))
+];
+
+console.log(all_perms);
+
+var missing = scopes.reduce((acc, scope) =>
+    all_perms.includes(scope) ?
+        acc : [...acc, scope],
+    []
+);
+
+console.log(missing);
+
+
     

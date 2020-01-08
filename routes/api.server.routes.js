@@ -2,11 +2,12 @@ var validate_token = require('../config/strategies/jwt');
 var validate_link = require('../util/validate_link');
 var calendar = require('../controllers/API/calendar');
 var picklists = require('../controllers/API/picklists');
-var inject_API = require('../util/inject_API');
 
 module.exports = (app) => {
+    const api_key = app.get('api_key');
+
     app.route('/api/calendar')
-        .get(validate_token('GET'), calendar.get);
+        .get(validate_token('GET'), calendar(api_key).get);
     app.route('/api/picklists')
-        .get(validate_link('link'), inject_API, picklists.get);
+        .get(validate_link('link'), picklists(api_key).get);
 }

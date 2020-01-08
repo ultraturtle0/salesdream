@@ -1,5 +1,4 @@
 var validate_token = require('../config/strategies/jwt')('ADMIN');
-var axios = require('axios');
 
 module.exports = (app) => {
     app.route('/admin')

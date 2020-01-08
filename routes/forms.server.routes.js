@@ -1,4 +1,5 @@
-const forms = require('../controllers/forms.server.controller');
+const introduction = require('../controllers/API/introduction');
+const hiring = require('../controllers/API/hiring');
 const calendar = require('../controllers/API/calendar');
 const leads = require('../controllers/API/leads');
 const links = require('../controllers/API/links');
@@ -55,27 +56,25 @@ var login = (req, res, next) =>
 
 
 module.exports = (app) => {
+    // initialize API keys for routes
+    const api_key = app.get('api_key');
+
     app.route('/')
-        .get(validate_token('GET'), (req, res) => {
-            //if (!req.cookies.apikey) return res.redirect('/login');
-            res.render('home');
-        });
+        .get(validate_token('GET'), (req, res) => res.render('home'));
     app.route('/leads')
-        .get(validate_token('GET'), leads.get);
+        .get(validate_token('GET'), leads(api_key).get);
     app.route('/links/:link')
-        .get(validate_token('GET'), validate_Link('_id'), links.get);
-    app.route('/picklists')
-        .get(validate_token('GET'), picklists.get);
+        .get(validate_token('GET'), validate_Link('_id'), links(api_key).get);
  
     app.route('/hiring')
         .get(validate_token('GET'), (req, res) => res.render('hiring'));
     // ERROR WITH SIGNREQUEST
     app.route('/api/hiring')
-        .post(validate_token, forms['hiring']);
+        .post(validate_token('POST'), hiring);
 
     app.route('/introduction')
         .get(validate_token('GET'), (req, res) => res.render('introduction'))
-        .post(validate_token('GET'), calendar.post, forms['introduction'].post);
+        .post(validate_token('GET'), calendar(api_key).post, introduction(api_key).post);
 
 
     // DEPRECATED 
@@ -88,7 +87,7 @@ module.exports = (app) => {
             if (req.cookies.apikey) 
                 return res.redirect('/') 
             else next();
-        }, forms['login'])
+        }, (req, res) => res.render('login', { messages: req.flash('error') || req.flash('info') || 'default'}))
         .post(login);
 
     // DEPRECATED

@@ -72,8 +72,8 @@ var fillForm = (link, picklists) => {
     };
 
 
-    if ('Other' in link.questionnaire.currentBookkeepingTools) {
-    };
+    /*if ('Other' in link.questionnaire.currentBookkeepingTools) {
+    };*/
 
 
     // RADIO BUTTONS
