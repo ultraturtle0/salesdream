@@ -5,6 +5,7 @@ var { google } = require('googleapis');
 var userEmail = require('../../config/emails/userEmail');
 var axios = require('axios');
 const handler = require('../../util/errorHandler');
+const templates = require('../../config/emails/templates');
 
 module.exports = (api_key) => {
     var instance = axios.create({
@@ -12,6 +13,18 @@ module.exports = (api_key) => {
     });
 
     return ({
+        get: (req, res, next) => {
+            if (req.params.template && req.params.template in templates) {
+                var email = templates[req.params.template];
+                return res.send({ email });
+            } else {
+                return handler({
+                    custom: 'Template not found',
+                    res
+                });
+            };
+        },
+                
         post: (req, res, next) => {
             console.log(req.body);
             var new_user = new User(req.body);

@@ -11,11 +11,11 @@ Best regards,
 };
 
 var tax_filing = {
-    subject: "Request for tax filing documentation for [[CompanyName]]",
+    subject: "Request for tax filing documentation for [[Company]]",
     body: 
-`Hi [[TaxPreparer]] and [[FirstName]],
+`Hi [[PreparerName]] and [[FirstName]],
 
-We are emailing on behalf of our mutual client [[FirstName]] [[LastName]] at [[CompanyName]] to request their tax filing documentation for the years [[TaxFilingBeginning]] - [[TaxFilingEnd]]. [[FirstName]], please reply-all to this email to grant GSW Financial Partners permission to access these files from [[TaxPreparer]].
+We are emailing on behalf of our mutual client [[FirstName]] [[LastName]] at [[CompanyName]] to request their tax filing documentation for the years [[TaxFilingBeginning]] - [[TaxFilingEnd]]. [[FirstName]], please reply-all to this email to grant GSW Financial Partners permission to access these files from [[PreparerName]].
 
 Best regards,
 [[UserName]]

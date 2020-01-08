@@ -5,7 +5,9 @@ var inject_API = require('../util/inject_API');
 
 module.exports = (app) => {
     const api_key = app.get('api_key');
+    email = email(api_key);
 
     app.route('/api/templates/:template')
-        .post(email(api_key).post);
+        .get(email.get)
+        .post(email.post);
 }

@@ -118,6 +118,10 @@ $(document).ready(() => {
 
     $.get(`${location.protocol}//${location.hostname}${port}/api/templates/referral`)
         .done((data) => {
+            if ('errors' in data) {
+                console.log(data.errors);
+                return null;
+            };
             var referral = load_template('#referral-quill', data.email.body);
             $('#referralSubject').val(data.email.subject);
 
@@ -357,8 +361,8 @@ $(document).ready(() => {
 
                     
 
-    // mirror form fields between standard form and modal    
-    //
+    // mirror form fields between standard form, modals, and 
+    // template tags
     //
     
 
@@ -373,6 +377,8 @@ $(document).ready(() => {
         // PREPARER
         // REFERRAL LENGTH
     };
+
+    var tags = {};
 
     Object
         .keys(copy)
