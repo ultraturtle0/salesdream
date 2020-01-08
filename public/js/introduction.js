@@ -122,8 +122,24 @@ $(document).ready(() => {
                 console.log(data.errors);
                 return null;
             };
-            var referral = load_template('#referral-quill', data.email.body);
+
+            
+            var referral = load_template('#referral-quill', data.email.body, Object.keys(tags));
             $('#referralSubject').val(data.email.subject);
+
+            var refresh_preview = () => {
+                var preview = load_preview(referral.getText(), tags);
+                $('#referral-preview').html(preview.html);
+                $('#referralEmailSend').prop('disabled', !preview.valid);
+            };
+
+            $('#rModal').on('show.bs.modal', refresh_preview);
+
+            referral.on('editor-change', function(eventName, ...args) {
+                if (eventName !== 'text-change') 
+                    return;
+                refresh_preview;
+            });
 
             // REFERRAL EMAIL SENDER
             $('#referralEmailSend').click(function (e) {
@@ -142,8 +158,22 @@ $(document).ready(() => {
 
     $.get(`${location.protocol}//${location.hostname}${port}/api/templates/tax_filing`)
         .done((data) => {
-            var tax_filing = load_template('#tax_filing-quill', data.email.body);
+            var tax_filing = load_template('#tax_filing-quill', data.email.body, Object.keys(tags));
             $('#taxSubject').val(data.email.subject);
+            
+            var refresh_preview = () => {
+                var preview = load_preview(tax_filing.getText(), tags);
+                $('#tax_filing-preview').html(preview.html);
+                $('#taxEmailSend').prop('disabled', !preview.valid);
+            };
+
+            $('#tModal').on('show.bs.modal', refresh_preview);
+
+            tax_filing.on('editor-change', function(eventName, ...args) {
+                if (eventName !== 'text-change') 
+                    return;
+                refresh_preview();
+            });
         });
 
 
@@ -378,16 +408,28 @@ $(document).ready(() => {
         // REFERRAL LENGTH
     };
 
-    var tags = {};
+    var tags = {
+        FirstName: '',
+        LastName: '',
+        Company: '',
+        Email: '',
+        Phone: '',
+        Description: '',
+        UserName: '',
+        Referral: '',
+        Preparer: '',
+    };
 
     Object
         .keys(copy)
         .forEach((key) => {
             $('#' + key).change(function (e) {
                 $('#' + copy[key]).val($(this).val());
+                tags[key] = $(this).val();
             });
             $('#' + copy[key]).change(function (e) {
                 $('#' + key).val($(this).val());
+                tags[key] = $(this).val();
             });
         });
 
