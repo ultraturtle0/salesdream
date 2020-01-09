@@ -33,12 +33,20 @@ var create = (req, res, next) => {
 };
 
 var update = (req, res, next) => {
+    
     var update = {
         $set: req.body.$set || {},
         $push: req.body.$push || {}
     };
     var search = req.body.search || '_id';
-    LinkSchema.findOneAndUpdate({ [search]: req.params[search] }, update, { new: true })
+    ///////////////////////
+    var query = { [search]: req.params[search] };
+    if (req.body.search === 'link' && (!req.params.link))
+        query = { link: req.params._id };
+
+    console.log(req.body);
+    console.log(req.params);
+    LinkSchema.findOneAndUpdate(query, update, { new: true })
         .then((link) => {
             console.log(link);
             return res.status(200).send(link)
