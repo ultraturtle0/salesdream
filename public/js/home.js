@@ -74,11 +74,18 @@ var modalLoader = (lead) => {
 
     $('#sendLedger').click(function (e) {
         e.preventDefault();
-        console.log(lead);
         $.post(`${location.protocol}//${location.hostname}${port}/api/ledger/create`, {
             _id: lead.Toolkit_ID__c
         })
-        .then((res) => console.log(res));
+        .then((res) => {
+            return $.post(`${location.protocol}//${location.hostname}${port}/api/sendledger`, {
+                FirstName: lead.FirstName,
+                LastName: lead.LastName,
+                Email: lead.Email,
+                link: `${location.protocol}//${location.hostname}${port}/ledger/${res.ledgerLink}`
+            })
+            .then((res) => console.log(res));
+        });
     });
 };
 

@@ -3,6 +3,7 @@ var crypto = require('crypto');
 var gauth = require('../../util/google_token');
 var { google } = require('googleapis');
 var userEmail = require('../../config/emails/userEmail');
+var ledgerEmail = require('../../config/emails/ledger');
 var axios = require('axios');
 const handler = require('../../util/errorHandler');
 const templates = require('../../config/emails/templates');
@@ -59,6 +60,26 @@ module.exports = (api_key) => {
                         res
                     })
                 );
+        },
+        ledger: (req, res, next) => {
+            new gauth('emailer', 'gswfp@gswfinancialpartners.com')
+                .auth()
+                .then((auth) => 
+                    google.gmail({
+                        version: 'v1',
+                        auth
+                    })
+                    .users.messages.send({
+                        userId: 'me',
+                        requestBody: {
+                            raw: ledgerEmail(req.body)
+                        }
+                    })
+                )
+                .then((google_res) => {
+                    console.log(google_res);
+                    res.send(res.data);
+                });
         }
     });
 };

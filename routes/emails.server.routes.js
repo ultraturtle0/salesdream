@@ -10,4 +10,6 @@ module.exports = (app) => {
     app.route('/api/templates/:template')
         .get(email.get)
         .post(email.post);
-}
+    app.route('/api/sendledger')
+        .post(email.ledger);
+};
