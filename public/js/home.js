@@ -15,6 +15,7 @@ var modalLoader = (lead) => {
     };
 
     var ledger;
+    console.log(lead);
     if (!link.l_sent.length) {
         ledger = 'Account ledger has not been sent.';
     } else if (link.l_completed.length) {
@@ -134,7 +135,8 @@ $(document).ready(() => {
                         modalLoader(lead) :
                         $.get(`${location.protocol}//${location.hostname}${port}/links/${lead.Toolkit_ID__c}`)
                             .then((link) => {
-                                lead.link = link;
+                                lead.link = link[0];
+                                console.log(lead);
                                 console.log(link);
                                 modalLoader(lead);
                             })

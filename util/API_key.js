@@ -37,15 +37,12 @@ var verify = (perms) =>
         var key = req.body.api_key || req.query.api_key;
         if (!key)
             res.status(500).send({ errors: ['API key missing.'] });
-        console.log('QUERY');
-        console.log(req.query);
         jwt.verify(key, config.API.secret, (err, decoded) => {
             if (err) {
                 console.log('Verification failure.');
                 console.log(err)
                 return res.status(500).send({ errors: ['Error generating new API key.', err] });
             };
-            console.log(decoded);
             scopes = decoded.scopes;
             token = decoded.token;
         });

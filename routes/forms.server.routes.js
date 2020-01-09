@@ -63,8 +63,9 @@ module.exports = (app) => {
         .get(validate_token('GET'), (req, res) => res.render('home'));
     app.route('/leads')
         .get(validate_token('GET'), leads(api_key).get);
-    app.route('/links/:link')
-        .get(validate_token('GET'), validate_Link('_id'), links(api_key).get);
+    app.route('/links/:_id')
+        //.get(validate_token('GET'), validate_Link('_id'), links(api_key).get);
+        .get(validate_token('GET'), links(api_key).get);
  
     app.route('/hiring')
         .get(validate_token('GET'), (req, res) => res.render('hiring'));

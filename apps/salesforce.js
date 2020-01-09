@@ -18,7 +18,6 @@ var createObj = (conn, type, obj) =>
 // returns a promise, needs to be explicitly executed (execute(callback))!
 // takes options { query, fields, sort, limit, page }
 var findObjs = (conn, type, options) => {
-    console.log(options.fields);
     return new Promise((resolve, reject) => 
         conn.sobject(type)
             .find(
@@ -38,12 +37,40 @@ var findObjs = (conn, type, options) => {
                     console.log(err);
                     return reject(err);
                 } else {
-                    //console.log(objs);
+                    console.log(objs);
                     return resolve(objs);
                 };
             })
     );
 };
+
+var partners = (conn) => {
+    console.log('NIGHTMARE MODE');
+    return new Promise((resolve, reject) =>
+        conn.sobject('Contact')
+            .find({
+                //RecordTypeId: 'Tax_Preparer'
+            }, {
+                /*
+                FirstName: 1,
+                LastName: 1,
+                Email: 1,
+            */})
+            //.sort({ AccountId: 1 })
+            .then((err, objs) => {
+                if ( err ) {
+                    console.log(err);
+                    return reject(err);
+                } else {
+                    console.log(objs)
+                    return resolve(objs);
+                };
+            })
+    );
+};
+        
+
+    
 
 var picklists = (objFields) => {
     var picklists = {};
@@ -86,5 +113,6 @@ module.exports = {
     conn,
     createObj,
     findObjs,
-    picklists
+    picklists,
+    partners,
 }

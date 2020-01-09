@@ -1,9 +1,18 @@
 var LinkSchema = require('mongoose').model('Link');
 
 var get = (req, res, next) => { 
-    var query = req.query || {};
+    delete req.query.api_key;
+    var query;
+    if (req.params._id) {
+        query = { _id: req.params._id };
+    } else {
+        query = req.query;
+    };
     LinkSchema.find(query)
-        .then((docs) => res.status(200).send(docs))
+        .then((docs) => {
+            console.log(docs);
+            return res.status(200).send(docs);
+        })
         .catch((err) => {
             console.log(err);
             return res.status(500).send({ errors: [err] })

@@ -106,18 +106,20 @@ var fillForm = (link, picklists) => {
     });
 
 
-    link.questionnaire.currentBookkeepingTools.forEach((tool, index) => {
-        if (tool === 'Other') {
-            $('#currentBookkeepingToolsOtherCheckbox')
-                .prop('checked', true)
-                .trigger("change");
-            $('#currentbookkeepingToolsOther').val(link.questionnaire.currentbookkeepingToolsOther);
+    if (link.questionnaire.currentBookkeepingTools) {
+        link.questionnaire.currentBookkeepingTools.forEach((tool, index) => {
+            if (tool === 'Other') {
+                $('#currentBookkeepingToolsOtherCheckbox')
+                    .prop('checked', true)
+                    .trigger("change");
+                $('#currentbookkeepingToolsOther').val(link.questionnaire.currentbookkeepingToolsOther);
 
-            $('#currentbookkeepingToolsOtherBox').show();
-        };
-        $('#currentBookkeepingTools' + tool.replace(/ /g, "-"))
-            .prop('checked', true);
-    });
+                $('#currentbookkeepingToolsOtherBox').show();
+            };
+            $('#currentBookkeepingTools' + tool.replace(/ /g, "-"))
+                .prop('checked', true);
+        });
+    };
 
     methods = {
         Email: 'Email',

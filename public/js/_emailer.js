@@ -33,9 +33,10 @@ var load_template = (div, template, tags) => {
         { insert: template }
     ]);
     quill.on('selection-change', (range, oldRange, source) => {
-        console.log(range);
+        /*console.log(range);
         console.log(oldRange);
         console.log(source);
+        */
     });
     return quill;
 };

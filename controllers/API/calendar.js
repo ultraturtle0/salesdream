@@ -55,7 +55,7 @@ module.exports = (api_key) => {
                     'duration': 60
                 })
                 .then((zoom_res) => {
-                    req.body.Zoom_Meeting_ID = zoom_res.data.id;
+                    req.body.Zoom_Meeting_ID__c = zoom_res.data.id;
                     var event = {
                         'summary': subject,
                         'description': 'Zoom Meeting ID: ' + zoom_res.data.id,

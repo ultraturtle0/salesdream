@@ -26,7 +26,7 @@ const HIDDEN = [
 
 const PICKLISTS = [
     {id: 'Referral', field: 'Lead Source'},
-    {id: 'Preparer', field: 'Tax Preparer'},
+    //{id: 'Preparer', field: 'Tax Preparer'},
     {id: 'industry', field: 'Industry'},
     {id: 'bizClass', field: 'Business Classification'},
     {id: 'restructureStart', field: 'Business Classification'},
@@ -78,6 +78,30 @@ $(document).ready(() => {
     } else {
         port = '';
     };
+
+    $.get(`${location.protocol}//${location.hostname}${port}/api/partners`)
+        .done((data) => {
+            var partners = data.partners.reduce((acc, partner) => ({...acc, [partner.Id]: partner}), {});
+            $('#Preparer').html(`<option disabled selected value></option>
+                \n${
+                    data.partners
+                        .map(item => `
+                            <option
+                                value="${item.FirstName} ${item.LastName}"
+                                id="${item.Id}"
+                            >${item.FirstName} ${item.LastName}</option>
+                        `) 
+                        .join('\n')
+                }`
+            );
+            $('#Preparer').change(function (e) {
+                $('#taxEmail').val(`
+                    ${partners[$(this).children("option:selected").attr('id')].Email}, ${$('#Email').val()}`.trim());
+            });
+        })
+        .fail((err) => console.log(err));
+        
+
 
     $.get(`${location.protocol}//${location.hostname}${port}/api/picklists`)
         .done((data) => {
@@ -138,7 +162,7 @@ $(document).ready(() => {
             referral.on('editor-change', function(eventName, ...args) {
                 if (eventName !== 'text-change') 
                     return;
-                refresh_preview;
+                refresh_preview();
             });
 
             // REFERRAL EMAIL SENDER
@@ -403,6 +427,7 @@ $(document).ready(() => {
         Email: 'email',
         Phone: 'phone',
         Description: 'uDescription',
+        Preparer: 'preparer',
         // REFERRAL
         // PREPARER
         // REFERRAL LENGTH

@@ -5,6 +5,8 @@ var keys = require('../util/API_key.js');
 module.exports = (app) => {
     app.route('/api/sf/picklists')
         .get(keys.verify(['sf.picklists']), sf['picklists'].get);
+    app.route('/api/sf/partners')
+        .get(keys.verify(['sf.partners']), sf['partners'].get);
 
     ['Lead', 'Account']
         .forEach((obj) =>

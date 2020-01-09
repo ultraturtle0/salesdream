@@ -20,7 +20,7 @@ module.exports = (app) => {
     app.route('/explorer')
         .get((req, res) => res.render('explorer'));
     app.route('/api/link')
-        .get(inject_API(app), links(api_key).get);
+        .get(links(api_key).get);
     app.route('/api/calendar/create')
         .post(validate_token('POST'), calendar(api_key).post);
     app.route('/contracts')

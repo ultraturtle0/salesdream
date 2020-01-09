@@ -19,7 +19,7 @@ module.exports = (api_key) => {
     });
 
     return {
-        get: (req, res, next) =>
+        /*get: (req, res, next) =>
             sf.login()
                 .then(() => sf.picklists(PL))
                 .then((picklists) => res.send({ picklists }))
@@ -30,6 +30,7 @@ module.exports = (api_key) => {
                         res
                     })
                 ),
+                */
 
         post: (req, res, next) => {
             console.log('Basic Client Introduction completed.');
