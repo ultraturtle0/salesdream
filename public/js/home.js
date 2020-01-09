@@ -39,6 +39,7 @@ var modalLoader = (lead) => {
         <div id="Emailinfo">Email: <b>${lead.Email}</b></div>
         <div id="CreatedDateinfo">Date Created: <b>${moment(lead.CreatedDate).format('MMM Do, YYYY')}</b></div>
         <hr>
+        <div><a href="${location.protocol}//${location.hostname}${port}/view/${link.link}">View Questionnaire</a></div>
         <br>
         <span>Zoom Meeting: ${meeting}</span>
         <br>
@@ -125,7 +126,6 @@ $(document).ready(() => {
                         `);
                 };
                 $(`#lead${index}`).append(`
-                    <td scope="row"><a href="https://www.google.com/" style="color:#572e5e">View</a> </td>
                     <td scope="row">${lead.Status} </td>
                     <td scope="row"><button type="button" class="btn btn-sm more" data-toggle="modal" id="moreButton" data-target="#mModal" data-index="${index}" data-name="${lead.Name}" style="background-color:#572e5e; color: white">More</button></td>
                     `);

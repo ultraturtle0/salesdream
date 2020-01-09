@@ -9,6 +9,9 @@ var tracker = require('../util/tracker');
 module.exports = (app) => {
     const api_key = app.get('api_key');
 
+    app.route('/view/:link')
+        .get(validate_Link('link'), (req, res) => res.render('view', { link: req.params.link }));
+
     app.route('/ledger')
         .get((req, res) => res.render('ledger'));
     app.route('/ledger/:link')
