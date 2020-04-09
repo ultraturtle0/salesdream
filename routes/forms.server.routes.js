@@ -61,6 +61,12 @@ module.exports = (app) => {
 
     app.route('/')
         .get(validate_token('GET'), (req, res) => res.render('home'));
+    app.route('/logout')
+        .get((req, res) => {
+            res.clearCookie('apikey');
+            req.logOut();
+            return res.render('logout');
+        });
     app.route('/leads')
         .get(validate_token('GET'), leads(api_key).get);
     app.route('/links/:_id')

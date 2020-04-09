@@ -2,8 +2,8 @@ var port = location.port ? ':' + location.port : '';
 
 var permissions = ['GET', 'POST', 'ADMIN'];
 
-var permSelect = `
-    <select multiple id="perms">
+var permSelect = (id) => `
+    <select multiple id="${id}">
         ${permissions.map((perm) => `<option value=${perm}>${perm}</option>`)}
     </select>
 `;
@@ -16,7 +16,12 @@ var username_gen = (e) =>
 
 $(document).ready(() => {
 
-    $.get(`${location.protocol}//${location.hostname}:9601/api/users`)
+    $('#perm-group').html(`
+        <label for="perms">Permissions</label>
+        ${permSelect('perms')}
+    `);
+
+    $.get(`${location.protocol}//${location.hostname}:9600/api/admin`)
         .done((users) => {
             users.forEach((user, index) => 
                 $('#users').append(`<tr>
@@ -44,8 +49,35 @@ $(document).ready(() => {
                         <div>
                             <span>Username: <b>${user.username}</b></span></div>
                         <div>
-                            <span>Permissions: </span>${permSelect}</div>
+                            <span>Permissions: </span>${permSelect('newPerms')}</div>
                     `);
+                    $('#update').click(function (e) {
+                        e.preventDefault();
+                        let body = { perms: $('#newPerms').val() };
+                        console.log(body);
+                        $.post(`${location.protocol}//${location.hostname}${port}/api/admin/${user._id}`, body)
+                            .done((res) => {
+                                console.log(res);
+                                $('#update')
+                                    .addClass('btn-success')
+                                    .text('Success!')
+                                    .prop('disabled', true);
+                            })
+                            .fail((err) => {
+                                console.log(err);
+                                $('#update')
+                                    .addClass('btn-danger')
+                                    .text('Error updating.')
+                                    .prop('disabled', true);
+                                setTimeout(() =>
+                                    $('#update')
+                                        .removeClass('btn-danger')
+                                        .text('Save changes')
+                                        .prop('disabled', false),
+                                    2500);
+                            });
+                    });
+
                 });
             });
         });
@@ -53,17 +85,34 @@ $(document).ready(() => {
     $('#firstName').change(username_gen);
     $('#lastName').change(username_gen);
 
+    
+
     $('#submit').click(function(e) {
         e.preventDefault();
-        var body = {};
-        ['firstName', 'lastName', 'username', 'email']
-            .forEach((field) => body[field] = $('#' + field).val());
-        $.post(`${location.protocol}//${location.hostname}${port}/api/users/`, { body })
+        var body = { user: {}};
+        ['firstName', 'lastName', 'username', 'email', 'perms']
+            .forEach((field) => body.user[field] = $('#' + field).val());
+        console.log(body);
+        $.post(`${location.protocol}//${location.hostname}${port}/api/admin/`, body)
             .done((res) => {
                 console.log(res);
+                $('#submit')
+                    .addClass('btn-success')
+                    .text('Success!')
+                    .prop('disabled', true);
             })
             .fail((err) => {
                 console.log(err);
+                $('#submit')
+                    .addClass('btn-danger')
+                    .text('Error submitting.')
+                    .prop('disabled', true);
+                setTimeout(() =>
+                    $('#submit')
+                        .removeClass('btn-danger')
+                        .text('Submit')
+                        .prop('disabled', false),
+                    2500);
             });
     });
 });

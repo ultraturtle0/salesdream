@@ -23,10 +23,13 @@ var request = () =>
                 const API_key = jwt.sign(payload, config.API.secret);     
                 return res.send({ key: API_key });
             })
-            .catch(err => {
-                console.log(err);
-                return res.status(500).send({ errors: ['Error generating new API key.', err] });
-            });
+            .catch(err => 
+                handler({
+                    custom: 'Error generating new API key.',
+                    err,
+                    res
+                })
+            );
     };
 
 // expects "api_key" field in json body or as querystring
@@ -36,7 +39,11 @@ var verify = (perms) =>
         var token;
         var key = req.body.api_key || req.query.api_key;
         if (!key)
-            res.status(500).send({ errors: ['API key missing.'] });
+            return handler({
+                custom: 'API key missing.',
+                err,
+                res
+            });
         jwt.verify(key, config.API.secret, (err, decoded) => {
             if (err) {
                 console.log('Verification failure.');
@@ -50,11 +57,12 @@ var verify = (perms) =>
         Key.findOne({ token })
             .exec()
             .then(api_key => {
-                if (!api_key || (api_key.token !== token)) {
-                    var err = 'No API key found.';
-                    console.log(err);
-                    return res.status(500).send({ errors: [err] });
-                };
+                if (!api_key || (api_key.token !== token))
+                    return handler({
+                        custom: 'No API key found.',
+                        err,
+                        res
+                    });
                 var illegal = [];
                 perms.forEach((perm) => {
                     // check for global permissions, split by periods
@@ -80,10 +88,13 @@ var verify = (perms) =>
                 };
                 return next();
             })
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).send({ errors: ['Error retrieving API key.', err] })
-            });
+            .catch((err) => 
+                handler({
+                    custom: 'Error retrieving API key.',
+                    err,
+                    res
+                })
+            );
     };
 
 module.exports = {

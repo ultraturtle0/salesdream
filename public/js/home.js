@@ -123,7 +123,7 @@ $(document).ready(() => {
                     $(`#lead${index}`).append(`
                         <td scope="row"> </td>
                         <td scope="row"> </td>
-                        `);
+                    `);
                 };
                 $(`#lead${index}`).append(`
                     <td scope="row">${lead.Status} </td>
